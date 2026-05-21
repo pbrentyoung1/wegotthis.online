@@ -26,6 +26,7 @@ UI/UX design should begin with P1 personas and validate every decision against t
 | 4 | Pastor Kim W. | Senior Pastor / Executive | P2 | Full account (Manager-lite or read-only) |
 | 5 | Jennifer P. | External Stakeholder / Reviewer | P1 | Magic link only |
 | 6 | Carlos M. | External Vendor | P3 | Scoped vendor link |
+| 7 | Tanya B. | Volunteer Contributor | P3 | Full account (limited scope) |
 
 ---
 
@@ -431,24 +432,114 @@ Carlos wants a clean handoff: the right file, from the right person, with the ri
 
 ---
 
+## Persona 7 — Tanya B., Volunteer Contributor
+
+**"Pastor Dave asked me to help with this. Just tell me what I need to do."**
+
+### Profile
+
+- **Role:** Photo volunteer, sermon notes uploader, social media helper, worship lyric reviewer, campus admin assistant — or any church volunteer with a specific, recurring contribution to communications
+- **Age range:** 19–65 (wider than any other persona)
+- **Church context:** Not a staff member; contributes one specific thing on an irregular basis; was recruited personally by a pastor or ministry leader they trust
+- **Tech comfort:** Low to medium. Comfortable with a phone; may struggle with multi-step web workflows; rarely reads instructions.
+- **Device split:** ~75% mobile, 25% desktop (varies widely by sub-type)
+
+### Sub-Types
+
+These all share the same UX constraint but arrive with different tasks:
+
+- **Photo volunteer** — Shoots events with a DSLR or phone; needs to upload a batch of photos to the right project in the media library
+- **Sermon notes uploader** — Drops a Word doc or PDF into the right place before or after Sunday; probably does this weekly for the pastor
+- **Social helper** — Queues or reviews draft social posts; may add captions or flag content that feels off-brand
+- **Worship lyric reviewer** — Checks song lyrics for theological accuracy or copyright status before Sunday; one specific task, done weekly or seasonally
+- **Campus admin assistant** — At a multi-campus church, handles intake coordination, status updates, or file collection for a specific location
+
+### A Day in Her World
+
+Tanya photographs events for the church a few times a month. She loves it. She is not a professional — she uses a nice phone and occasionally borrows a DSLR from the worship pastor. After every event she uploads photos to Google Drive and texts the link to whoever asked her to shoot. Nobody ever told her where the files actually end up.
+
+Her involvement with wegotthis.online will begin because someone she trusts — her community group leader, a pastor, or the communications director — personally asked her to use it. She will log in for the first time, do the thing, and then not return for three to six weeks. When she comes back, she will not remember how it works. She will not read help documentation. She will either figure it out in thirty seconds or she will call the person who asked her to help.
+
+She is not a problem user. She is the most common kind of church volunteer: high-relational, high-commitment to her specific contribution, low-investment in platform mechanics. The platform must meet her where she is.
+
+### Goals
+
+- Complete her specific contribution — upload photos, drop a file, review a lyric sheet — without friction
+- Not have to remember how the platform works between sessions
+- Know that her contribution landed in the right place
+- Feel like she is helping, not doing IT work
+- Not be overwhelmed by features or screens that have nothing to do with her task
+
+### Pain Points
+
+- Logging in after a long gap and having no idea where to start
+- Being shown a full dashboard or navigation when she only needs to do one thing
+- Uploading photos to the wrong project or folder because the structure isn't clear
+- Not knowing if her upload was successful or went to the right person
+- Getting email notifications about projects she has nothing to do with
+- Password reset friction — she will hit "forgot password" almost every time
+
+### How She Uses wegotthis.online
+
+- **Per event or task:** Logs in (or follows a direct link), completes her one contribution, logs out
+- **Rarely:** Reviews past uploads to see what was used
+- **Never:** Navigates the broader project workspace, reviews dashboards, or manages anything
+
+### Key Features She Needs (Priority Order)
+
+1. **Direct-link task entry** — She should be able to receive a link that drops her directly into the specific upload slot, lyric review, or file drop she needs — no navigation required
+2. **Forgiving upload UI** — Drag-and-drop or large tap-target file selection; photo batch upload; clear confirmation that files arrived
+3. **Zero-ambiguity confirmation** — After uploading or submitting, a clear, warm confirmation: "Your photos were added to the Easter Weekend project. Thank you."
+4. **Minimal notification footprint** — Notify her only when someone specifically needs her to do something; never about project activity she isn't part of
+5. **Graceful re-entry** — When she logs back in after a long gap, her home state should show only what she's assigned or contributed to — not a full workspace
+6. **Simple password recovery** — Fast, mobile-friendly; this will be used often
+
+### UX Design Notes
+
+- The volunteer's home screen should be **a single focused view**: "Here is what you've been asked to do" — nothing else unless she goes looking
+- **Direct task links sent via text or email are the primary onboarding path** — the platform should never require her to navigate to find her job; the job should come to her
+- Upload confirmation should feel **warm and personal**, not transactional — this person is contributing their time as an act of service
+- **Notification design is especially critical here** — over-notifying a volunteer contributor is one of the fastest ways to lose them; they opted in to help, not to manage a project
+- Accessibility and font size considerations are higher priority here than for any other persona, given the wider age range
+- The volunteer experience should be **designed independently from the staff experience** — same underlying system, but a fundamentally different surface
+
+### The Core UX Problem
+
+Every other persona has some degree of learned platform behavior — they log in frequently enough to develop habits. Tanya does not. She will experience the platform as a **first-time user on nearly every visit**. That means:
+
+- No reliance on remembered navigation
+- No multi-step flows without progress indicators
+- No unlabeled icons
+- No "you'll figure it out" UX decisions
+
+This is a distinct design constraint that should be documented as a requirement before the volunteer-facing surface is built.
+
+### Development Priority
+
+**P3 — Post-MVP.** Churches run on volunteers, and this persona represents a large surface area of contribution types. But the platform is functional without a polished volunteer experience in v1 — staff users can act as proxies (uploading photos on Tanya's behalf, for example). Design the permission model and task assignment architecture to support this persona from the beginning so her experience can be built cleanly when the time comes.
+
+---
+
 ## Priority Matrix — Feature Development by Persona
 
-| Feature | Dana (P1) | Alex (P1) | Marcus (P1) | Kim (P2) | Jennifer (P1) | Carlos (P3) |
-|---------|-----------|-----------|-------------|----------|---------------|-------------|
-| Dashboard / project overview | Primary | Secondary | — | Primary | — | — |
-| Request intake (submit) | Receives/Manages | — | Primary | — | — | — |
-| Request intake (triage) | Primary | — | — | — | — | — |
-| Task list / my work view | — | Primary | — | — | — | — |
-| Deliverable management | Reviews | Primary | Views | — | Reviews | Downloads |
-| Magic link approval | — | — | Primary | Secondary | Primary | — |
-| Media library | Manages | Primary | — | — | — | — |
-| Activity / comment feed | Reviews | Primary | Views | — | — | — |
-| Department utilization report | Primary | — | — | Secondary | — | — |
-| Project closeout | Primary | Contributes | — | — | — | — |
-| Brand Center | Primary | Uses | References | — | — | — |
-| Campaign overview | Manages | — | — | Primary | — | — |
-| Vendor scoped access | Manages | — | — | — | — | Primary |
-| Executive summary | — | — | — | Primary | — | — |
+| Feature | Dana (P1) | Alex (P1) | Marcus (P1) | Kim (P2) | Jennifer (P1) | Carlos (P3) | Tanya (P3) |
+|---------|-----------|-----------|-------------|----------|---------------|-------------|------------|
+| Dashboard / project overview | Primary | Secondary | — | Primary | — | — | — |
+| Request intake (submit) | Receives/Manages | — | Primary | — | — | — | — |
+| Request intake (triage) | Primary | — | — | — | — | — | — |
+| Task list / my work view | — | Primary | — | — | — | — | Narrow view |
+| Deliverable management | Reviews | Primary | Views | — | Reviews | Downloads | — |
+| Magic link approval | — | — | Primary | Secondary | Primary | — | — |
+| Media library | Manages | Primary | — | — | — | — | Uploads |
+| Activity / comment feed | Reviews | Primary | Views | — | — | — | — |
+| Department utilization report | Primary | — | — | Secondary | — | — | — |
+| Project closeout | Primary | Contributes | — | — | — | — | — |
+| Brand Center | Primary | Uses | References | — | — | — | — |
+| Campaign overview | Manages | — | — | Primary | — | — | — |
+| Vendor scoped access | Manages | — | — | — | — | Primary | — |
+| Executive summary | — | — | — | Primary | — | — | — |
+| Direct task / upload link | — | — | — | — | — | — | Primary |
+| Volunteer home view | — | — | — | — | — | — | Primary |
 
 ---
 
@@ -461,6 +552,9 @@ Carlos wants a clean handoff: the right file, from the right person, with the ri
 - How should the magic link experience differ between a stakeholder reviewer (Jennifer) and a vendor (Carlos) — same UI shell, different permissions and labels?
 - Should Carlos be able to initiate contact through the platform, or is vendor communication always initiated by an internal user?
 - Which personas need email digest summaries versus only in-app notifications?
+- Should Tanya (Volunteer Contributor) receive task assignments through a direct link only, or does she need a minimal account home screen?
+- How many volunteer sub-types need distinct UI surfaces, or can one "focused task view" serve all of them?
+- Should volunteers be able to see what happened to their contribution (e.g., which of their photos were used in a project)?
 
 ---
 
@@ -470,6 +564,7 @@ Carlos wants a clean handoff: the right file, from the right person, with the ri
 - Every UX/UI decision should be traceable to at least one persona's workflow or pain point.
 - The magic link experience serves three personas (Marcus, Jennifer, Pastor Kim) and should be designed as a shared, polished surface — not three separate afterthoughts.
 - Vendors and external stakeholders should never have visibility into other tenants or full workspace context.
+- See `/docs/product/PERSONA_BEHAVIOR_MAPS.md` for the action-level behavior layer — what each persona actually does, how often, what triggers it, and on what device. That document drives navigation architecture, notification rules, homepage logic, and mobile optimization priority.
 - See `/docs/technical/AUTH_AND_PERMISSIONS.md` for role and permission definitions that correspond to these personas.
 - See `/docs/product/PAIN_POINTS.md` for the operational pain points these personas are designed to solve.
 - See `/docs/product/REQUEST_LIFECYCLE.md` and `/docs/product/PROJECT_LIFECYCLE.md` for lifecycle context relevant to each persona's workflow.
