@@ -61,6 +61,8 @@ Document outbound notification channels, notification types, and early provider 
 ## Notes
 
 - Future channels are post-MVP unless a pilot church requires them.
+- Product-level notification principles and tone guidance are documented in `/docs/product/NOTIFICATION_STRATEGY.md`. That document is the source of truth for *what* to notify and *why*. This file covers the technical implementation layer.
 - Product-level communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
+- Per-persona notification rules (who gets notified about what, and when not to notify) are documented in `/docs/product/PERSONA_BEHAVIOR_MAPS.md`.
 
 Last Updated: 2026-05-20

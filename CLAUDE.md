@@ -96,6 +96,10 @@ Core MVP priorities include:
 - `/docs/MVP_SCOPE.md` — What belongs in first release
 - `/docs/CURRENT_STATE.md` — Actual state of the project
 - `/docs/product/CALM_SOFTWARE_PRINCIPLES.md` — Core product philosophy
+- `/docs/product/SYSTEM_PHILOSOPHY.md` — Expanded system philosophy; guiding question for every feature decision; also governs AI-assisted development and architecture choices
+- `/docs/product/NOTIFICATION_STRATEGY.md` — Notification principles, types, tone, and per-persona rules
+- `/docs/product/USER_PERSONAS.md` — The seven user personas; drives UI/UX prioritization
+- `/docs/product/PERSONA_BEHAVIOR_MAPS.md` — Action-level behavior layer; drives navigation architecture, homepage logic, notification rules, and mobile optimization priority
 - `/docs/product/CORE_MODULES.md` — Major modules expected in the product
 
 ## Activity and Audit Logging

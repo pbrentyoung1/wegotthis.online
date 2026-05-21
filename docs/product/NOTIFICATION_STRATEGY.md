@@ -364,4 +364,13 @@ The platform should feel supportive, not stressful.
 
 The best notification is often the one that never needed to be sent because the system already provided enough visibility.
 
+---
+
+# Related Documents
+
+- `/docs/product/SYSTEM_PHILOSOPHY.md` — Core product philosophy; "Notifications Are a Liability" principle
+- `/docs/product/PERSONA_BEHAVIOR_MAPS.md` — Per-persona notification rules: who gets notified about what, and equally important, what not to notify them about
+- `/docs/technical/NOTIFICATIONS.md` — Technical implementation layer: channels, providers, types
+- `/docs/product/COMMUNICATIONS_SYSTEM.md` — Communication model: how notifications, comments, activity logs, and audit logs differ
+
 Last Updated: 2026-05-21
