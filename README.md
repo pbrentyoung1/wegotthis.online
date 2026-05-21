@@ -31,6 +31,13 @@ wegotthis.online is a communications operations platform for churches. It is int
 
 This repository is currently a planning and documentation foundation only. Laravel has not been scaffolded yet, and no application code has been added.
 
+Standard Git procedure for this repository:
+
+- check changes with `git status`
+- stage intended files with `git add .` or targeted `git add <path>`
+- create a clear commit with `git commit -m "message"`
+- upload the commit with `git push`
+
 Key documentation areas:
 
 - `/docs/decisions` records product, technical, workflow, and branding decisions.
