@@ -22,6 +22,13 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Working decision: Notion is the active project management layer for backlog, tasks, phases, sprints, open questions, and working coordination.
 - Working decision: GitHub is the canonical source of truth for architecture, decisions, and durable documentation.
 - Product principle: execution should stay calm, understandable, and resistant to process sprawl.
+- Working direction: the product should feel like "we got this" in software form: calm, capable, warm, and steady.
+- Working direction: the product should feel like a supportive teammate rather than a managerial system.
+- Working direction: conversational interaction should help people think and communicate without slowing down productive work.
+
+## North Star
+
+wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
 
 ## Open Questions
 
@@ -43,5 +50,6 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Product response: create an operational system that supports self-service visibility, structured intake, timeline management, asset reuse, institutional creative memory, and brand governance.
 - The platform should be useful from phones for intake, approval, status checks, and scoped vendor/stakeholder review.
 - Execution should move by phase, category, and documented readiness rather than by ad hoc idea collection.
+- The tone, copy, interaction model, and visual system should make users feel supported instead of managed.
 
 Last Updated: 2026-05-21

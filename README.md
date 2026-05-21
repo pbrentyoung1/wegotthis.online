@@ -16,6 +16,12 @@ wegotthis.online is a communications operations platform for churches. It is int
 - Future optional integrations may include Planning Center and other church operations tools.
 - The repository now documents expanded product pain points, project lifecycle, closeout workflow, creative file handling, brand management, and department utilization reporting.
 - Major modeling questions now have working decisions: `tenant_id` tenancy, Campaigns -> Projects -> Deliverables -> Tasks hierarchy, deliverable-centered approvals, magic link external reviews, request lifecycle, and calm software principles.
+- The product should feel like the phrase "we got this" in product form: calm, capable, warm, and steady.
+- The platform should feel like a conversational ministry workspace that supports people rather than managing them.
+
+## North Star
+
+wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
 
 ## Open Questions
 
@@ -52,6 +58,7 @@ Key documentation areas:
 - `/docs/product/PROJECT_LIFECYCLE.md` and `/docs/product/PROJECT_CLOSEOUT.md` document lifecycle and closeout planning.
 - `/docs/product/BRAND_MANAGEMENT.md` documents Brand Center and brand governance direction.
 - `/docs/product/CALM_SOFTWARE_PRINCIPLES.md` documents the principle that the software should reduce overhead and help users get work done.
+- `/docs/branding/VOICE_AND_TONE.md`, `/docs/branding/TYPOGRAPHY.md`, and `/docs/branding/UI_PRINCIPLES.md` define the warm, conversational, human-centered product experience.
 - `/docs/technical/SEARCH_STRATEGY.md`, `/docs/technical/NOTIFICATIONS.md`, and `/docs/technical/BACKUPS_AND_RETENTION.md` document core platform planning concerns.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

@@ -21,6 +21,11 @@ Phase
 - Notion is the active project management layer for backlog, tasks, phases, sprints, open questions, and working coordination.
 - Phase planning should reduce cognitive overload, not create a heavy process system.
 - Each phase should have clear goals, visible outcomes, and explicit exit criteria.
+- Product and roadmap decisions should be filtered through two questions: "Does this make the user feel supported or managed?" and "Does this still feel like 'we got this'?"
+
+## North Star
+
+wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
 
 ## Planning Rule
 
@@ -178,6 +183,7 @@ Every feature or task should eventually answer:
 - Notion manages active execution, backlog movement, sprint coordination, working questions, and task-level progress.
 - GitHub and Notion should complement each other rather than duplicate each other.
 - If a planning artifact becomes structurally important, its durable version belongs in GitHub.
+- The planning system itself should feel calm, understandable, and human-centered rather than bureaucratic.
 
 ## Notes
 

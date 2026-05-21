@@ -2,21 +2,31 @@
 
 ## Purpose
 
-Define the brand foundation for wegotthis.online.
+Define the approved brand foundation for wegotthis.online.
 
 ## Current Decisions
 
 - Project name: wegotthis.online.
 - The product serves church communications operations.
+- Core brand idea: the product should feel like the phrase "we got this" in product form.
+- The brand should feel calm, capable, human, collaborative, and steady.
+- The platform should feel like a calm, capable teammate rather than a managerial system.
+
+## North Star
+
+wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
 
 ## Open Questions
 
-- What core brand attributes should guide the experience?
 - Should the brand feel more operational, pastoral, creative, or collaborative?
 - What public-facing tagline should be used?
+- What visual language best expresses warmth and steadiness without feeling soft or vague?
 
 ## Notes
 
 - Keep exploration separate from approved decisions.
+- The brand should reduce emotional weight, not just reduce clicks.
+- The experience should feel personal and conversational, not corporate or clinical.
+- The site and app should feel like collaboration, not compliance.
 
-Last updated: 2026-05-20
+Last updated: 2026-05-21

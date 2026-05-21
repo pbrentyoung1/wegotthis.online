@@ -8,6 +8,7 @@ Document brand communication and management as a major product area for wegotthi
 
 - Working direction: brand management is part of church communications operations.
 - Working direction: Brand Center should connect approved assets, guidelines, templates, request intake, project review, closeout, and the Media Library.
+- Working direction: brand management should also protect the warm, conversational, human-centered feel of the product and communications experience.
 
 ## Brand Center
 
@@ -17,6 +18,7 @@ Document brand communication and management as a major product area for wegotthi
 - Voice and tone
 - Approved copy blocks
 - CTA language
+- Conversational UX and copy guidance
 - Photography style
 - Social media standards
 - Video/motion standards
@@ -59,5 +61,6 @@ Document brand communication and management as a major product area for wegotthi
 ## Notes
 
 - Brand management should support clarity and consistency without turning every project into a bottleneck.
+- Brand governance should help the product feel more like a calm teammate and less like a compliance system.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

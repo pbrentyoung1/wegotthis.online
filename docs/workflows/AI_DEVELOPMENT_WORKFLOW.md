@@ -13,6 +13,8 @@ Define how Codex, Claude Code, ChatGPT, and other AI assistants should support t
 - Changes intended to be preserved should be committed to Git with a clear commit message and pushed to GitHub.
 - AI agents should update documentation when major decisions change.
 - AI agents should avoid bypassing the documented roadmap and phase structure.
+- AI agents should preserve the product direction that the platform feels calm, capable, warm, supportive, and conversational.
+- AI should be ambient, observant, and quietly useful rather than performative.
 
 ## Open Questions
 
@@ -25,5 +27,6 @@ Define how Codex, Claude Code, ChatGPT, and other AI assistants should support t
 - AI-generated changes should be reviewed against `/docs/ai/DO_NOT_BREAK.md`.
 - Standard Git flow for contributors is `git status`, `git add`, `git commit`, then `git push`.
 - Active execution should align with the roadmap, category structure, and current phase readiness.
+- AI suggestions for UX and copy should ask whether the user would feel supported or managed.
 
 Last updated: 2026-05-21

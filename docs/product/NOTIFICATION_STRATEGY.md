@@ -20,6 +20,7 @@ The notification system should:
 * reduce unnecessary interruptions
 * surface actionable information
 * preserve operational calm
+* feel calm, human, and quietly supportive
 
 Notifications should support the workflow, not dominate it.
 
@@ -345,6 +346,8 @@ Avoid:
 * enterprise-style warning systems
 
 The platform should feel supportive, not stressful.
+
+Notifications should feel like a capable teammate helping at the right moment, not a warning system trying to manage behavior.
 
 ---
 

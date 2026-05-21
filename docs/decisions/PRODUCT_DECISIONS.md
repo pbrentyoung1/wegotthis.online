@@ -34,6 +34,9 @@ Capture product direction and scope decisions.
 - Working decision: Notion is the active PM layer for backlog, sprints, tasks, and working coordination.
 - Working decision: GitHub is the canonical architecture and durable documentation layer.
 - Working decision: roadmap planning should stay simple, calm, and understandable.
+- Working decision: the product should feel like "we got this" in software form.
+- Working decision: every major UX decision should be evaluated by whether it makes users feel supported or managed.
+- Working decision: conversational guidance should be used where it helps people think more clearly without slowing down work.
 
 ## Open Questions
 
@@ -54,5 +57,6 @@ Capture product direction and scope decisions.
 - Calm software principles are documented in `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 - Roadmap and execution structure are documented in `/docs/ROADMAP.md`.
+- Brand and voice guidance are documented in `/docs/branding`.
 
 Last Updated: 2026-05-21

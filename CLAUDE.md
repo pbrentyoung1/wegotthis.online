@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (`claude.ai/code`) when working with code in this repository.
 
 ## Project Status
 
@@ -13,7 +13,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Multi-tenancy must be considered** in all architectural decisions
 - Use **single-database `tenant_id` tenancy** for MVP (not schema-per-tenant or database-per-tenant)
 - **GitHub is the source of truth** for the repository
-- Preserve documented decisions — do not override them silently during implementation
+- Preserve documented decisions and do not override them silently during implementation
+- Preserve the brand direction that the product should feel like "we got this" in software form: calm, capable, warm, personal, and steady
 
 ## Technology Stack (Planned)
 
@@ -44,12 +45,28 @@ Campaigns -> Projects -> Deliverables -> Tasks
 ### Calm Software Principle
 
 The product should create calm and reduce overhead, not add complexity:
+
 - Guide instead of obstruct
 - Reduce decisions and interruptions
 - Make invisible work visible
 - Preserve institutional memory
 - Favor clarity over customization
 - Use opinionated defaults with flexible overrides
+
+### North Star
+
+wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+
+### Product Personality
+
+- The platform should feel like a calm, capable teammate
+- It should feel supportive, not managerial
+- It should guide rather than command
+- It should treat users like humans, not database operators
+- It should feel personal and conversational, not corporate or clinical
+- It should feel like collaboration, not compliance
+- Conversational interaction should stay lightweight, contextual, and helpful
+- AI behavior should feel ambient, observant, and quietly useful rather than performative
 
 ### Multi-Tenancy
 
@@ -61,6 +78,7 @@ The product should create calm and reduce overhead, not add complexity:
 ## MVP Scope
 
 Core MVP priorities include:
+
 - Structured communications request intake and request lifecycle
 - Project workspace with deliverables, tasks, and approvals
 - Stakeholder visibility and magic link approvals
@@ -79,32 +97,35 @@ Core MVP priorities include:
 
 ## Documentation Structure
 
-- `/docs/decisions` — Product, technical, workflow, and branding decisions
-- `/docs/product` — Module definitions, personas, and product behavior
-- `/docs/technical` — Architecture, stack, deployment, and engineering direction
-- `/docs/branding` — Brand and UI guidance
-- `/docs/workflows` — Operational and development workflows
-- `/docs/ai` — Project context for AI assistants (Codex, Claude Code, ChatGPT)
-- `/prompts` — Reusable prompt material for development assistants
+- `/docs/decisions` - Product, technical, workflow, and branding decisions
+- `/docs/product` - Module definitions, personas, and product behavior
+- `/docs/technical` - Architecture, stack, deployment, and engineering direction
+- `/docs/branding` - Brand and UI guidance
+- `/docs/workflows` - Operational and development workflows
+- `/docs/ai` - Project context for AI assistants (Codex, Claude Code, ChatGPT)
+- `/prompts` - Reusable prompt material for development assistants
 
 ### Key Reference Files
 
-- `/docs/ai/DO_NOT_BREAK.md` — Project constraints that must be preserved
-- `/docs/technical/ARCHITECTURE.md` — System architecture and major structural choices
-- `/docs/technical/MULTI_TENANCY.md` — Tenant strategy
-- `/docs/technical/DATABASE.md` — Database direction and conceptual entities
-- `/docs/MVP_SCOPE.md` — What belongs in first release
-- `/docs/CURRENT_STATE.md` — Actual state of the project
-- `/docs/product/CALM_SOFTWARE_PRINCIPLES.md` — Core product philosophy
-- `/docs/product/SYSTEM_PHILOSOPHY.md` — Expanded system philosophy; guiding question for every feature decision; also governs AI-assisted development and architecture choices
-- `/docs/product/NOTIFICATION_STRATEGY.md` — Notification principles, types, tone, and per-persona rules
-- `/docs/product/USER_PERSONAS.md` — The seven user personas; drives UI/UX prioritization
-- `/docs/product/PERSONA_BEHAVIOR_MAPS.md` — Action-level behavior layer; drives navigation architecture, homepage logic, notification rules, and mobile optimization priority
-- `/docs/product/CORE_MODULES.md` — Major modules expected in the product
+- `/docs/ai/DO_NOT_BREAK.md` - Project constraints that must be preserved
+- `/docs/technical/ARCHITECTURE.md` - System architecture and major structural choices
+- `/docs/technical/MULTI_TENANCY.md` - Tenant strategy
+- `/docs/technical/DATABASE.md` - Database direction and conceptual entities
+- `/docs/MVP_SCOPE.md` - What belongs in first release
+- `/docs/CURRENT_STATE.md` - Actual state of the project
+- `/docs/product/CALM_SOFTWARE_PRINCIPLES.md` - Core product philosophy
+- `/docs/product/SYSTEM_PHILOSOPHY.md` - Expanded system philosophy; guiding question for every feature decision; also governs AI-assisted development and architecture choices
+- `/docs/product/NOTIFICATION_STRATEGY.md` - Notification principles, types, tone, and per-persona rules
+- `/docs/branding/VOICE_AND_TONE.md` - Personal, warm, conversational product voice and example phrasing
+- `/docs/branding/TYPOGRAPHY.md` - IBM Plex Serif and Newsreader direction
+- `/docs/product/USER_PERSONAS.md` - The seven user personas; drives UI/UX prioritization
+- `/docs/product/PERSONA_BEHAVIOR_MAPS.md` - Action-level behavior layer; drives navigation architecture, homepage logic, notification rules, and mobile optimization priority
+- `/docs/product/CORE_MODULES.md` - Major modules expected in the product
 
 ## Activity and Audit Logging
 
 Design activity and audit logging early as a core architectural concern:
+
 - Track meaningful actions: request submitted/accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, stakeholder/vendor link used
 - **Notifications** are alerts sent to people
 - **Messages/comments** are human conversation
@@ -117,6 +138,7 @@ Design activity and audit logging early as a core architectural concern:
 - Outbound: transactional email + in-app notifications
 - Project communication history: comments, stakeholder feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events
 - Notification design should avoid noise and link users back to relevant context
+- Copy and communication should make people feel supported rather than managed
 
 ## External Integrations (Future)
 
@@ -136,6 +158,7 @@ Currently no build, test, or development commands are available because the appl
 ## Open Questions
 
 Before scaffolding begins, these questions should be resolved:
+
 - Which Inspinia seed should be used?
 - Should the application use Tailwind, Bootstrap, or both?
 - Which testing stack should be standard?

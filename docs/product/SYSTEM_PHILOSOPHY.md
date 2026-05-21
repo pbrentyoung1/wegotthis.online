@@ -27,6 +27,10 @@ This document defines the core product philosophy that should guide:
 
 Every new feature should be evaluated against these principles.
 
+## North Star
+
+wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+
 ---
 
 # Core Product Philosophy
@@ -53,6 +57,10 @@ The software should feel:
 * structured
 * predictable
 * forgiving
+* capable
+* warm
+* personal
+* collaborative
 
 The platform should avoid:
 
@@ -62,6 +70,8 @@ The platform should avoid:
 * enterprise-style bureaucracy
 * unnecessary clicks
 * admin-heavy setup
+
+The product should feel like the phrase "we got this" in software form.
 
 If a feature adds more management overhead than the problem it solves, reconsider it.
 
@@ -123,6 +133,10 @@ Churches are human systems with uneven operational maturity.
 
 The platform should improve process maturity gradually without requiring organizations to become perfect before the software becomes useful.
 
+The experience should guide rather than command.
+
+Users should feel supported, not managed.
+
 ---
 
 ## Opinionated Defaults with Flexible Overrides
@@ -177,6 +191,10 @@ Different devices serve different operational purposes.
 * bulk organization
 
 The platform should not force production-style interfaces into mobile participation workflows.
+
+Conversational interaction should be used where it helps people think, decide, clarify, and communicate, especially in onboarding, project creation, request intake, and guided workflows.
+
+It should never destroy productivity for the sake of conversation.
 
 ---
 
@@ -248,6 +266,8 @@ This improves:
 * onboarding
 * troubleshooting
 
+The product should feel personal and conversational, not corporate or clinical.
+
 ---
 
 ## Requests Are Organizational Translation
@@ -266,6 +286,8 @@ The request workflow should help ministry leaders:
 * communicate expectations
 
 The intake process should feel helpful, not bureaucratic.
+
+Where possible, the system should ask good questions instead of presenting cold forms.
 
 ---
 
@@ -337,6 +359,10 @@ Language should remain:
 * understandable
 * non-technical
 
+It should feel almost like a friend: intelligent, helpful, warm, and steady.
+
+Treat users like humans, not database operators.
+
 Examples:
 
 * “Your Summer Camp flyer is ready for review.”
@@ -384,6 +410,12 @@ The platform exists to help churches:
 Before adding any feature, ask:
 
 > Does this reduce operational friction and create clarity, or does it add complexity and management overhead?
+
+Also ask:
+
+> Does this make the user feel supported or managed?
+
+> Does this still feel like "we got this"?
 
 If the answer is unclear, simplify the feature before building it.
 

@@ -13,6 +13,7 @@ Document the product direction for outbound communication and project communicat
 - The system should avoid notification noise.
 - Project communication should be captured in context rather than scattered across email, text messages, and meetings.
 - Comments, activity logs, audit logs, and notifications should be related but conceptually distinct.
+- Communication should feel supportive, conversational, and human rather than clinical.
 
 ## Conceptual Distinctions
 
@@ -36,6 +37,13 @@ System-generated emails and in-app notifications may include:
 - Daily or weekly digests
 - Stakeholder review links
 - Closeout reminders
+
+Outbound communication should:
+
+- sound calm and personal
+- explain why the message matters
+- make the next step obvious
+- avoid guilt, panic, or robotic system language unless truly necessary
 
 ## Project Communication History
 
@@ -78,5 +86,6 @@ Each project should preserve a unified communication/activity feed documenting:
 
 - The communications system should reduce interruptions by making project context easy to find.
 - Notification design should favor relevance, batching, and user control where appropriate.
+- Conversational UX should help people think and respond more clearly without turning the product into a chat gimmick.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21
