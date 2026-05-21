@@ -1,40 +1,48 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 import MapPage from "../../components/layout/MapPage.astro";
+import ActivityAuditRelationshipDiagram from "../../components/maps/ActivityAuditRelationshipDiagram";
 
-const expectedQuestions = [
-  "What belongs in comments, activity history, audit logs, and notifications?",
-  "Which events should create both a visible history item and a protected audit record?",
-  "How should external activity visibility differ from internal visibility?",
-  "How much audit detail is necessary for MVP?",
+const coreRules = [
+  "Not every activity event is an audit log.",
+  "Not every audit log belongs in visible product history.",
+  "Audit logs should be immutable.",
+  "Activity streams are user-facing and filterable.",
+  "Notifications are downstream outcomes, not the system of record.",
+];
+
+const relationships = [
+  "A user or system action may create an ActivityEvent.",
+  "The same action may also create an AuditLog if security accountability matters.",
+  "Notifications may be generated from activity or selected system events.",
+  "Audit visibility should remain narrower than ordinary project history.",
+];
+
+const openQuestions = [
+  "Which events should always create both activity and audit records?",
+  "Which security-sensitive events should skip visible project history entirely?",
+  "How much audit detail is necessary for the first pass without overbuilding?",
+  "How should system-generated actions be labeled in user-facing history versus audit records?",
 ];
 
 const relatedMaps = [
   { href: "/architecture/notification-trigger", label: "Notification Trigger" },
   { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope" },
+  { href: "/architecture/permission-matrix", label: "Permission Matrix" },
   { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram" },
 ];
 ---
 
-<DocsLayout title="Activity / Audit Relationship Diagram | wegotthis.online Docs" description="Placeholder page for the activity and audit relationship diagram.">
+<DocsLayout title="Activity / Audit Relationship Diagram | wegotthis.online Docs" description="Activity and audit relationship diagram.">
   <MapPage
     eyebrow="Technical Architecture"
     title="Activity / Audit Relationship Diagram"
-    purpose="This map will separate human conversation, visible activity history, protected audit records, and outbound notifications."
-    status="Not yet created"
-    coreRules={["Comments, activity, audit, and notifications should remain related but conceptually distinct."]}
-    relationships={["This map will connect communication behavior, permissions, external visibility, and notification triggers."]}
-    expectedQuestions={expectedQuestions}
+    purpose="The split between visible work history and security-sensitive accountability records, plus how notifications relate to both."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
     relatedMaps={relatedMaps}
   >
-    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
-      <div class="docs-card-soft max-w-xl px-6 py-8">
-        <p class="eyebrow">Placeholder</p>
-        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
-        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-          This page is reserved for the relationship map that keeps communication and audit concerns from collapsing into one system.
-        </p>
-      </div>
-    </div>
+    <ActivityAuditRelationshipDiagram slot="diagram" />
   </MapPage>
 </DocsLayout>

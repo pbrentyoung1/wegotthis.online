@@ -1,39 +1,47 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 import MapPage from "../../components/layout/MapPage.astro";
+import NotificationTriggerMap from "../../components/maps/NotificationTriggerMap";
 
-const expectedQuestions = [
-  "Which events should trigger immediate notifications?",
-  "Which events should stay visible only in project history?",
-  "Which notifications should be digest-based instead of immediate?",
-  "How should preferences modify delivery without changing source events?",
+const coreRules = [
+  "Not every event should create a notification.",
+  "Urgency helps determine the channel.",
+  "User preferences change delivery behavior.",
+  "Audit events are not always notifications.",
+  "Notifications should point back to the relevant object and context.",
+];
+
+const relationships = [
+  "System events feed trigger rules.",
+  "Trigger rules resolve audience and channel strategy.",
+  "Delivery can be immediate, batched, or suppressed by preference.",
+  "Notification outcomes should be logged without replacing source events.",
+];
+
+const openQuestions = [
+  "Which events should always notify immediately versus wait for digest treatment?",
+  "Which audiences should inherit notifications versus explicitly subscribe?",
+  "How should future push or SMS channels differ from email and in-app delivery?",
+  "Which technical events belong only in audit history instead of user-facing notifications?",
 ];
 
 const relatedMaps = [
   { href: "/architecture/project-lifecycle", label: "Project Lifecycle" },
   { href: "/architecture/deliverable-lifecycle", label: "Deliverable Lifecycle" },
+  { href: "/architecture/approval-flow", label: "Approval Flow" },
   { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram" },
 ];
 ---
 
-<DocsLayout title="Notification Trigger | wegotthis.online Docs" description="Placeholder page for the notification trigger map.">
+<DocsLayout title="Notification Trigger | wegotthis.online Docs" description="Notification trigger map for event-driven delivery.">
   <MapPage
     title="Notification Trigger Map"
-    purpose="This map will clarify which system events should create notifications and which should remain context-only without adding noise."
-    status="Not yet created"
-    coreRules={["Notifications should support action, not activity theater."]}
-    relationships={["This map will connect lifecycle changes, approvals, comments, permissions, and user preferences."]}
-    expectedQuestions={expectedQuestions}
+    purpose="The event-to-delivery model that decides when the system should notify people, who should hear about it, and how it should be sent."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
     relatedMaps={relatedMaps}
   >
-    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
-      <div class="docs-card-soft max-w-xl px-6 py-8">
-        <p class="eyebrow">Placeholder</p>
-        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
-        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-          This page will become the notification trigger reference once the first event map is documented.
-        </p>
-      </div>
-    </div>
+    <NotificationTriggerMap slot="diagram" />
   </MapPage>
 </DocsLayout>

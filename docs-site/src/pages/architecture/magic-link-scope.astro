@@ -1,12 +1,28 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 import MapPage from "../../components/layout/MapPage.astro";
+import MagicLinkScopeMap from "../../components/maps/MagicLinkScopeMap";
 
-const expectedQuestions = [
-  "What should a stakeholder see versus a vendor?",
-  "Which actions can be taken through a magic link?",
-  "How narrow should project versus deliverable access be?",
-  "Which file, comment, and approval details should remain hidden externally?",
+const coreRules = [
+  "Magic links do not grant broad project access.",
+  "Links should be revocable and time-bound.",
+  "All actions taken through a link should be logged.",
+  "Permissions are explicit rather than inherited casually.",
+  "Magic links support people who should not need full accounts.",
+];
+
+const relationships = [
+  "An internal user generates a scoped link.",
+  "The system validates token, expiration, permissions, and scope before access.",
+  "Reviewers can only take the actions explicitly granted to the link.",
+  "Link usage feeds audit visibility and external review history.",
+];
+
+const openQuestions = [
+  "Which external personas should be allowed to upload files in the first version?",
+  "When should optional identity capture be required versus optional?",
+  "Should some links expose full deliverable context while others expose only a version?",
+  "How should expired links be presented to keep the experience graceful without weakening security?",
 ];
 
 const relatedMaps = [
@@ -16,24 +32,15 @@ const relatedMaps = [
 ];
 ---
 
-<DocsLayout title="Magic Link Scope | wegotthis.online Docs" description="Placeholder page for the external access and magic link scope map.">
+<DocsLayout title="Magic Link Scope | wegotthis.online Docs" description="External access and magic-link scope map.">
   <MapPage
     title="External Access / Magic Link Scope Map"
-    purpose="This map will define what external stakeholders and vendors can see and do through scoped, time-bound access links."
-    status="Not yet created"
-    coreRules={["External access should be narrow, revocable, and calm by default."]}
-    relationships={["This map will connect approvals, files, comments, permissions, and audit expectations."]}
-    expectedQuestions={expectedQuestions}
+    purpose="The scoped access model that lets external reviewers and lightweight collaborators interact with work without creating full accounts."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
     relatedMaps={relatedMaps}
   >
-    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
-      <div class="docs-card-soft max-w-xl px-6 py-8">
-        <p class="eyebrow">Placeholder</p>
-        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
-        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-          This page is reserved for the external access scope model and magic link review boundaries.
-        </p>
-      </div>
-    </div>
+    <MagicLinkScopeMap slot="diagram" />
   </MapPage>
 </DocsLayout>

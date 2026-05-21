@@ -1,12 +1,28 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 import MapPage from "../../components/layout/MapPage.astro";
+import EntityRelationshipDiagram from "../../components/maps/EntityRelationshipDiagram";
 
-const expectedQuestions = [
-  "Which entities are required in the first scaffold?",
-  "How should tenant scope influence core entity relationships?",
-  "Which relationships depend on workflow and permission decisions first?",
-  "Which entities should be deferred until after the operational MVP is stable?",
+const coreRules = [
+  "This is a conceptual ERD, not the final database schema.",
+  "Organization is the tenant boundary.",
+  "Membership connects users to organizations.",
+  "The product hierarchy drives core work relationships.",
+  "Activity and audit are related but distinct concepts.",
+];
+
+const relationships = [
+  "Identity and access entities support organization-scoped membership.",
+  "Campaign, project, deliverable, and task define the work backbone.",
+  "Assets, approvals, and magic links connect fulfillment and external access behavior.",
+  "Comments, notifications, activity, and audit shape product history and security traceability.",
+];
+
+const openQuestions = [
+  "Which conceptual entities should be present in the first scaffold versus deferred?",
+  "Which relationships need explicit history tables or state logs later?",
+  "How should polymorphic comment or activity behavior be modeled without obscuring the concept map?",
+  "Where should the ERD stay intentionally conceptual rather than drifting into premature schema design?",
 ];
 
 const relatedMaps = [
@@ -16,25 +32,16 @@ const relatedMaps = [
 ];
 ---
 
-<DocsLayout title="Entity Relationship Diagram | wegotthis.online Docs" description="Placeholder page for the entity relationship diagram.">
+<DocsLayout title="Entity Relationship Diagram | wegotthis.online Docs" description="Conceptual entity relationship diagram.">
   <MapPage
     eyebrow="Technical Architecture"
     title="Entity Relationship Diagram"
-    purpose="This map will translate the product model into a high-level conceptual data model before implementation details are introduced."
-    status="Not yet created"
-    coreRules={["Workflow and permission decisions should stabilize before serious schema modeling begins."]}
-    relationships={["This map will connect tenants, projects, deliverables, tasks, approvals, assets, notifications, and supporting records."]}
-    expectedQuestions={expectedQuestions}
+    purpose="The conceptual data model that connects identity, work structure, assets, approvals, notifications, magic links, activity, and audit behavior."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
     relatedMaps={relatedMaps}
   >
-    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
-      <div class="docs-card-soft max-w-xl px-6 py-8">
-        <p class="eyebrow">Placeholder</p>
-        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
-        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-          This page is reserved for the conceptual entity map that will sit between product structure and schema design.
-        </p>
-      </div>
-    </div>
+    <EntityRelationshipDiagram slot="diagram" />
   </MapPage>
 </DocsLayout>

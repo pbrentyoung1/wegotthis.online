@@ -57,6 +57,24 @@ npm run preview
 - `ProductHierarchyMap.tsx`
 - `ProjectLifecycleMap.tsx`
 - `DeliverableLifecycleMap.tsx`
+- `ApprovalFlowMap.tsx`
+- `MagicLinkScopeMap.tsx`
+- `NotificationTriggerMap.tsx`
+- `PermissionMatrixMap.tsx`
+- `EntityRelationshipDiagram.tsx`
+- `ActivityAuditRelationshipDiagram.tsx`
+
+## Current architecture pages
+
+- `src/pages/architecture/product-hierarchy.astro`
+- `src/pages/architecture/project-lifecycle.astro`
+- `src/pages/architecture/deliverable-lifecycle.astro`
+- `src/pages/architecture/approval-flow.astro`
+- `src/pages/architecture/magic-link-scope.astro`
+- `src/pages/architecture/notification-trigger.astro`
+- `src/pages/architecture/permission-matrix.astro`
+- `src/pages/architecture/entity-relationship-diagram.astro`
+- `src/pages/architecture/activity-audit-relationship-diagram.astro`
 
 ## Notes
 

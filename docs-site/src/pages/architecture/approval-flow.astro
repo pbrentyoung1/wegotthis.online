@@ -1,39 +1,47 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 import MapPage from "../../components/layout/MapPage.astro";
+import ApprovalFlowMap from "../../components/maps/ApprovalFlowMap";
 
-const expectedQuestions = [
-  "Who can request approval, approve, reject, or request changes?",
-  "Which approval states are required for MVP?",
-  "How should internal review differ from external review?",
-  "When should approval events affect deliverable status or project visibility?",
+const coreRules = [
+  "Approvals usually happen on deliverables, not entire projects.",
+  "Review can loop backward into production.",
+  "Approval records should capture who approved, when, and what version.",
+  "External reviewers may participate through magic links.",
+  "Approval clears a deliverable for fulfillment but does not equal completion.",
+];
+
+const relationships = [
+  "Creators submit deliverables into review.",
+  "Internal review can lead to stakeholder review or send work back for changes.",
+  "Stakeholder review may happen through scoped external access.",
+  "Final approval moves work toward prepared, sent, or scheduled states.",
+];
+
+const openQuestions = [
+  "Which deliverables require only internal approval versus external review?",
+  "How many revision loops should the first implementation support gracefully?",
+  "Which approval steps must be captured in the activity stream versus the audit log?",
+  "Should some approvals be bypassable by trusted internal roles?",
 ];
 
 const relatedMaps = [
   { href: "/architecture/deliverable-lifecycle", label: "Deliverable Lifecycle" },
   { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope" },
+  { href: "/architecture/notification-trigger", label: "Notification Trigger" },
   { href: "/architecture/permission-matrix", label: "Permission Matrix" },
 ];
 ---
 
-<DocsLayout title="Approval Flow | wegotthis.online Docs" description="Placeholder page for the approval flow map.">
+<DocsLayout title="Approval Flow | wegotthis.online Docs" description="Approval flow map for deliverable review and approval.">
   <MapPage
     title="Approval Flow Map"
-    purpose="This map will describe how review, approval, rejection, requested changes, and reopening should move through the system."
-    status="Not yet created"
-    coreRules={["Approvals should remain calm, understandable, and centered on deliverables for MVP."]}
-    relationships={["This map will connect lifecycle states, external access, permissions, and notifications."]}
-    expectedQuestions={expectedQuestions}
+    purpose="The review path that moves a deliverable from internal review through optional stakeholder approval and into fulfillment readiness."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
     relatedMaps={relatedMaps}
   >
-    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
-      <div class="docs-card-soft max-w-xl px-6 py-8">
-        <p class="eyebrow">Placeholder</p>
-        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
-        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-          This page is reserved for the approval flow map once the lifecycle and permission decisions are tighter.
-        </p>
-      </div>
-    </div>
+    <ApprovalFlowMap slot="diagram" />
   </MapPage>
 </DocsLayout>

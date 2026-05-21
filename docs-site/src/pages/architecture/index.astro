@@ -5,15 +5,15 @@ const tierOne = [
   { href: "/architecture/product-hierarchy", label: "Product Hierarchy", detail: "Campaign -> Project -> Deliverable -> Task" },
   { href: "/architecture/project-lifecycle", label: "Project Lifecycle", detail: "Project state progression from draft to archive" },
   { href: "/architecture/deliverable-lifecycle", label: "Deliverable Lifecycle", detail: "Production and fulfillment states for deliverables" },
-  { href: "/architecture/approval-flow", label: "Approval Flow", detail: "Review, approval, rejection, and revision flow" },
-  { href: "/architecture/notification-trigger", label: "Notification Trigger", detail: "What creates notifications and what should stay quiet" },
-  { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope", detail: "How external reviewers and vendors are limited" },
+  { href: "/architecture/approval-flow", label: "Approval Flow", detail: "How deliverables move through review, changes, and final approval" },
+  { href: "/architecture/notification-trigger", label: "Notification Trigger", detail: "How events resolve audience, urgency, channel, and delivery logging" },
+  { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope", detail: "How lightweight external review stays explicit, narrow, and auditable" },
 ];
 
 const tierTwo = [
-  { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram", detail: "High-level domain model and conceptual entity links" },
-  { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram", detail: "How comments, activity, audit, and notifications stay distinct" },
-  { href: "/architecture/permission-matrix", label: "Permission Matrix", detail: "Role and scope boundaries across the system" },
+  { href: "/architecture/permission-matrix", label: "Permission Matrix", detail: "Role, scope, and first-pass action boundaries across the system" },
+  { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram", detail: "Conceptual entity groups for identity, work, assets, and audit" },
+  { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram", detail: "How work history, security records, and notifications diverge" },
 ];
 ---
 
