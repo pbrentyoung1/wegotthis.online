@@ -65,6 +65,12 @@ The platform should avoid:
 
 If a feature adds more management overhead than the problem it solves, reconsider it.
 
+Phases should also reduce cognitive overload.
+
+The roadmap should help the team focus on the right layer of work at the right time instead of carrying every unresolved concern at once.
+
+Planning should create relief, not another source of stress.
+
 ---
 
 ## Coordination Over Complexity
@@ -140,6 +146,10 @@ Avoid building:
 * automation-first architecture
 
 Most churches do not want to become workflow administrators.
+
+The roadmap structure should remain understandable.
+
+Phases, categories, deliverables, and tasks should clarify work progression without becoming a complicated planning taxonomy that people have to manage for its own sake.
 
 ---
 
@@ -279,6 +289,12 @@ Avoid dashboard clutter:
 * visual noise
 
 Clarity is more important than density.
+
+Project management systems should embody calm software principles.
+
+That includes GitHub documentation, Notion planning structure, sprint design, and execution tracking.
+
+If the planning system becomes noisy, over-configured, or difficult to trust, it is violating the same standards the product is supposed to uphold.
 
 ---
 

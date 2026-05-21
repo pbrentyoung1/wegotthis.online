@@ -1,0 +1,44 @@
+---
+import DocsLayout from "../../components/layout/DocsLayout.astro";
+import MapPage from "../../components/layout/MapPage.astro";
+import ProjectLifecycleMap from "../../components/maps/ProjectLifecycleMap";
+
+const coreRules = [
+  "Completed does not equal Archived.",
+  "Review can move backward to Active.",
+  "Scheduled usually belongs to deliverables, not projects.",
+  "Project lifecycle should stay simpler than deliverable lifecycle.",
+];
+
+const relationships = [
+  "Projects may begin as accepted requests.",
+  "Project lifecycle must stay separate from request lifecycle.",
+  "Deliverables can be in different states while the project stays at a higher-level status.",
+  "Lifecycle changes should influence communication, notifications, and history.",
+];
+
+const openQuestions = [
+  "Which project states are truly required for MVP?",
+  "Which transitions require explicit approval or confirmation?",
+  "Which lifecycle changes should be stakeholder-visible versus internal only?",
+];
+
+const relatedMaps = [
+  { href: "/architecture/deliverable-lifecycle", label: "Deliverable Lifecycle" },
+  { href: "/architecture/approval-flow", label: "Approval Flow" },
+  { href: "/architecture/notification-trigger", label: "Notification Trigger" },
+];
+---
+
+<DocsLayout title="Project Lifecycle | wegotthis.online Docs" description="Project lifecycle map for wegotthis.online.">
+  <MapPage
+    title="Project Lifecycle"
+    purpose="The project-level state model for moving work from early intake through completion and archive without flattening every deliverable into the same status."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
+    relatedMaps={relatedMaps}
+  >
+    <ProjectLifecycleMap slot="diagram" />
+  </MapPage>
+</DocsLayout>

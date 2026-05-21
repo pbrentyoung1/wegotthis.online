@@ -1,0 +1,69 @@
+---
+import DocsLayout from "../../components/layout/DocsLayout.astro";
+
+const tierOne = [
+  { href: "/architecture/product-hierarchy", label: "Product Hierarchy", detail: "Campaign -> Project -> Deliverable -> Task" },
+  { href: "/architecture/project-lifecycle", label: "Project Lifecycle", detail: "Project state progression from draft to archive" },
+  { href: "/architecture/deliverable-lifecycle", label: "Deliverable Lifecycle", detail: "Production and fulfillment states for deliverables" },
+  { href: "/architecture/approval-flow", label: "Approval Flow", detail: "Review, approval, rejection, and revision flow" },
+  { href: "/architecture/notification-trigger", label: "Notification Trigger", detail: "What creates notifications and what should stay quiet" },
+  { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope", detail: "How external reviewers and vendors are limited" },
+];
+
+const tierTwo = [
+  { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram", detail: "High-level domain model and conceptual entity links" },
+  { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram", detail: "How comments, activity, audit, and notifications stay distinct" },
+  { href: "/architecture/permission-matrix", label: "Permission Matrix", detail: "Role and scope boundaries across the system" },
+];
+---
+
+<DocsLayout title="Architecture Maps | wegotthis.online Docs" description="Architecture index for product and technical maps.">
+  <section class="docs-card p-8 md:p-10">
+    <p class="eyebrow">Architecture Overview</p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight text-[var(--text-strong)]">Two-tier map system</h1>
+    <p class="mt-4 max-w-3xl text-lg leading-relaxed text-[var(--text-muted)]">
+      These maps separate product architecture from technical architecture so the planning model stays understandable as the system grows.
+    </p>
+  </section>
+
+  <div class="mt-6 grid gap-6 xl:grid-cols-2">
+    <section class="docs-card p-6 md:p-8">
+      <p class="eyebrow">Tier 1</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-[var(--text-strong)]">Product Architecture Maps</h2>
+      <p class="mt-3 text-sm leading-relaxed text-[var(--text-body)]">
+        These maps describe how work is organized and how people experience the operational system.
+      </p>
+      <div class="mt-6 space-y-3">
+        {tierOne.map((item) => (
+          <a href={item.href} class="block rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-soft)] px-5 py-4 transition hover:border-[var(--accent-blue)]">
+            <h3 class="text-base font-semibold text-[var(--text-strong)]">{item.label}</h3>
+            <p class="mt-1 text-sm text-[var(--text-muted)]">{item.detail}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="docs-card p-6 md:p-8">
+      <p class="eyebrow">Tier 2</p>
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight text-[var(--text-strong)]">Technical Architecture Maps</h2>
+      <p class="mt-3 text-sm leading-relaxed text-[var(--text-body)]">
+        These maps translate the product model into permissions, data boundaries, and technical relationships.
+      </p>
+      <div class="mt-6 space-y-3">
+        {tierTwo.map((item) => (
+          <a href={item.href} class="block rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-soft)] px-5 py-4 transition hover:border-[var(--accent-blue)]">
+            <h3 class="text-base font-semibold text-[var(--text-strong)]">{item.label}</h3>
+            <p class="mt-1 text-sm text-[var(--text-muted)]">{item.detail}</p>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-dashed border-[var(--border-soft)] bg-white px-5 py-4">
+        <h3 class="text-base font-semibold text-[var(--text-strong)]">Integration Architecture Maps</h3>
+        <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
+          This tier will also eventually include connector and integration maps after core workflows stabilize.
+        </p>
+      </div>
+    </section>
+  </div>
+</DocsLayout>

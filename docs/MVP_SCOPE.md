@@ -20,6 +20,8 @@ Define what belongs in the first useful release and what should wait.
 - Working decision: use PostgreSQL full-text search for MVP.
 - Working decision: abstract file storage from day one.
 - Working decision: audit/activity logging must be designed in early.
+- Working decision: MVP should be organized and prioritized by phase rather than treated as a flat feature pool.
+- Working decision: workflow and permissions decisions must precede serious schema work.
 - Working MVP priorities:
   - structured communications request intake
   - request lifecycle
@@ -65,7 +67,9 @@ Define what belongs in the first useful release and what should wait.
 ## Notes
 
 - Avoid expanding MVP until workflows and personas are documented.
+- Avoid feature gravity and uncontrolled expansion during MVP planning.
 - Track deferred features explicitly so they are not forgotten.
+- Use phase planning to keep MVP sequencing understandable.
 - Advanced features should be treated as post-MVP unless explicitly re-scoped:
   - social publishing APIs
   - Planning Center integration
@@ -83,4 +87,4 @@ Define what belongs in the first useful release and what should wait.
   - advanced automated archive packaging
   - deep creative platform file inspection
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

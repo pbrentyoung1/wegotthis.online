@@ -1,0 +1,40 @@
+---
+import DocsLayout from "../../components/layout/DocsLayout.astro";
+import MapPage from "../../components/layout/MapPage.astro";
+
+const expectedQuestions = [
+  "Which entities are required in the first scaffold?",
+  "How should tenant scope influence core entity relationships?",
+  "Which relationships depend on workflow and permission decisions first?",
+  "Which entities should be deferred until after the operational MVP is stable?",
+];
+
+const relatedMaps = [
+  { href: "/architecture/product-hierarchy", label: "Product Hierarchy" },
+  { href: "/architecture/permission-matrix", label: "Permission Matrix" },
+  { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram" },
+];
+---
+
+<DocsLayout title="Entity Relationship Diagram | wegotthis.online Docs" description="Placeholder page for the entity relationship diagram.">
+  <MapPage
+    eyebrow="Technical Architecture"
+    title="Entity Relationship Diagram"
+    purpose="This map will translate the product model into a high-level conceptual data model before implementation details are introduced."
+    status="Not yet created"
+    coreRules={["Workflow and permission decisions should stabilize before serious schema modeling begins."]}
+    relationships={["This map will connect tenants, projects, deliverables, tasks, approvals, assets, notifications, and supporting records."]}
+    expectedQuestions={expectedQuestions}
+    relatedMaps={relatedMaps}
+  >
+    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
+      <div class="docs-card-soft max-w-xl px-6 py-8">
+        <p class="eyebrow">Placeholder</p>
+        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
+        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+          This page is reserved for the conceptual entity map that will sit between product structure and schema design.
+        </p>
+      </div>
+    </div>
+  </MapPage>
+</DocsLayout>

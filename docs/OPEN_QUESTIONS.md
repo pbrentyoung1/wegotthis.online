@@ -29,16 +29,22 @@ Maintain a central list of unresolved questions that affect product, design, arc
 - Final production storage provider.
 - Exact email provider if cost or hosting constraints change the Postmark preference.
 - Whether recurrence is MVP or early post-MVP.
+- Which phase should recurrence enter?
 - Which pilot church workflow templates are required first.
 - Exact permissions matrix.
+- What is the minimum viable permissions matrix?
 - How detailed file processing should be in MVP.
 - Whether custom tenant subdomains are required later.
 - Which search fields are required for first release.
 - Which digest emails are required for MVP?
+- What notification preferences are required for MVP?
 - Should users be able to reply to notification emails and have replies captured in the project feed?
 - Should project comments support internal-only and stakeholder-visible visibility?
 - Should communication history be exportable during project closeout?
 - What notification preferences should users control?
+- Which integrations belong before pilot?
+- Which diagrams must exist before Laravel scaffolding?
+- Which workflows are required before pilot launch?
 
 ## Resolved or Working Decisions
 
@@ -65,4 +71,4 @@ Maintain a central list of unresolved questions that affect product, design, arc
 - Link to resolved decisions when possible.
 - Resolved items may still need implementation detail before coding.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

@@ -29,6 +29,11 @@ Capture product direction and scope decisions.
 - Project communication should be captured in context rather than scattered across email, text messages, and meetings.
 - Comments, activity logs, audit logs, and notifications should be related but conceptually distinct.
 - The system should avoid notification noise.
+- Working decision: phases organize execution order.
+- Working decision: categories organize work type.
+- Working decision: Notion is the active PM layer for backlog, sprints, tasks, and working coordination.
+- Working decision: GitHub is the canonical architecture and durable documentation layer.
+- Working decision: roadmap planning should stay simple, calm, and understandable.
 
 ## Open Questions
 
@@ -48,5 +53,6 @@ Capture product direction and scope decisions.
 - These are working decisions and should be refined through product planning before implementation.
 - Calm software principles are documented in `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
+- Roadmap and execution structure are documented in `/docs/ROADMAP.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

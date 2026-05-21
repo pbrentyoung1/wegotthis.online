@@ -18,6 +18,10 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Working decision: approvals primarily attach to deliverables.
 - Working decision: external stakeholder and vendor review should use scoped, time-bound magic links in MVP.
 - Product principle: create calm, not complexity.
+- Working decision: execution should follow a phased roadmap rather than a loose feature list.
+- Working decision: Notion is the active project management layer for backlog, tasks, phases, sprints, open questions, and working coordination.
+- Working decision: GitHub is the canonical source of truth for architecture, decisions, and durable documentation.
+- Product principle: execution should stay calm, understandable, and resistant to process sprawl.
 
 ## Open Questions
 
@@ -38,5 +42,6 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Problem statement: church communications teams are often crushed by administrative coordination, unclear requests, timeline confusion, stakeholder approvals, budget questions, project status interruptions, asset chaos, incomplete closeout, and brand consistency work.
 - Product response: create an operational system that supports self-service visibility, structured intake, timeline management, asset reuse, institutional creative memory, and brand governance.
 - The platform should be useful from phones for intake, approval, status checks, and scoped vendor/stakeholder review.
+- Execution should move by phase, category, and documented readiness rather than by ad hoc idea collection.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

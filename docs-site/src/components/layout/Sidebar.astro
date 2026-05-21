@@ -1,0 +1,83 @@
+---
+const { currentPath = "/" } = Astro.props;
+
+const sections = [
+  {
+    title: "Overview",
+    links: [
+      { href: "/", label: "Docs Home" },
+      { href: "/architecture", label: "Architecture" },
+    ],
+  },
+  {
+    title: "Product Maps",
+    links: [
+      { href: "/architecture/product-hierarchy", label: "Product Hierarchy" },
+      { href: "/architecture/project-lifecycle", label: "Project Lifecycle" },
+      { href: "/architecture/deliverable-lifecycle", label: "Deliverable Lifecycle" },
+      { href: "/architecture/approval-flow", label: "Approval Flow" },
+      { href: "/architecture/notification-trigger", label: "Notification Trigger" },
+      { href: "/architecture/magic-link-scope", label: "Magic Link Scope" },
+    ],
+  },
+  {
+    title: "Technical Maps",
+    links: [
+      { href: "/architecture/permission-matrix", label: "Permission Matrix" },
+      { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram" },
+      { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship" },
+    ],
+  },
+];
+
+const isActive = (href) => {
+  if (href === "/") {
+    return currentPath === "/";
+  }
+
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+};
+---
+
+<aside class="flex h-full flex-col bg-[#25313A] text-white">
+  <div class="border-b border-white/10 px-6 py-6">
+    <p class="text-xs font-semibold uppercase tracking-[0.26em] text-[#A9CBD8]">wegotthis.online</p>
+    <h1 class="mt-3 text-xl font-semibold tracking-tight">Architecture Docs</h1>
+    <p class="mt-2 text-sm leading-relaxed text-slate-300">
+      Product and technical maps for calm, structured execution.
+    </p>
+  </div>
+
+  <nav class="flex-1 overflow-y-auto px-4 py-5">
+    {
+      sections.map((section) => (
+        <div class="mb-7">
+          <p class="px-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#8FA7B4]">{section.title}</p>
+          <div class="mt-3 space-y-1">
+            {section.links.map((link) => {
+              const active = isActive(link.href);
+
+              return (
+                <a
+                  href={link.href}
+                  class:list={[
+                    "block rounded-xl px-3 py-2.5 text-sm transition",
+                    active
+                      ? "bg-white/10 text-white shadow-sm"
+                      : "text-slate-300 hover:bg-white/6 hover:text-white",
+                  ]}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      ))
+    }
+  </nav>
+
+  <div class="border-t border-white/10 px-6 py-5 text-xs leading-relaxed text-slate-400">
+    GitHub remains canonical. Notion tracks active execution.
+  </div>
+</aside>

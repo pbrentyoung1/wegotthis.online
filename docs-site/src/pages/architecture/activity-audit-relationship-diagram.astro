@@ -1,0 +1,40 @@
+---
+import DocsLayout from "../../components/layout/DocsLayout.astro";
+import MapPage from "../../components/layout/MapPage.astro";
+
+const expectedQuestions = [
+  "What belongs in comments, activity history, audit logs, and notifications?",
+  "Which events should create both a visible history item and a protected audit record?",
+  "How should external activity visibility differ from internal visibility?",
+  "How much audit detail is necessary for MVP?",
+];
+
+const relatedMaps = [
+  { href: "/architecture/notification-trigger", label: "Notification Trigger" },
+  { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope" },
+  { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram" },
+];
+---
+
+<DocsLayout title="Activity / Audit Relationship Diagram | wegotthis.online Docs" description="Placeholder page for the activity and audit relationship diagram.">
+  <MapPage
+    eyebrow="Technical Architecture"
+    title="Activity / Audit Relationship Diagram"
+    purpose="This map will separate human conversation, visible activity history, protected audit records, and outbound notifications."
+    status="Not yet created"
+    coreRules={["Comments, activity, audit, and notifications should remain related but conceptually distinct."]}
+    relationships={["This map will connect communication behavior, permissions, external visibility, and notification triggers."]}
+    expectedQuestions={expectedQuestions}
+    relatedMaps={relatedMaps}
+  >
+    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
+      <div class="docs-card-soft max-w-xl px-6 py-8">
+        <p class="eyebrow">Placeholder</p>
+        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
+        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+          This page is reserved for the relationship map that keeps communication and audit concerns from collapsing into one system.
+        </p>
+      </div>
+    </div>
+  </MapPage>
+</DocsLayout>

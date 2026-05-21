@@ -1,0 +1,40 @@
+---
+import DocsLayout from "../../components/layout/DocsLayout.astro";
+import MapPage from "../../components/layout/MapPage.astro";
+
+const expectedQuestions = [
+  "What is the minimum viable permissions matrix?",
+  "Which roles can view, edit, approve, close, or archive work?",
+  "Which permissions depend on role versus object scope?",
+  "How should external access differ from internal permissions?",
+];
+
+const relatedMaps = [
+  { href: "/architecture/magic-link-scope", label: "External Access / Magic Link Scope" },
+  { href: "/architecture/entity-relationship-diagram", label: "Entity Relationship Diagram" },
+  { href: "/architecture/approval-flow", label: "Approval Flow" },
+];
+---
+
+<DocsLayout title="Permission Matrix | wegotthis.online Docs" description="Placeholder page for the permission matrix.">
+  <MapPage
+    eyebrow="Technical Architecture"
+    title="Permission Matrix"
+    purpose="This map will define role boundaries, sensitive data visibility, and object-level access rules across the system."
+    status="Not yet created"
+    coreRules={["Permissions should be minimal, understandable, and tenant-safe before deeper schema work begins."]}
+    relationships={["This map will connect roles, workflows, external access, search visibility, and reporting access."]}
+    expectedQuestions={expectedQuestions}
+    relatedMaps={relatedMaps}
+  >
+    <div slot="diagram" class="flex min-h-[240px] items-center justify-center bg-[var(--surface-soft)] p-8 text-center">
+      <div class="docs-card-soft max-w-xl px-6 py-8">
+        <p class="eyebrow">Placeholder</p>
+        <h2 class="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Status: Not yet created</h2>
+        <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+          This page is reserved for the first pass of the permissions matrix once role decisions tighten.
+        </p>
+      </div>
+    </div>
+  </MapPage>
+</DocsLayout>

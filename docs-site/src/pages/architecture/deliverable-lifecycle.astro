@@ -1,0 +1,44 @@
+---
+import DocsLayout from "../../components/layout/DocsLayout.astro";
+import MapPage from "../../components/layout/MapPage.astro";
+import DeliverableLifecycleMap from "../../components/maps/DeliverableLifecycleMap";
+
+const coreRules = [
+  "Approved does not equal Done.",
+  "Prepared is its own state.",
+  "Fulfillment varies by deliverable type.",
+  "Deliverables are complete only when verified in the real world.",
+];
+
+const relationships = [
+  "Deliverables live inside projects but may move through their own more detailed states.",
+  "Approvals primarily attach to deliverables in MVP.",
+  "Scheduled and fulfillment states often belong here instead of at project level.",
+  "Deliverable state changes should influence project visibility and communication history.",
+];
+
+const openQuestions = [
+  "Which deliverable states are essential for MVP?",
+  "How should revision loops be represented without overcomplicating the model?",
+  "Which deliverable events should create notifications versus just history entries?",
+];
+
+const relatedMaps = [
+  { href: "/architecture/project-lifecycle", label: "Project Lifecycle" },
+  { href: "/architecture/approval-flow", label: "Approval Flow" },
+  { href: "/architecture/notification-trigger", label: "Notification Trigger" },
+];
+---
+
+<DocsLayout title="Deliverable Lifecycle | wegotthis.online Docs" description="Deliverable lifecycle map for wegotthis.online.">
+  <MapPage
+    title="Deliverable Lifecycle"
+    purpose="The production and fulfillment model for deliverables, where approval, preparation, scheduling, and real-world completion need more precision than project status alone."
+    coreRules={coreRules}
+    relationships={relationships}
+    openQuestions={openQuestions}
+    relatedMaps={relatedMaps}
+  >
+    <DeliverableLifecycleMap slot="diagram" />
+  </MapPage>
+</DocsLayout>
