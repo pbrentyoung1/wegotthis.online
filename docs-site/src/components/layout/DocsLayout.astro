@@ -23,10 +23,67 @@ const {
 
         <main class="min-w-0">
           <div class="mx-auto max-w-[88rem] px-5 py-6 md:px-8 md:py-8">
+            <div class="mb-5 flex justify-end">
+              <div class="theme-toggle-wrap">
+                <p class="theme-toggle-label">Theme</p>
+                <div class="theme-toggle" data-theme-toggle data-theme-mode="light" role="group" aria-label="Toggle color theme">
+                  <span class="theme-toggle-thumb" aria-hidden="true"></span>
+                  <button type="button" class="theme-toggle-button" data-theme-button="light" aria-pressed="true">
+                    Light
+                  </button>
+                  <button type="button" class="theme-toggle-button" data-theme-button="dark" aria-pressed="false">
+                    Dark
+                  </button>
+                </div>
+              </div>
+            </div>
             <slot />
           </div>
         </main>
       </div>
     </div>
+    <script is:inline>
+      (() => {
+        const storageKey = "docs-site-theme";
+        const root = document.documentElement;
+        const toggles = () => Array.from(document.querySelectorAll("[data-theme-toggle]"));
+        const buttons = () => Array.from(document.querySelectorAll("[data-theme-button]"));
+
+        const applyTheme = (theme) => {
+          root.dataset.docsTheme = theme;
+
+          toggles().forEach((toggle) => {
+            toggle.dataset.themeMode = theme;
+          });
+
+          buttons().forEach((button) => {
+            const active = button.getAttribute("data-theme-button") === theme;
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+        };
+
+        const savedTheme = localStorage.getItem(storageKey);
+        const preferredTheme =
+          savedTheme ||
+          (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+        applyTheme(preferredTheme);
+
+        document.addEventListener("click", (event) => {
+          const button = event.target instanceof Element ? event.target.closest("[data-theme-button]") : null;
+          if (!button) {
+            return;
+          }
+
+          const nextTheme = button.getAttribute("data-theme-button");
+          if (!nextTheme) {
+            return;
+          }
+
+          applyTheme(nextTheme);
+          localStorage.setItem(storageKey, nextTheme);
+        });
+      })();
+    </script>
   </body>
 </html>
