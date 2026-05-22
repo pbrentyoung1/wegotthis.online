@@ -51,9 +51,17 @@ Document the current visual system direction for wegotthis.online so design, pro
 ## Typography System
 
 - IBM Plex Serif is the primary brand typography direction.
-- Newsreader should be used selectively for warmth, prompts, onboarding, quotes, AI moments, and reflective interactions.
-- IBM Plex Sans or Inter should support dense UI, labels, metadata, tables, navigation, and operational text.
+- IBM Plex Sans is the primary operational UI font and should support dense UI, labels, metadata, tables, navigation, forms, dashboards, notifications, and task interfaces.
+- Caveat is the human accent layer and should only appear in small, sparing moments of reassurance or warmth.
+- IBM Plex Serif should be used for marketing headlines, page headlines, major section titles, onboarding headers, campaign or project titles, storytelling, and important empty states.
+- Caveat should be reserved for margin-note encouragement, onboarding reassurance, empty-state emotional notes, celebratory confirmations, subtle annotations, AI reassurance moments, and small "we got this" notes.
+- Caveat should not appear in body copy, navigation, buttons, labels, tables, forms, menus, dashboards, alerts, large paragraphs, or operational workflows.
+- Caveat should use regular weight only, usually between 14px and 24px, with tighter tracking around `-0.02em`.
 - Typography should feel intelligent, thoughtful, human, calm, personal, and readable.
+- Typography emotional system:
+  - IBM Plex Serif says: "We understand."
+  - IBM Plex Sans says: "We can handle this."
+  - Caveat says: "You're not alone."
 
 ## Motion Philosophy
 
@@ -89,7 +97,7 @@ Document the current visual system direction for wegotthis.online so design, pro
 ## Open Questions
 
 - What semantic success, warning, and error colors best fit this system without breaking the calm tone?
-- When should IBM Plex Serif and Newsreader appear in product UI versus marketing surfaces?
+- What exact placement and frequency rules should govern Caveat so it stays rare and believable?
 - How much editorial typography can dense workspace screens carry before readability drops?
 - What dark mode surface values best preserve warmth and contrast?
 
@@ -97,5 +105,6 @@ Document the current visual system direction for wegotthis.online so design, pro
 
 - Treat these decisions as the current visual system baseline for both design and implementation.
 - Future UI tokens, Figma libraries, and code-level design tokens should trace back to this document.
+- The complete typography system should feel like thoughtful software with editorial warmth and human reassurance.
 
 Last updated: 2026-05-21

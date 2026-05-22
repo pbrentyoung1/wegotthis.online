@@ -14,8 +14,9 @@ Capture brand, voice, naming, visual identity, and UI presentation decisions.
 - The interface should communicate morning-light calm, quiet readiness, and capable support.
 - The current color token direction is Steady Blue `#4F6B7A`, Terracotta `#D9865B`, Sage `#7D9B87`, Main Canvas `#F7F6F3`, Surface `#FFFFFF`, Soft Contrast `#ECE9E2`, Primary Text `#2F3437`, and Secondary Text `#66707A`.
 - IBM Plex Serif is the primary brand typography direction.
-- Newsreader should be used selectively for warmth, storytelling, prompts, and reflective moments.
-- IBM Plex Sans or Inter should support dense operational UI.
+- IBM Plex Sans is the primary operational UI font.
+- Caveat is the human accent layer for small reassuring moments, not a core interface font.
+- Caveat should stay small, regular weight, tightly tracked, and visually quiet.
 - Layout should use a 4px spacing system with a primary rhythm of 8, 12, 16, 24, 32, 48, and 64.
 - Component geometry should stay soft and consistent across buttons, inputs, cards, modals, and floating panels.
 - Motion should stay subtle, calm, and ease-out by default.
@@ -28,7 +29,7 @@ wegotthis is a conversational ministry workspace that helps church teams feel ca
 ## Open Questions
 
 - What logo, mark, or wordmark should be used?
-- What exact type scale and usage rules should govern IBM Plex Serif and Newsreader in product UI?
+- What exact type scale and usage rules should govern IBM Plex Serif, IBM Plex Sans, and Caveat in product UI?
 - What visual treatments best express warmth and steadiness without losing operational clarity?
 
 ## Notes

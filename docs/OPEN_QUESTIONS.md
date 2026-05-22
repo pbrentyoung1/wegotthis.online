@@ -25,7 +25,7 @@ Maintain a central list of unresolved questions that affect product, design, arc
 - How will storage scale later?
 - Which brand review steps are required in MVP?
 - Which product surfaces should feel most conversational, and which should stay more compact for speed?
-- What exact type scale and usage rules should govern IBM Plex Serif and Newsreader in the product?
+- What exact type scale and usage rules should govern IBM Plex Serif, IBM Plex Sans, and Caveat in the product?
 - How should department utilization reporting avoid becoming advanced analytics too early?
 - Exact backup tooling.
 - Final production storage provider.

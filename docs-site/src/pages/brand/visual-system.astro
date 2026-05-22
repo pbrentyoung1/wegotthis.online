@@ -37,14 +37,14 @@ const shadows = [
     <section class="docs-card p-8 md:p-10">
       <p class="eyebrow">Visual System</p>
       <div class="mt-4 max-w-4xl">
-        <h1 class="text-4xl tracking-tight text-[var(--text-strong)] md:text-5xl" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+        <h1 class="text-4xl tracking-tight text-[var(--text-strong)] md:text-5xl" style="font-family: var(--font-serif);">
           Calm Editorial Workspace
         </h1>
         <p class="mt-5 text-lg leading-relaxed text-[var(--text-muted)]">
           wegotthis should feel like a calm, capable teammate in visual form: clear, warm, steady, and ready to help without becoming loud, cold, or managerial.
         </p>
         <div class="mt-6 rounded-[24px] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-6" style="box-shadow: var(--shadow-2);">
-          <p class="text-sm leading-relaxed text-[var(--text-body)]" style="font-family: Newsreader, Georgia, serif;">
+          <p class="text-sm leading-relaxed text-[var(--text-body)]" style="font-family: var(--font-serif);">
             "The interface should feel like a thoughtfully designed creative workspace before the team arrives: morning light, calm order, quiet readiness, and the sense that someone capable is already helping."
           </p>
         </div>
@@ -55,7 +55,7 @@ const shadows = [
       <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="eyebrow">Brand Feeling</p>
-          <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+          <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
             Calm, support, clarity, warmth, confidence, collaboration
           </h2>
         </div>
@@ -67,7 +67,7 @@ const shadows = [
 
     <section class="docs-card p-6 md:p-8">
       <p class="eyebrow">Color System</p>
-      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
         Warm neutrals with restrained accents
       </h2>
       <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -89,37 +89,82 @@ const shadows = [
     <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
       <section class="docs-card p-6 md:p-8">
         <p class="eyebrow">Typography</p>
-        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
-          Thoughtful, human, readable
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+          Editorial warmth with operational clarity
         </h2>
         <div class="mt-6 space-y-4">
-          <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">IBM Plex Serif</p>
-            <p class="mt-3 text-4xl leading-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
-              Sunday starts with clarity, not scramble.
-            </p>
-            <p class="mt-3 text-sm text-[var(--text-muted)]">Use for headlines, dashboard titles, onboarding headers, and editorial moments.</p>
+          <div class="grid gap-4 xl:grid-cols-3">
+            <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">IBM Plex Serif</p>
+              <p class="mt-3 text-4xl leading-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+                Let's get your team organized.
+              </p>
+              <p class="mt-3 text-sm text-[var(--text-muted)]">
+                Editorial brand voice for marketing headlines, page headlines, major section titles, onboarding headers, campaign titles, product storytelling, and important empty states.
+              </p>
+            </div>
+            <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-sage)]">IBM Plex Sans</p>
+              <p class="mt-3 text-lg leading-relaxed text-[var(--text-body)]" style="font-family: var(--font-sans);">
+                We'll walk through the essentials together and help shape your workspace around the way your church actually works.
+              </p>
+              <p class="mt-3 text-sm text-[var(--text-muted)]">
+                Operational workhorse for navigation, body copy, buttons, labels, forms, menus, tables, metadata, settings, dashboards, notifications, tasks, and dense information areas.
+              </p>
+            </div>
+            <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">Caveat</p>
+              <p class="font-hand mt-3 text-[22px] leading-tight text-[var(--accent-coral)]">
+                We'll help you figure it out.
+              </p>
+              <p class="mt-3 text-sm text-[var(--text-muted)]">
+                Human accent layer for margin-note encouragement, onboarding reassurance, celebratory confirmations, subtle annotations, AI reassurance, and small "we got this" moments.
+              </p>
+            </div>
           </div>
-          <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">Newsreader</p>
-            <p class="mt-3 text-3xl leading-tight text-[var(--text-strong)]" style="font-family: Newsreader, Georgia, serif;">
-              What would you like to share with the team this week?
+          <div class="rounded-[20px] border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] p-5" style="box-shadow: var(--shadow-1);">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">Guidance</p>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--text-body)]">
+              Caveat should feel discovered, not designed. Use it like a margin note, not a headline system.
             </p>
-            <p class="mt-3 text-sm text-[var(--text-muted)]">Use selectively for prompts, reflective moments, AI guidance, and warm onboarding language.</p>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+              Keep it regular weight, usually 14px to 24px, with tighter tracking around `-0.02em`, and in muted colors rather than high-contrast treatment.
+            </p>
           </div>
-          <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-sage)]">UI Sans</p>
-            <p class="mt-3 text-base leading-relaxed text-[var(--text-body)]">
-              Deliverable owner, due date, approvals, status history, notes, and other operational text should stay dense, readable, and quiet.
-            </p>
-            <p class="mt-3 text-sm text-[var(--text-muted)]">Use IBM Plex Sans or Inter for labels, metadata, navigation, tables, and forms.</p>
+          <div class="rounded-[20px] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-5" style="box-shadow: var(--shadow-1);">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Working Together</p>
+            <div class="mt-4 space-y-3">
+              <p class="text-3xl leading-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+                Let's get your team organized.
+              </p>
+              <p class="text-base leading-relaxed text-[var(--text-body)]" style="font-family: var(--font-sans);">
+                We'll walk through the essentials together and help shape your workspace around the way your church actually works.
+              </p>
+              <p class="font-hand text-[20px] leading-tight text-[var(--accent-sage)]">
+                We'll help you figure it out.
+              </p>
+            </div>
+            <div class="mt-4 grid gap-3 md:grid-cols-3">
+              <div class="rounded-[16px] border border-[var(--border-soft)] bg-white px-4 py-3 text-sm text-[var(--text-body)]">
+                <span class="font-semibold text-[var(--text-strong)]">IBM Plex Serif</span><br />
+                We understand.
+              </div>
+              <div class="rounded-[16px] border border-[var(--border-soft)] bg-white px-4 py-3 text-sm text-[var(--text-body)]">
+                <span class="font-semibold text-[var(--text-strong)]">IBM Plex Sans</span><br />
+                We can handle this.
+              </div>
+              <div class="rounded-[16px] border border-[var(--border-soft)] bg-white px-4 py-3 text-sm text-[var(--text-body)]">
+                <span class="font-semibold text-[var(--text-strong)]">Caveat</span><br />
+                You're not alone.
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="docs-card p-6 md:p-8">
         <p class="eyebrow">Spacing</p>
-        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
           Room to breathe
         </h2>
         <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
@@ -141,7 +186,7 @@ const shadows = [
     <div class="grid gap-6 xl:grid-cols-2">
       <section class="docs-card p-6 md:p-8">
         <p class="eyebrow">Radius</p>
-        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
           Soft geometry
         </h2>
         <div class="mt-6 grid gap-4 md:grid-cols-2">
@@ -159,7 +204,7 @@ const shadows = [
 
       <section class="docs-card p-6 md:p-8">
         <p class="eyebrow">Shadows</p>
-        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
           Soft atmospheric depth
         </h2>
         <div class="mt-6 space-y-4">
@@ -181,7 +226,7 @@ const shadows = [
     <div class="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
       <section class="docs-card p-6 md:p-8">
         <p class="eyebrow">Component Personality</p>
-        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
           Quietly capable interface parts
         </h2>
 
@@ -228,15 +273,16 @@ const shadows = [
 
       <section class="docs-card p-6 md:p-8">
         <p class="eyebrow">States and Guidance</p>
-        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
           Supportive, steady communication
         </h2>
 
         <div class="mt-6 space-y-4">
           <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Empty State</p>
-            <p class="mt-3 text-2xl text-[var(--text-strong)]" style="font-family: Newsreader, Georgia, serif;">Looks quiet in here. Want to plan something together?</p>
+            <p class="mt-3 text-2xl text-[var(--text-strong)]" style="font-family: var(--font-serif);">Looks quiet in here. Want to plan something together?</p>
             <p class="mt-2 text-sm text-[var(--text-muted)]">Empty states should invite momentum without sounding synthetic or overly cheerful.</p>
+            <p class="font-hand mt-3 text-[18px] text-[var(--accent-sage)]">We've got room to start this together.</p>
           </div>
 
           <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
@@ -254,6 +300,7 @@ const shadows = [
               <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
                 This request sounds similar to last month's event promotion. Want me to pull that structure forward so you can edit instead of starting from scratch?
               </p>
+              <p class="font-hand mt-3 text-[18px] text-[var(--accent-coral)]">You don't have to start from zero.</p>
             </div>
           </div>
         </div>
@@ -262,14 +309,14 @@ const shadows = [
 
     <section class="docs-card p-6 md:p-8">
       <p class="eyebrow">Dark Mode</p>
-      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
         Warm late-night workspace
       </h2>
       <div class="mt-6 rounded-[24px] border border-[#3A4348] bg-[#23282C] p-6 shadow-[0_12px_32px_rgba(10,14,18,0.26)]">
         <div class="grid gap-4 md:grid-cols-[0.8fr_1.2fr]">
           <div class="rounded-[20px] border border-white/10 bg-white/5 p-5">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8C6CE]">Dark Mode Direction</p>
-            <p class="mt-3 text-2xl text-white" style="font-family: 'IBM Plex Serif', Georgia, serif;">
+            <p class="mt-3 text-2xl text-white" style="font-family: var(--font-serif);">
               Warm, calm, and readable.
             </p>
             <p class="mt-3 text-sm leading-relaxed text-slate-300">
