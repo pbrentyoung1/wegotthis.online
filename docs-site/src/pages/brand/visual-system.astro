@@ -1,15 +1,64 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 
-const palette = [
+const corePalette = [
   { name: "Steady Blue", hex: "#4F6B7A", usage: "Primary brand emphasis, calm action states, structure." },
   { name: "Terracotta", hex: "#D9865B", usage: "Warm prompts, editorial accents, conversational warmth." },
   { name: "Sage", hex: "#7D9B87", usage: "Supportive moments, collaboration, calm secondary emphasis." },
-  { name: "Main Canvas", hex: "#F7F6F3", usage: "Primary page background and workspace atmosphere." },
+  { name: "Warm Canvas", hex: "#F7F6F3", usage: "Primary page background and workspace atmosphere." },
   { name: "Surface", hex: "#FFFFFF", usage: "Cards, forms, panels, and readable focus areas." },
   { name: "Soft Contrast", hex: "#ECE9E2", usage: "Dividers, quiet panels, subtle separation." },
   { name: "Primary Text", hex: "#2F3437", usage: "Headlines, strong labels, and readable interface text." },
   { name: "Secondary Text", hex: "#66707A", usage: "Supporting copy, metadata, and softer instructional text." },
+];
+
+const supportingPalette = [
+  { name: "Dusty Gold", hex: "#C6A56B", usage: "Highlights, celebratory moments, encouragement, and warm callouts.", role: "Hopeful, mature, grounded warmth. Think worn brass, not shiny gold." },
+  { name: "Soft Clay", hex: "#C98D7A", usage: "Secondary warmth, onboarding accents, relational UI, and gentle warning-adjacent moments.", role: "Earthy, human, relational warmth." },
+  { name: "Muted Sky", hex: "#8AA6B3", usage: "Information, AI suggestions, collaboration, planning flows, and quiet highlights.", role: "Air, clarity, openness without generic tech blue." },
+  { name: "Deep Forest", hex: "#556B61", usage: "Confirmation states, grounded success, navigation depth, and calm progress.", role: "Stable, trustworthy, mature. Use instead of bright success green." },
+  { name: "Warm Plum", hex: "#7A5C68", usage: "Reflective moments, storytelling, emotional depth, and occasional editorial accents.", role: "Richness, reflection, emotional intelligence, sophistication." },
+  { name: "Soft Fog", hex: "#C3C1BB", usage: "Panel separation, layered surfaces, hover states, structure, framing, and disabled UI.", role: "Quiet structure without harshness." },
+];
+
+const semanticCards = [
+  {
+    label: "Success",
+    tone: "Use Deep Forest + Sage",
+    className: "border-[var(--accent-forest-border)] bg-[var(--accent-forest-soft)]",
+    chipClass: "bg-[var(--accent-forest)] text-white",
+    body: "Upload complete. Everything is in place and ready for the next step.",
+  },
+  {
+    label: "Warning",
+    tone: "Use Dusty Gold + Soft Clay",
+    className: "border-[var(--accent-gold-border)] bg-[var(--accent-gold-soft)]",
+    chipClass: "bg-[var(--accent-gold)] text-[var(--text-strong)]",
+    body: "We still need one date before this can move forward cleanly.",
+  },
+  {
+    label: "Error",
+    tone: "Use Muted Brick only when needed",
+    className: "border-[var(--accent-brick-border)] bg-[var(--accent-brick-soft)]",
+    chipClass: "bg-[var(--color-muted-brick)] text-white",
+    body: "Something did not go through. Try again and we'll get it sorted.",
+  },
+  {
+    label: "Information",
+    tone: "Use Muted Sky + Steady Blue",
+    className: "border-[var(--accent-sky-border)] bg-[var(--accent-sky-soft)]",
+    chipClass: "bg-[var(--accent-sky)] text-[var(--text-strong)]",
+    body: "This request looks similar to last month's event. Want to reuse that structure?",
+  },
+];
+
+const accentExamples = [
+  { name: "Dusty Gold", className: "border-[var(--accent-gold-border)] bg-[var(--accent-gold-soft)]", title: "Encouragement", copy: "You are closer than it feels. Two approvals are already done." },
+  { name: "Soft Clay", className: "border-[var(--accent-clay-border)] bg-[var(--accent-clay-soft)]", title: "Onboarding Warmth", copy: "Start with the basics and we will shape the rest together." },
+  { name: "Muted Sky", className: "border-[var(--accent-sky-border)] bg-[var(--accent-sky-soft)]", title: "AI Suggestion", copy: "There is already a strong template for this. Want to pull it forward?" },
+  { name: "Deep Forest", className: "border-[var(--accent-forest-border)] bg-[var(--accent-forest-soft)]", title: "Grounded Progress", copy: "Everything needed for scheduling is now in place." },
+  { name: "Warm Plum", className: "border-[var(--accent-plum-border)] bg-[var(--accent-plum-soft)]", title: "Reflective Note", copy: "This is a good place to preserve what worked for next season." },
+  { name: "Soft Fog", className: "border-[var(--color-soft-fog)] bg-[var(--color-soft-fog)]/20", title: "Quiet Structure", copy: "Use this for panels, dividers, hover states, and gentle framing." },
 ];
 
 const spacing = [8, 12, 16, 24, 32, 48, 64];
@@ -66,12 +115,15 @@ const shadows = [
     </section>
 
     <section class="docs-card p-6 md:p-8">
-      <p class="eyebrow">Color System</p>
+      <p class="eyebrow">Core Palette</p>
       <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
-        Warm neutrals with restrained accents
+        Warm neutrals with restrained anchors
       </h2>
+      <p class="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--text-muted)]">
+        The core palette carries the everyday product atmosphere. Most interfaces should stay here and let accent colors step in only when hierarchy, emotion, or status needs help.
+      </p>
       <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {palette.map((token) => (
+        {corePalette.map((token) => (
           <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-4" style="box-shadow: var(--shadow-1);">
             <div class="h-24 rounded-[16px] border border-black/5" style={`background:${token.hex};`}></div>
             <div class="mt-4">
@@ -81,6 +133,127 @@ const shadows = [
               </div>
               <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{token.usage}</p>
             </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="docs-card p-6 md:p-8">
+      <p class="eyebrow">Supporting Accents</p>
+      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+        Additional accents, not additional primaries
+      </h2>
+      <p class="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--text-muted)]">
+        These colors support hierarchy, emotion, and clarity. They should feel like worn brass, clay, sage, muted sky, soft stone, and quiet depth, not a rainbow interface.
+      </p>
+      <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {supportingPalette.map((token) => (
+          <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-4" style="box-shadow: var(--shadow-1);">
+            <div class="h-24 rounded-[16px] border border-black/5" style={`background:${token.hex};`}></div>
+            <div class="mt-4">
+              <div class="flex items-center justify-between gap-3">
+                <h3 class="text-base font-semibold text-[var(--text-strong)]">{token.name}</h3>
+                <span class="rounded-full bg-[var(--surface-soft)] px-3 py-1 text-xs font-semibold text-[var(--text-muted)]">{token.hex}</span>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed text-[var(--text-body)]">{token.usage}</p>
+              <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{token.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+      <section class="docs-card p-6 md:p-8">
+        <p class="eyebrow">Semantic Color</p>
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+          Calm status, not alarm theatre
+        </h2>
+        <div class="mt-6 grid gap-4 md:grid-cols-2">
+          {semanticCards.map((card) => (
+            <div class={`rounded-[20px] border p-5 ${card.className}`} style="box-shadow: var(--shadow-1);">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-base font-semibold text-[var(--text-strong)]">{card.label}</p>
+                <span class={`rounded-full px-3 py-1 text-xs font-semibold ${card.chipClass}`}>{card.label}</span>
+              </div>
+              <p class="mt-2 text-sm text-[var(--text-muted)]">{card.tone}</p>
+              <p class="mt-4 text-sm leading-relaxed text-[var(--text-body)]">{card.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="docs-card p-6 md:p-8">
+        <p class="eyebrow">Color Restraint</p>
+        <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+          Keep the interface mostly neutral
+        </h2>
+        <div class="mt-6 space-y-4">
+          <div class="rounded-[20px] border border-[var(--accent-sky-border)] bg-[var(--accent-sky-soft)] p-4">
+            <p class="text-sm font-semibold text-[var(--text-strong)]">Good</p>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--text-body)]">
+              A mostly neutral screen with one calm accent is easier to scan, warmer to use, and clearer under pressure.
+            </p>
+          </div>
+          <div class="rounded-[20px] border border-dashed border-[var(--accent-brick-border)] bg-white p-4">
+            <p class="text-sm font-semibold text-[var(--text-strong)]">Avoid</p>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="rounded-full bg-[var(--accent-blue)] px-3 py-1 text-xs font-semibold text-white">Blue</span>
+              <span class="rounded-full bg-[var(--accent-coral)] px-3 py-1 text-xs font-semibold text-white">Clay</span>
+              <span class="rounded-full bg-[var(--accent-gold)] px-3 py-1 text-xs font-semibold text-[var(--text-strong)]">Gold</span>
+              <span class="rounded-full bg-[var(--accent-sage)] px-3 py-1 text-xs font-semibold text-white">Sage</span>
+              <span class="rounded-full bg-[var(--accent-plum)] px-3 py-1 text-xs font-semibold text-white">Plum</span>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
+              Do not turn dashboards into multicolor status walls. Use color to support meaning, not to decorate empty space.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="docs-card p-6 md:p-8">
+      <p class="eyebrow">Neutral Layering</p>
+      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+        Warm Canvas, Soft Contrast, Soft Fog, and Surface working together
+      </h2>
+      <div class="mt-6 rounded-[28px] border border-[var(--color-soft-fog)] bg-[var(--color-warm-canvas)] p-5">
+        <div class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <div class="rounded-[22px] border border-[var(--color-soft-contrast)] bg-[var(--color-surface)] p-5" style="box-shadow: var(--shadow-1);">
+            <p class="text-sm font-semibold text-[var(--text-strong)]">Project Snapshot</p>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Surface card on Warm Canvas</p>
+            <div class="mt-4 rounded-[16px] bg-[var(--color-soft-contrast)] p-4">
+              <p class="text-sm text-[var(--text-body)]">Soft Contrast separates related information without feeling cold.</p>
+            </div>
+          </div>
+          <div class="rounded-[22px] border border-[var(--color-soft-fog)] p-5" style="background: rgba(195, 193, 187, 0.18);">
+            <div class="rounded-[18px] border border-[var(--color-soft-contrast)] bg-[var(--color-surface)] p-4">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-sm font-semibold text-[var(--text-strong)]">Layered Panel</p>
+                <span class="rounded-full bg-[var(--color-soft-contrast)] px-3 py-1 text-xs font-semibold text-[var(--text-muted)]">Soft Fog frame</span>
+              </div>
+              <div class="mt-4 space-y-3">
+                <div class="h-3 rounded-full bg-[var(--color-soft-contrast)]"></div>
+                <div class="h-3 w-4/5 rounded-full bg-[var(--color-soft-contrast)]"></div>
+                <div class="h-3 w-3/5 rounded-full bg-[var(--color-soft-fog)]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs-card p-6 md:p-8">
+      <p class="eyebrow">Example Usage</p>
+      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+        Accent colors in small, purposeful moments
+      </h2>
+      <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {accentExamples.map((item) => (
+          <div class={`rounded-[20px] border p-5 ${item.className}`} style="box-shadow: var(--shadow-1);">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">{item.name}</p>
+            <h3 class="mt-3 text-lg font-semibold text-[var(--text-strong)]">{item.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--text-body)]">{item.copy}</p>
           </div>
         ))}
       </div>

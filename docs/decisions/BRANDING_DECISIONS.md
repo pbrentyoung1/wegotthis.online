@@ -12,7 +12,9 @@ Capture brand, voice, naming, visual identity, and UI presentation decisions.
 - The brand should feel calm, capable, warm, supportive, conversational, and steady.
 - The visual system direction is a calm editorial workspace.
 - The interface should communicate morning-light calm, quiet readiness, and capable support.
-- The current color token direction is Steady Blue `#4F6B7A`, Terracotta `#D9865B`, Sage `#7D9B87`, Main Canvas `#F7F6F3`, Surface `#FFFFFF`, Soft Contrast `#ECE9E2`, Primary Text `#2F3437`, and Secondary Text `#66707A`.
+- The current color token direction is Steady Blue `#4F6B7A`, Terracotta `#D9865B`, Sage `#7D9B87`, Dusty Gold `#C6A56B`, Soft Clay `#C98D7A`, Muted Sky `#8AA6B3`, Deep Forest `#556B61`, Warm Plum `#7A5C68`, Warm Canvas `#F7F6F3`, Surface `#FFFFFF`, Soft Contrast `#ECE9E2`, Soft Fog `#C3C1BB`, Primary Text `#2F3437`, Secondary Text `#66707A`, and Muted Brick `#B46A6A`.
+- Supporting accents are not additional primary brand colors; they should be used with restraint.
+- Success should favor Deep Forest and Sage, warning should favor Dusty Gold and Soft Clay, information should favor Muted Sky and Steady Blue, and error should favor Muted Brick.
 - IBM Plex Serif is the primary brand typography direction.
 - IBM Plex Sans is the primary operational UI font.
 - Caveat is the human accent layer for small reassuring moments, not a core interface font.

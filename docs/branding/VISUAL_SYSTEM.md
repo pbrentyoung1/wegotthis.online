@@ -42,11 +42,34 @@ Document the current visual system direction for wegotthis.online so design, pro
 - Steady Blue: `#4F6B7A` for intelligent, trustworthy, grounded, calm emphasis.
 - Terracotta: `#D9865B` for human warmth, conversation, and creativity.
 - Sage: `#7D9B87` for collaboration, stability, and ministry softness.
-- Main Canvas: `#F7F6F3` for the primary background.
+- Dusty Gold: `#C6A56B` for hopeful highlights, encouragement, and warm callouts.
+- Soft Clay: `#C98D7A` for soft onboarding warmth, relational emphasis, and gentle warning-adjacent moments.
+- Muted Sky: `#8AA6B3` for information, planning, collaboration, and calm AI guidance.
+- Deep Forest: `#556B61` for success, progress, editorial grounding, and calm navigation depth.
+- Warm Plum: `#7A5C68` for reflective moments, storytelling, emotional depth, and occasional editorial accents.
+- Warm Canvas: `#F7F6F3` for the primary background.
 - Surface: `#FFFFFF` for cards, panels, and focus surfaces.
 - Soft Contrast: `#ECE9E2` for dividers, subtle panels, and quiet separation.
+- Soft Fog: `#C3C1BB` for panel separation, hover states, structural framing, table structure, and disabled states.
 - Primary Text: `#2F3437` for strong readable text.
 - Secondary Text: `#66707A` for supporting copy and metadata.
+- Muted Brick: `#B46A6A` for true error or destructive moments only.
+
+## Color Restraint
+
+- Most interfaces should remain neutral.
+- Use color purposefully to direct attention, clarify status, or add emotional warmth.
+- Avoid rainbow dashboards and decorative accent sprawl.
+- No color should scream.
+- Never use color alone to communicate meaning; pair it with text, iconography, or context.
+
+## Semantic Color Guidance
+
+- Success should prefer Deep Forest and Sage so progress feels grounded, not neon.
+- Warning should prefer Dusty Gold and Soft Clay so attention feels thoughtful rather than alarm-heavy.
+- Error should prefer Muted Brick and appear only when true destructive or failure states require clarity.
+- Information should prefer Muted Sky and Steady Blue so guidance feels clear and calm.
+- Neutral structure should rely on Warm Canvas, Soft Contrast, Soft Fog, Surface, Primary Text, and Secondary Text.
 
 ## Typography System
 
@@ -106,5 +129,6 @@ Document the current visual system direction for wegotthis.online so design, pro
 - Treat these decisions as the current visual system baseline for both design and implementation.
 - Future UI tokens, Figma libraries, and code-level design tokens should trace back to this document.
 - The complete typography system should feel like thoughtful software with editorial warmth and human reassurance.
+- The palette should feel like materials in a thoughtfully designed creative studio: warm paper, soft stone, worn brass, clay, sage, muted sky, and quiet depth.
 
 Last updated: 2026-05-21
