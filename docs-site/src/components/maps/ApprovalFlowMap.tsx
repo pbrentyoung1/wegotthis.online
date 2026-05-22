@@ -33,85 +33,85 @@ const steps = [
 
 const getToneClasses = (tone: "blue" | "coral") =>
   tone === "coral"
-    ? "border-[#E0916C] bg-[#FFF4EE]"
-    : "border-[#D8E1E6] bg-[#FBFCFD]";
+    ? "border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)]"
+    : "border-[var(--border-soft)] bg-[var(--surface-soft)]";
 
 export default function ApprovalFlowMap() {
   return (
-    <div className="bg-[#F7F9FB] p-5 md:p-8">
+    <div className="bg-[var(--page-bg)] p-5 md:p-8">
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
         <div className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             {steps.slice(0, 2).map((step) => (
               <div
                 key={step.title}
-                className={`rounded-[1.35rem] border p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)] ${getToneClasses(step.tone)}`}
+                className={`rounded-[1.35rem] border p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)] ${getToneClasses(step.tone)}`}
               >
-                <h3 className="text-xl font-semibold tracking-tight text-[#25313A]">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#66737B]">{step.detail}</p>
+                <h3 className="text-xl font-semibold tracking-tight text-[var(--text-strong)]">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{step.detail}</p>
               </div>
             ))}
           </div>
 
-          <div className="flex justify-center text-[#568FA7]">
-            <div className="rounded-full border border-[#D8E1E6] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]">
+          <div className="flex justify-center text-[var(--accent-blue)]">
+            <div className="rounded-full border border-[var(--border-soft)] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]">
               Decision: Approved?
             </div>
           </div>
 
           <div className="grid gap-4 lg:grid-cols-[1fr_120px_1fr] lg:items-stretch">
-            <div className="rounded-[1.35rem] border border-[#E0916C] bg-[#FFF4EE] p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E0916C]">No</p>
-              <h3 className="mt-2 text-xl font-semibold tracking-tight text-[#25313A]">Changes Requested</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#66737B]">
+            <div className="rounded-[1.35rem] border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">No</p>
+              <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Changes Requested</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
                 Review notes send work back into production. The loop should preserve reviewer, date, and version context.
               </p>
-              <div className="mt-4 rounded-2xl border border-[#F1C7B2] bg-white/70 px-4 py-3 text-sm font-medium text-[#48535A]">
+              <div className="mt-4 rounded-2xl border border-[var(--accent-coral-border)] bg-white/70 px-4 py-3 text-sm font-medium text-[var(--text-body)]">
                 Returns to In Production
               </div>
             </div>
 
-            <div className="flex items-center justify-center text-[#568FA7]">
-              <div className="rounded-full border border-[#D8E1E6] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]">
+            <div className="flex items-center justify-center text-[var(--accent-blue)]">
+              <div className="rounded-full border border-[var(--border-soft)] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]">
                 Loop
               </div>
             </div>
 
             <div className="space-y-4">
-              <div className="rounded-[1.35rem] border border-[#D8E1E6] bg-[#FBFCFD] p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">Yes</p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[#25313A]">Stakeholder Review?</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#66737B]">
+              <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Yes</p>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Stakeholder Review?</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
                   Some deliverables can stop at internal approval. Others move to ministry or external review through a magic link.
                 </p>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-[1.35rem] border border-[#D8E1E6] bg-white p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">No extra review</p>
-                  <h4 className="mt-2 text-lg font-semibold text-[#25313A]">Final Approved</h4>
+                <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">No extra review</p>
+                  <h4 className="mt-2 text-lg font-semibold text-[var(--text-strong)]">Final Approved</h4>
                 </div>
-                <div className="rounded-[1.35rem] border border-[#D8E1E6] bg-white p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">Yes</p>
-                  <h4 className="mt-2 text-lg font-semibold text-[#25313A]">Stakeholder Review</h4>
-                  <p className="mt-2 text-sm text-[#66737B]">Approve or request changes.</p>
+                <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Yes</p>
+                  <h4 className="mt-2 text-lg font-semibold text-[var(--text-strong)]">Stakeholder Review</h4>
+                  <p className="mt-2 text-sm text-[var(--text-muted)]">Approve or request changes.</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="rounded-[1.4rem] border border-[#D8E1E6] bg-white p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
+          <div className="rounded-[1.4rem] border border-[var(--border-soft)] bg-white p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">Final State</p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[#25313A]">Final Approved</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#66737B]">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Final State</p>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Final Approved</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
                   The system records who approved, when they approved, and exactly which version was approved.
                 </p>
               </div>
-              <div className="rounded-2xl border border-[#F1C7B2] bg-[#FFF4EE] px-4 py-4">
-                <p className="text-sm font-semibold text-[#25313A]">Prepared / Sent / Scheduled</p>
-                <p className="mt-2 text-sm leading-relaxed text-[#66737B]">
+              <div className="rounded-2xl border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] px-4 py-4">
+                <p className="text-sm font-semibold text-[var(--text-strong)]">Prepared / Sent / Scheduled</p>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
                   Approval clears the deliverable for fulfillment. It does not mean the deliverable is complete.
                 </p>
               </div>
@@ -119,8 +119,8 @@ export default function ApprovalFlowMap() {
           </div>
         </div>
 
-        <aside className="rounded-[1.5rem] bg-[#25313A] p-6 text-white shadow-[0_12px_30px_rgba(37,49,58,0.12)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A9CBD8]">Core Rules</p>
+        <aside className="rounded-[1.5rem] bg-[var(--panel-bg)] p-6 text-white shadow-[0_12px_32px_rgba(15,23,42,0.1)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--panel-accent)]">Core Rules</p>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-200">
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">Approval is version-specific</p>

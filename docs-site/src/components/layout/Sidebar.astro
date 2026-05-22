@@ -43,9 +43,9 @@ const isActive = (href) => {
 };
 ---
 
-<aside class="flex h-full flex-col bg-[#25313A] text-white">
+<aside class="flex h-full flex-col bg-[var(--panel-bg)] text-white">
   <div class="border-b border-white/10 px-6 py-6">
-    <p class="text-xs font-semibold uppercase tracking-[0.26em] text-[#B9CBD4]">wegotthis.online</p>
+    <p class="text-xs font-semibold uppercase tracking-[0.26em] text-[var(--panel-accent)]">wegotthis.online</p>
     <h1 class="mt-3 text-xl font-semibold tracking-tight">Docs Workspace</h1>
     <p class="mt-2 text-sm leading-relaxed text-slate-300">
       Product, technical, and visual system references for calm, structured execution.
@@ -56,7 +56,7 @@ const isActive = (href) => {
     {
       sections.map((section) => (
         <div class="mb-7">
-          <p class="px-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#9FB0B9]">{section.title}</p>
+          <p class="px-2 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--panel-accent)]">{section.title}</p>
           <div class="mt-3 space-y-1">
             {section.links.map((link) => {
               const active = isActive(link.href);
@@ -81,7 +81,7 @@ const isActive = (href) => {
     }
   </nav>
 
-  <div class="border-t border-white/10 px-6 py-5 text-xs leading-relaxed text-slate-400">
+  <div class="border-t border-white/10 px-6 py-5 text-xs leading-relaxed text-[var(--panel-muted)]">
     GitHub remains canonical. Notion tracks active execution.
   </div>
 </aside>

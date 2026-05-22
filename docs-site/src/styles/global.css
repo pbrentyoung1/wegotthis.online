@@ -7,11 +7,19 @@
   --accent-blue: #4f6b7a;
   --accent-coral: #d9865b;
   --accent-sage: #7d9b87;
+  --accent-blue-soft: #e8eef1;
+  --accent-blue-border: #c8d4da;
+  --accent-coral-soft: #f8ede7;
+  --accent-coral-border: #ebc4ae;
+  --accent-sage-soft: #edf2ee;
+  --accent-sage-border: #cad7ce;
   --text-strong: #2f3437;
   --text-body: #4c555b;
   --text-muted: #66707a;
   --border-soft: #ece9e2;
   --surface-soft: #fcfbf8;
+  --panel-accent: #b9cbd4;
+  --panel-muted: #d8dfe3;
   --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-2: 0 4px 12px rgba(15, 23, 42, 0.06);
   --shadow-3: 0 12px 32px rgba(15, 23, 42, 0.1);
@@ -53,6 +61,7 @@ a {
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.01em;
+  font-family: "IBM Plex Serif", Georgia, serif;
 }
 
 .eyebrow {
@@ -61,4 +70,9 @@ a {
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+}
+
+.docs-display {
+  font-family: "IBM Plex Serif", Georgia, serif;
+  letter-spacing: -0.02em;
 }

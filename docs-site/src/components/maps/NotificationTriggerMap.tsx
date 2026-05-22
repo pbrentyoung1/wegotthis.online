@@ -35,20 +35,20 @@ const events = [
 
 export default function NotificationTriggerMap() {
   return (
-    <div className="bg-[#F7F9FB] p-5 md:p-8">
+    <div className="bg-[var(--page-bg)] p-5 md:p-8">
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
         <div className="space-y-4">
           <div className="grid gap-4 lg:grid-cols-5">
             {flowStages.map((stage, index) => (
               <div key={stage.title} className="space-y-3">
-                <div className="rounded-[1.35rem] border border-[#D8E1E6] bg-white p-4 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">Step {index + 1}</p>
-                  <h3 className="mt-2 text-lg font-semibold tracking-tight text-[#25313A]">{stage.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#66737B]">{stage.detail}</p>
+                <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white p-4 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Step {index + 1}</p>
+                  <h3 className="mt-2 text-lg font-semibold tracking-tight text-[var(--text-strong)]">{stage.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{stage.detail}</p>
                 </div>
                 {index < flowStages.length - 1 && (
                   <div className="hidden justify-center lg:flex">
-                    <div className="rounded-full border border-[#D8E1E6] bg-[#F7FAFB] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#568FA7]">
+                    <div className="rounded-full border border-[var(--border-soft)] bg-[var(--accent-blue-soft)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent-blue)]">
                       next
                     </div>
                   </div>
@@ -58,16 +58,16 @@ export default function NotificationTriggerMap() {
           </div>
 
           <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded-[1.4rem] border border-[#D8E1E6] bg-white p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">Common Trigger Events</p>
+            <div className="rounded-[1.4rem] border border-[var(--border-soft)] bg-white p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Common Trigger Events</p>
               <div className="mt-3 flex flex-wrap gap-3">
                 {events.map((event, index) => (
                   <div
                     key={event}
                     className={`rounded-full border px-4 py-2 text-sm font-medium ${
                       index === 3 || index === 4 || index === 7
-                        ? "border-[#E0916C] bg-[#FFF4EE] text-[#25313A]"
-                        : "border-[#D8E1E6] bg-[#FBFCFD] text-[#25313A]"
+                        ? "border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] text-[var(--text-strong)]"
+                        : "border-[var(--border-soft)] bg-[var(--surface-soft)] text-[var(--text-strong)]"
                     }`}
                   >
                     {event}
@@ -76,25 +76,25 @@ export default function NotificationTriggerMap() {
               </div>
             </div>
 
-            <div className="rounded-[1.4rem] border border-[#D8E1E6] bg-white p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">Audience + Channel</p>
+            <div className="rounded-[1.4rem] border border-[var(--border-soft)] bg-white p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Audience + Channel</p>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
-                <div className="rounded-2xl border border-[#D8E1E6] bg-[#FBFCFD] px-4 py-3 text-sm text-[#25313A]">
+                <div className="rounded-2xl border border-[var(--border-soft)] bg-[var(--surface-soft)] px-4 py-3 text-sm text-[var(--text-strong)]">
                   Assignee, owner, reviewer, requester, admin, watchers
                 </div>
-                <div className="rounded-2xl border border-[#F1C7B2] bg-[#FFF4EE] px-4 py-3 text-sm text-[#25313A]">
+                <div className="rounded-2xl border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] px-4 py-3 text-sm text-[var(--text-strong)]">
                   In-app, email, digest, and future push or SMS
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#66737B]">
+              <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)]">
                 Urgency determines delivery speed. Preferences decide whether the event is immediate, batched, or suppressed.
               </p>
             </div>
           </div>
         </div>
 
-        <aside className="rounded-[1.5rem] bg-[#25313A] p-6 text-white shadow-[0_12px_30px_rgba(37,49,58,0.12)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A9CBD8]">Core Rules</p>
+        <aside className="rounded-[1.5rem] bg-[var(--panel-bg)] p-6 text-white shadow-[0_12px_32px_rgba(15,23,42,0.1)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--panel-accent)]">Core Rules</p>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-200">
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">Notifications are derived from events</p>

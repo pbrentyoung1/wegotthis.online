@@ -46,30 +46,30 @@ const groups = [
 
 const groupClasses = (tone: string) =>
   tone === "coral"
-    ? "border-[#F1C7B2] bg-[#FFF4EE]"
-    : "border-[#D8E1E6] bg-white";
+    ? "border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)]"
+    : "border-[var(--border-soft)] bg-white";
 
 export default function EntityRelationshipDiagram() {
   return (
-    <div className="bg-[#F7F9FB] p-5 md:p-8">
+    <div className="bg-[var(--page-bg)] p-5 md:p-8">
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
         <div className="grid gap-4 lg:grid-cols-2">
           {groups.map((group) => (
             <div
               key={group.title}
-              className={`rounded-[1.45rem] border p-5 shadow-[0_10px_25px_rgba(37,49,58,0.05)] ${groupClasses(group.tone)}`}
+              className={`rounded-[1.45rem] border p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)] ${groupClasses(group.tone)}`}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#568FA7]">{group.title}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">{group.title}</p>
               <div className="mt-4 flex flex-wrap gap-3">
                 {group.entities.map((entity) => (
-                  <div key={entity} className="rounded-2xl border border-[#D8E1E6] bg-white px-4 py-3 text-sm font-semibold text-[#25313A]">
+                  <div key={entity} className="rounded-2xl border border-[var(--border-soft)] bg-white px-4 py-3 text-sm font-semibold text-[var(--text-strong)]">
                     {entity}
                   </div>
                 ))}
               </div>
               <div className="mt-5 space-y-2">
                 {group.relationships.map((relationship) => (
-                  <div key={relationship} className="rounded-xl border border-white/60 bg-white/70 px-4 py-3 text-sm leading-relaxed text-[#48535A]">
+                  <div key={relationship} className="rounded-xl border border-white/60 bg-white/70 px-4 py-3 text-sm leading-relaxed text-[var(--text-body)]">
                     {relationship}
                   </div>
                 ))}
@@ -78,8 +78,8 @@ export default function EntityRelationshipDiagram() {
           ))}
         </div>
 
-        <aside className="rounded-[1.5rem] bg-[#25313A] p-6 text-white shadow-[0_12px_30px_rgba(37,49,58,0.12)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A9CBD8]">ERD Rules</p>
+        <aside className="rounded-[1.5rem] bg-[var(--panel-bg)] p-6 text-white shadow-[0_12px_32px_rgba(15,23,42,0.1)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--panel-accent)]">ERD Rules</p>
           <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-200">
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">Organization is the tenant boundary</p>
