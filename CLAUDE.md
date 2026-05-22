@@ -15,6 +15,7 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 - **GitHub is the source of truth** for the repository
 - Preserve documented decisions and do not override them silently during implementation
 - Preserve the brand direction that the product should feel like "we got this" in software form: calm, capable, warm, personal, and steady
+- Before creating or heavily modifying UI, read `docs/INSPINIA.md` and review the INSPINIA starterkit, full Laravel implementation, and Figma assets for patterns that can be adapted
 
 ## Technology Stack (Planned)
 
@@ -23,6 +24,8 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 - Inertia.js
 - PostgreSQL (single database with tenant-scoped records)
 - Inspinia (admin UI foundation)
+- `resources/Laravel/starterkit` as the planned application base
+- `resources/Laravel/inspinia` as the planned reference implementation for common patterns
 - PostgreSQL full-text search for MVP
 - Transactional email with Postmark (preferred)
 - S3-compatible file storage (Cloudflare R2 likely)
@@ -117,7 +120,8 @@ Core MVP priorities include:
 - `/docs/product/SYSTEM_PHILOSOPHY.md` - Expanded system philosophy; guiding question for every feature decision; also governs AI-assisted development and architecture choices
 - `/docs/product/NOTIFICATION_STRATEGY.md` - Notification principles, types, tone, and per-persona rules
 - `/docs/branding/VOICE_AND_TONE.md` - Personal, warm, conversational product voice and example phrasing
-- `/docs/branding/TYPOGRAPHY.md` - IBM Plex Serif and Newsreader direction
+- `/docs/branding/TYPOGRAPHY.md` - IBM Plex Serif, IBM Plex Sans, and Caveat direction
+- `/docs/INSPINIA.md` - How to use the INSPINIA starterkit, full Laravel implementation, and Figma assets as structural references
 - `/docs/product/USER_PERSONAS.md` - The seven user personas; drives UI/UX prioritization
 - `/docs/product/PERSONA_BEHAVIOR_MAPS.md` - Action-level behavior layer; drives navigation architecture, homepage logic, notification rules, and mobile optimization priority
 - `/docs/product/CORE_MODULES.md` - Major modules expected in the product
@@ -159,7 +163,6 @@ Currently no build, test, or development commands are available because the appl
 
 Before scaffolding begins, these questions should be resolved:
 
-- Which Inspinia seed should be used?
 - Should the application use Tailwind, Bootstrap, or both?
 - Which testing stack should be standard?
 - Should local development use Laravel Herd, Sail, Docker, native PHP/PostgreSQL, or another setup?

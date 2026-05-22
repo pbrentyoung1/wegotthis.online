@@ -15,13 +15,14 @@ Record technical stack and architecture decisions.
 - Working decision: abstract file storage from day one, with S3-compatible production storage likely.
 - Inspinia is the intended UI/admin foundation.
 - Inspinia is an admin foundation, but stakeholder, approval, intake, and status flows must be designed mobile-first.
-- Tailwind and/or Bootstrap will depend on the final Inspinia seed.
+- `resources/Laravel/starterkit` is the planned application base.
+- `resources/Laravel/inspinia` is the planned reference implementation for common patterns.
+- Tailwind and/or Bootstrap will depend on how the chosen starterkit and reference implementation are actually structured.
 - GitHub will be the source of truth.
 - Initial hosting is expected to use a hosting.com reseller account with cPanel and SSH access available.
 
 ## Open Questions
 
-- Which Inspinia package or seed best matches Laravel 12, Vue 3, and Inertia?
 - What deployment strategy is appropriate for cPanel/SSH hosting?
 - What queue, storage, and cache services should be used initially?
 - What exact backup tooling should be used?
@@ -33,5 +34,6 @@ Record technical stack and architecture decisions.
 - Do not scaffold Laravel until explicitly instructed.
 - Revisit stack decisions before implementation begins.
 - Do not add SDKs or packages until the relevant implementation work is explicitly scoped.
+- INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

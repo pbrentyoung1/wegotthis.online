@@ -14,7 +14,9 @@ Document current technology direction and unresolved stack choices.
 - PostgreSQL full-text search for MVP
 - Inspinia
 - Inspinia as admin UI foundation, with mobile-first design for stakeholder, approval, intake, and status flows
-- Tailwind and/or Bootstrap depending on final Inspinia seed
+- `resources/Laravel/starterkit` as the planned application base
+- `resources/Laravel/inspinia` as the planned reference implementation for common patterns
+- Tailwind and/or Bootstrap depending on how the chosen starterkit and reference implementation are actually structured
 - hosting.com reseller account for initial hosting
 - cPanel and SSH access available
 - Transactional email with Postmark preferred unless cost or hosting constraints change the decision
@@ -27,7 +29,6 @@ Document current technology direction and unresolved stack choices.
 
 ## Open Questions
 
-- Which Inspinia seed aligns best with the chosen stack?
 - Should the application use Tailwind, Bootstrap, or both?
 - Which testing stack should be standard?
 - Should future integrations rely on framework HTTP clients, official SDKs, or custom service classes?
@@ -40,5 +41,6 @@ Document current technology direction and unresolved stack choices.
 - Do not install Planning Center SDKs or build API clients until integration work is explicitly scoped.
 - Integration services should be modular and isolated from core business logic.
 - Search, notifications, backups, storage, and tenant scoping are documented in `/docs/technical`.
+- INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

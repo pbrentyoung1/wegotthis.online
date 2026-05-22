@@ -12,6 +12,9 @@ Provide project-specific guidance for Codex sessions.
 - Prefer clear, maintainable changes aligned with the documented stack.
 - When work is ready to preserve in the repository, use Git intentionally with review, commit, and push steps.
 - Preserve the brand direction that the product should feel calm, capable, warm, and supportive.
+- Docs-site diagrams must visualize canonical source docs. They must not introduce independent role names, lifecycle states, or workflow decisions unless explicitly labeled Exploratory.
+- Exploratory diagrams must be labeled `Exploratory`, must not be used as implementation guidance, and must note that source docs remain canonical.
+- Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for patterns to adapt.
 
 ## Open Questions
 
@@ -21,7 +24,8 @@ Provide project-specific guidance for Codex sessions.
 ## Notes
 
 - Codex should update relevant documentation when decisions change.
+- When a docs-site diagram changes roles, lifecycles, or workflows, Codex should update the canonical source docs first or in the same change.
 - Standard repository flow is `git status`, `git add`, `git commit`, then `git push`.
 - UX, copy, and workflow suggestions should be evaluated by whether they make users feel supported or managed.
 
-Last updated: 2026-05-21
+Last Updated: 2026-05-21

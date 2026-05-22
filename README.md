@@ -9,6 +9,8 @@ wegotthis.online is a communications operations platform for churches. It is int
 - GitHub is the source of truth for the repository.
 - Figma will be used for product and interface design.
 - The application is expected to be built later with Laravel 12, Vue 3, Inertia.js, PostgreSQL, and Inspinia.
+- `resources/Laravel/starterkit` is the planned Laravel application base.
+- `resources/Laravel/inspinia` is the planned reference implementation for common UI patterns.
 - PostgreSQL should be used from day one.
 - The system should be designed with multi-tenancy in mind, even if the first version serves one church.
 - Projects should function as the primary container object.
@@ -26,7 +28,6 @@ wegotthis is a conversational ministry workspace that helps church teams feel ca
 
 ## Open Questions
 
-- Which Inspinia seed should be used when application scaffolding begins?
 - Should the first hosted environment be shared hosting, VPS, or another hosting.com option?
 - What is the exact MVP boundary for the first usable release?
 - What Figma design system decisions should be reflected in code conventions?
@@ -53,6 +54,7 @@ Key documentation areas:
 - `/docs/technical/PLANNING_CENTER_INTEGRATION.md` documents future optional Planning Center integration planning.
 - `/docs/branding` preserves brand and UI guidance.
 - `/docs/branding/VISUAL_SYSTEM.md` documents the current layout, color, typography, motion, and component system direction.
+- `/docs/INSPINIA.md` documents how INSPINIA is used as structural foundation and pattern reference without defining final brand personality.
 - `/docs/workflows` describes operational and development workflows.
 - `/docs/ai` gives Codex, Claude Code, and other AI assistants durable project context.
 - `/prompts` stores reusable prompt material for development assistants.
