@@ -84,5 +84,5 @@ a {
 .font-hand {
   font-family: var(--font-hand);
   font-weight: 400;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
