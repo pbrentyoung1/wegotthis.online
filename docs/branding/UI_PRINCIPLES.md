@@ -14,6 +14,12 @@ Define product interface principles for design and implementation.
 - The interface should not feel like a compliance engine, HR portal, IT dashboard, or clunky church database.
 - Motion should feel subtle, responsive, and calm, as if the interface is listening.
 - Notifications, errors, and empty states should feel helpful and human rather than alarm-heavy.
+- Layout should use a 4px spacing system with a primary rhythm of 8, 12, 16, 24, 32, 48, and 64.
+- Radius should stay soft and consistent: buttons 10px, inputs 12px, cards 16px, modals 20px, floating panels 24px.
+- Shadows should feel subtle, diffused, layered, and natural rather than sharp or theatrical.
+- Icons should stay thin-lined, editorial, and quietly functional.
+- Buttons, forms, cards, notifications, empty states, and dashboards should feel supportive rather than managerial.
+- Dark mode should feel warm and usable rather than neon, cyberpunk, or pure black.
 
 ## Open Questions
 
@@ -28,5 +34,6 @@ Define product interface principles for design and implementation.
 - Avoid dense, harsh, alarm-heavy dashboards.
 - Avoid aggressive red or error-heavy states except when truly necessary.
 - Power users still need speed, shortcuts, batch actions, and efficient workflows.
+- Conversational patterns should guide people without slowing down routine work.
 
 Last updated: 2026-05-21

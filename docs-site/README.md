@@ -1,6 +1,6 @@
 # docs-site
 
-Internal architecture documentation website for `wegotthis.online`.
+Internal documentation website for `wegotthis.online`.
 
 ## Stack
 
@@ -8,6 +8,7 @@ Internal architecture documentation website for `wegotthis.online`.
 - Tailwind CSS
 - React components for visual maps
 - `.astro` pages for the current documentation layer
+- a visual brand system page for design guidance
 
 ## Install dependencies
 
@@ -44,12 +45,14 @@ npm run preview
 3. Use `DocsLayout.astro` for the overall shell and `MapPage.astro` for the standard documentation structure.
 4. Add the new route to the navigation in `src/components/layout/Sidebar.astro`.
 5. Link the new page from related maps or the architecture index as needed.
+6. If the page belongs to another docs section, add it to `src/components/layout/Sidebar.astro`.
 
 ## Where things live
 
 - Map components: `src/components/maps/`
 - Layout components: `src/components/layout/`
 - Architecture pages: `src/pages/architecture/`
+- Brand pages: `src/pages/brand/`
 - Shared styles: `src/styles/global.css`
 
 ## Current map components
@@ -76,8 +79,13 @@ npm run preview
 - `src/pages/architecture/entity-relationship-diagram.astro`
 - `src/pages/architecture/activity-audit-relationship-diagram.astro`
 
+## Current brand pages
+
+- `src/pages/brand/visual-system.astro`
+
 ## Notes
 
 - Keep the docs site lightweight.
 - Do not add routing complexity, authentication, or search until there is a real need.
 - Keep map visuals calm, readable, and consistent with the existing architecture style.
+- Keep brand pages practical enough to guide future implementation decisions.

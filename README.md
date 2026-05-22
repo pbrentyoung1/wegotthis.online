@@ -18,6 +18,7 @@ wegotthis.online is a communications operations platform for churches. It is int
 - Major modeling questions now have working decisions: `tenant_id` tenancy, Campaigns -> Projects -> Deliverables -> Tasks hierarchy, deliverable-centered approvals, magic link external reviews, request lifecycle, and calm software principles.
 - The product should feel like the phrase "we got this" in product form: calm, capable, warm, and steady.
 - The platform should feel like a conversational ministry workspace that supports people rather than managing them.
+- The visual system direction is a calm editorial workspace with warm neutrals, soft geometry, restrained accents, and thoughtful typography.
 
 ## North Star
 
@@ -51,6 +52,7 @@ Key documentation areas:
 - `/docs/technical` captures architecture, stack, deployment, and engineering direction.
 - `/docs/technical/PLANNING_CENTER_INTEGRATION.md` documents future optional Planning Center integration planning.
 - `/docs/branding` preserves brand and UI guidance.
+- `/docs/branding/VISUAL_SYSTEM.md` documents the current layout, color, typography, motion, and component system direction.
 - `/docs/workflows` describes operational and development workflows.
 - `/docs/ai` gives Codex, Claude Code, and other AI assistants durable project context.
 - `/prompts` stores reusable prompt material for development assistants.
