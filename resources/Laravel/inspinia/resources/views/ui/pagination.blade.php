@@ -1,0 +1,312 @@
+@extends("shared.base", ["title" => "Pagination"])
+
+@section("styles")
+@endsection
+
+@section("content")
+    <div class="wrapper">
+        @include("shared.partials.topbar", ["subtitle" => "Base UI", "title" => "Pagination"]) @include("shared.partials.sidenav")
+
+        <div class="page-content">
+            <main>
+                @include("shared.partials.page-title", ["subtitle" => "Base UI", "title" => "Pagination"])
+
+                <div class="container">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-base">
+                        <div class="flex gap-base flex-col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Default Pagination</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="flex items-center -space-x-px">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md"
+                                            type="button">
+                                            <span>Previous</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">3</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">
+                                            <span>Next</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Alignment</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="mb-4 flex items-center justify-center -space-x-px">
+                                        <button aria-label="Previous" class="text-default-400 border-default-300 inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 first:rounded-s-md last:rounded-e-md" disabled="" type="button">
+                                            <span>Previous</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">3</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">
+                                            <span>Next</span>
+                                        </button>
+                                    </nav>
+                                    <nav aria-label="Pagination" class="flex items-center justify-end -space-x-px">
+                                        <button aria-label="Previous" class="text-default-400 border-default-300 inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 first:rounded-s-md last:rounded-e-md" disabled="" type="button">
+                                            <span>Previous</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">3</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">
+                                            <span>Next</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Custom Color Pagination</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="mb-4 flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--chevron-left"></i>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="bg-info flex size-8.75 items-center justify-center rounded text-white" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--chevron-right"></i>
+                                        </button>
+                                    </nav>
+                                    <nav aria-label="Pagination" class="flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--arrow-left"></i>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">2</button>
+                                        <button class="bg-secondary flex size-8.75 items-center justify-center rounded text-white" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--arrow-right"></i>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Disabled and active states</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="flex items-center -space-x-px">
+                                        <button aria-label="Previous" class="text-default-400 border-default-300 inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 first:rounded-s-md last:rounded-e-md" disabled="" type="button">
+                                            <span>Previous</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 bg-primary hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 text-white transition-all duration-300" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-3 py-1.5 transition-all duration-300" type="button">3</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-3 py-1.5 transition-all duration-300 first:rounded-s-md last:rounded-e-md"
+                                            type="button">
+                                            <span>Next</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Custom Icon Pagination</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="mb-4 flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--chevron-left"></i>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="bg-primary flex size-8.75 items-center justify-center rounded text-white" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--chevron-right"></i>
+                                        </button>
+                                    </nav>
+                                    <nav aria-label="Pagination" class="flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--arrow-left"></i>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">2</button>
+                                        <button class="bg-primary flex size-8.75 items-center justify-center rounded text-white" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <i class="iconify tabler--arrow-right"></i>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-base flex-col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Sizing</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="mb-4 flex items-center -space-x-px">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-6 py-3 text-base transition-all duration-300 first:rounded-s-md last:rounded-e-md"
+                                            type="button">
+                                            <span class="text-base">«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-6 py-3 text-base transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">
+                                            1
+                                        </button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-6 py-3 text-base transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-6 py-3 text-base transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">3</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-6 py-3 text-base transition-all duration-300 first:rounded-s-md last:rounded-e-md"
+                                            type="button">
+                                            <span class="text-base">»</span>
+                                        </button>
+                                    </nav>
+                                    <nav aria-label="Pagination" class="flex items-center -space-x-px">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-2 py-1 transition-all duration-300 first:rounded-s-md last:rounded-e-md"
+                                            type="button">
+                                            <span>«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-2 py-1 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-2 py-1 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">2</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex items-center justify-center border px-2 py-1 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">3</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary inline-flex items-center justify-center gap-x-1.5 border px-2 py-1 transition-all duration-300 first:rounded-s-md last:rounded-e-md" type="button">
+                                            <span>»</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Boxed Pagination</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="mb-4 flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <span>«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">2</button>
+                                        <button class="bg-primary flex size-8.75 items-center justify-center rounded text-white" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <span>»</span>
+                                        </button>
+                                    </nav>
+                                    <nav aria-label="Pagination" class="mb-4 flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-12.5 items-center justify-center gap-x-1.5 rounded border text-base transition-all duration-300" type="button">
+                                            <span>«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-12.5 items-center justify-center rounded border text-base transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-12.5 items-center justify-center rounded border text-base transition-all duration-300" type="button">2</button>
+                                        <button class="bg-primary flex size-12.5 items-center justify-center rounded text-base text-white" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-12.5 items-center justify-center rounded border text-base transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-12.5 items-center justify-center rounded border text-base transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-12.5 items-center justify-center gap-x-1.5 rounded border text-base transition-all duration-300" type="button">
+                                            <span>»</span>
+                                        </button>
+                                    </nav>
+                                    <nav aria-label="Pagination" class="flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-7.25 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <span>«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-7.25 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-7.25 items-center justify-center rounded border transition-all duration-300" type="button">2</button>
+                                        <button class="bg-primary flex size-7.25 items-center justify-center rounded text-white" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-7.25 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-7.25 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-7.25 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <span>»</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Rounded Pagination</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded-full border transition-all duration-300" type="button">
+                                            <span>«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded-full border transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded-full border transition-all duration-300" type="button">2</button>
+                                        <button class="bg-primary flex size-8.75 items-center justify-center rounded-full text-white" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded-full border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center rounded-full border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-primary flex size-8.75 items-center justify-center gap-x-1.5 rounded-full border transition-all duration-300" type="button">
+                                            <span>»</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Soft Pagination</h4>
+                                    <button class="btn size-6 rounded-full bg-light text-dark hover:text-primary" data-action="card-toggle">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <nav aria-label="Pagination" class="flex items-center gap-1.5">
+                                        <button aria-label="Previous" class="border-default-300 hover:bg-default-100 hover:text-danger flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <span>«</span>
+                                        </button>
+                                        <button aria-current="page" class="border-default-300 hover:bg-default-100 hover:text-danger flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">1</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-danger flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">2</button>
+                                        <button class="text-danger bg-danger/10 flex size-8.75 items-center justify-center rounded" type="button">3</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-danger flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">4</button>
+                                        <button class="border-default-300 hover:bg-default-100 hover:text-danger flex size-8.75 items-center justify-center rounded border transition-all duration-300" type="button">5</button>
+                                        <button aria-label="Next" class="border-default-300 hover:bg-default-100 hover:text-danger flex size-8.75 items-center justify-center gap-x-1.5 rounded border transition-all duration-300" type="button">
+                                            <span>»</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            @include("shared.partials.footer")
+        </div>
+    </div>
+
+    @include("shared.partials.customizer")
+@endsection
+
+@section("scripts")
+@endsection

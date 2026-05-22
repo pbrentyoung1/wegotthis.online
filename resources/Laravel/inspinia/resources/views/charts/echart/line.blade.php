@@ -1,0 +1,77 @@
+@extends("shared.base", ["title" => "Line Echart"])
+
+@section("styles")
+@endsection
+
+@section("content")
+    <div class="wrapper">
+        @include("shared.partials.topbar", ["subtitle" => "Charts", "title" => "Line Echart"]) @include("shared.partials.sidenav")
+
+        <div class="page-content">
+            <main>
+                @include("shared.partials.page-title", ["subtitle" => "Charts", "title" => "Line Echart"])
+
+                <div class="container-fluid">
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-base">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Line Chart</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-line" style="min-height: 300px"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Line Stacked Chart</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-line-stacked" style="min-height: 300px"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Line Marker</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-line-marker" style="min-height: 300px"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Dynamic Line</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-dynamic-line" style="min-height: 300px"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Step Line</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-step-line" style="min-height: 300px"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Line Y Category</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-line-y-category" style="min-height: 300px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            @include("shared.partials.footer")
+        </div>
+    </div>
+
+    @include("shared.partials.customizer")
+@endsection
+
+@section("scripts")
+    @vite(["resources/js/pages/chart-echart-line.js"])
+@endsection

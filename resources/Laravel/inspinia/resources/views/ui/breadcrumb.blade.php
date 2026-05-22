@@ -1,0 +1,102 @@
+@extends("shared.base", ["title" => "Breadcrumb"])
+
+@section("styles")
+@endsection
+
+@section("content")
+    <div class="wrapper">
+        @include("shared.partials.topbar", ["subtitle" => "Base UI", "title" => "Breadcrumb"]) @include("shared.partials.sidenav")
+
+        <div class="page-content">
+            <main>
+                @include("shared.partials.page-title", ["subtitle" => "Base UI", "title" => "Breadcrumb"])
+
+                <div class="container">
+                    <div class="grid grid-cols-1 gap-base">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Basic</h4>
+                            </div>
+                            <div class="card-body">
+                                <nav class="py-2.5">
+                                    <ol class="flex items-center whitespace-nowrap">
+                                        <li aria-current="page" class="text-default-400 inline-flex items-center truncate font-medium">Home</li>
+                                    </ol>
+                                </nav>
+                                <nav class="py-2.5">
+                                    <ol class="flex items-center whitespace-nowrap">
+                                        <li class="inline-flex items-center">
+                                            <a class="text-default-600 hover:text-primary flex items-center font-medium" href="#">Home</a>
+                                            <i class="iconify tabler--chevron-right text-default-400 m-0.75 text-base pe-1"></i>
+                                        </li>
+                                        <li aria-current="page" class="text-default-400 inline-flex items-center truncate font-medium">Library</li>
+                                    </ol>
+                                </nav>
+                                <nav class="py-2.5">
+                                    <ol class="flex items-center whitespace-nowrap">
+                                        <li class="inline-flex items-center">
+                                            <a class="text-default-600 hover:text-primary flex items-center font-medium" href="#">Home</a>
+                                            <i class="iconify tabler--chevron-right text-default-400 m-0.75 text-base pe-1"></i>
+                                        </li>
+                                        <li class="inline-flex items-center">
+                                            <a class="text-default-600 hover:text-primary flex items-center font-medium" href="#">Library</a>
+                                            <i class="iconify tabler--chevron-right text-default-400 m-0.75 text-base pe-1"></i>
+                                        </li>
+                                        <li aria-current="page" class="text-default-400 inline-flex items-center truncate font-medium">Data</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">With Icons</h4>
+                            </div>
+                            <div class="card-body">
+                                <nav class="bg-light/50 p-2.5 mb-2.5">
+                                    <ol class="flex items-center whitespace-nowrap">
+                                        <li aria-current="page" class="text-default-400 inline-flex items-center truncate font-medium">
+                                            <i class="iconify tabler--smart-home me-2 text-sm"></i>
+                                            Home
+                                        </li>
+                                    </ol>
+                                </nav>
+                                <nav class="bg-light/50 p-2.5 mb-2.5">
+                                    <ol class="flex items-center whitespace-nowrap">
+                                        <li class="inline-flex items-center">
+                                            <a class="hover:text-primary flex items-center font-medium" href="#"> <i class="iconify tabler--smart-home me-1.25"></i> Home </a>
+                                            <i class="iconify tabler--chevron-right text-default-400 m-0.75 text-base pe-1"></i>
+                                        </li>
+                                        <li aria-current="page" class="text-default-400 inline-flex items-center truncate font-medium">Library</li>
+                                    </ol>
+                                </nav>
+                                <nav class="bg-light/50 p-2.5">
+                                    <ol class="flex items-center whitespace-nowrap">
+                                        <li class="inline-flex items-center">
+                                            <a class="hover:text-primary flex items-center font-medium" href="#">
+                                                <i class="iconify tabler--smart-home me-1 text-sm"></i>
+                                                Home
+                                            </a>
+                                            <i class="iconify tabler--chevron-right text-default-400 m-0.75 text-base pe-1"></i>
+                                        </li>
+                                        <li class="inline-flex items-center">
+                                            <a class="hover:text-primary flex items-center font-medium" href="#">Library</a>
+                                            <i class="iconify tabler--chevron-right text-default-400 m-0.75 text-base pe-1"></i>
+                                        </li>
+                                        <li aria-current="page" class="text-default-400 inline-flex items-center truncate font-medium">Data</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            @include("shared.partials.footer")
+        </div>
+    </div>
+
+    @include("shared.partials.customizer")
+@endsection
+
+@section("scripts")
+@endsection
