@@ -16,7 +16,7 @@ Document how contributors should run the project locally once implementation beg
 - Preferred local runtime target should match or exceed hosting where practical:
   - PHP 8.4 preferred for parity with hosting; PHP 8.3 minimum for Laravel 12. Local PHP is currently newer at 8.5.6 and should be watched for Laravel dependency compatibility.
   - Node.js 22.x for the docs site and modern frontend tooling.
-  - PostgreSQL locally, with production currently confirmed on PostgreSQL 9.6.22.
+  - PostgreSQL locally, with current hosting.com/cPanel PostgreSQL used only for early staging/proof. PostgreSQL 15/16+ is preferred for future production.
 
 ## Local Readiness Check
 
@@ -82,10 +82,11 @@ If another machine needs setup and admin access is not available, use Laravel He
 
 - Should local PHP be pinned to 8.4 for closer hosting parity, or is PHP 8.5 acceptable for pre-scaffold work?
 - Should frontend assets be built with local Node 22.x even though the host cPanel Node app currently provides Node 20.20.2?
+- Should local development remain on PostgreSQL 16 to match the preferred future production direction, even while early staging may use older PostgreSQL?
 
 ## Notes
 
 - Add Laravel-specific commands only after the application exists.
 - Do not commit local `.env` files, database credentials, or Composer auth files.
 
-Last updated: 2026-05-24
+Last Updated: 2026-05-24

@@ -10,6 +10,11 @@ Document database direction, data modeling notes, and schema questions.
 - Projects should connect to related records such as media assets, tasks, approvals, messages, files, vendors, deliverables, and timelines.
 - Working direction: database planning should support request intake, project lifecycle, media usage tracking, closeout, brand management, and department reporting.
 - Working decision: use a single PostgreSQL database with tenant-scoped records using `tenant_id`.
+- Current hosting.com/cPanel PostgreSQL is acceptable for early staging/proof only.
+- PostgreSQL 9.6 should not be considered acceptable for long-term production.
+- PostgreSQL 13 is acceptable for early staging/proof if that is the available upgrade path.
+- PostgreSQL 15/16+ is preferred for future production.
+- Migrations and database usage should remain conservative while the project is on the current host.
 - Working hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
 - Campaigns are optional parent containers for large initiatives.
 - Projects are the primary operational container.
@@ -98,6 +103,8 @@ Document database direction, data modeling notes, and schema questions.
 ## Notes
 
 - Avoid MySQL-first assumptions in future setup instructions.
+- Avoid depending on host-specific constraints or old PostgreSQL behavior.
+- Plan for eventual migration to a newer server or managed PostgreSQL environment before serious production use.
 - This file documents conceptual entities only. Do not create schemas or migrations until implementation is explicitly requested.
 - Asset metadata should remain searchable even when physical files live in different storage systems.
 - Use `tenant_id` scoping consistently for tenant-owned data.

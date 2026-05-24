@@ -76,7 +76,7 @@ Every feature or task should eventually answer:
 
 - Goal: create the initial Laravel, Vue, Inertia, and PostgreSQL foundation without jumping ahead into uncontrolled feature work.
 - Key outcomes:
-  - hosting.com technical stack is validated with the lightweight `host-diagnostics/` site before Laravel scaffolding assumptions are finalized
+  - hosting.com/cPanel is validated and documented as early staging/proof infrastructure, not final serious production infrastructure
   - application scaffold exists
   - tenancy, auth, storage, notification, and deployment foundations are intentionally framed
   - technical constraints from hosting and deployment are confirmed
@@ -85,6 +85,7 @@ Every feature or task should eventually answer:
   - scaffolding is complete and stable
   - foundational technical decisions are reflected in the codebase structure
   - development environment and deployment assumptions are documented
+  - future production infrastructure assumptions remain portable and avoid cPanel or old-PostgreSQL lock-in
   - the project is ready for focused MVP feature implementation
 
 ## Phase 2 - Core Operational MVP
@@ -177,7 +178,7 @@ Every feature or task should eventually answer:
 4. Create permissions matrix.
 5. Create status and state transition matrix.
 6. Create notification trigger map.
-7. Validate hosting.com technical stack by deploying `host-diagnostics/` to a staging/diagnostics subdomain and reviewing the red/yellow/green checks.
+7. Document hosting.com/cPanel as early staging/proof infrastructure and plan migration to newer production infrastructure before serious production use.
 8. Start branding moodboard.
 9. Start Figma structure.
 10. Create Laravel scaffolding prompt.

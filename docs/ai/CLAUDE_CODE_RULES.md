@@ -16,6 +16,10 @@ Provide project-specific guidance for Claude Code sessions.
 - Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for patterns to adapt.
 - Before creating a new map, ask whether it unblocks implementation. If not, add the concept to the canonical docs or `docs/BUILD_READINESS_CHECKLIST.md` instead.
 - Do not introduce new task statuses without updating the canonical task docs and build-readiness checklist in the same change.
+- Treat hosting.com/cPanel as early staging/proof infrastructure only. Do not introduce implementation choices that depend on cPanel-specific behavior, old PostgreSQL behavior, or current-host paths.
+- Keep database usage conservative while early staging may use older PostgreSQL; prefer portability toward PostgreSQL 15/16+ production.
+- Do not assume long-running queue workers are available on cPanel/reseller hosting.
+- Keep file storage abstracted; local server storage is acceptable for early proof/staging, while S3-compatible storage remains the future production direction.
 
 ## Open Questions
 
@@ -29,4 +33,4 @@ Provide project-specific guidance for Claude Code sessions.
 - Standard repository flow is `git status`, `git add`, `git commit`, then `git push`.
 - Suggested interactions should feel collaborative and supportive rather than managerial or clinical.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

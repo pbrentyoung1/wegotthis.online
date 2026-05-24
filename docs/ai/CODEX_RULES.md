@@ -29,5 +29,9 @@ Provide project-specific guidance for Codex sessions.
 - Standard repository flow is `git status`, `git add`, `git commit`, then `git push`.
 - UX, copy, and workflow suggestions should be evaluated by whether they make users feel supported or managed.
 - Do not introduce new task statuses without updating the canonical task docs and build-readiness checklist in the same change.
+- Treat hosting.com/cPanel as early staging/proof infrastructure only. Do not introduce implementation choices that depend on cPanel-specific behavior, old PostgreSQL behavior, or current-host paths.
+- Keep database usage conservative while early staging may use older PostgreSQL; prefer portability toward PostgreSQL 15/16+ production.
+- Do not assume long-running queue workers are available on cPanel/reseller hosting.
+- Keep file storage abstracted; local server storage is acceptable for early proof/staging, while S3-compatible storage remains the future production direction.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

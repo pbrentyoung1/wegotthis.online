@@ -12,12 +12,15 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 
 ## Open Questions
 
-- What hosting.com plan and deployment path should be used first?
-- What red/yellow/green results are returned after deploying `host-diagnostics/` to the target hosting.com/cPanel staging or diagnostics subdomain?
 - What exact backup and restore tooling should be standardized before production?
+- What final production infrastructure should replace hosting.com/cPanel staging?
+- What final production PostgreSQL version and provider should be used?
+- When should ForWorship Creative migrate from hosting.com/cPanel staging to a newer production server or managed infrastructure?
+- What long-running queue worker strategy should be used after the move to newer infrastructure?
 - Which External Reviewer scenarios should allow selected file upload in MVP?
 - Which email provider should be used if the Postmark preference changes?
 - What exact local server path and disk quota should be used on hosting.com/cPanel?
+- What final storage provider/path should be used for scalable production file storage?
 - Which remaining Phase 0 blockers should be resolved before Laravel scaffolding begins?
 
 ## Resolved or Working Decisions
@@ -45,6 +48,8 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - MVP permissions matrix: base role matrix is documented in `docs/technical/AUTH_AND_PERMISSIONS.md`.
 - Review assignment model: budget, resources, design, brand, content, ministry, and final review are contextual assignments, not base roles.
 - File storage direction: use local server storage for the initial single-tenant build, then transition to S3-compatible object storage when the product moves to multi-tenant hosting.
+- Hosting posture: current hosting.com/cPanel environment is acceptable for early staging/proof, but not final serious production infrastructure.
+- PostgreSQL posture: PostgreSQL 13 is acceptable for early staging/proof if needed; PostgreSQL 15/16+ is preferred for future production.
 
 ## Notes
 

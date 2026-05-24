@@ -43,6 +43,7 @@ Capture product direction and scope decisions.
 - Working decision: conversational guidance should be used where it helps people think more clearly without slowing down work.
 - Working decision: canonical MVP task statuses are Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, and Canceled.
 - Working decision: the MVP permissions matrix is role-based, with contextual review assignments layered on top.
+- Working decision: early rollout may use hosting.com/cPanel for staging and proof-of-stack only; serious production rollout should wait for newer production infrastructure or a managed environment.
 
 ## Open Questions
 
@@ -54,6 +55,7 @@ Capture product direction and scope decisions.
 - Which pilot templates are required first?
 - Which digest emails are required for MVP?
 - Should communication history be exportable during project closeout?
+- What infrastructure readiness threshold is required before inviting serious production users?
 
 ## Notes
 

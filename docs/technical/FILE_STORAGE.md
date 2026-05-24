@@ -12,8 +12,9 @@ Document how uploaded files, media assets, references, and generated outputs may
 - Working direction: separate physical file storage from searchable metadata.
 - Working direction: project closeout should use a consistent archive folder structure.
 - Working decision: abstract file storage from day one.
-- Local server storage will be used for the initial single-tenant build.
-- Production files may live on the application server at first, as long as access is controlled through Laravel storage and file metadata remains in PostgreSQL.
+- Local server storage will be used for the initial single-tenant proof/staging build.
+- Production files may live on the application server during early single-tenant proof/staging, as long as access is controlled through Laravel storage and file metadata remains in PostgreSQL.
+- The current hosting.com/cPanel environment is not the final serious production storage decision.
 - S3-compatible object storage should be introduced when the product moves to multi-tenant hosting.
 - Cloudflare R2 or another S3-compatible provider can be evaluated at the multi-tenant transition.
 - Thumbnails and previews should be generated through queued jobs.
@@ -22,8 +23,8 @@ Document how uploaded files, media assets, references, and generated outputs may
 
 ## Early Strategy Notes
 
-- Storage abstraction should support local development, initial local server production storage, hosting.com/cPanel constraints, and future object storage.
-- Local server storage is acceptable for the first single-tenant production phase if backups, permissions, and disk limits are documented.
+- Storage abstraction should support local development, initial local server proof/staging storage, hosting.com/cPanel constraints, and future object storage.
+- Local server storage is acceptable for early single-tenant proof/staging if backups, permissions, and disk limits are documented.
 - Future S3 or Cloudflare R2 compatibility should be considered before hard-coding storage assumptions.
 - File paths should be tenant-aware and migration-friendly even before true multi-tenancy ships.
 - Final deliverables, source files, exports, vendor files, photos, video, copy, approvals, and notes may need different retention and access rules.
