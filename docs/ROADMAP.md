@@ -76,6 +76,7 @@ Every feature or task should eventually answer:
 
 - Goal: create the initial Laravel, Vue, Inertia, and PostgreSQL foundation without jumping ahead into uncontrolled feature work.
 - Key outcomes:
+  - hosting.com technical stack is validated with the lightweight `host-diagnostics/` site before Laravel scaffolding assumptions are finalized
   - application scaffold exists
   - tenancy, auth, storage, notification, and deployment foundations are intentionally framed
   - technical constraints from hosting and deployment are confirmed
@@ -176,7 +177,7 @@ Every feature or task should eventually answer:
 4. Create permissions matrix.
 5. Create status and state transition matrix.
 6. Create notification trigger map.
-7. Confirm hosting.com PostgreSQL and deployment constraints.
+7. Validate hosting.com technical stack by deploying `host-diagnostics/` to a staging/diagnostics subdomain and reviewing the red/yellow/green checks.
 8. Start branding moodboard.
 9. Start Figma structure.
 10. Create Laravel scaffolding prompt.

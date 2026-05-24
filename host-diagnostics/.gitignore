@@ -1,0 +1,3 @@
+config/diagnostics.local.php
+storage/
+*.log

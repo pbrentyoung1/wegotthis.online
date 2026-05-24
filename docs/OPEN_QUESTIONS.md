@@ -13,6 +13,7 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 ## Open Questions
 
 - What hosting.com plan and deployment path should be used first?
+- What red/yellow/green results are returned after deploying `host-diagnostics/` to the target hosting.com/cPanel staging or diagnostics subdomain?
 - What exact backup and restore tooling should be standardized before production?
 - Which External Reviewer scenarios should allow selected file upload in MVP?
 - Which email provider should be used if the Postmark preference changes?

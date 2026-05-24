@@ -27,6 +27,7 @@ Capture the intended system architecture and major structural choices.
 - Working decision: the communications system includes outbound notifications and project communication history.
 - Working decision: comments, activity logs, audit logs, and notifications are related but conceptually distinct.
 - Working decision: project communication should be captured in context rather than scattered across email, text messages, and meetings.
+- Hosting stack assumptions must be validated before Laravel scaffolding; `host-diagnostics/` provides a temporary PHP diagnostic dashboard for checking hosting.com/cPanel support for PHP, PostgreSQL, filesystem writes, cron, HTTPS, Composer, Node/npm, and related server limits.
 
 ## Product Hierarchy
 
@@ -95,9 +96,10 @@ Campaigns -> Projects -> Deliverables -> Tasks
 ## Notes
 
 - Architecture should be validated before application scaffolding and schema design.
+- The host diagnostic site only creates the validation tool. It does not complete hosting validation until deployed results are reviewed.
 - Planning Center integration is future optional planning only and is documented in `/docs/technical/PLANNING_CENTER_INTEGRATION.md`.
 - Project lifecycle, closeout, and brand management should be considered before database schema design.
 - Calm software principles are documented in `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24
