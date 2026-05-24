@@ -35,4 +35,4 @@ Record typography choices for product UI and brand materials.
 - Caveat is an emotional accent, not a decorative theme.
 - The complete typography system should feel like thoughtful software with editorial warmth and human reassurance, not enterprise software, trendy SaaS branding, church bulletin design, or an artisanal ministry journaling app.
 
-Last updated: 2026-05-21
+Last updated: 2026-05-24

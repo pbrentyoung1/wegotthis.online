@@ -32,4 +32,4 @@ Define how the product speaks to users.
 - Where possible, the interface should ask good questions instead of presenting cold form labels.
 - Conversational interaction should remain lightweight, contextual, and helpful rather than performative.
 
-Last updated: 2026-05-21
+Last updated: 2026-05-24

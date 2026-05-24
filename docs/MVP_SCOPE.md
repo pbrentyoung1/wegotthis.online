@@ -13,7 +13,7 @@ Define what belongs in the first useful release and what should wait.
 - Working decision: requests are their own object before becoming projects.
 - Working decision: use the hierarchy Campaigns -> Projects -> Deliverables -> Tasks, with Campaigns optional.
 - Working decision: deliverables are the primary approval units.
-- Working decision: external stakeholder approvals use secure, time-bound magic links in MVP.
+- Working decision: External Reviewer approvals use secure, time-bound magic links in MVP.
 - Working decision: use transactional email plus in-app notifications.
 - Working decision: project communication history is part of the MVP direction.
 - Working decision: notifications, messages/comments, activity logs, and audit logs are related but conceptually distinct.
@@ -28,7 +28,7 @@ Define what belongs in the first useful release and what should wait.
   - project workspace
   - deliverables
   - tasks and approvals
-  - stakeholder visibility
+  - review visibility
   - communication timeline tracking
   - basic budget/cost tracking
   - department utilization tracking
@@ -40,7 +40,7 @@ Define what belongs in the first useful release and what should wait.
   - transactional email
   - in-app notifications
   - project communication/activity feed
-  - comments and stakeholder feedback in context
+  - comments and External Reviewer feedback in context
   - PostgreSQL search
   - file storage abstraction
   - basic rights/release metadata
@@ -51,7 +51,6 @@ Define what belongs in the first useful release and what should wait.
 - Which fields are required for a project request at launch?
 - Are vendors included in MVP or deferred?
 - Are social workflows included in MVP or planned as a second wave?
-- What approval states are necessary for first release?
 - Which closeout checks are required before a project can be archived?
 - How detailed should department utilization tracking be in MVP?
 - What belongs in a basic Brand Center versus post-MVP brand governance?
@@ -60,7 +59,7 @@ Define what belongs in the first useful release and what should wait.
 - How detailed should file processing be in MVP?
 - Which digest emails are required for MVP?
 - Should users be able to reply to notification emails and have replies captured in the project feed?
-- Should project comments support internal-only and stakeholder-visible visibility?
+- Should project comments support internal-only and review-visible visibility?
 - Should communication history be exportable during project closeout?
 - What notification preferences should users control?
 

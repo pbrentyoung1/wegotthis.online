@@ -70,4 +70,4 @@ Document how communications requests behave before they become projects.
 
 - Request lifecycle is separate from project lifecycle.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

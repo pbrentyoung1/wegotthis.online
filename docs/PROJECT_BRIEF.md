@@ -6,7 +6,9 @@ Summarize the project in a concise, durable form for contributors, designers, an
 
 ## Current Decisions
 
-- Project name: wegotthis.online.
+- Product name: ForWorship Creative.
+- Target app URL: `app.forworship.org`.
+- Working codename/current domain: `wegotthis.online` until infrastructure transitions.
 - Purpose: A communications operations platform for churches.
 - Core areas include project management, media asset management, social media workflow, communications request intake, task and approval tracking, vendor and production management, calendar and dashboard views, and messaging/activity tracking.
 - The project should prioritize maintainability, clarity, and documentation over trendy complexity.
@@ -16,7 +18,7 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Working direction: timelines, stakeholder sign-offs, budgets, project status, media assets, closeout, and brand standards should be visible enough to reduce administrative follow-up.
 - Working decision: use `tenant_id` tenancy and the hierarchy Campaigns -> Projects -> Deliverables -> Tasks.
 - Working decision: approvals primarily attach to deliverables.
-- Working decision: external stakeholder and vendor review should use scoped, time-bound magic links in MVP.
+- Working decision: External Reviewer and vendor-scoped External Reviewer access should use scoped, time-bound magic links in MVP.
 - Product principle: create calm, not complexity.
 - Working decision: execution should follow a phased roadmap rather than a loose feature list.
 - Working decision: Notion is the active project management layer for backlog, tasks, phases, sprints, open questions, and working coordination.
@@ -28,7 +30,7 @@ Summarize the project in a concise, durable form for contributors, designers, an
 
 ## North Star
 
-wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+ForWorship Creative is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next. The product promise is: "We got this."
 
 ## Open Questions
 
@@ -45,11 +47,11 @@ wegotthis is a conversational ministry workspace that helps church teams feel ca
 
 - This brief should be updated when product positioning changes.
 - Do not treat placeholders here as final product copy.
-- wegotthis.online should support churches whether or not they use Planning Center.
+- ForWorship Creative should support churches whether or not they use Planning Center.
 - Problem statement: church communications teams are often crushed by administrative coordination, unclear requests, timeline confusion, stakeholder approvals, budget questions, project status interruptions, asset chaos, incomplete closeout, and brand consistency work.
 - Product response: create an operational system that supports self-service visibility, structured intake, timeline management, asset reuse, institutional creative memory, and brand governance.
-- The platform should be useful from phones for intake, approval, status checks, and scoped vendor/stakeholder review.
+- The platform should be useful from phones for intake, approval, status checks, and scoped External Reviewer access.
 - Execution should move by phase, category, and documented readiness rather than by ad hoc idea collection.
 - The tone, copy, interaction model, and visual system should make users feel supported instead of managed.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

@@ -7,7 +7,8 @@ Define how print, signage, and production deliverables move through the system.
 ## Current Decisions
 
 - Print, signage, vendor, and production management are core areas.
-- Vendors are a known user role.
+- Vendors are a real-world workflow context, not a separate base permission role.
+- MVP vendor access should use vendor-scoped External Reviewer links.
 
 ## Open Questions
 

@@ -4,10 +4,12 @@ import MapPage from "../../components/layout/MapPage.astro";
 import ProjectLifecycleMap from "../../components/maps/ProjectLifecycleMap";
 
 const coreRules = [
-  "Completed does not equal Archived.",
-  "Review can move backward to Active.",
-  "Scheduled usually belongs to deliverables, not projects.",
-  "Project lifecycle should stay simpler than deliverable lifecycle.",
+  "Draft belongs to the request lifecycle, not the project lifecycle.",
+  "Planned is a project status after approval and before active production.",
+  "In Review can move into Revision when changes are required.",
+  "Waiting for Approval belongs to deliverables or reviewable elements, not projects.",
+  "Published does not equal done.",
+  "Closeout is required before Archived.",
 ];
 
 const relationships = [
@@ -18,9 +20,8 @@ const relationships = [
 ];
 
 const openQuestions = [
-  "Which project states are truly required for MVP?",
   "Which transitions require explicit approval or confirmation?",
-  "Which lifecycle changes should be stakeholder-visible versus internal only?",
+  "Which lifecycle changes should be visible to reviewers or external reviewers versus internal only?",
 ];
 
 const relatedMaps = [
@@ -30,10 +31,10 @@ const relatedMaps = [
 ];
 ---
 
-<DocsLayout title="Project Lifecycle | wegotthis.online Docs" description="Project lifecycle map for wegotthis.online.">
+<DocsLayout title="Project Lifecycle | ForWorship Creative Docs" description="Project lifecycle map for ForWorship Creative.">
   <MapPage
     title="Project Lifecycle"
-    purpose="The project-level state model for moving work from early intake through completion and archive without flattening every deliverable into the same status."
+    purpose="The project-level state model for moving work from intake through closeout and archive without flattening every deliverable into the same status."
     coreRules={coreRules}
     relationships={relationships}
     openQuestions={openQuestions}

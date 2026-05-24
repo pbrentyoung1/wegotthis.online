@@ -6,7 +6,14 @@ Capture brand, voice, naming, visual identity, and UI presentation decisions.
 
 ## Current Decisions
 
-- Project name: wegotthis.online.
+- **Product name:** ForWorship Creative.
+- **App URL (target):** `app.forworship.org`.
+- **Working codename / current domain:** `wegotthis.online` — retained as the working domain until the production infrastructure at `app.forworship.org` is ready.
+- **Product promise / tagline:** "We got this." — this phrase is the emotional core of the product and should be preserved in brand, onboarding, and copy even as the URL changes.
+- **Ecosystem architecture:** ForWorship is the umbrella brand for a family of connected ministry tools. Public-facing subdomains (`comms.forworship.org`, `creative.forworship.org`, `planning.forworship.org`, `tech.forworship.org`, `media.forworship.org`) serve as landing pages, education hubs, and module-specific entry points — not separate applications.
+- **Application model:** One unified app at `app.forworship.org` with named modules inside. Modeled after the Planning Center approach: coherent user experience, shared auth, shared data, module-based navigation. Do not fragment the UX across subdomains.
+- **Future ecosystem products** (Tech, Planning, Media, etc.) are not yet scoped. Do not build separate software brands before the core product exists.
+- Project codename: wegotthis.
 - Figma will be used for design work.
 - Core brand idea: the product should feel like the phrase "we got this" in product form.
 - The brand should feel calm, capable, warm, supportive, conversational, and steady.
@@ -26,7 +33,7 @@ Capture brand, voice, naming, visual identity, and UI presentation decisions.
 
 ## North Star
 
-wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+ForWorship Creative is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next. The product promise is: "We got this."
 
 ## Open Questions
 
@@ -40,4 +47,4 @@ wegotthis is a conversational ministry workspace that helps church teams feel ca
 - The interface should feel like collaboration, not compliance.
 - Avoid dense enterprise dashboards, harsh admin UI, productivity-bro styling, and gimmicky AI visuals.
 
-Last updated: 2026-05-21
+Last updated: 2026-05-24

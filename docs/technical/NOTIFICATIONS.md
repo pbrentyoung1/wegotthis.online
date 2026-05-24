@@ -7,7 +7,7 @@ Document outbound notification channels, notification types, and early provider 
 ## Current Decisions
 
 - Working decision: use transactional email plus in-app notifications.
-- Email is mandatory for approvals, request updates, stakeholder links, and status changes.
+- Email is mandatory for approvals, request updates, external review links, and status changes.
 - In-app notifications are needed for logged-in users.
 - Postmark is the preferred early transactional email provider unless cost or hosting constraints change the decision.
 - Working decision: notifications are alerts sent to people, not the full communication system.
@@ -37,7 +37,7 @@ Document outbound notification channels, notification types, and early provider 
 - Comment or mention
 - Deadline reminder
 - Daily or weekly digest
-- Stakeholder review link
+- External review link
 - Closeout required
 - Closeout reminder
 
@@ -65,4 +65,4 @@ Document outbound notification channels, notification types, and early provider 
 - Product-level communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 - Per-persona notification rules (who gets notified about what, and when not to notify) are documented in `/docs/product/PERSONA_BEHAVIOR_MAPS.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

@@ -2,16 +2,17 @@
 
 ## Purpose
 
-Define the long-term product direction for wegotthis.online.
+Define the long-term product direction for ForWorship Creative.
 
 ## Current Decisions
 
 - The platform should help church communications teams organize work from request intake through delivery.
 - Projects should become the primary hub for related tasks, files, approvals, assets, messages, vendors, deliverables, and timelines.
 - The system should support collaboration across staff, volunteers, managers, admins, and vendors.
-- Working direction: wegotthis.online is not generic project management software. It is a church communications operations platform.
+- Working direction: ForWorship Creative is not generic project management software. It is a church communications operations platform.
 - Working direction: the product should reduce operational friction, preserve institutional creative memory, improve planning, and help churches communicate with clarity and consistency.
 - Working direction: communications work should be easier to request, prioritize, produce, review, archive, report on, and reuse.
+- Working direction: future Google Docs, Dropbox, and OneDrive connectors may help attach external document and file context, but the core product should remain useful without them.
 - Working decision: the product hierarchy is Campaigns -> Projects -> Deliverables -> Tasks, with Campaigns optional and Projects as the primary operational container.
 - Working decision: deliverables are the main production and approval units.
 - Working decision: request intake, stakeholder approvals, vendor review, and status visibility should support mobile-first flows.
@@ -33,4 +34,4 @@ Define the long-term product direction for wegotthis.online.
 - Project closeout should preserve final work, source files, approvals, budget context, and reusable assets for future ministry use.
 - The product should reduce overhead and avoid becoming another system that requires more management than the work it replaces.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

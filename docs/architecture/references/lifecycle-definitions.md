@@ -9,6 +9,7 @@ Define the meaning of lifecycle stages used in project, deliverable, approval, a
 - Keep lifecycle definitions separate by object type where necessary.
 - Use lifecycle language consistently across diagrams and workflow docs.
 - Avoid adding states without a clear operational reason.
+- Reserve Waiting for Approval for deliverables or reviewable elements, not project status.
 - Keep lifecycle systems understandable to non-technical users.
 
 ## Relationships
@@ -21,7 +22,9 @@ Define the meaning of lifecycle stages used in project, deliverable, approval, a
 
 - Which lifecycle stages are mandatory for MVP?
 - Which lifecycle terms need stricter distinction across requests, projects, and deliverables?
-- Which lifecycle states should be stakeholder-visible?
+- Which lifecycle states should be review-visible to External Reviewers?
+
+Last Updated: 2026-05-24
 
 ## Related Diagrams
 

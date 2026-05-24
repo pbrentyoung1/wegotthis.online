@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define the phased execution model for `wegotthis.online` so planning can move from broad concept work into a calm, structured build path.
+Define the phased execution model for ForWorship Creative so planning can move from broad concept work into a calm, structured build path.
 
 ## Current Decisions
 
@@ -22,10 +22,13 @@ Phase
 - Phase planning should reduce cognitive overload, not create a heavy process system.
 - Each phase should have clear goals, visible outcomes, and explicit exit criteria.
 - Product and roadmap decisions should be filtered through two questions: "Does this make the user feel supported or managed?" and "Does this still feel like 'we got this'?"
+- Core architecture maps should include product hierarchy, notification triggers, permission matrix, and the External Access / Magic Link Scope Map before implementation begins.
+- No new maps should be created unless they directly unblock database/schema design, permissions/auth implementation, core workflow implementation, notification/event implementation, or external access/security.
+- The Phase 0 readiness checklist is the final gate before scaffolding; task status modeling is now complete and reflected there.
 
 ## North Star
 
-wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+ForWorship Creative is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next. The product promise is: "We got this."
 
 ## Planning Rule
 
@@ -65,8 +68,9 @@ Every feature or task should eventually answer:
 - Exit criteria:
   - roadmap is documented and accepted
   - MVP planning has a first-pass boundary
-  - core workflow, permissions, and notification planning artifacts exist
+  - core workflow, permissions, notification, task status, and Phase 0 build-readiness planning artifacts exist
   - the project is ready to begin technical scaffolding without conceptual drift
+  - `docs/BUILD_READINESS_CHECKLIST.md` is current enough to gate scaffolding
 
 ## Phase 1 - Scaffold & Technical Foundation
 
@@ -101,7 +105,7 @@ Every feature or task should eventually answer:
 - Goal: add calm, intentional communication and external review without turning the platform into a noisy workflow engine.
 - Key outcomes:
   - deliverable-centered approvals exist
-  - magic-link review flows work for stakeholders and vendors
+  - magic-link review flows work for External Reviewers and vendor-scoped External Reviewers
   - notification triggers are mapped and implemented intentionally
   - communication history remains in context
 - Exit criteria:
@@ -183,6 +187,8 @@ Every feature or task should eventually answer:
 - Notion manages active execution, backlog movement, sprint coordination, working questions, and task-level progress.
 - GitHub and Notion should complement each other rather than duplicate each other.
 - If a planning artifact becomes structurally important, its durable version belongs in GitHub.
+- Docs-site maps are architectural reference diagrams. They must match the canonical source docs. If a diagram is exploratory, it must be labeled Exploratory and must not be used as implementation guidance.
+- Maps should only be created when they unblock implementation; otherwise the concept belongs in the canonical doc set or `docs/BUILD_READINESS_CHECKLIST.md`.
 - The planning system itself should feel calm, understandable, and human-centered rather than bureaucratic.
 
 ## Notes
@@ -192,4 +198,4 @@ Every feature or task should eventually answer:
 - Phases should create execution clarity, not false certainty.
 - Do not bypass phase planning by treating every idea as immediately build-ready.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

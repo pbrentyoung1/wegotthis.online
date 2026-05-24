@@ -4,7 +4,7 @@
 
 ## Purpose
 
-wegotthis.online exists to reduce operational friction inside church communications teams.
+ForWorship Creative exists to reduce operational friction inside church communications teams.
 
 The platform is not intended to become a generic project management tool, an enterprise workflow engine, or an all-in-one replacement for every church platform. Its purpose is narrower and more important:
 
@@ -29,7 +29,7 @@ Every new feature should be evaluated against these principles.
 
 ## North Star
 
-wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+ForWorship Creative is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
 
 ---
 
@@ -74,6 +74,8 @@ The platform should avoid:
 The product should feel like the phrase "we got this" in software form.
 
 If a feature adds more management overhead than the problem it solves, reconsider it.
+
+Docs-site maps are architectural reference diagrams. They must match the canonical source docs. If a diagram is exploratory, it must be labeled Exploratory and must not be used as implementation guidance.
 
 Phases should also reduce cognitive overload.
 
@@ -373,7 +375,7 @@ Examples:
 
 # Anti-Goals
 
-wegotthis.online is NOT intended to become:
+ForWorship Creative is NOT intended to become:
 
 * a generic enterprise project management suite
 * a BPM/workflow engineering platform
@@ -388,7 +390,7 @@ wegotthis.online is NOT intended to become:
 
 # Product Identity
 
-wegotthis.online is best understood as:
+ForWorship Creative is best understood as:
 
 * a church communications operations platform
 * communications coordination infrastructure
@@ -419,4 +421,4 @@ Also ask:
 
 If the answer is unclear, simplify the feature before building it.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

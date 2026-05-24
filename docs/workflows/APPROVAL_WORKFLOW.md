@@ -11,7 +11,7 @@ Define how review, proofing, signoff, and completion approvals should work.
 
 ## Open Questions
 
-- What approval states are needed?
+- Which pilot workflows require optional versus required review assignments?
 - Are approvals tied to tasks, deliverables, assets, or projects?
 - Who can override or reopen approvals?
 

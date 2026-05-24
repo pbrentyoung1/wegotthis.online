@@ -13,9 +13,9 @@ const coreRules = [
 
 const relationships = [
   "Creators submit deliverables into review.",
-  "Internal review can lead to stakeholder review or send work back for changes.",
-  "Stakeholder review may happen through scoped external access.",
-  "Final approval moves work toward prepared, sent, or scheduled states.",
+  "Internal review can lead to additional review or send work back for changes.",
+  "External Reviewer participation may happen through scoped external access.",
+  "Final approval moves work toward scheduled and published states.",
 ];
 
 const openQuestions = [
@@ -33,10 +33,10 @@ const relatedMaps = [
 ];
 ---
 
-<DocsLayout title="Approval Flow | wegotthis.online Docs" description="Approval flow map for deliverable review and approval.">
+<DocsLayout title="Approval Flow | ForWorship Creative Docs" description="Approval flow map for deliverable review and approval.">
   <MapPage
     title="Approval Flow Map"
-    purpose="The review path that moves a deliverable from internal review through optional stakeholder approval and into fulfillment readiness."
+    purpose="The review path that moves a deliverable from internal review through optional additional review and into scheduling or publication readiness."
     coreRules={coreRules}
     relationships={relationships}
     openQuestions={openQuestions}

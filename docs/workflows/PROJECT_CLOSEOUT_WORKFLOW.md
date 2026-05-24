@@ -8,12 +8,13 @@ Document a practical closeout workflow for moving completed projects into a sear
 
 - Working direction: projects should enter Closeout before Archived.
 - Working direction: closeout should verify deliverables, assets, metadata, approvals, budget details, and reusable context.
+- Published is not the final project state. Closeout and archive remain required.
 
 ## Step 1: Confirm Completion
 
 - [ ] Final deliverables are approved.
 - [ ] Publication, delivery, print, installation, or production is complete.
-- [ ] Stakeholders know the project is entering closeout.
+- [ ] Relevant reviewers and ministry contacts know the project is entering closeout.
 
 ## Step 2: Verify Files
 
@@ -63,10 +64,10 @@ Document a practical closeout workflow for moving completed projects into a sear
 
 - Which checklist items are required in MVP?
 - Who can approve closeout exceptions?
-- Should vendors be allowed to upload directly into closeout folders?
+- Should vendor-scoped External Reviewer links ever allow upload into closeout folders?
 
 ## Notes
 
 - Product details are documented in `/docs/product/PROJECT_CLOSEOUT.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

@@ -2,12 +2,13 @@
 
 ## Purpose
 
-Document backup, restore, and retention requirements for wegotthis.online.
+Document backup, restore, and retention requirements for ForWorship Creative.
 
 ## Current Decisions
 
 - Working decision: backups are a core product requirement, not an afterthought.
 - Database backups and file/archive backups must be planned before production launch.
+- Initial production file backups must cover local server storage until the product moves to S3-compatible object storage.
 - Retention policies should protect institutional creative memory.
 - Losing a church's communications archive would be catastrophic.
 - Specific backup tooling is undecided.
@@ -35,7 +36,8 @@ Document backup, restore, and retention requirements for wegotthis.online.
 ## Open Questions
 
 - Which backup tooling should be used for PostgreSQL?
-- Which storage provider will hold production file backups?
+- Where will local server file backups be stored during the initial single-tenant phase?
+- Which S3-compatible provider will hold files and backups after the multi-tenant transition?
 - How often should backups run?
 - How long should database and archive backups be retained?
 - Who can request or perform a restore?
@@ -44,4 +46,4 @@ Document backup, restore, and retention requirements for wegotthis.online.
 
 - Backup planning should happen before production deployment, not after MVP code is complete.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

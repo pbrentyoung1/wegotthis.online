@@ -53,4 +53,4 @@ Document simple request and project templates for reducing administrative setup 
 
 - Templates should provide opinionated defaults with flexible overrides.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

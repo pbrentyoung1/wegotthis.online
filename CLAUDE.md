@@ -6,6 +6,17 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 
 **This repository is currently in pre-development documentation and planning phase.** Laravel has not been scaffolded yet, and no application code exists. The focus is on documentation, decision capture, and architectural planning before implementation begins.
 
+## Product Identity
+
+- **Product name:** ForWorship Creative
+- **App URL (target):** `app.forworship.org`
+- **Working codename / current domain:** `wegotthis.online` — retained as the working domain until `app.forworship.org` infrastructure is ready
+- **Product promise:** "We got this."
+- **Ecosystem:** ForWorship — a family of connected ministry tools under `forworship.org`
+- **Public marketing pathways** (landing/education pages, not separate apps): `comms.forworship.org`, `creative.forworship.org`, `planning.forworship.org`, `tech.forworship.org`, `media.forworship.org`
+- **Architecture model:** One unified application at `app.forworship.org` with named modules inside (Requests, Projects, Deliverables, Tasks, Approvals, Media Library, Brand Center, Reports) — not separate per-subdomain apps
+- References in this repo to `wegotthis.online` reflect the working codename and should be interpreted as pointing to the same product. Update to `app.forworship.org` / ForWorship Creative when the domain transitions.
+
 ## Core Constraints
 
 - **Do not scaffold Laravel or add application code** unless explicitly instructed
@@ -58,7 +69,7 @@ The product should create calm and reduce overhead, not add complexity:
 
 ### North Star
 
-wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+ForWorship Creative is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next. The product promise is simple: "We got this."
 
 ### Product Personality
 
@@ -84,7 +95,7 @@ Core MVP priorities include:
 
 - Structured communications request intake and request lifecycle
 - Project workspace with deliverables, tasks, and approvals
-- Stakeholder visibility and magic link approvals
+- Review visibility and magic link approvals
 - Communication timeline tracking (comments, activity feed, project history)
 - Basic budget/cost tracking and department utilization tracking
 - Media library connected to projects
@@ -130,7 +141,7 @@ Core MVP priorities include:
 
 Design activity and audit logging early as a core architectural concern:
 
-- Track meaningful actions: request submitted/accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, stakeholder/vendor link used
+- Track meaningful actions: request submitted/accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, External Reviewer link used
 - **Notifications** are alerts sent to people
 - **Messages/comments** are human conversation
 - **Activity logs** are visible project history
@@ -140,7 +151,7 @@ Design activity and audit logging early as a core architectural concern:
 ## Communications System
 
 - Outbound: transactional email + in-app notifications
-- Project communication history: comments, stakeholder feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events
+- Project communication history: comments, reviewer feedback, External Reviewer feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events
 - Notification design should avoid noise and link users back to relevant context
 - Copy and communication should make people feel supported rather than managed
 

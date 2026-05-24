@@ -9,11 +9,12 @@ Document how project conversations, activity, notifications, and audit records s
 - Working decision: project communication should be captured in context.
 - Working decision: comments, activity logs, audit logs, and notifications are related but distinct.
 - Working decision: the project feed should help users understand what happened, who was involved, and what changed afterward.
+- Working decision: External Reviewer communication should remain narrow and scoped through magic links rather than full accounts where possible.
 
 ## Step 1: Capture Human Conversation
 
 - Comments should stay attached to the relevant project or deliverable.
-- Stakeholder feedback should be preserved with timestamp and author context.
+- External Reviewer feedback should be preserved with timestamp and author context.
 - Approval notes and requested changes should remain visible in the appropriate review context.
 - Internal discussion may need visibility controls.
 
@@ -40,14 +41,14 @@ Document how project conversations, activity, notifications, and audit records s
 ## Step 5: Support Closeout
 
 - Communication history should be available during closeout.
-- Important decisions, approval notes, stakeholder feedback, and requested changes should be preserved.
+- Important decisions, approval notes, External Reviewer feedback, and requested changes should be preserved.
 - Exporting communication history during closeout is an open question.
 
 ## Open Questions
 
 - Which digest emails are required for MVP?
 - Should users be able to reply to notification emails and have replies captured in the project feed?
-- Should project comments support internal-only and stakeholder-visible visibility?
+- Should project comments support internal-only and review-visible visibility?
 - Should communication history be exportable during project closeout?
 - What notification preferences should users control?
 
@@ -55,5 +56,6 @@ Document how project conversations, activity, notifications, and audit records s
 
 - Product details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 - Notification channel details are documented in `/docs/technical/NOTIFICATIONS.md`.
+- External access boundaries are documented in `/docs/architecture/maps/security/external-access-scope-map.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

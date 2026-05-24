@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define the people wegotthis.online is built for. These personas are grounded in the real operational conditions of church communications teams. They drive UI/UX prioritization, feature sequencing, and design decisions. Every screen, workflow, and interaction should be evaluated against at least one of these people.
+Define the people ForWorship Creative is built for. These personas are grounded in the real operational conditions of church communications teams. They drive UI/UX prioritization, feature sequencing, and design decisions. Every screen, workflow, and interaction should be evaluated against at least one of these people.
 
 ## How to Use This Document
 
@@ -14,19 +14,21 @@ Each persona includes a development priority tier:
 
 UI/UX design should begin with P1 personas and validate every decision against their day-to-day reality before moving to P2 and P3.
 
+Persona labels in this document describe real people and operating contexts. Base permission roles are defined separately in `/docs/technical/AUTH_AND_PERMISSIONS.md`.
+
 ---
 
 ## Persona Index
 
 | # | Name | Role | Priority | Access Type |
 |---|------|------|----------|-------------|
-| 1 | Dana M. | Communications Director | P1 | Full account (Admin) |
-| 2 | Alex R. | Graphic Designer / Producer | P1 | Full account (User) |
-| 3 | Marcus T. | Ministry / Department Leader | P1 | Full account (Dept. Leader) |
-| 4 | Pastor Kim W. | Senior Pastor / Executive | P2 | Full account (Manager-lite or read-only) |
-| 5 | Jennifer P. | External Stakeholder / Reviewer | P1 | Magic link only |
-| 6 | Carlos M. | External Vendor | P3 | Scoped vendor link |
-| 7 | Tanya B. | Volunteer Contributor | P3 | Full account (limited scope) |
+| 1 | Dana M. | Communications Director | P1 | Full account (typically Communications Lead or Organization Admin) |
+| 2 | Alex R. | Graphic Designer / Producer | P1 | Full account (typically Contributor) |
+| 3 | Marcus T. | Ministry / Department Leader | P1 | Full account (typically Project Owner, Reviewer, or Viewer depending context) |
+| 4 | Pastor Kim W. | Senior Pastor / Executive | P2 | Full account (typically Viewer or Reviewer depending assignment) |
+| 5 | Jennifer P. | External Stakeholder / Reviewer | P1 | External Reviewer via magic link |
+| 6 | Carlos M. | External Vendor | P3 | Vendor-scoped External Reviewer link |
+| 7 | Tanya B. | Volunteer Contributor | P3 | Full account (typically Contributor with limited scope) |
 
 ---
 
@@ -70,7 +72,7 @@ She is the gatekeeper of the request queue — the person who decides which requ
 - Projects are "finished" when the thing gets published, not when the work is truly archived
 - Capacity conversations with church leadership are hard without data to back them up
 
-### How She Uses wegotthis.online
+### How She Uses ForWorship Creative
 
 - **Daily:** Reviews the dashboard — active projects, status, deadlines, blockers
 - **Daily:** Processes the intake queue — reviews submitted requests, accepts or asks for clarification
@@ -142,7 +144,7 @@ Alex doesn't want project management complexity. He wants to know what's assigne
 - Wastes time on projects that were never going to be approved or were already deferred
 - Creative energy is spent on project management instead of production
 
-### How He Uses wegotthis.online
+### How He Uses ForWorship Creative
 
 - **Daily:** Checks his task list — what is assigned, what's due, what's blocking him
 - **Per project:** Reads the project brief and request details before starting
@@ -158,7 +160,7 @@ Alex doesn't want project management complexity. He wants to know what's assigne
 4. **Project brief / request detail view** — Full intake info accessible from the project without hunting
 5. **Activity and comment feed** — Revision notes, feedback, and decisions in one place per project
 6. **Notification settings** — Get notified when a deliverable gets reviewed or a task is reassigned; not every minor update
-7. **Status advancement** — Mark his tasks done, advance deliverable status without needing manager intervention for routine steps
+7. **Status advancement** — Mark his tasks done, advance deliverable status without needing Communications Lead or Project Owner intervention for routine steps
 
 ### UX Design Notes
 
@@ -212,7 +214,7 @@ Marcus is not trying to be difficult. He's busy. He wants the work to happen cle
 - Finds out a deadline can't be met when it's already too late to adjust
 - Past project assets (photos, logos, copy) that his ministry owns are locked in someone else's system
 
-### How He Uses wegotthis.online
+### How He Uses ForWorship Creative
 
 - **Every few weeks:** Submits a communications request using guided intake
 - **Periodically:** Checks status of his active requests and projects
@@ -238,7 +240,7 @@ Marcus is not trying to be difficult. He's busy. He wants the work to happen cle
 
 ### Development Priority
 
-**P1 — MVP Core.** Marcus represents every ministry department leader at every church. If he doesn't trust the intake process and can't approve work from his phone easily, the platform never escapes the communications office. His experience is what makes wegotthis.online valuable to the whole organization — not just to the comms team.
+**P1 — MVP Core.** Marcus represents every ministry department leader at every church. If he doesn't trust the intake process and can't approve work from his phone easily, the platform never escapes the communications office. His experience is what makes ForWorship Creative valuable to the whole organization — not just to the comms team.
 
 ---
 
@@ -276,7 +278,7 @@ She occasionally needs to approve something high-stakes — a major campaign dir
 - Approval requests arrive via email with PDF attachments and unclear context
 - Can't easily explain to elders or church board what the communications team actually does all year
 
-### How She Uses wegotthis.online
+### How She Uses ForWorship Creative
 
 - **Monthly or quarterly:** Glances at an executive dashboard summary — volume, active campaigns, department utilization
 - **Occasionally:** Approves a strategic deliverable via magic link
@@ -321,7 +323,7 @@ Jennifer coordinated the women's retreat and now needs to approve the printed pr
 
 She taps the link and needs to immediately understand what she's looking at, what version it is, what she's being asked to do, and how to respond. If the experience is confusing, she will close it and reply to the email with "looks good" without actually reviewing it — or she'll simply not respond until Dana follows up.
 
-Jennifer is not lazy. She's busy and unfamiliar with the platform. The magic link experience is the only interaction she has with wegotthis.online, and it represents the platform's external credibility to everyone outside the comms team.
+Jennifer is not lazy. She's busy and unfamiliar with the platform. The magic link experience is the only interaction she has with ForWorship Creative, and it represents the platform's external credibility to everyone outside the comms team.
 
 ### Goals
 
@@ -339,7 +341,7 @@ Jennifer is not lazy. She's busy and unfamiliar with the platform. The magic lin
 - Having to explain her feedback in a reply email where it gets disconnected from the specific element she was commenting on
 - Finding out her approval was the final step and the project shipped before she had a chance to review a late change
 
-### How She Uses wegotthis.online
+### How She Uses ForWorship Creative
 
 - **Per review:** Receives a magic link via email or text
 - **On mobile:** Opens the deliverable, reads context (what it is, what round of review), approves or leaves a comment
@@ -402,7 +404,7 @@ Carlos wants a clean handoff: the right file, from the right person, with the ri
 - Gets revision requests after production has started due to approval process failures upstream
 - Has to maintain his own notes on church contacts because the church has no central point of contact for vendor communications
 
-### How He Uses wegotthis.online
+### How He Uses ForWorship Creative
 
 - **Per job:** Receives a scoped vendor link with access to specific deliverable files and specs
 - **Per job:** Downloads production-ready assets approved for vendor use
@@ -458,7 +460,7 @@ These all share the same UX constraint but arrive with different tasks:
 
 Tanya photographs events for the church a few times a month. She loves it. She is not a professional — she uses a nice phone and occasionally borrows a DSLR from the worship pastor. After every event she uploads photos to Google Drive and texts the link to whoever asked her to shoot. Nobody ever told her where the files actually end up.
 
-Her involvement with wegotthis.online will begin because someone she trusts — her community group leader, a pastor, or the communications director — personally asked her to use it. She will log in for the first time, do the thing, and then not return for three to six weeks. When she comes back, she will not remember how it works. She will not read help documentation. She will either figure it out in thirty seconds or she will call the person who asked her to help.
+Her involvement with ForWorship Creative will begin because someone she trusts — her community group leader, a pastor, or the communications director — personally asked her to use it. She will log in for the first time, do the thing, and then not return for three to six weeks. When she comes back, she will not remember how it works. She will not read help documentation. She will either figure it out in thirty seconds or she will call the person who asked her to help.
 
 She is not a problem user. She is the most common kind of church volunteer: high-relational, high-commitment to her specific contribution, low-investment in platform mechanics. The platform must meet her where she is.
 
@@ -479,7 +481,7 @@ She is not a problem user. She is the most common kind of church volunteer: high
 - Getting email notifications about projects she has nothing to do with
 - Password reset friction — she will hit "forgot password" almost every time
 
-### How She Uses wegotthis.online
+### How She Uses ForWorship Creative
 
 - **Per event or task:** Logs in (or follows a direct link), completes her one contribution, logs out
 - **Rarely:** Reviews past uploads to see what was used
@@ -545,11 +547,11 @@ This is a distinct design constraint that should be documented as a requirement 
 
 ## Open Questions for Design
 
-- Should Marcus (Department Leader) have a simplified account dashboard, or should his primary interaction always be via notifications and magic links?
+- Should Marcus (Department Leader identity) have a simplified account dashboard, or should his primary interaction always be via notifications and magic links?
 - What is the minimum viable request intake form — how many fields before it becomes a barrier rather than a help?
 - Should Jennifer (external reviewer) have the option to create an account and see her review history, or is magic-link-only sufficient for MVP?
-- Should Pastor Kim's executive view be a separate role/permission tier, or is it a filtered view of the Admin dashboard?
-- How should the magic link experience differ between a stakeholder reviewer (Jennifer) and a vendor (Carlos) — same UI shell, different permissions and labels?
+- Should Pastor Kim's executive view be a separate permission profile, or is it a filtered view of a Viewer or Reviewer experience?
+- How should the magic link experience differ between an External Reviewer acting as a stakeholder reviewer (Jennifer) and an External Reviewer acting as a vendor (Carlos)?
 - Should Carlos be able to initiate contact through the platform, or is vendor communication always initiated by an internal user?
 - Which personas need email digest summaries versus only in-app notifications?
 - Should Tanya (Volunteer Contributor) receive task assignments through a direct link only, or does she need a minimal account home screen?
@@ -563,10 +565,11 @@ This is a distinct design constraint that should be documented as a requirement 
 - These personas should be treated as living documents. Update them as pilot church feedback is gathered.
 - Every UX/UI decision should be traceable to at least one persona's workflow or pain point.
 - The magic link experience serves three personas (Marcus, Jennifer, Pastor Kim) and should be designed as a shared, polished surface — not three separate afterthoughts.
-- Vendors and external stakeholders should never have visibility into other tenants or full workspace context.
+- External Reviewers, including vendor-scoped and stakeholder-scoped reviewers, should never have visibility into other tenants or full workspace context.
+- Department Leader and stakeholder language in this document describes real-world identity, not a separate base permission role.
 - See `/docs/product/PERSONA_BEHAVIOR_MAPS.md` for the action-level behavior layer — what each persona actually does, how often, what triggers it, and on what device. That document drives navigation architecture, notification rules, homepage logic, and mobile optimization priority.
 - See `/docs/technical/AUTH_AND_PERMISSIONS.md` for role and permission definitions that correspond to these personas.
 - See `/docs/product/PAIN_POINTS.md` for the operational pain points these personas are designed to solve.
 - See `/docs/product/REQUEST_LIFECYCLE.md` and `/docs/product/PROJECT_LIFECYCLE.md` for lifecycle context relevant to each persona's workflow.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

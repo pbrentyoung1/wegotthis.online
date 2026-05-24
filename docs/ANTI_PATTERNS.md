@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document the planning and product behaviors that would make `wegotthis.online` heavier, noisier, or harder to trust.
+Document the planning and product behaviors that would make `ForWorship Creative` heavier, noisier, or harder to trust.
 
 ## Current Decisions
 
@@ -72,4 +72,4 @@ Document the planning and product behaviors that would make `wegotthis.online` h
 - Use this document as a constraint when evaluating roadmap additions, UI decisions, workflow design, and execution process changes.
 - If a proposed improvement increases confusion, duplication, or administrative drag, it likely belongs here.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

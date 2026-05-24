@@ -13,7 +13,7 @@ Define how collaboration, comments, activity history, and project communication 
 - Working decision: project communication should be captured in context rather than scattered across email, text messages, and meetings.
 - Comments, activity logs, audit logs, and notifications should be related but conceptually distinct.
 - Working decision: audit/activity logging must be designed in early.
-- Activity history should track meaningful actions such as request submitted, request accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, and stakeholder/vendor link used.
+- Activity history should track meaningful actions such as request submitted, request accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, and External Reviewer link used.
 
 ## Conceptual Distinctions
 
@@ -26,16 +26,16 @@ Define how collaboration, comments, activity history, and project communication 
 
 - The project feed may include comments, status changes, approval events, change requests, file events, task events, budget events, and system reminders.
 - The feed should preserve who said what, when it happened, and what changed afterward.
-- Stakeholder feedback, approval notes, requested changes, internal discussion, decision history, file uploads, task updates, and budget changes should remain attached to project context where appropriate.
+- External Reviewer feedback, approval notes, requested changes, internal discussion, decision history, file uploads, task updates, and budget changes should remain attached to project context where appropriate.
 
 ## Open Questions
 
 - Which events should be logged automatically?
-- Can vendors participate in messages?
-- Which activity entries should be visible to stakeholders through magic links?
+- Can vendor-scoped External Reviewers participate in messages?
+- Which activity entries should be visible to External Reviewers through magic links?
 - Which digest emails are required for MVP?
 - Should users be able to reply to notification emails and have replies captured in the project feed?
-- Should project comments support internal-only and stakeholder-visible visibility?
+- Should project comments support internal-only and review-visible visibility?
 - Should communication history be exportable during project closeout?
 - What notification preferences should users control?
 
@@ -45,5 +45,6 @@ Define how collaboration, comments, activity history, and project communication 
 - Audit/activity logs support institutional memory, troubleshooting, and reporting.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 - Project communication workflow is documented in `/docs/workflows/PROJECT_COMMUNICATION_WORKFLOW.md`.
+- External access boundaries are documented in `/docs/architecture/maps/security/external-access-scope-map.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

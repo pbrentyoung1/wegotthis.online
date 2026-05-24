@@ -23,7 +23,7 @@ Capture the intended system architecture and major structural choices.
 - Closeout workflow should prepare projects for long-term search, reuse, reporting, and institutional memory.
 - Working decision: the product should create calm and reduce overhead, not add a system that requires more management than the work it replaces.
 - Working decision: audit/activity logging must be designed in early for accountability, institutional memory, troubleshooting, and reporting.
-- Working decision: stakeholder, approval, intake, vendor, and status flows should be designed mobile-first even though Inspinia is the admin foundation.
+- Working decision: reviewer, External Reviewer, intake, vendor-scoped, and status flows should be designed mobile-first even though Inspinia is the admin foundation.
 - Working decision: the communications system includes outbound notifications and project communication history.
 - Working decision: comments, activity logs, audit logs, and notifications are related but conceptually distinct.
 - Working decision: project communication should be captured in context rather than scattered across email, text messages, and meetings.
@@ -66,14 +66,14 @@ Campaigns -> Projects -> Deliverables -> Tasks
 
 ## Activity and Audit Logging
 
-- Track meaningful actions such as request submitted, request accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, and stakeholder/vendor link used.
+- Track meaningful actions such as request submitted, request accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, and External Reviewer link used.
 - Activity history should be useful without becoming noisy.
 - Audit logging should respect tenant scope and external magic-link scope.
 
 ## Communications System
 
 - Outbound communication should use transactional email and in-app notifications.
-- Project communication history should preserve comments, stakeholder feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events, file uploads, task updates, and budget changes.
+- Project communication history should preserve comments, External Reviewer feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events, file uploads, task updates, and budget changes.
 - Notifications are alerts sent to people.
 - Messages/comments are human conversation.
 - Activity logs are visible project history.
@@ -90,7 +90,7 @@ Campaigns -> Projects -> Deliverables -> Tasks
 - How should archive packages relate to physical file storage and searchable metadata?
 - Which parts of the hierarchy must be present in the first Laravel scaffold?
 - Should inbound email replies become project comments?
-- Which feed events should be stakeholder-visible?
+- Which feed events should be review-visible to External Reviewers?
 
 ## Notes
 
@@ -100,4 +100,4 @@ Campaigns -> Projects -> Deliverables -> Tasks
 - Calm software principles are documented in `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-21

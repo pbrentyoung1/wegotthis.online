@@ -8,6 +8,8 @@ Personas without behavior maps produce bloated dashboards. Every feature built w
 
 ## How to Use This Document
 
+Persona labels in this document describe real-world identity and workflow context. Canonical permission roles are defined separately in `/docs/technical/AUTH_AND_PERMISSIONS.md`.
+
 - Use the **action tables** to validate that a proposed feature has a real trigger and a real user
 - Use the **design derivations** at the bottom to make navigation, notification, and homepage decisions
 - When a UX debate arises, check this document first — "who does this, how often, and from what device?" settles most arguments
@@ -230,5 +232,6 @@ The behavior maps make several navigation decisions straightforward:
 - Cross-reference with `/docs/technical/AUTH_AND_PERMISSIONS.md` for technical permission implementation
 - Cross-reference with `/docs/technical/NOTIFICATIONS.md` for notification delivery architecture
 - Cross-reference with `/docs/product/USER_PERSONAS.md` for full persona context
+- Department Leader, stakeholder, and vendor language in this file describes persona identity and workflow context. Canonical base permission roles are defined separately in `/docs/technical/AUTH_AND_PERMISSIONS.md`.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

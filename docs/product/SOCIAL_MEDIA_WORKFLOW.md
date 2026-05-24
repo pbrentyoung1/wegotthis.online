@@ -19,4 +19,4 @@ Define how social media content is planned, reviewed, approved, and published or
 
 - Do not assume direct platform integrations for MVP.
 
-Last updated: 2026-05-20
+Last updated: 2026-05-24

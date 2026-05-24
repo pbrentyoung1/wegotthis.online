@@ -11,22 +11,22 @@ const steps = [
   },
   {
     title: "Changes Requested",
-    detail: "Work loops back to production when internal or stakeholder review finds issues.",
+    detail: "Work loops back when internal review or external review finds issues.",
     tone: "coral",
   },
   {
-    title: "Stakeholder Review",
-    detail: "Optional ministry or external review may happen through scoped access.",
+    title: "Additional Review",
+    detail: "Optional reviewer or external reviewer review may happen through scoped access.",
     tone: "blue",
   },
   {
     title: "Final Approved",
-    detail: "Approval is version-specific and clears the deliverable for fulfillment.",
+    detail: "Approval is version-specific and clears the deliverable to move into scheduling or publication work.",
     tone: "blue",
   },
   {
-    title: "Prepared / Sent / Scheduled",
-    detail: "Approved work moves into operational fulfillment, not automatic completion.",
+    title: "Scheduled / Published",
+    detail: "Approved work moves into scheduling and publication flow, not automatic completion.",
     tone: "coral",
   },
 ];
@@ -62,12 +62,12 @@ export default function ApprovalFlowMap() {
           <div className="grid gap-4 lg:grid-cols-[1fr_120px_1fr] lg:items-stretch">
             <div className="rounded-[1.35rem] border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">No</p>
-              <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Changes Requested</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
-                Review notes send work back into production. The loop should preserve reviewer, date, and version context.
-              </p>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Changes Requested</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
+                  Review notes send work back into production. The loop should preserve reviewer, date, and version context.
+                </p>
               <div className="mt-4 rounded-2xl border border-[var(--accent-coral-border)] bg-white/70 px-4 py-3 text-sm font-medium text-[var(--text-body)]">
-                Returns to In Production
+                Returns to In Progress
               </div>
             </div>
 
@@ -80,9 +80,9 @@ export default function ApprovalFlowMap() {
             <div className="space-y-4">
               <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Yes</p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Stakeholder Review?</h3>
+                <h3 className="mt-2 text-xl font-semibold tracking-tight text-[var(--text-strong)]">Additional Review?</h3>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
-                  Some deliverables can stop at internal approval. Others move to ministry or external review through a magic link.
+                  Some deliverables can stop at internal approval. Others move to a reviewer or External Reviewer through a magic link.
                 </p>
               </div>
 
@@ -93,7 +93,7 @@ export default function ApprovalFlowMap() {
                 </div>
                 <div className="rounded-[1.35rem] border border-[var(--border-soft)] bg-white p-5 shadow-[0_4px_12px_rgba(15,23,42,0.06)]">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Yes</p>
-                  <h4 className="mt-2 text-lg font-semibold text-[var(--text-strong)]">Stakeholder Review</h4>
+                  <h4 className="mt-2 text-lg font-semibold text-[var(--text-strong)]">Additional Review</h4>
                   <p className="mt-2 text-sm text-[var(--text-muted)]">Approve or request changes.</p>
                 </div>
               </div>
@@ -110,9 +110,9 @@ export default function ApprovalFlowMap() {
                 </p>
               </div>
               <div className="rounded-2xl border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] px-4 py-4">
-                <p className="text-sm font-semibold text-[var(--text-strong)]">Prepared / Sent / Scheduled</p>
+                <p className="text-sm font-semibold text-[var(--text-strong)]">Scheduled / Published</p>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
-                  Approval clears the deliverable for fulfillment. It does not mean the deliverable is complete.
+                  Approval clears the deliverable for the next live step. It does not mean the deliverable is complete or archived.
                 </p>
               </div>
             </div>
@@ -128,7 +128,7 @@ export default function ApprovalFlowMap() {
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">Approval clears fulfillment</p>
-              <p className="mt-1 text-slate-300">Approved work can move into prepared, sent, or scheduled states.</p>
+              <p className="mt-1 text-slate-300">Approved work can move into scheduled and publication states.</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">Changes return to production</p>
@@ -136,7 +136,7 @@ export default function ApprovalFlowMap() {
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">External review is scoped</p>
-              <p className="mt-1 text-slate-300">Stakeholder review can happen through narrow magic-link access.</p>
+              <p className="mt-1 text-slate-300">External Reviewer access can happen through narrow magic-link scope.</p>
             </div>
           </div>
         </aside>

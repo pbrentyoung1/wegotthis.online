@@ -15,20 +15,37 @@ Define how projects work as the primary container object.
 - General coordination tasks may attach directly to projects.
 - Project fields under consideration include title, description, department, stakeholders, audience, desired feeling, desired action, destination/media, third-party assets/links, location, cost, due date, estimated time, actual time, proofread/signoff, status, timeline, and messages/activity.
 - Project creation and setup should feel guided and human, not like filling out a cold database record.
+- Canonical project lifecycle:
+  - Intake
+  - Discovery
+  - Approved
+  - Planned
+  - Active
+  - In Review
+  - Revision
+  - Scheduled
+  - Published
+  - Closeout
+  - Archived
+- Canonical permission roles are documented in `/docs/technical/AUTH_AND_PERMISSIONS.md`.
+- Stakeholder and Department Leader remain useful real-world identities, but they are not base permission roles by themselves.
+- Canonical MVP task statuses are documented in `/docs/product/TASKS.md` and should remain consistent across project and deliverable work.
+- Waiting for Approval is reserved for deliverables and reviewable elements; it is not a project status.
 
 ## Open Questions
 
 - Which project fields are required at request intake?
-- What statuses should projects use?
+- Is the canonical project lifecycle sufficient for MVP?
 - Can a project have multiple deliverables and due dates?
 - How should project status summarize multiple deliverables?
 
 ## Notes
 
 - Projects should support church communications work from request through completion.
+- Projects should support church communications work from intake through closeout and archive, not stop at publication.
 - Where possible, project setup should ask good questions that help people think through the work.
 - Deliverables are documented in `/docs/product/DELIVERABLES.md`.
 - Campaigns are documented in `/docs/product/CAMPAIGNS.md`.
 - Tasks are documented in `/docs/product/TASKS.md`.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

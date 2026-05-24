@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document the current visual system direction for wegotthis.online so design, product, and implementation work share the same foundation.
+Document the current visual system direction for ForWorship Creative so design, product, and implementation work share the same foundation.
 
 ## Current Decisions
 
@@ -131,4 +131,4 @@ Document the current visual system direction for wegotthis.online so design, pro
 - The complete typography system should feel like thoughtful software with editorial warmth and human reassurance.
 - The palette should feel like materials in a thoughtfully designed creative studio: warm paper, soft stone, worn brass, clay, sage, muted sky, and quiet depth.
 
-Last updated: 2026-05-21
+Last updated: 2026-05-24

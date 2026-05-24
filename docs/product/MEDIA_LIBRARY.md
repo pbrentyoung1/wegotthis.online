@@ -26,4 +26,4 @@ Define how media assets are organized, described, found, and reused.
 - Rights and release metadata is especially important for churches using photos of minors, congregants, ministry events, and externally sourced media.
 - Search strategy is documented in `/docs/technical/SEARCH_STRATEGY.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

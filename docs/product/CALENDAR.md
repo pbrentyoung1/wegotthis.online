@@ -19,4 +19,4 @@ Define calendar behavior for projects, tasks, content, and production deadlines.
 
 - Calendar design should reflect actual communications planning rhythms.
 
-Last updated: 2026-05-20
+Last updated: 2026-05-24

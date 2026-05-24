@@ -1,46 +1,47 @@
 ---
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 import MapPage from "../../components/layout/MapPage.astro";
-import MagicLinkScopeMap from "../../components/maps/MagicLinkScopeMap";
+import ExternalAccessMagicLinkScopeMap from "../../components/maps/ExternalAccessMagicLinkScopeMap";
 
 const coreRules = [
-  "Magic links do not grant broad project access.",
-  "Links should be revocable and time-bound.",
-  "All actions taken through a link should be logged.",
-  "Permissions are explicit rather than inherited casually.",
-  "Magic links support people who should not need full accounts.",
+  "Magic links do not grant general tenant access.",
+  "Links are tenant-bound, scope-bound, time-bound, and revocable.",
+  "Allowed actions are explicit and should not be inherited casually.",
+  "External access should reduce friction without creating unnecessary accounts.",
+  "Link usage should create communication, activity, audit, approval, and notification records where appropriate.",
 ];
 
 const relationships = [
-  "An internal user generates a scoped link.",
-  "The system validates token, expiration, permissions, and scope before access.",
-  "Reviewers can only take the actions explicitly granted to the link.",
-  "Link usage feeds audit visibility and external review history.",
+  "Communications Lead, Project Owner, or another authorized internal user generates the link.",
+  "The system binds the link to tenant, project, deliverable or approval context, recipient, and allowed actions.",
+  "External Reviewer access stays limited to the shared item and explicit permissions.",
+  "When the reviewer acts, the system updates project history, approval state, and internal notifications.",
 ];
 
 const openQuestions = [
-  "Which external personas should be allowed to upload files in the first version?",
-  "When should optional identity capture be required versus optional?",
-  "Should some links expose full deliverable context while others expose only a version?",
-  "How should expired links be presented to keep the experience graceful without weakening security?",
+  "Which External Reviewer scenarios should allow selected file upload in MVP?",
+  "When should recipient identity capture be required versus optional?",
+  "Should some links expose only approval context while others expose a broader project summary?",
+  "How should expired or superseded links be presented without weakening security or creating confusion?",
 ];
 
 const relatedMaps = [
   { href: "/architecture/approval-flow", label: "Approval Flow" },
   { href: "/architecture/permission-matrix", label: "Permission Matrix" },
+  { href: "/architecture/notification-trigger", label: "Notification Trigger" },
   { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram" },
 ];
 ---
 
-<DocsLayout title="Magic Link Scope | wegotthis.online Docs" description="External access and magic-link scope map.">
+<DocsLayout title="Magic Link Scope | ForWorship Creative Docs" description="External access and magic-link scope map.">
   <MapPage
     title="External Access / Magic Link Scope Map"
-    purpose="The scoped access model that lets external reviewers and lightweight collaborators interact with work without creating full accounts."
+    purpose="The canonical external-access model for scoped review, approval, and limited participation without granting general tenant access or creating unnecessary full accounts."
     coreRules={coreRules}
     relationships={relationships}
     openQuestions={openQuestions}
     relatedMaps={relatedMaps}
   >
-    <MagicLinkScopeMap slot="diagram" />
+    <ExternalAccessMagicLinkScopeMap slot="diagram" />
   </MapPage>
 </DocsLayout>

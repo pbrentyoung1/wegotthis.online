@@ -14,6 +14,7 @@ Document the product direction for outbound communication and project communicat
 - Project communication should be captured in context rather than scattered across email, text messages, and meetings.
 - Comments, activity logs, audit logs, and notifications should be related but conceptually distinct.
 - Communication should feel supportive, conversational, and human rather than clinical.
+- External Reviewer communication should use narrow, time-bound magic links instead of creating unnecessary full accounts.
 
 ## Conceptual Distinctions
 
@@ -35,7 +36,7 @@ System-generated emails and in-app notifications may include:
 - Mention/comment notifications
 - Deadline reminders
 - Daily or weekly digests
-- Stakeholder review links
+- External Reviewer review links
 - Closeout reminders
 
 Outbound communication should:
@@ -50,7 +51,7 @@ Outbound communication should:
 Each project should preserve a unified communication/activity feed documenting:
 
 - Comments
-- Stakeholder feedback
+- External Reviewer feedback
 - Approval notes
 - Requested changes
 - Internal discussion
@@ -78,7 +79,7 @@ Each project should preserve a unified communication/activity feed documenting:
 
 - Which digest emails are required for MVP?
 - Should users be able to reply to notification emails and have replies captured in the project feed?
-- Should project comments support internal-only and stakeholder-visible visibility?
+- Should project comments support internal-only and review-visible visibility?
 - Should communication history be exportable during project closeout?
 - What notification preferences should users control?
 
@@ -87,5 +88,6 @@ Each project should preserve a unified communication/activity feed documenting:
 - The communications system should reduce interruptions by making project context easy to find.
 - Notification design should favor relevance, batching, and user control where appropriate.
 - Conversational UX should help people think and respond more clearly without turning the product into a chat gimmick.
+- External access scope is mapped in `/docs/architecture/maps/security/external-access-scope-map.md` and visualized in the docs site at `/architecture/magic-link-scope`.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

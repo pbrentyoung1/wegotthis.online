@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document the product principle that wegotthis.online should help and get out of the way.
+Document the product principle that ForWorship Creative should help and get out of the way.
 
 ## Current Decisions
 
@@ -51,4 +51,4 @@ Document the product principle that wegotthis.online should help and get out of 
 - This principle should influence product design, architecture, permissions, templates, and notifications.
 - It should also influence onboarding, request intake, AI behavior, and copywriting decisions.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

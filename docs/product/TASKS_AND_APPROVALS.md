@@ -11,15 +11,16 @@ Define task management and approval tracking behavior.
 - Proofread/signoff is a project field under consideration.
 - Working decision: approvals should primarily attach to deliverables for MVP.
 - Intake approval is different from deliverable approval.
+- Review responsibilities are contextual assignments, not separate base permission roles.
+- MVP review assignment types are Budget, Resources, Design, Brand, Content, Ministry, and Final.
+- A project, deliverable, or reviewable element may have multiple review assignments.
+- Required review assignments block approval until approved or explicitly waived.
 - Future support may include project-level approval, asset-level approval, task-level review, and closeout approval.
 - Tasks can attach to projects or deliverables.
 
 ## Open Questions
 
-- What approval states are required?
-- Can approvals be assigned to vendors?
 - Are tasks reusable through templates?
-- Which deliverable approval states are required in MVP?
 - Which approval actions are available through magic links?
 
 ## Notes
@@ -28,4 +29,4 @@ Define task management and approval tracking behavior.
 - Deliverables are documented in `/docs/product/DELIVERABLES.md`.
 - Tasks are documented in `/docs/product/TASKS.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

@@ -15,6 +15,9 @@ Document database direction, data modeling notes, and schema questions.
 - Projects are the primary operational container.
 - Deliverables are the specific outputs being produced.
 - Tasks are the individual actions required to complete projects or deliverables.
+- Canonical project lifecycle is Intake -> Discovery -> Approved -> Planned -> Active -> In Review -> Revision -> Scheduled -> Published -> Closeout -> Archived.
+- Canonical deliverable lifecycle is Planned -> In Progress -> In Review -> Waiting for Approval -> Changes Requested -> Approved -> Scheduled -> Published -> Archived.
+- Canonical MVP task statuses are Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, and Canceled.
 
 ## Conceptual Relationships
 
@@ -25,6 +28,9 @@ Document database direction, data modeling notes, and schema questions.
 - Projects may have project-level tasks.
 - Deliverables have many tasks, approvals, files/assets, statuses, and due dates.
 - Approvals primarily belong to deliverables.
+- Reviewer assignments attach contextual review responsibility to a project, deliverable, or reviewable element.
+- Review assignment types for MVP are Budget, Resources, Design, Brand, Content, Ministry, and Final.
+- Required reviewer assignments must be approved or explicitly waived before the reviewed item clears approval.
 - Requests may convert into projects.
 - Projects have many comments/messages, visible activity entries, and related audit records.
 - Deliverables may have comments, approval notes, requested changes, and notification events.
@@ -44,7 +50,8 @@ Document database direction, data modeling notes, and schema questions.
 - request_statuses
 - deliverables
 - deliverable_statuses
-- stakeholders
+- project_contacts
+- reviewer_assignments
 - approvals
 - comments
 - comment_threads
@@ -71,6 +78,9 @@ Document database direction, data modeling notes, and schema questions.
 - template_tasks
 - project_closeout_checklists
 - backup_policies
+- task_statuses
+- approval_statuses
+- review_assignment_types
 
 ## Open Questions
 
@@ -80,6 +90,7 @@ Document database direction, data modeling notes, and schema questions.
 - Which closeout entities are needed in MVP versus post-MVP?
 - Should project statuses be configurable per church?
 - Which deliverable statuses are required for MVP?
+- Which task statuses are required for MVP?
 - How should department utilization reporting be modeled without overbuilding analytics?
 - Which search fields are required for first release?
 - Should email replies be captured as comments or separate inbound message records?
@@ -93,5 +104,8 @@ Document database direction, data modeling notes, and schema questions.
 - Most production tasks should attach to deliverables. General coordination tasks may attach directly to projects.
 - Tasks should not normally attach directly to campaigns except possibly for high-level planning tasks later.
 - Notifications, comments, activity logs, and audit logs should be modeled as related but distinct concepts.
+- Department Leader, stakeholder, and vendor are real-world identities or relationships that may map onto canonical roles; they should not become separate base permission-role tables by default.
+- Task status enums should follow the canonical MVP list and avoid extra workflow labels until explicitly approved.
+- Waiting for Approval should be modeled for deliverables or reviewable elements, not as a project status.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

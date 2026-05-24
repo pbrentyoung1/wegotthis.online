@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Define the approved brand foundation for wegotthis.online.
+Define the approved brand foundation for ForWorship Creative.
 
 ## Current Decisions
 
-- Project name: wegotthis.online.
+- Project name: ForWorship Creative.
 - The product serves church communications operations.
 - Core brand idea: the product should feel like the phrase "we got this" in product form.
 - The brand should feel calm, capable, human, collaborative, and steady.
@@ -16,7 +16,7 @@ Define the approved brand foundation for wegotthis.online.
 
 ## North Star
 
-wegotthis is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
+ForWorship Creative is a conversational ministry workspace that helps church teams feel calm, clear, supported, and ready for what is next.
 
 ## Open Questions
 
@@ -32,4 +32,4 @@ wegotthis is a conversational ministry workspace that helps church teams feel ca
 - The site and app should feel like collaboration, not compliance.
 - The visual language should communicate support, clarity, warmth, confidence, and collaboration.
 
-Last updated: 2026-05-21
+Last updated: 2026-05-24

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document the expanded operational problems wegotthis.online is intended to address for church communications teams.
+Document the expanded operational problems ForWorship Creative is intended to address for church communications teams.
 
 ## Current Decisions
 
@@ -113,11 +113,11 @@ Repeated status requests interrupt focused work and increase administrative load
 
 ### Product Response
 
-Provide stakeholder-facing project status, timelines, pending approvals, and blockers.
+Provide review-aware project status, timelines, pending approvals, and blockers to departments, reviewers, and External Reviewers where scope allows.
 
 ### MVP Relevance
 
-High. Stakeholder visibility should be considered part of the core value.
+High. Review visibility should be considered part of the core value.
 
 ## Media and Asset Chaos
 
@@ -220,4 +220,4 @@ High. MVP should prove that the platform reduces administrative load before addi
 - These pain points should inform MVP scope, Figma design, and future architecture.
 - Calm software principles are documented in `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

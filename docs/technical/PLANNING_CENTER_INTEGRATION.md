@@ -7,7 +7,7 @@ Document the future optional integration strategy for Planning Center Online (PC
 ## Integration Philosophy
 
 - Planning Center integration should be optional.
-- wegotthis.online must remain fully functional without Planning Center.
+- ForWorship Creative must remain fully functional without Planning Center.
 - Do not tightly couple core business logic to PCO.
 - PCO should function as a connector layer, not the primary system architecture.
 - Churches should retain control over what data syncs.
@@ -55,7 +55,7 @@ Document the future optional integration strategy for Planning Center Online (PC
 ## Open Questions
 
 - What data should remain source-of-truth inside PCO?
-- What should become native to wegotthis.online?
+- What should become native to ForWorship Creative?
 - How should permissions map between systems?
 - How should churches configure sync behavior?
 - Will integrations be real-time or scheduled?

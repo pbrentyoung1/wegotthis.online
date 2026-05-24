@@ -45,18 +45,18 @@ Create a structured map of known and planned product capabilities.
 - Improve ministry preparedness before work enters the communications queue.
 - Support request review and triage before project approval.
 
-## Stakeholder Visibility
+## Review Visibility
 
-- Provide self-service project status views for stakeholders and departments.
+- Provide self-service project status views for reviewers, External Reviewers, and departments where scope allows.
 - Show upcoming deadlines, review needs, approvals, and current blockers.
 - Reduce repeated status update requests to Communications.
 
 ## Magic Link Reviews
 
-- External stakeholders should use secure, time-bound magic links for MVP review and approval.
+- External Reviewers should use secure, time-bound magic links for MVP review and approval.
 - Magic links should expose only relevant project or deliverable context.
 - Magic links should support view, comment, approve, or request changes where allowed.
-- Vendor links should be scoped, revocable, and limited to project or deliverable access.
+- Vendor participation should use vendor-scoped External Reviewer links, limited to the specific project, deliverable, file, or action context.
 
 ## Timeline Management
 
@@ -113,8 +113,8 @@ Create a structured map of known and planned product capabilities.
 ## Notification System
 
 - Use transactional email plus in-app notifications.
-- Email is mandatory for approvals, request updates, stakeholder links, and status changes.
-- Outbound notifications should include project status updates, overdue tasks, approval requests, clarification requests, request accepted/deferred/rejected notices, assignments, mentions/comments, deadline reminders, digests, stakeholder review links, and closeout reminders.
+- Email is mandatory for approvals, request updates, external review links, and status changes.
+- Outbound notifications should include project status updates, overdue tasks, approval requests, clarification requests, request accepted/deferred/rejected notices, assignments, mentions/comments, deadline reminders, digests, external review links, and closeout reminders.
 - Notifications are alerts sent to people and should not be confused with project communication history.
 - The system should avoid notification noise.
 - Future channels such as SMS, Slack, Teams, and Planning Center-related notifications are post-MVP.
@@ -122,7 +122,7 @@ Create a structured map of known and planned product capabilities.
 ## Project Communication History
 
 - Each project should preserve a unified communication/activity feed.
-- The feed may include comments, stakeholder feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events, file uploads, task updates, budget changes, and system reminders.
+- The feed may include comments, reviewer feedback, External Reviewer feedback, approval notes, requested changes, internal discussion, decision history, status updates, system-generated events, file uploads, task updates, budget changes, and system reminders.
 - The feed should show who said what, when it happened, and what changed afterward.
 - Messages/comments, activity logs, audit logs, and notifications should be related but distinct.
 
@@ -138,7 +138,7 @@ Create a structured map of known and planned product capabilities.
 
 ## Audit/Activity Log
 
-- Track meaningful actions such as request submitted, status changed, file uploaded, approval completed, budget changed, time logged, project entered closeout, project archived, and stakeholder/vendor link used.
+- Track meaningful actions such as request submitted, status changed, file uploaded, approval completed, budget changed, time logged, project entered closeout, project archived, and External Reviewer link used.
 - Activity history supports accountability, institutional memory, troubleshooting, and reporting.
 
 ## Calm Software Principles
@@ -153,7 +153,9 @@ Create a structured map of known and planned product capabilities.
 
 - Planning Center
 - Google Workspace
+- Google Docs
 - Dropbox
+- OneDrive
 - Adobe
 - Canva
 - Social publishing APIs
@@ -183,4 +185,4 @@ Create a structured map of known and planned product capabilities.
 - Backups and retention planning lives in `/docs/technical/BACKUPS_AND_RETENTION.md`.
 - Communications system details live in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

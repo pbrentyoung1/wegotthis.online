@@ -7,6 +7,9 @@ Describe the project lifecycle from intake through archive and clarify the major
 ## Core Rules
 
 - Keep request lifecycle separate from project lifecycle.
+- Use Planned between Approved and Active when work is accepted but production has not started.
+- Use In Review for project-level review visibility.
+- Do not use Waiting for Approval as a project status.
 - Do not move projects directly from published to archived.
 - Require closeout before archive.
 - Keep lifecycle definitions understandable to non-technical stakeholders.
@@ -20,9 +23,10 @@ Describe the project lifecycle from intake through archive and clarify the major
 
 ## Open Questions
 
-- Which project statuses are required for MVP?
 - Which transitions require approval or explicit confirmation?
-- Which lifecycle events should be stakeholder-visible?
+- Which lifecycle events should be review-visible to External Reviewers?
+
+Last Updated: 2026-05-24
 
 ## Related Diagrams
 

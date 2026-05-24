@@ -20,7 +20,7 @@ Define which roles can view, create, update, approve, close, and administer key 
 
 ## Open Questions
 
-- What is the minimum viable permissions matrix?
+- Which permissions should become configurable after MVP?
 - Which permissions are role-based versus object-based?
 - Which archived materials should be restricted to managers or admins?
 

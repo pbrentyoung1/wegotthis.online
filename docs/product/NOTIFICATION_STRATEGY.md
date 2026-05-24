@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Notifications in wegotthis.online exist to reduce coordination friction, not create more noise.
+Notifications in ForWorship Creative exist to reduce coordination friction, not create more noise.
 
 Church communications teams already experience:
 
@@ -122,7 +122,7 @@ These should generally send immediately because they require action.
 
 * direct mention
 * direct reply
-* stakeholder/vendor response
+* External Reviewer response
 
 ### Blocking Issues
 
@@ -173,7 +173,7 @@ Primary channel for:
 * approvals
 * magic links
 * status changes requiring action
-* stakeholder communication
+* External Reviewer communication
 * assignment notifications
 
 Preferred early provider:
@@ -269,6 +269,7 @@ External reviewers should receive:
 * contextual project information
 * direct review links
 * simple approve/request changes actions
+* only the scoped context permitted by the link
 
 The experience should:
 
@@ -325,7 +326,7 @@ Escalation examples:
 * gentle reminder
 * digest inclusion
 * direct notification
-* manager escalation if necessary
+* Communications Lead escalation if necessary
 
 ---
 
@@ -371,9 +372,10 @@ The best notification is often the one that never needed to be sent because the 
 
 # Related Documents
 
-- `/docs/product/SYSTEM_PHILOSOPHY.md` — Core product philosophy; "Notifications Are a Liability" principle
-- `/docs/product/PERSONA_BEHAVIOR_MAPS.md` — Per-persona notification rules: who gets notified about what, and equally important, what not to notify them about
-- `/docs/technical/NOTIFICATIONS.md` — Technical implementation layer: channels, providers, types
-- `/docs/product/COMMUNICATIONS_SYSTEM.md` — Communication model: how notifications, comments, activity logs, and audit logs differ
+- `/docs/product/SYSTEM_PHILOSOPHY.md` - Core product philosophy; "Notifications Are a Liability" principle
+- `/docs/product/PERSONA_BEHAVIOR_MAPS.md` - Per-persona notification rules: who gets notified about what, and equally important, what not to notify them about
+- `/docs/technical/NOTIFICATIONS.md` - Technical implementation layer: channels, providers, types
+- `/docs/product/COMMUNICATIONS_SYSTEM.md` - Communication model: how notifications, comments, activity logs, and audit logs differ
+- `/docs/architecture/maps/security/external-access-scope-map.md` - Canonical external access and magic-link scope boundaries
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

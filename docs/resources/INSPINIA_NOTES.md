@@ -19,7 +19,7 @@ Collect research and implementation notes about Inspinia.
 
 ## Notes
 
-- Filename matches the requested structure. If desired later, add a corrected alias file for `INSPINIA_NOTES.md`.
+- Filename now matches the intended structure.
 - Use this file for raw notes and research. Use `docs/INSPINIA.md` for actual contributor guidance and working decisions.
 
 Last Updated: 2026-05-21

@@ -46,4 +46,4 @@ Record approved color choices and design-token direction.
 - Avoid rainbow dashboards and decorative overuse of accent colors.
 - Never rely on color alone to communicate meaning; pair color with text, iconography, or context.
 
-Last updated: 2026-05-21
+Last updated: 2026-05-24

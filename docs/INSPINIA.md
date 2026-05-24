@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document how `wegotthis.online` uses INSPINIA as a structural foundation and pattern library without inheriting its default brand personality.
+Document how ForWorship Creative uses INSPINIA as a structural foundation and pattern library without inheriting its default brand personality.
 
 ## Core Decision
 
@@ -22,7 +22,7 @@ The full Laravel INSPINIA implementation is a pattern and component reference li
 
 Before building custom UI, review both the starterkit and the full INSPINIA implementation.
 
-Use the INSPINIA Figma assets as a screen layout and UX pattern reference when designing `wegotthis` screens.
+Use the INSPINIA Figma assets as a screen layout and UX pattern reference when designing ForWorship Creative screens.
 
 ## How We Use INSPINIA
 
@@ -96,14 +96,14 @@ Only build custom when the existing pattern cannot reasonably support the produc
 1. Reuse an existing starterkit component.
 2. Adapt a full INSPINIA Laravel pattern.
 3. Adapt an INSPINIA Figma pattern.
-4. Extend an existing `wegotthis` component.
+4. Extend an existing ForWorship Creative component.
 5. Build custom only when necessary.
 
 ## Figma Workflow
 
 1. Start from an existing INSPINIA structural pattern whenever practical.
 2. Strip back unnecessary widgets, visual noise, dense dashboards, excessive charts, aggressive color, hard borders, and generic admin copy.
-3. Apply the `wegotthis` visual language:
+3. Apply the ForWorship Creative visual language:
    - IBM Plex Serif
    - IBM Plex Sans
    - Caveat used very sparingly
@@ -112,7 +112,7 @@ Only build custom when the existing pattern cannot reasonably support the produc
    - generous spacing
    - calm hierarchy
    - subtle shadows
-4. Add `wegotthis` conversational UX:
+4. Add ForWorship Creative conversational UX:
    - ask helpful questions
    - use calm guidance
    - reduce emotional weight
@@ -154,7 +154,7 @@ As Figma screens and product components are created, document pattern decisions:
 
 - what the pattern is
 - where it came from in INSPINIA
-- how it was adapted for `wegotthis`
+- how it was adapted for ForWorship Creative
 - what emotional role it plays
 - when to use it
 - when not to use it
@@ -174,7 +174,7 @@ Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the I
 - `docs/ai/CODEX_RULES.md`
 - `docs/ai/CLAUDE_CODE_RULES.md`
 - `docs/branding/VISUAL_SYSTEM.md`
-- `docs/resources/INSIPINIA_NOTES.md`
+- `docs/resources/INSPINIA_NOTES.md`
 - `docs/resources/FIGMA_NOTES.md`
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

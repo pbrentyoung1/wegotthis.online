@@ -2,51 +2,22 @@
 
 ## Purpose
 
-Maintain a central list of unresolved questions that affect product, design, architecture, or operations.
+Maintain a central list of unresolved questions that block Phase 0 completion or Laravel scaffolding.
 
 ## Current Decisions
 
 - Open questions should be captured instead of answered prematurely.
 - Decisions should move from this file into the relevant decision log when resolved.
+- Questions that do not block implementation belong in a decision log, checklist, or backlog instead of this file.
 
 ## Open Questions
 
-- Which Inspinia starter should be used?
-- What permissions are required for Admin, Manager, User, and Vendor roles?
 - What hosting.com plan and deployment path should be used first?
-- What Figma artifacts are required before development begins?
-- Which closeout items are required before archiving?
-- Who is allowed to close a project?
-- Should departments see budget and time usage?
-- How detailed should source-file archive rules be in MVP?
-- Should Brand Center be MVP or early post-MVP?
-- What reporting is needed for annual planning?
-- How will file storage work on hosting.com/cPanel initially?
-- How will storage scale later?
-- Which brand review steps are required in MVP?
-- Which product surfaces should feel most conversational, and which should stay more compact for speed?
-- What exact type scale and usage rules should govern IBM Plex Serif, IBM Plex Sans, and Caveat in the product?
-- How should department utilization reporting avoid becoming advanced analytics too early?
-- Exact backup tooling.
-- Final production storage provider.
-- Exact email provider if cost or hosting constraints change the Postmark preference.
-- Whether recurrence is MVP or early post-MVP.
-- Which phase should recurrence enter?
-- Which pilot church workflow templates are required first.
-- Exact permissions matrix.
-- What is the minimum viable permissions matrix?
-- How detailed file processing should be in MVP.
-- Whether custom tenant subdomains are required later.
-- Which search fields are required for first release.
-- Which digest emails are required for MVP?
-- What notification preferences are required for MVP?
-- Should users be able to reply to notification emails and have replies captured in the project feed?
-- Should project comments support internal-only and stakeholder-visible visibility?
-- Should communication history be exportable during project closeout?
-- What notification preferences should users control?
-- Which integrations belong before pilot?
-- Which diagrams must exist before Laravel scaffolding?
-- Which workflows are required before pilot launch?
+- What exact backup and restore tooling should be standardized before production?
+- Which External Reviewer scenarios should allow selected file upload in MVP?
+- Which email provider should be used if the Postmark preference changes?
+- What exact local server path and disk quota should be used on hosting.com/cPanel?
+- Which remaining Phase 0 blockers should be resolved before Laravel scaffolding begins?
 
 ## Resolved or Working Decisions
 
@@ -55,8 +26,9 @@ Maintain a central list of unresolved questions that affect product, design, arc
 - Campaign/parent container concept: Campaign is optional above projects.
 - Deliverable vs project boundary: Projects are operational containers; deliverables are production and approval units.
 - Approval target: MVP approvals primarily attach to deliverables.
-- External stakeholder access: secure, time-bound magic links.
-- Vendor access model: limited project or deliverable access through secure links.
+- External reviewer access: secure, time-bound magic links.
+- Vendor access model: vendor-scoped External Reviewer access through secure links.
+- Magic-link scope model: links are tenant-bound, scope-bound, action-bound, time-bound, and revocable.
 - Communication channel: transactional email plus in-app notifications, with Postmark preferred early.
 - Request lifecycle: requests are separate objects and may be draft, submitted, needs clarification, accepted, deferred, rejected, converted to project, or archived.
 - Search MVP approach: PostgreSQL full-text search with intentional metadata indexing.
@@ -66,6 +38,12 @@ Maintain a central list of unresolved questions that affect product, design, arc
 - Photo/copyright/release metadata: rights, release, and usage metadata should exist from the beginning.
 - Communications system: project communication history is part of the MVP direction.
 - Communication concepts: notifications, messages/comments, activity logs, and audit logs are related but distinct.
+- Phase 0 readiness gate: only implementation-blocking questions stay in this file; other questions move to the roadmap, checklist, or decision logs.
+- Task status model: canonical MVP task statuses are finalized and documented in `docs/product/TASKS.md`.
+- Approval and review state model: canonical MVP approval/review states are finalized and documented in `docs/product/DELIVERABLES.md`.
+- MVP permissions matrix: base role matrix is documented in `docs/technical/AUTH_AND_PERMISSIONS.md`.
+- Review assignment model: budget, resources, design, brand, content, ministry, and final review are contextual assignments, not base roles.
+- File storage direction: use local server storage for the initial single-tenant build, then transition to S3-compatible object storage when the product moves to multi-tenant hosting.
 
 ## Notes
 
@@ -73,4 +51,4 @@ Maintain a central list of unresolved questions that affect product, design, arc
 - Link to resolved decisions when possible.
 - Resolved items may still need implementation detail before coding.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

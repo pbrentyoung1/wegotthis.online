@@ -38,4 +38,4 @@ Define campaigns as optional parent containers above projects.
 
 - Campaigns should help organize large initiatives without forcing every project into a parent container.
 
-Last Updated: 2026-05-20
+Last Updated: 2026-05-24

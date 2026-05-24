@@ -14,6 +14,8 @@ Provide project-specific guidance for Claude Code sessions.
 - Docs-site diagrams must visualize canonical source docs. They must not introduce independent role names, lifecycle states, or workflow decisions unless explicitly labeled Exploratory.
 - Exploratory diagrams must be labeled `Exploratory`, must not be used as implementation guidance, and must note that source docs remain canonical.
 - Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for patterns to adapt.
+- Before creating a new map, ask whether it unblocks implementation. If not, add the concept to the canonical docs or `docs/BUILD_READINESS_CHECKLIST.md` instead.
+- Do not introduce new task statuses without updating the canonical task docs and build-readiness checklist in the same change.
 
 ## Open Questions
 

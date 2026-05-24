@@ -16,7 +16,11 @@ Capture product direction and scope decisions.
 - Deliverables are production and approval units.
 - Tasks can attach to projects or deliverables.
 - Media assets, tasks, approvals, messages, files, vendors, deliverables, and timelines should eventually relate back to projects.
-- Known user roles include Admin, Manager, User, and Vendor.
+- Canonical MVP roles are Platform Owner / Super Admin, Organization Admin, Communications Lead, Project Owner, Contributor, Reviewer, External Reviewer, and Viewer.
+- Department Leader, stakeholder, and vendor describe real-world identities or workflow contexts, not base permission roles by themselves.
+- Review responsibilities such as Budget, Resources, Design, Brand, Content, Ministry, and Final are contextual assignments, not separate base roles.
+- A project, deliverable, or reviewable element may have multiple review assignments.
+- Required review assignments must be approved or explicitly waived before the reviewed item clears approval.
 - Guided intake is critical to request quality.
 - Project closeout is part of the lifecycle.
 - Brand management is a major product concern.
@@ -37,12 +41,13 @@ Capture product direction and scope decisions.
 - Working decision: the product should feel like "we got this" in software form.
 - Working decision: every major UX decision should be evaluated by whether it makes users feel supported or managed.
 - Working decision: conversational guidance should be used where it helps people think more clearly without slowing down work.
+- Working decision: canonical MVP task statuses are Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, and Canceled.
+- Working decision: the MVP permissions matrix is role-based, with contextual review assignments layered on top.
 
 ## Open Questions
 
 - What is the first user journey?
 - Which product modules are required for MVP?
-- What statuses should projects, assets, and approvals support?
 - Is Brand Center MVP or early post-MVP?
 - What level of closeout enforcement is appropriate for MVP?
 - What utilization reports are needed first?
@@ -59,4 +64,4 @@ Capture product direction and scope decisions.
 - Roadmap and execution structure are documented in `/docs/ROADMAP.md`.
 - Brand and voice guidance are documented in `/docs/branding`.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

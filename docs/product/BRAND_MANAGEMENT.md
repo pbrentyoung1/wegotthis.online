@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Document brand communication and management as a major product area for wegotthis.online.
+Document brand communication and management as a major product area for ForWorship Creative.
 
 ## Current Decisions
 
@@ -63,4 +63,4 @@ Document brand communication and management as a major product area for wegotthi
 - Brand management should support clarity and consistency without turning every project into a bottleneck.
 - Brand governance should help the product feel more like a calm teammate and less like a compliance system.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

@@ -12,7 +12,7 @@ Record technical stack and architecture decisions.
 - Working decision: use a single PostgreSQL database with tenant-scoped records using `tenant_id`.
 - Working decision: use PostgreSQL full-text search for MVP.
 - Working decision: use transactional email with Postmark preferred unless cost or hosting constraints change the decision.
-- Working decision: abstract file storage from day one, with S3-compatible production storage likely.
+- Working decision: use local server storage for the initial single-tenant build, abstract storage from day one, and transition to S3-compatible storage when the product moves to multi-tenant hosting.
 - Inspinia is the intended UI/admin foundation.
 - Inspinia is an admin foundation, but stakeholder, approval, intake, and status flows must be designed mobile-first.
 - `resources/Laravel/starterkit` is the planned application base.
@@ -26,7 +26,7 @@ Record technical stack and architecture decisions.
 - What deployment strategy is appropriate for cPanel/SSH hosting?
 - What queue, storage, and cache services should be used initially?
 - What exact backup tooling should be used?
-- What final production storage provider should be used?
+- Which S3-compatible storage provider should be used at the multi-tenant transition?
 - Is Postmark final after cost and hosting constraints are reviewed?
 
 ## Notes
@@ -36,4 +36,4 @@ Record technical stack and architecture decisions.
 - Do not add SDKs or packages until the relevant implementation work is explicitly scoped.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-24

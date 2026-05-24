@@ -20,9 +20,8 @@ Describe how review, approval, rejection, and requested changes should move thro
 
 ## Open Questions
 
-- Which approval states are required for MVP?
 - Who can override, reopen, or waive approvals?
-- Which approval actions should vendors versus stakeholders be allowed to take?
+- Which approval actions should vendor-scoped External Reviewers be allowed to take?
 
 ## Related Diagrams
 

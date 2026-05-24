@@ -8,6 +8,7 @@ Describe how deliverables move from planned work into production, review, approv
 
 - Treat deliverables as the main production and approval unit.
 - Allow deliverables to move independently inside a project.
+- Use Waiting for Approval for deliverables or reviewable elements that need a named approval.
 - Keep lifecycle states simple enough for real church workflows.
 - Preserve review, change request, and approval context.
 
@@ -20,9 +21,10 @@ Describe how deliverables move from planned work into production, review, approv
 
 ## Open Questions
 
-- Which deliverable statuses are required for MVP?
 - How many approval or revision rounds should be represented?
 - Which deliverable events should create notifications?
+
+Last Updated: 2026-05-24
 
 ## Related Diagrams
 
