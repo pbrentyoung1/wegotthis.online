@@ -6,7 +6,8 @@
     "dev": "npm --prefix docs-site run dev",
     "build": "npm --prefix docs-site run build",
     "preview": "npm --prefix docs-site run preview",
-    "install:docs": "npm --prefix docs-site install"
+    "install:docs": "npm --prefix docs-site install",
+    "check:local": "bash scripts/local-dev-check.sh"
   },
   "engines": {
     "node": ">=22.12.0"
