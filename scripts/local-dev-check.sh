@@ -14,6 +14,10 @@ pass_count=0
 warn_count=0
 fail_count=0
 
+HOST_PHP_MAJOR_MINOR="8.4"
+HOST_NODE_MAJOR="20"
+HOST_NODE_MIN_MINOR="20"
+
 status_line() {
   local state="$1"
   local label="$2"
@@ -37,6 +41,10 @@ command_version() {
   fi
 }
 
+major_minor() {
+  printf '%s' "$1" | cut -d. -f1-2
+}
+
 printf 'ForWorship Creative Local Dev Check\n'
 printf '====================================\n\n'
 
@@ -46,6 +54,24 @@ command_version node "node -v"
 command_version npm "npm -v"
 command_version psql "psql --version"
 command_version postgres "postgres --version"
+
+if command -v php >/dev/null 2>&1; then
+  php_version="$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION . "." . PHP_RELEASE_VERSION;')"
+
+  if [ "$(major_minor "$php_version")" != "$HOST_PHP_MAJOR_MINOR" ]; then
+    status_line warn "php parity" "local PHP $php_version differs from host PHP $HOST_PHP_MAJOR_MINOR.x"
+  fi
+fi
+
+if command -v node >/dev/null 2>&1; then
+  node_version="$(node -p 'process.versions.node')"
+  node_major="$(printf '%s' "$node_version" | cut -d. -f1)"
+  node_minor="$(printf '%s' "$node_version" | cut -d. -f2)"
+
+  if [ "$node_major" != "$HOST_NODE_MAJOR" ] || [ "$node_minor" -lt "$HOST_NODE_MIN_MINOR" ]; then
+    status_line warn "node parity" "local Node $node_version differs from host-compatible target 20.20.x+"
+  fi
+fi
 
 if command -v php >/dev/null 2>&1; then
   php -m 2>/dev/null | grep -qi '^pdo_pgsql$' \

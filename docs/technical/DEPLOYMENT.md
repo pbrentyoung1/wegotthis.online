@@ -40,6 +40,7 @@ Document hosting, deployment, release, and environment direction.
 - Deployed diagnostics at `diagnostics.forworship.org` confirm PHP 8.4.21, required extensions, PostgreSQL PDO connectivity, filesystem writes, public script path, environment access, HTTPS, and strong PHP limits.
 - Web PHP shell path does not expose Composer, Node, or npm even though Composer is available in SSH and Node/npm are available through the cPanel Node app environment.
 - Cron web-hit ping has run successfully. Manual ping returned `OK 2026-05-24T21:58:33+00:00`, and scheduled cPanel cron updated the timestamp to `2026-05-24T22:05:02+00:00`; Laravel scheduler CLI behavior and long-running queue worker support remain unverified.
+- Until hosting changes, treat PHP 8.4.21 as the application compatibility floor and Node 20.20.2 as the frontend/runtime compatibility floor for anything that may need to run in the cPanel Node.js app environment.
 
 ## PostgreSQL Posture
 
@@ -50,6 +51,7 @@ Document hosting, deployment, release, and environment direction.
 - Keep migrations and database usage conservative while the project remains on the current host.
 - Avoid depending on old PostgreSQL behavior or host-specific constraints.
 - Plan for eventual migration to a newer server or managed PostgreSQL environment.
+- Prefer local or CI asset builds that remain compatible with Node 20.20.2 rather than assuming newer local Node releases are safe.
 
 ## Queue And Scheduler Posture
 

@@ -19,7 +19,7 @@ cd docs-site
 npm install
 ```
 
-Astro `6.3.7` requires Node `22.12.0` or newer.
+Use Node `20.20.2` for host parity, or any Node `>=20.20.0` runtime that remains compatible with the documented server path.
 
 ## Run locally
 

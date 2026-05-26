@@ -72,6 +72,7 @@ Captured from `https://diagnostics.forworship.org` on 2026-05-24:
 - S3-compatible storage such as Cloudflare R2 remains the preferred future direction for scalable production.
 - Do not assume long-running queue workers are available on cPanel/reseller hosting.
 - Early staging may use cron-driven Laravel scheduler and queue work with `--stop-when-empty` if needed.
+- Treat PHP 8.4.21 and Node.js 20.20.2 as the current compatibility targets for local development decisions until staging infrastructure changes.
 
 ## Notes
 
