@@ -1,0 +1,59 @@
+<template>
+  <div class="p-4">
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <div class="avatar-md flex-shrink-0">
+        <span class="avatar-title text-bg-success rounded-circle fs-22">
+          <Icon icon="check" />
+        </span>
+      </div>
+      <div>
+        <p class="text-muted mb-0">Order #234000</p>
+        <h4 class="m-0">Thank you for your order!</h4>
+      </div>
+      <Link href="#" class="link-reset text-decoration-underline link-offset-2 fw-semibold ms-auto"> Track Order </Link>
+    </div>
+
+    <hr class="border-top border-dashed" />
+
+    <div class="mt-4">
+      <h6 class="text-uppercase text-muted fw-bold">Delivery Address</h6>
+      <span class="fw-semibold d-block mb-1">Marcus Reynolds</span>
+      500 Howard Street, Floor 8<br />
+      San Francisco, CA 94105<br />
+      <abbr title="Phone">P:</abbr> (415) 392-6400 <br />
+    </div>
+
+    <div class="mt-4">
+      <h6 class="text-uppercase text-muted fw-bold">Payment Info</h6>
+      <p>Credit card: xxxx xxxx xxxx 8521</p>
+    </div>
+
+    <div class="mt-4">
+      <BButton variant="success" href="#" class="me-2">
+        <Icon icon="download" class="me-1" />
+        Download Invoice
+      </BButton>
+      <Link href="/apps/ecommerce/products-grid" class="fw-semibold text-muted">
+        <Icon icon="arrow-left" class="me-1" />
+        Continue Shopping
+      </Link>
+    </div>
+
+    <div class="p-4 alert alert-info mt-4 mb-0">
+      <h4 class="text-center pb-2 mb-1 text-dark">🎁 Great News! You’ve unlocked 25% off your next order!</h4>
+      <p class="text-center fst-italic mb-4">Apply the code below at checkout or find it anytime in your account.</p>
+      <div class="d-flex gap-2 mx-auto">
+        <input type="text" class="form-control border-0" value="SAVE25NOW" readonly />
+        <BButton variant="dark" class="text-nowrap" type="button"> Copy Code </BButton>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
+
+import Icon from '@/components/wrappers/Icon.vue'
+</script>
+
+<style scoped></style>

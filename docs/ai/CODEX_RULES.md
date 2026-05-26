@@ -7,7 +7,7 @@ Provide project-specific guidance for Codex sessions.
 ## Current Decisions
 
 - Preserve documented decisions.
-- Do not build application code until instructed.
+- Do not build application code beyond the current scaffold until instructed.
 - Do not add unnecessary dependencies.
 - Prefer clear, maintainable changes aligned with the documented stack.
 - When work is ready to preserve in the repository, use Git intentionally with review, commit, and push steps.

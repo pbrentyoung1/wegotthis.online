@@ -7,8 +7,8 @@ Provide Claude Code with durable project context and guardrails.
 ## Current Decisions
 
 - wegotthis.online is a church communications operations platform.
-- The repository currently emphasizes documentation, planning, and decision capture.
-- The intended future stack is Laravel 12, Vue 3, Inertia.js, PostgreSQL, and Inspinia.
+- The repository contains an initial Laravel application scaffold and still emphasizes documented decisions.
+- The application stack is Laravel 13, Vue 3, Inertia.js, PostgreSQL, and Inspinia.
 - PostgreSQL should be used from the start.
 - Projects should be the primary container object.
 - Multi-tenancy should be considered from the beginning.
@@ -21,6 +21,6 @@ Provide Claude Code with durable project context and guardrails.
 
 ## Notes
 
-Do not scaffold application code, add dependencies, or invent final product decisions unless explicitly instructed.
+Do not add application code beyond the current scaffold, add dependencies, or invent final product decisions unless explicitly instructed.
 
-Last updated: 2026-05-20
+Last updated: 2026-05-24

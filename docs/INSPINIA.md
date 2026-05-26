@@ -47,7 +47,7 @@ We do not use INSPINIA for:
 
 ## Base vs Reference Implementation
 
-- `resources/Laravel/starterkit` is the implementation base when application work begins.
+- `resources/Laravel/starterkit` is the implementation base.
 - `resources/Laravel/inspinia` is the deeper reference implementation for patterns, flows, and component behavior.
 - The starterkit should usually answer how the app is structured.
 - The full INSPINIA implementation should usually answer how a common admin or product pattern behaves.
@@ -140,7 +140,7 @@ When adapting INSPINIA:
 Do not:
 
 - introduce new JavaScript frameworks without an architecture decision
-- bypass existing Tailwind or token systems
+- bypass existing Bootstrap, Bootstrap Vue Next, Inspinia SCSS, or token systems
 - create duplicate layout systems
 - create duplicate modal, notification, calendar, dropdown, or chart systems
 - hardcode colors outside design tokens

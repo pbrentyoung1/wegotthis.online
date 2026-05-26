@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define the minimum set of documented decisions and reference artifacts that must be true before Laravel scaffolding begins.
+Define the minimum set of documented decisions and reference artifacts that must stay true as Laravel scaffolding begins.
 
 ## Gate Principle
 
@@ -52,6 +52,6 @@ Define the minimum set of documented decisions and reference artifacts that must
 
 ## Readiness Rule
 
-Laravel scaffolding should begin only when the checklist items that block implementation are either `Ready` or explicitly deferred in a decision log with a reason.
+Feature implementation should begin only when scaffold-blocking items are `Ready` or explicitly deferred in a decision log with a reason. Backup/restore remains blocked for production readiness.
 
 Last Updated: 2026-05-24

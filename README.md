@@ -12,8 +12,8 @@ ForWorship Creative is a communications operations platform for churches. It is 
 - Working codename/current domain: `wegotthis.online` until infrastructure transitions.
 - ForWorship is the umbrella ecosystem; public subdomains such as `comms.forworship.org` and `creative.forworship.org` are marketing and education entry points, not separate apps.
 - Figma will be used for product and interface design.
-- The application is expected to be built later with Laravel 12, Vue 3, Inertia.js, PostgreSQL, and Inspinia.
-- `resources/Laravel/starterkit` is the planned Laravel application base.
+- The application scaffold uses Laravel 13, Vue 3, Inertia.js, PostgreSQL, and Inspinia.
+- `resources/Laravel/starterkit` is the Laravel application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common UI patterns.
 - PostgreSQL should be used from day one.
 - The system should be designed with multi-tenancy in mind, even if the first version serves one church.
@@ -32,7 +32,7 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 
 ## Open Questions
 
-- Should the first hosted environment be shared hosting, VPS, or another hosting.com option?
+- When should the project move from hosting.com/cPanel staging to newer production infrastructure?
 - What is the exact MVP boundary for the first usable release?
 - What Figma design system decisions should be reflected in code conventions?
 - Which future integrations should be prioritized after the core product is stable?
@@ -41,7 +41,7 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 
 ## Notes
 
-This repository is currently a planning and documentation foundation only. Laravel has not been scaffolded yet, and no application code has been added.
+This repository now contains the initial Laravel application scaffold in `resources/Laravel/starterkit`; canonical planning and decision history still live in `/docs`.
 
 Standard Git procedure for this repository:
 

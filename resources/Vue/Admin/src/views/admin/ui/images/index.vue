@@ -1,0 +1,327 @@
+<template>
+  <PageBreadcrumb title="Images" subtitle="UI" />
+  <div class="container">
+    <div class="grid grid-cols-1 gap-base mb-base">
+      <CardWithAction title="Shapes" isCollapsible>
+        <p class="text-default-400 mb-4">Avatars with different sizes and shapes.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-base">
+          <div>
+            <img src="/images/stock/small-1.jpg" alt="image" />
+          </div>
+
+          <div>
+            <img src="/images/stock/small-2.jpg" alt="image" class="rounded" />
+          </div>
+
+          <div>
+            <img src="/images/users/user-2.jpg" alt="image" class="mx-auto rounded" />
+          </div>
+
+          <div>
+            <img src="/images/users/user-5.jpg" alt="image" class="mx-auto rounded-full" />
+          </div>
+
+          <div>
+            <img src="/images/stock/small-5.jpg" alt="image" class="bg-default-100 border-default-300 rounded border p-1" />
+          </div>
+
+          <div>
+            <img src="/images/users/user-8.jpg" alt="image" class="bg-default-100 border-default-300 mx-auto rounded-full border p-1" />
+          </div>
+        </div>
+      </CardWithAction>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-base mb-base">
+      <CardWithAction title="Avatar Sizes" isCollapsible>
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-base">
+          <div>
+            <img src="/images/users/user-2.jpg" alt="image" class="mx-auto size-6 rounded" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-6</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-6 items-center justify-center rounded font-medium text-white">xs</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-6</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-6 items-center justify-center rounded font-medium">xs</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-6</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-3.jpg" alt="image" class="mx-auto size-8 rounded" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-8</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-8 items-center justify-center rounded font-medium text-white">sm</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-8</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-8 items-center justify-center rounded font-medium">sm</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-8</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-4.jpg" alt="image" class="mx-auto size-9 rounded" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-9</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-9 items-center justify-center rounded font-medium text-white">md</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-9</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-9 items-center justify-center rounded font-medium">md</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-9</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-5.jpg" alt="image" class="mx-auto size-11 rounded" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-11</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-11 items-center justify-center rounded font-medium text-white">LG</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-11</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-11 items-center justify-center rounded font-medium">LG</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-11</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-6.jpg" alt="image" class="mx-auto size-12 rounded" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-12</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-12 items-center justify-center rounded font-medium text-white">XL</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-12</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-12 items-center justify-center rounded font-medium">XL</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-12</code>
+            </p>
+          </div>
+        </div>
+      </CardWithAction>
+
+      <CardWithAction title="Avatar Sizes with Rounded" isCollapsible>
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-base">
+          <div>
+            <img src="/images/users/user-7.jpg" alt="image" class="mx-auto size-6 rounded-full" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-6</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-6 items-center justify-center rounded-full font-medium text-white">xs</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-6</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-6 items-center justify-center rounded-full font-medium">xs</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-6</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-8.jpg" alt="image" class="mx-auto size-8 rounded-full" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-8</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-8 items-center justify-center rounded-full font-medium text-white">sm</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-8</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-8 items-center justify-center rounded-full font-medium">sm</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-8</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-9.jpg" alt="image" class="mx-auto size-9 rounded-full" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-9</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-9 items-center justify-center rounded-full font-medium text-white">md</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-9</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-9 items-center justify-center rounded-full font-medium">md</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-9</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-10.jpg" alt="image" class="mx-auto size-11 rounded-full" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-11</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-11 items-center justify-center rounded-full font-medium text-white">LG</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-11</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-11 items-center justify-center rounded-full font-medium">LG</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-11</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-3 gap-base">
+          <div>
+            <img src="/images/users/user-1.jpg" alt="image" class="mx-auto size-12 rounded-full" />
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-12</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary mx-auto flex size-12 items-center justify-center rounded-full font-medium text-white">XL</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-12</code>
+            </p>
+          </div>
+
+          <div>
+            <div class="bg-primary/15 text-primary mx-auto flex size-12 items-center justify-center rounded-full font-medium">XL</div>
+            <p class="mt-2.5 mb-4 text-center">
+              <code>.size-12</code>
+            </p>
+          </div>
+        </div>
+      </CardWithAction>
+    </div>
+
+    <div class="grid grid-cols-1">
+      <CardWithAction title="Avatar Groups" isCollapsible>
+        <div class="grid grid-cols-1 xl:grid-cols-4 lg:gap-base">
+          <div class="flex -space-x-3">
+            <img src="/images/users/user-4.jpg" alt="" class="size-8 transform rounded-full duration-300 hover:-translate-y-0.5" />
+            <img src="/images/users/user-5.jpg" alt="" class="size-8 transform rounded-full duration-300 hover:-translate-y-0.5" />
+            <img src="/images/users/user-3.jpg" alt="" class="size-8 transform rounded-full duration-300 hover:-translate-y-0.5" />
+            <img src="/images/users/user-8.jpg" alt="" class="size-8 transform rounded-full duration-300 hover:-translate-y-0.5" />
+            <img src="/images/users/user-2.jpg" alt="" class="size-8 transform rounded-full duration-300 hover:-translate-y-0.5" />
+          </div>
+
+          <div class="flex -space-x-3">
+            <div class="bg-danger flex size-9 transform items-center justify-center rounded-full font-medium text-white duration-300 hover:-translate-y-0.5">D</div>
+
+            <div class="bg-primary flex size-9 transform items-center justify-center rounded-full font-medium text-white duration-300 hover:-translate-y-0.5">K</div>
+
+            <div class="bg-secondary flex size-9 transform items-center justify-center rounded-full font-medium text-white duration-300 hover:-translate-y-0.5">H</div>
+
+            <div class="bg-warning flex size-9 transform items-center justify-center rounded-full font-medium text-white duration-300 hover:-translate-y-0.5">L</div>
+
+            <div class="bg-info flex size-9 transform items-center justify-center rounded-full font-medium text-white duration-300 hover:-translate-y-0.5">G</div>
+          </div>
+
+          <div class="flex -space-x-3">
+            <div class="bg-danger/15 text-danger relative flex size-11 transform items-center justify-center rounded-full font-semibold backdrop-blur-sm duration-300 hover:z-10 hover:-translate-y-0.5">D</div>
+
+            <div class="bg-primary/15 text-primary relative flex size-11 transform items-center justify-center rounded-full font-semibold backdrop-blur-sm duration-300 hover:z-10 hover:-translate-y-0.5">K</div>
+
+            <div class="bg-secondary/15 text-secondary relative flex size-11 transform items-center justify-center rounded-full font-semibold backdrop-blur-sm duration-300 hover:z-10 hover:-translate-y-0.5">H</div>
+
+            <div class="bg-warning/15 text-warning relative flex size-11 transform items-center justify-center rounded-full font-semibold backdrop-blur-sm duration-300 hover:z-10 hover:-translate-y-0.5">L</div>
+
+            <div class="bg-info/15 text-info relative flex size-11 transform items-center justify-center rounded-full font-semibold backdrop-blur-sm duration-300 hover:z-10 hover:-translate-y-0.5">G</div>
+          </div>
+
+          <div class="flex -space-x-3">
+            <img src="/images/users/user-10.jpg" alt="" class="size-12 transform rounded-full duration-300 hover:-translate-y-0.5" />
+
+            <div class="bg-info flex size-12 transform items-center justify-center rounded-full font-medium text-white duration-300 hover:-translate-y-0.5">D</div>
+
+            <img src="/images/users/user-7.jpg" alt="" class="size-12 transform rounded-full duration-300 hover:-translate-y-0.5" />
+
+            <img src="/images/users/user-1.jpg" alt="" class="size-12 transform rounded-full duration-300 hover:-translate-y-0.5" />
+
+            <div class="bg-danger flex size-12 transform items-center justify-center rounded-full text-lg font-medium text-white duration-300 hover:-translate-y-0.5">9+</div>
+          </div>
+        </div>
+      </CardWithAction>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import CardWithAction from '~/components/CardWithAction.vue'
+import PageBreadcrumb from '~/components/PageBreadcrumb.vue'
+</script>

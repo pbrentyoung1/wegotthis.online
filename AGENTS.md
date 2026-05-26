@@ -2,9 +2,9 @@
 
 ## Project Structure & Module Organization
 
-This repository is currently a planning and documentation foundation for ForWorship Creative, a church communications operations platform. The target app URL is `app.forworship.org`; `wegotthis.online` remains the working codename/current domain until infrastructure transitions. Canonical product, architecture, branding, and workflow decisions live in `docs/`. AI guidance lives in `docs/ai/`, and reusable prompts live in `prompts/`.
+This repository contains the planning foundation and initial Laravel scaffold for ForWorship Creative, a church communications operations platform. The target app URL is `app.forworship.org`; `wegotthis.online` remains the working codename/current domain until infrastructure transitions. Canonical product, architecture, branding, and workflow decisions live in `docs/`. AI guidance lives in `docs/ai/`, and reusable prompts live in `prompts/`.
 
-The Astro documentation site is in `docs-site/`; routes are in `src/pages`, layouts in `src/components/layout`, maps in `src/components/maps`, and styles in `src/styles/global.css`. The planned Laravel application base is `resources/Laravel/starterkit/`, with standard Laravel directories such as `app/`, `routes/`, `database/`, `resources/`, and `tests/`. Root folders such as `src/`, `assets/`, `database/`, `deployment/`, and `design/` are placeholders for future work.
+The Astro documentation site is in `docs-site/`; routes are in `src/pages`, layouts in `src/components/layout`, maps in `src/components/maps`, and styles in `src/styles/global.css`. The Laravel application base is `resources/Laravel/starterkit/`, with standard Laravel directories such as `app/`, `routes/`, `database/`, `resources/`, and `tests/`. Root folders such as `src/`, `assets/`, `database/`, `deployment/`, and `design/` are placeholders for future work.
 
 ## Build, Test, and Development Commands
 
@@ -31,4 +31,4 @@ Recent commits use short Conventional Commit-style prefixes such as `docs:` and 
 
 ## Agent-Specific Instructions
 
-Read `README.md` and relevant files in `docs/ai/` before implementation changes. Do not scaffold Laravel, add dependencies, or introduce new workflow statuses unless explicitly requested and reflected in canonical documentation.
+Read `README.md` and relevant files in `docs/ai/` before implementation changes. Do not add application code beyond the current scaffold, add dependencies, or introduce new workflow statuses unless explicitly requested and reflected in canonical documentation.

@@ -6,8 +6,8 @@ List project constraints that AI assistants and contributors must preserve.
 
 ## Current Decisions
 
-- Do not scaffold Laravel until explicitly instructed.
-- Do not add application code during documentation setup.
+- Do not add application code beyond the current scaffold until explicitly instructed.
+- Do not add product feature code during documentation or scaffold setup.
 - Do not switch away from PostgreSQL without a documented decision.
 - Do not ignore multi-tenancy considerations.
 - Do not treat placeholders as final decisions.
@@ -23,4 +23,4 @@ List project constraints that AI assistants and contributors must preserve.
 
 - Update this file whenever a decision becomes important enough to protect.
 
-Last updated: 2026-05-20
+Last updated: 2026-05-24

@@ -1,0 +1,50 @@
+{
+  "name": "inspinia",
+  "version": "5.1.0",
+  "description": "Inspinia is the #1 best-selling admin dashboard template on Wrapmarket. Perfect for building CRM, CMS, project management tools, and custom web apps with clean UI, responsive design, and powerful features.",
+  "author": "WebAppLayers",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix --cache",
+    "format": "prettier --write --experimental-cli src/"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.6",
+    "@tsconfig/node24": "^24.0.3",
+    "@types/node": "^24.10.1",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "@vue/tsconfig": "^0.8.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-vue": "~10.5.1",
+    "jiti": "^2.6.1",
+    "npm-run-all2": "^8.0.4",
+    "prettier": "^3.8.1",
+    "sass": "1.77.6",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^7.2.4",
+    "vite-plugin-vue-devtools": "^8.0.5",
+    "vue-tsc": "^3.1.5"
+  },
+  "dependencies": {
+    "@iconify/vue": "^5.0.0",
+    "@vueuse/core": "^14.2.1",
+    "clsx": "^2.1.1",
+    "echarts": "^6.0.0",
+    "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
+    "preline": "4.0.1",
+    "simplebar-vue": "^2.4.2",
+    "vue": "^3.5.32",
+    "vue-countup-v3": "^1.4.2",
+    "vue-echarts": "^8.0.1",
+    "vue-router": "^5.0.4",
+    "vue3-otp-input": "^0.5.40"
+  }
+}

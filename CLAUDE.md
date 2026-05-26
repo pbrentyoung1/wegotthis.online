@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 
 ## Project Status
 
-**This repository is currently in pre-development documentation and planning phase.** Laravel has not been scaffolded yet, and no application code exists. The focus is on documentation, decision capture, and architectural planning before implementation begins.
+**This repository now includes the initial application scaffold.** The Laravel app base lives in `resources/Laravel/starterkit`; documentation and decision capture remain canonical in `/docs`.
 
 ## Product Identity
 
@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 
 ## Core Constraints
 
-- **Do not scaffold Laravel or add application code** unless explicitly instructed
+- **Do not add application code beyond the current scaffold** unless explicitly instructed
 - **PostgreSQL is required** from day one (not MySQL)
 - **Multi-tenancy must be considered** in all architectural decisions
 - Use **single-database `tenant_id` tenancy** for MVP (not schema-per-tenant or database-per-tenant)
@@ -28,14 +28,14 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 - Preserve the brand direction that the product should feel like "we got this" in software form: calm, capable, warm, personal, and steady
 - Before creating or heavily modifying UI, read `docs/INSPINIA.md` and review the INSPINIA starterkit, full Laravel implementation, and Figma assets for patterns that can be adapted
 
-## Technology Stack (Planned)
+## Technology Stack
 
-- Laravel 12
+- Laravel 13
 - Vue 3
 - Inertia.js
 - PostgreSQL (single database with tenant-scoped records)
 - Inspinia (admin UI foundation)
-- `resources/Laravel/starterkit` as the planned application base
+- `resources/Laravel/starterkit` as the Laravel application base
 - `resources/Laravel/inspinia` as the planned reference implementation for common patterns
 - PostgreSQL full-text search for MVP
 - Transactional email with Postmark (preferred)
@@ -164,19 +164,31 @@ Design activity and audit logging early as a core architectural concern:
 - Design integration boundaries so the platform remains fully functional without any external connector
 - Treat each integration as an isolated module, not as a foundation for core architecture
 
-## Development Workflow (Once Scaffolded)
+## Development Workflow
 
-**Commands will be added here once Laravel is scaffolded and the application exists.**
+All commands run from `resources/Laravel/starterkit`.
 
-Currently no build, test, or development commands are available because the application has not been created yet.
+```bash
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+npm run dev          # Vite dev server
+php artisan serve    # Laravel dev server → http://127.0.0.1:8000
+composer test        # Run test suite (41 tests)
+npm run build        # Production asset build
+```
+
+- **Inertia SSR is disabled** — do not enable without confirming cPanel staging compatibility first
+- **Vite asset path:** `resources/js/views` (not `resources/js/pages`)
+- **Auth:** Fortify, wired to Inspinia Vue view paths
+- See `resources/Laravel/starterkit/README.md` for full local setup instructions
 
 ## Open Questions
 
-Before scaffolding begins, these questions should be resolved:
-
-- Should the application use Tailwind, Bootstrap, or both?
-- Which testing stack should be standard?
-- Should local development use Laravel Herd, Sail, Docker, native PHP/PostgreSQL, or another setup?
+- What backup tooling and restore process should be standardized before production?
+- Which production infrastructure should replace hosting.com/cPanel staging?
 - What exact MVP boundary and required fields for project requests?
 - Which closeout checks are required before project archive?
 - Which pilot church templates are required first?

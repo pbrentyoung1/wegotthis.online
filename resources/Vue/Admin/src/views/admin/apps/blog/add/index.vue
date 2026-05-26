@@ -1,0 +1,162 @@
+<template>
+  <PageBreadcrumb title="Create Article" subtitle="Blog" />
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Create New Blog Post</h5>
+        <small class="text-default-400">Last saved: just now</small>
+      </div>
+
+      <div class="card-body">
+        <form class="space-y-5">
+          <div>
+            <label for="title" class="form-label">Post Title</label>
+            <input type="text" class="form-input" id="title" placeholder="Enter your blog title" required />
+          </div>
+
+          <div>
+            <label for="slug" class="form-label">Slug</label>
+            <input type="text" class="form-input" id="slug" placeholder="e.g. how-to-build-a-blog" />
+          </div>
+
+          <div class="grid grid-cols-1 gap-base md:grid-cols-2">
+            <div>
+              <label for="author" class="form-label">Author</label>
+              <input type="text" class="form-input" id="author" placeholder="Enter author name" />
+            </div>
+
+            <div>
+              <label for="publishDate" class="form-label">Publish Date & Time</label>
+              <FlatPickr
+                v-model="date"
+                :config="{
+                  defaultDate: 'today',
+                  dateFormat: 'd M, Y H:i',
+                  enableTime: true,
+                }"
+                class="form-input"
+                id="publishDate"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="category" class="form-label">Category</label>
+            <select id="category" class="form-select">
+              <option selected disabled>Select category</option>
+              <option>Technology</option>
+              <option>Design</option>
+              <option>Development</option>
+              <option>Business</option>
+              <option>Lifestyle</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="profilephoto" class="form-label">Featured Image</label>
+            <input type="file" name="file-input" id="profilephoto" class="form-input" />
+            <small class="text-default-400">Recommended size: 1200x600px</small>
+          </div>
+
+          <div>
+            <label class="form-label">Post Content</label>
+            
+              <QuillEditor v-model:content="value" :toolbar="modules" theme="snow" content-type="html" />
+            
+          </div>
+
+          <div>
+            <label for="excerpt" class="form-label">Excerpt (Short Summary)</label>
+            <textarea class="form-textarea" id="excerpt" rows="2" placeholder="Enter a short summary for your post..."></textarea>
+          </div>
+
+          <div>
+            <label for="tags" class="form-label">Tags</label>
+            <input type="text" class="form-input" id="tags" placeholder="e.g. TailwindCSS, web design, ui, frontend" />
+            <small class="text-default-400">Separate tags with commas.</small>
+          </div>
+
+          <div class="mt-7.5 space-y-5 border-t border-default-300 pt-5">
+            <h5 class="text-sm font-bold text-default-400 uppercase">SEO Settings</h5>
+            <div>
+              <label for="metaTitle" class="form-label">Meta Title</label>
+              <input type="text" class="form-input" id="metaTitle" placeholder="Enter SEO title" />
+            </div>
+
+            <div>
+              <label for="metaDescription" class="form-label">Meta Description</label>
+              <textarea class="form-textarea" id="metaDescription" rows="2" placeholder="Short description for search engines"></textarea>
+            </div>
+
+            <div>
+              <label for="metaKeywords" class="form-label">Meta Keywords</label>
+              <input type="text" class="form-input" id="metaKeywords" placeholder="e.g. blog, TailwindCSS, tutorial" />
+            </div>
+          </div>
+
+          <div class="mt-7.5 space-y-5 border-t border-default-300 pt-5">
+            <h5 class="text-sm font-bold text-default-400 uppercase">Visibility</h5>
+            <div class="flex items-center gap-2">
+              <input class="form-switch" type="checkbox" id="featured" />
+              <label class="form-check-label" for="featured">Mark as Featured Post</label>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input class="form-switch" type="checkbox" id="commentsEnabled" checked />
+              <label class="form-check-label" for="commentsEnabled">Allow Comments</label>
+            </div>
+          </div>
+
+          <div class="mt-7.5 mb-5 space-y-5">
+            <label class="text-sm font-bold text-default-400 uppercase">Status</label>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2">
+                <input class="form-radio rounded-full!" type="radio" name="status" id="draft" value="draft" checked />
+                <label class="form-check-label" for="draft">Draft</label>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <input class="form-radio rounded-full!" type="radio" name="status" id="published" value="published" />
+                <label class="form-check-label" for="published">Published</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-wrap justify-center gap-3">
+            <button type="reset" class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">Reset</button>
+
+            <button type="submit" class="btn bg-success text-white hover:bg-success-hover">Save as Draft</button>
+
+            <button type="submit" class="btn bg-primary text-white hover:bg-primary-hover">Publish Post</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { QuillEditor } from '@vueup/vue-quill'
+import { ref } from 'vue'
+import FlatPickr from 'vue-flatpickr-component'
+import PageBreadcrumb from '~/components/PageBreadcrumb.vue'
+
+const modules = [
+  [{ font: [] }, { size: [] }],
+  ['bold', 'italic', 'underline', 'strike'],
+  [{ color: [] }, { background: [] }],
+  [{ script: 'super' }, { script: 'sub' }],
+  [{ header: [false, 1, 2, 3, 4, 5, 6] }, 'blockquote', 'code-block'],
+  [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+  ['direction', { align: [] }],
+  ['link', 'image', 'video'],
+  ['clean'],
+]
+
+const value = ref(
+  `<h3>Create, manage, and publish engaging blog articles effortlessly.</h3><ul><li>Write and format posts with an intuitive rich-text editor.</li><li>Organize articles by categories, tags, and authors for easy navigation.</li><li>Built-in SEO tools to help your content rank higher on search engines.</li><li>Preview articles before publishing to ensure perfect layout and style.</li><li>Fully responsive design ensures your blog looks great on any device.</li></ul><p>The Blog Article module helps you create professional-looking posts quickly. Ideal for personal blogs, news platforms, or content-driven websites.</p>`
+)
+
+const date = ref('today')
+</script>

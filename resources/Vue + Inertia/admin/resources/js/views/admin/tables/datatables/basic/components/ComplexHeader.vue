@@ -1,0 +1,49 @@
+<template>
+  <BCard no-body>
+    <BCardHeader class="d-flex justify-content-between align-items-center">
+      <BCardTitle as="h4" class="mb-0">Complex Header</BCardTitle>
+    </BCardHeader>
+
+    <BCardBody>
+      
+        <component :is="DataTableComponent" :data="tableData.body" :columns="columns" :options="options" class="table table-bordered dt-responsive align-middle mb-0 nowrap w-100">
+          <thead class="thead-sm text-uppercase fs-xxs">
+            <tr>
+              <th colspan="2">Company Info</th>
+              <th colspan="2">Rate</th>
+              <th colspan="2">More</th>
+              <th colspan="2">Other</th>
+            </tr>
+            <tr>
+              <th v-for="(label, idx) in tableData.header" :key="idx">
+                {{ label }}
+              </th>
+            </tr>
+          </thead>
+        </component>
+      
+    </BCardBody>
+  </BCard>
+</template>
+
+<script setup lang="ts">
+import type { Config } from 'datatables.net'
+import { onMounted, shallowRef, type Component } from 'vue'
+import { columns, paginationIcons, tableData } from '../../components/data'
+
+const DataTableComponent = shallowRef<Component | null>(null)
+
+onMounted(async () => {
+  const [{ default: DataTableVue }, { default: DataTablesCore }] = await Promise.all([import('datatables.net-vue3'), import('datatables.net-bs5')])
+
+  DataTableVue.use(DataTablesCore)
+  DataTableComponent.value = DataTableVue
+})
+
+const options: Config = {
+  responsive: true,
+  language: {
+    paginate: paginationIcons,
+  },
+}
+</script>

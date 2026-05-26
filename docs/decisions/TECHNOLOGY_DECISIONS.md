@@ -6,7 +6,7 @@ Record technical stack and architecture decisions.
 
 ## Current Decisions
 
-- Laravel 12 is the intended backend framework.
+- Laravel 13 is the backend framework for the initial application scaffold.
 - Vue 3 and Inertia.js are the intended frontend application approach.
 - PostgreSQL should be used from day one.
 - Working decision: use a single PostgreSQL database with tenant-scoped records using `tenant_id`.
@@ -19,7 +19,7 @@ Record technical stack and architecture decisions.
 - Do not depend on host-specific constraints, cPanel-specific behavior, or old PostgreSQL behavior.
 - Inspinia is the intended UI/admin foundation.
 - Inspinia is an admin foundation, but stakeholder, approval, intake, and status flows must be designed mobile-first.
-- `resources/Laravel/starterkit` is the planned application base.
+- `resources/Laravel/starterkit` is the Laravel application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common patterns.
 - Tailwind and/or Bootstrap will depend on how the chosen starterkit and reference implementation are actually structured.
 - GitHub will be the source of truth.
@@ -36,8 +36,8 @@ Record technical stack and architecture decisions.
 
 ## Notes
 
-- Do not scaffold Laravel until explicitly instructed.
-- Revisit stack decisions before implementation begins.
+- Laravel scaffolding began after explicit approval on 2026-05-24.
+- Revisit stack decisions before adding major application modules.
 - Do not add SDKs or packages until the relevant implementation work is explicitly scoped.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 

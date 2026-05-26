@@ -1,0 +1,49 @@
+<template>
+  <CardWithAction title="Quarterly Reports" body-class="p-0" isCollapsable isReloadable isCloseable>
+    <template #header-extra-text>
+      <span class="badge text-bg-primary">IN+</span>
+    </template>
+    <div class="table-responsive mb-0 pb-0">
+      <table class="table table-hover table-custom table-nowrap table-centered mb-0">
+        <thead class="bg-light bg-opacity-25 thead-sm">
+          <tr class="text-uppercase fs-xxs">
+            <th class="text-muted">Quarter</th>
+            <th class="text-muted">Revenue</th>
+            <th class="text-muted">Expense</th>
+            <th class="text-muted">Margin</th>
+            <th class="text-muted">•••</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(report, idx) in quarterlyReportData" :key="idx">
+            <td>
+              <h5 class="fs-sm mb-1 fw-normal">{{ report.quarter }}</h5>
+              <span class="text-muted fs-xs">{{ report.period }}</span>
+            </td>
+            <td>{{ report.revenue }}</td>
+            <td>{{ report.expense }}</td>
+            <td>{{ report.margin }}</td>
+            <td style="width: 60px">
+              <div dir="ltr">
+                
+                  <EChart :get-options="getPieEchartOptions" :extensions="[PieChart, TooltipComponent, GridComponent, CanvasRenderer]" :style="{ minHeight: '30px', width: '30px' }" />
+                
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </CardWithAction>
+</template>
+
+<script setup lang="ts">
+import { PieChart } from 'echarts/charts'
+import { GridComponent, TooltipComponent } from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+import CardWithAction from '@/components/CardWithAction.vue'
+import EChart from '@/components/wrappers/EChart.vue'
+import { getPieEchartOptions, quarterlyReportData } from './data'
+</script>
+
+<style scoped></style>

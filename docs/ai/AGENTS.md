@@ -8,7 +8,7 @@ Define how AI agents should understand and participate in this project.
 
 - Codex and Claude Code will assist development.
 - AI agents should read project documentation before making implementation changes.
-- AI agents should not scaffold Laravel or add dependencies unless explicitly instructed.
+- AI agents should not add application code or dependencies beyond the current scaffold unless explicitly instructed.
 - AI agents should preserve the calm, supportive, human-centered product philosophy in documentation, copy, UX recommendations, and implementation guidance.
 - Docs-site diagrams must visualize canonical source docs. They must not introduce independent role names, lifecycle states, or workflow decisions unless explicitly labeled Exploratory.
 - Exploratory diagrams must be labeled `Exploratory`, must not be used as implementation guidance, and must note that source docs remain canonical.

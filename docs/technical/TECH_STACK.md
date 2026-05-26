@@ -6,7 +6,7 @@ Document current technology direction and unresolved stack choices.
 
 ## Current Decisions
 
-- Laravel 12
+- Laravel 13
 - Vue 3
 - Inertia.js
 - PostgreSQL
@@ -14,9 +14,12 @@ Document current technology direction and unresolved stack choices.
 - PostgreSQL full-text search for MVP
 - Inspinia
 - Inspinia as admin UI foundation, with mobile-first design for stakeholder, approval, intake, and status flows
-- `resources/Laravel/starterkit` as the planned application base
-- `resources/Laravel/inspinia` as the planned reference implementation for common patterns
-- Tailwind and/or Bootstrap depending on how the chosen starterkit and reference implementation are actually structured
+- `resources/Laravel/starterkit` as the Laravel application base
+- `resources/Laravel/inspinia` as the reference implementation for common patterns
+- Bootstrap, Bootstrap Vue Next, and Inspinia SCSS in the current starter kit; do not add Tailwind unless a future decision requires it
+- Fortify for authentication; auth views wired to Inspinia Vue view paths
+- Inertia SSR disabled by default for cPanel staging portability; do not enable without confirming staging compatibility
+- Vite asset path is `resources/js/views` (not `resources/js/pages`)
 - hosting.com reseller account for initial hosting
 - cPanel and SSH access available
 - Transactional email with Postmark preferred unless cost or hosting constraints change the decision
@@ -29,7 +32,7 @@ Document current technology direction and unresolved stack choices.
 
 ## Open Questions
 
-- Should the application use Tailwind, Bootstrap, or both?
+- Should Tailwind be avoided entirely now that the selected starter uses Bootstrap/Bootstrap Vue Next?
 - Which testing stack should be standard?
 - Should future integrations rely on framework HTTP clients, official SDKs, or custom service classes?
 - What exact queue, cache, and backup tooling should be used?
@@ -37,7 +40,7 @@ Document current technology direction and unresolved stack choices.
 
 ## Notes
 
-- Do not add dependencies until implementation starts.
+- Do not add dependencies unless they are needed for scoped implementation work.
 - Do not install Planning Center SDKs or build API clients until integration work is explicitly scoped.
 - Integration services should be modular and isolated from core business logic.
 - Search, notifications, backups, storage, and tenant scoping are documented in `/docs/technical`.

@@ -7,7 +7,7 @@ Provide project-specific guidance for Claude Code sessions.
 ## Current Decisions
 
 - Claude Code will assist development.
-- Claude Code should preserve documented decisions and avoid unrequested scaffolding.
+- Claude Code should preserve documented decisions and avoid unrequested application code beyond the current scaffold.
 - GitHub remains the source of truth.
 - When work is ready to preserve in the repository, use Git intentionally with review, commit, and push steps.
 - Claude Code should preserve the warm, conversational, human-centered product philosophy in copy, UX, and workflow guidance.
