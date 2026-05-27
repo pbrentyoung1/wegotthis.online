@@ -17,6 +17,19 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'job_title' => ['nullable', 'string', 'max:255'],
+            'department' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'state' => ['nullable', 'string', 'max:255'],
+            'country' => ['nullable', 'string', 'max:255'],
+            'timezone' => ['nullable', 'timezone:all'],
+            'website' => ['nullable', 'url', 'max:255'],
+            'bio' => ['nullable', 'string', 'max:1000'],
+            'facebook_url' => ['nullable', 'url', 'max:255'],
+            'instagram_handle' => ['nullable', 'string', 'max:255'],
+            'linkedin_url' => ['nullable', 'url', 'max:255'],
+            'x_handle' => ['nullable', 'string', 'max:255'],
         ];
     }
 

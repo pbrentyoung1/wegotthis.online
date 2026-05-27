@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -56,5 +57,17 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => encrypt(json_encode(['recovery-code-1'])),
             'two_factor_confirmed_at' => now(),
         ]);
+    }
+
+    /**
+     * Indicate that the user has a profile record.
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    public function withProfile(array $attributes = []): static
+    {
+        return $this->afterCreating(function (User $user) use ($attributes): void {
+            UserProfile::factory()->for($user)->create($attributes);
+        });
     }
 }

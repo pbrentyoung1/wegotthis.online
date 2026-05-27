@@ -16,6 +16,32 @@ export const menuItems: MenuItemType[] = [
     ],
   },
   {
+    'icon': 'users-group',
+    'slug': 'users',
+    'label': 'Users',
+    'isTitle': true,
+    'children': [
+      {
+        'url': '/users/contacts',
+        'slug': 'users:contacts',
+        'label': 'Contacts',
+        'icon': 'users-group',
+      },
+      {
+        'url': '/users/roles',
+        'slug': 'users:roles',
+        'label': 'Roles',
+        'icon': 'shield-lock',
+      },
+      {
+        'url': '/users/permissions',
+        'slug': 'users:permissions',
+        'label': 'Permissions',
+        'icon': 'key',
+      },
+    ],
+  },
+  {
     'icon': 'files',
     'slug': 'custom-pages',
     'label': 'Custom Pages',

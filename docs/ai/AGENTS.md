@@ -15,6 +15,7 @@ Define how AI agents should understand and participate in this project.
 - Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for existing patterns to adapt.
 - Before creating a new map, ask whether it unblocks implementation. If it does not, add the concept to the canonical docs or `docs/BUILD_READINESS_CHECKLIST.md` instead.
 - Do not introduce new task statuses without updating the canonical task docs and build-readiness checklist in the same change.
+- Document meaningful actions, decisions, verification results, and unfinished work as the session progresses so another agent can resume safely after a disconnect.
 
 ## Open Questions
 
@@ -28,4 +29,4 @@ Define how AI agents should understand and participate in this project.
 - If a map and a source doc conflict, the source doc remains canonical until both are reconciled in the same change.
 - AI suggestions should make the product feel more like a capable teammate and less like a managerial system.
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-27

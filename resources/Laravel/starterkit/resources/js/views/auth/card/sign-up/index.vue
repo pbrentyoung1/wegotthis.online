@@ -9,19 +9,24 @@
                 <div class="card-body">
                   <div class="auth-brand text-center mb-4">
                     <AuthLogo />
-                    <h4 class="fw-bold mt-4">Create New Account</h4>
-                    <p class="text-muted w-lg-75 mx-auto">Let’s get you started. Create your account by entering your details below.</p>
+                    <h4 class="fw-bold mt-4">Create your account</h4>
+                    <p class="text-muted w-lg-75 mx-auto">Let’s get you started. Add your details below to create your workspace access.</p>
                   </div>
 
-                  <form>
+                  <BForm @submit.prevent="submit">
+                    <BAlert v-if="form.hasErrors" variant="danger" model-value class="mb-3">
+                      Please review the details below.
+                    </BAlert>
+
                     <div class="mb-3">
                       <label for="userName" class="form-label"> Name <span class="text-danger">*</span> </label>
                       <div class="input-group">
                         <span class="input-group-text bg-light">
                           <Icon icon="user" class="text-muted fs-xl" />
                         </span>
-                        <BFormInput type="text" id="userName" :placeholder="META_DATA.username" required />
+                        <BFormInput v-model="form.name" type="text" id="userName" :placeholder="META_DATA.username" autocomplete="name" required />
                       </div>
+                      <div v-if="form.errors.name" class="invalid-feedback d-block">{{ form.errors.name }}</div>
                     </div>
 
                     <div class="mb-3">
@@ -30,8 +35,9 @@
                         <span class="input-group-text bg-light">
                           <Icon icon="mail" class="text-muted fs-xl" />
                         </span>
-                        <BFormInput type="email" id="userEmail" placeholder="you@example.com" required />
+                        <BFormInput v-model="form.email" type="email" id="userEmail" placeholder="you@example.com" autocomplete="email" required />
                       </div>
+                      <div v-if="form.errors.email" class="invalid-feedback d-block">{{ form.errors.email }}</div>
                     </div>
 
                     <div class="mb-3">
@@ -40,23 +46,37 @@
                         <span class="input-group-text bg-light">
                           <Icon icon="lock-password" class="text-muted fs-xl" />
                         </span>
-                        <BFormInput id="userPassword" v-model="password" type="password" placeholder="••••••••" required />
+                        <BFormInput id="userPassword" v-model="form.password" type="password" placeholder="••••••••" autocomplete="new-password" required />
                       </div>
-                      <PasswordStrengthBar :password="password" />
+                      <PasswordStrengthBar :password="form.password" />
+                      <div v-if="form.errors.password" class="invalid-feedback d-block">{{ form.errors.password }}</div>
                     </div>
 
                     <div class="mb-3">
-                      <BFormCheckbox name="termAndPolicy"> Agree the Terms & Policy </BFormCheckbox>
+                      <label for="userPasswordConfirmation" class="form-label"> Confirm password <span class="text-danger">*</span> </label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-light">
+                          <Icon icon="lock-password" class="text-muted fs-xl" />
+                        </span>
+                        <BFormInput
+                          id="userPasswordConfirmation"
+                          v-model="form.password_confirmation"
+                          type="password"
+                          placeholder="••••••••"
+                          autocomplete="new-password"
+                          required
+                        />
+                      </div>
                     </div>
 
                     <div class="d-grid">
-                      <BButton type="submit" variant="primary" class="fw-semibold py-2"> Create Account </BButton>
+                      <BButton type="submit" variant="primary" class="fw-semibold py-2" :disabled="form.processing"> Create Account </BButton>
                     </div>
-                  </form>
+                  </BForm>
 
                   <p class="text-muted text-center mt-4 mb-0">
                     Already have an account?
-                    <Link href="/auth/card/sign-in" class="text-decoration-underline link-offset-3 fw-semibold"> Login </Link>
+                    <Link href="/login" class="text-decoration-underline link-offset-3 fw-semibold"> Login </Link>
                   </p>
 
                   <p class="text-center text-muted mt-4 mb-0">
@@ -80,15 +100,25 @@
 </template>
 
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 
-import { BButton, BCard, BCol, BContainer, BRow } from 'bootstrap-vue-next'
-import { ref } from 'vue'
+import { BAlert, BButton, BCard, BCol, BContainer, BForm, BFormInput, BRow } from 'bootstrap-vue-next'
 import AuthLogo from '@/components/AuthLogo.vue'
 import PasswordStrengthBar from '@/components/PasswordStrengthBar.vue'
 import Icon from '@/components/wrappers/Icon.vue'
 import { currentYear, META_DATA } from '@/config/constants'
 
-const password = ref('')
+const form = useForm({
+  name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+})
 
+const submit = () => {
+  form.post('/register', {
+    preserveScroll: true,
+    onFinish: () => form.reset('password', 'password_confirmation'),
+  })
+}
 </script>

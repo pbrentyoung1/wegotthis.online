@@ -9,33 +9,34 @@
                 <div class="card-body">
                   <div class="auth-brand text-center mb-4">
                     <AuthLogo />
-                    <h4 class="fw-bold mt-4">Forgot Password ?</h4>
-                    <p class="text-muted w-lg-75 mx-auto">Enter your email address and we'll send you a link to reset your password.</p>
+                    <h4 class="fw-bold mt-4">Forgot your password?</h4>
+                    <p class="text-muted w-lg-75 mx-auto">Enter your email address and we’ll send you a link to reset your password.</p>
                   </div>
 
-                  <form>
+                  <BForm @submit.prevent="submit">
+                    <BAlert v-if="status" variant="success" model-value class="mb-3">
+                      {{ status }}
+                    </BAlert>
+
                     <div class="mb-3">
                       <label for="userEmail" class="form-label"> Email address <span class="text-danger">*</span> </label>
                       <div class="input-group">
                         <span class="input-group-text bg-light">
                           <Icon icon="mail" class="text-muted fs-xl" />
                         </span>
-                        <BFormInput type="email" id="userEmail" placeholder="you@example.com" required />
+                        <BFormInput v-model="form.email" type="email" id="userEmail" placeholder="you@example.com" autocomplete="email" required />
                       </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <BFormCheckbox name="termAndPolicy"> Agree the Terms & Policy </BFormCheckbox>
+                      <div v-if="form.errors.email" class="invalid-feedback d-block">{{ form.errors.email }}</div>
                     </div>
 
                     <div class="d-grid">
-                      <BButton type="submit" variant="primary" class="fw-semibold py-2"> Send Request </BButton>
+                      <BButton type="submit" variant="primary" class="fw-semibold py-2" :disabled="form.processing"> Send Request </BButton>
                     </div>
-                  </form>
+                  </BForm>
 
                   <p class="text-muted text-center mt-4 mb-0">
                     Return to
-                    <Link href="/auth/card/sign-in" class="text-decoration-underline link-offset-3 fw-semibold"> Sign in </Link>
+                    <Link href="/login" class="text-decoration-underline link-offset-3 fw-semibold"> Sign in </Link>
                   </p>
 
                   <p class="text-center text-muted mt-4 mb-0">
@@ -58,12 +59,23 @@
   </div>
 </template>
 
-<script setup>
-import { Link } from '@inertiajs/vue3'
+<script setup lang="ts">
+import { Link, useForm } from '@inertiajs/vue3'
 
-import { BCol, BContainer, BRow } from 'bootstrap-vue-next'
+import { BAlert, BButton, BCard, BCol, BContainer, BForm, BFormInput, BRow } from 'bootstrap-vue-next'
 import AuthLogo from '@/components/AuthLogo.vue'
 import Icon from '@/components/wrappers/Icon.vue'
 import { currentYear, META_DATA } from '@/config/constants'
 
+defineProps<{
+  status?: string | null
+}>()
+
+const form = useForm({
+  email: '',
+})
+
+const submit = () => {
+  form.post('/forgot-password')
+}
 </script>

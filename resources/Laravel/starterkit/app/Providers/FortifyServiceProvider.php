@@ -47,30 +47,30 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureViews(): void
     {
-        Fortify::loginView(fn (Request $request) => Inertia::render('auth/basic/sign-in/index', [
+        Fortify::loginView(fn (Request $request) => Inertia::render('auth/card/sign-in/index', [
             'canResetPassword' => Features::enabled(Features::resetPasswords()),
             'canRegister' => Features::enabled(Features::registration()),
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::resetPasswordView(fn (Request $request) => Inertia::render('auth/basic/new-pass/index', [
+        Fortify::resetPasswordView(fn (Request $request) => Inertia::render('auth/card/new-pass/index', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]));
 
-        Fortify::requestPasswordResetLinkView(fn (Request $request) => Inertia::render('auth/basic/reset-pass/index', [
+        Fortify::requestPasswordResetLinkView(fn (Request $request) => Inertia::render('auth/card/reset-pass/index', [
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::verifyEmailView(fn (Request $request) => Inertia::render('auth/basic/success-mail/index', [
+        Fortify::verifyEmailView(fn (Request $request) => Inertia::render('auth/card/success-mail/index', [
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::registerView(fn () => Inertia::render('auth/basic/sign-up/index'));
+        Fortify::registerView(fn () => Inertia::render('auth/card/sign-up/index'));
 
-        Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/basic/two-factor/index'));
+        Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/card/two-factor/index'));
 
-        Fortify::confirmPasswordView(fn () => Inertia::render('auth/basic/lock-screen/index'));
+        Fortify::confirmPasswordView(fn () => Inertia::render('auth/card/lock-screen/index'));
     }
 
     /**

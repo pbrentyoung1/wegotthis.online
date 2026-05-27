@@ -16,6 +16,7 @@ Provide project-specific guidance for Codex sessions.
 - Exploratory diagrams must be labeled `Exploratory`, must not be used as implementation guidance, and must note that source docs remain canonical.
 - Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for patterns to adapt.
 - Before creating a new map, ask whether it unblocks implementation. If not, add the concept to the canonical docs or `docs/BUILD_READINESS_CHECKLIST.md` instead.
+- Keep a disconnect-safe trail while working: document meaningful actions, decisions, verification results, and unfinished work in the relevant doc, checklist, or final handoff.
 
 ## Open Questions
 
@@ -34,4 +35,4 @@ Provide project-specific guidance for Codex sessions.
 - Do not assume long-running queue workers are available on cPanel/reseller hosting.
 - Keep file storage abstracted; local server storage is acceptable for early proof/staging, while S3-compatible storage remains the future production direction.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-27

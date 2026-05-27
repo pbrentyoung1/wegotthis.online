@@ -9,35 +9,50 @@
                 <div class="card-body">
                   <div class="auth-brand text-center mb-4">
                     <AuthLogo />
-                    <h4 class="fw-bold mt-4">Request sent Successfully !</h4>
+                    <h4 class="fw-bold mt-4">Two-factor verification</h4>
+                    <p class="text-muted w-lg-75 mx-auto">Enter the code from your authenticator app, or use a recovery code if you need to.</p>
                   </div>
 
-                  <div class="text-center mb-4">
-                    <h5 class="text-muted fs-base mb-3">We've emailed you a 6-digit verification code we sent to</h5>
-                    <div class="fw-bold fs-3">******6789</div>
-                  </div>
+                  <BForm @submit.prevent="submit">
+                    <BAlert v-if="form.hasErrors" variant="danger" model-value class="mb-3">
+                      The verification code was invalid. Please try again.
+                    </BAlert>
 
-                  <form>
-                    <label class="form-label">Enter your 6-digit code <span class="text-danger">*</span></label>
-                    <div class="two-factor mb-3">
-                      <VOtpInput v-model:value="otp" :num-inputs="6" separator=" " input-type="tel" :is-input-num="true" :should-auto-focus="true" input-classes="form-control text-center" />
+                    <div v-if="!usingRecoveryCode" class="mb-3">
+                      <label class="form-label">Authenticator code <span class="text-danger">*</span></label>
+                      <div class="two-factor">
+                        <VOtpInput v-model:value="otp" :num-inputs="6" separator=" " input-type="tel" :is-input-num="true" :should-auto-focus="true" input-classes="form-control text-center" />
+                      </div>
+                      <div v-if="form.errors.code" class="invalid-feedback d-block">{{ form.errors.code }}</div>
+                    </div>
+
+                    <div v-else class="mb-3">
+                      <label for="recoveryCode" class="form-label">Recovery code <span class="text-danger">*</span></label>
+                      <BFormInput
+                        id="recoveryCode"
+                        v-model="form.recovery_code"
+                        type="text"
+                        placeholder="Enter one of your recovery codes"
+                        autocomplete="one-time-code"
+                        required
+                      />
+                      <div v-if="form.errors.recovery_code" class="invalid-feedback d-block">{{ form.errors.recovery_code }}</div>
                     </div>
 
                     <div class="d-grid">
-                      <BButton type="submit" variant="primary" class="fw-semibold py-2">Confirm </BButton>
+                      <BButton type="submit" variant="primary" class="fw-semibold py-2" :disabled="form.processing">Confirm</BButton>
                     </div>
-                  </form>
+                  </BForm>
 
                   <p class="mt-4 text-muted text-center mb-4">
-                    Don’t have a code?
-                    <Link href="" class="text-decoration-underline link-offset-2 fw-semibold"> Resend</Link>
-                    or
-                    <Link href="" class="text-decoration-underline link-offset-2 fw-semibold">Call Us</Link>
+                    <button type="button" class="btn btn-link p-0 text-decoration-underline link-offset-2 fw-semibold" @click="toggleMode">
+                      {{ usingRecoveryCode ? 'Use an authenticator code instead' : 'Use a recovery code instead' }}
+                    </button>
                   </p>
 
                   <p class="text-muted text-center mb-0">
                     Return to
-                    <Link href="/auth/card/sign-in" class="text-decoration-underline link-offset-3 fw-semibold"> Sign in </Link>
+                    <Link href="/login" class="text-decoration-underline link-offset-3 fw-semibold"> Sign in </Link>
                   </p>
 
                   <p class="text-center text-muted mt-4 mb-0">
@@ -61,15 +76,46 @@
 </template>
 
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 
-import { ref } from 'vue'
+import { BAlert, BButton, BCard, BCol, BContainer, BForm, BFormInput, BRow } from 'bootstrap-vue-next'
+import { ref, watch } from 'vue'
 import VOtpInput from 'vue3-otp-input'
 import AuthLogo from '@/components/AuthLogo.vue'
 import { currentYear, META_DATA } from '@/config/constants'
 
 const otp = ref('')
+const usingRecoveryCode = ref(false)
 
+const form = useForm({
+  code: '',
+  recovery_code: '',
+})
+
+watch(otp, (value) => {
+  form.code = value
+})
+
+const toggleMode = () => {
+  usingRecoveryCode.value = !usingRecoveryCode.value
+  form.clearErrors()
+  form.reset()
+  otp.value = ''
+}
+
+const submit = () => {
+  form.transform((data) => (
+    usingRecoveryCode.value
+      ? { recovery_code: data.recovery_code }
+      : { code: otp.value }
+  )).post('/two-factor-challenge', {
+    preserveScroll: true,
+    onFinish: () => {
+      if (!usingRecoveryCode.value) {
+        otp.value = ''
+      }
+      form.reset()
+    },
+  })
+}
 </script>
-
-<style scoped></style>

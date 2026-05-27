@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use App\Models\UserProfile;
+use Inertia\Testing\AssertableInertia as Assert;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -9,7 +11,10 @@ test('profile page is displayed', function () {
         ->actingAs($user)
         ->get(route('profile.edit'));
 
-    $response->assertOk();
+    $response->assertInertia(fn (Assert $page) => $page
+        ->component('admin/settings/profile')
+        ->has('profile')
+    );
 });
 
 test('profile information can be updated', function () {
@@ -20,6 +25,13 @@ test('profile information can be updated', function () {
         ->patch(route('profile.update'), [
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'job_title' => 'Communications Director',
+            'department' => 'Communications',
+            'city' => 'Dallas',
+            'state' => 'Texas',
+            'country' => 'United States',
+            'timezone' => 'America/Chicago',
+            'bio' => 'Keeps the team aligned.',
         ]);
 
     $response
@@ -31,6 +43,12 @@ test('profile information can be updated', function () {
     expect($user->name)->toBe('Test User');
     expect($user->email)->toBe('test@example.com');
     expect($user->email_verified_at)->toBeNull();
+
+    $profile = UserProfile::query()->where('user_id', $user->id)->first();
+
+    expect($profile)->not->toBeNull();
+    expect($profile?->job_title)->toBe('Communications Director');
+    expect($profile?->department)->toBe('Communications');
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {

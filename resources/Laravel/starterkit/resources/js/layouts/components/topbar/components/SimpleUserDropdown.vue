@@ -1,71 +1,99 @@
 <template>
   <div id="simple-user-dropdown" class="topbar-item nav-user">
-    
-      <BDropdown toggle-class="topbar-link" no-caret placement="bottom-end" offset="5">
-        <template #button-content>
-          <img src="/images/users/user-1.jpg" width="32" class="rounded-circle me-lg-2 d-flex" alt="user-image" />
-          <div class="d-lg-flex align-items-center gap-1 d-none">
-            <h5 class="my-0">{{ META_DATA.username }}</h5>
-            <Icon icon="chevron-down" class="align-middle" />
-          </div>
-        </template>
-        <BDropdownHeader class="noti-title">
-          <h6 class="text-overflow m-0">Welcome back!</h6>
-        </BDropdownHeader>
+    <BDropdown toggle-class="topbar-link" no-caret placement="bottom-end" offset="5">
+      <template #button-content>
+        <span class="avatar-sm me-lg-2 d-flex">
+          <img
+            v-if="avatarUrl"
+            :src="avatarUrl"
+            :alt="currentUser?.name || 'Team Member'"
+            class="avatar-sm rounded-circle object-fit-cover"
+          />
+          <span v-else class="avatar-title rounded-circle bg-primary-subtle text-primary fw-bold">{{ initials }}</span>
+        </span>
+        <div class="d-lg-flex align-items-center gap-1 d-none">
+          <h5 class="my-0">{{ currentUser?.name || 'Team Member' }}</h5>
+          <Icon icon="chevron-down" class="align-middle" />
+        </div>
+      </template>
 
-        <template v-for="(item, idx) in userProfileMenuData" :key="idx">
-          <Link :href="item.href" :class="['dropdown-item', item.className]">
-            <Icon :icon="item.icon" class="me-1 fs-lg align-middle" />
-            <span class="align-middle">{{ item.label }}</span>
-          </Link>
+      <BDropdownHeader class="noti-title">
+        <h6 class="text-overflow m-0">Welcome back!</h6>
+      </BDropdownHeader>
 
-          <BDropdownDivider v-if="item.isDivider" />
-        </template>
-      </BDropdown>
-    
+      <template v-for="(item, idx) in userProfileMenuData" :key="idx">
+        <button
+          v-if="item.onClick"
+          type="button"
+          :class="['dropdown-item', item.className]"
+          @click="item.onClick"
+        >
+          <Icon :icon="item.icon" class="me-1 fs-lg align-middle" />
+          <span class="align-middle">{{ item.label }}</span>
+        </button>
+
+        <Link v-else :href="item.href" :class="['dropdown-item', item.className]">
+          <Icon :icon="item.icon" class="me-1 fs-lg align-middle" />
+          <span class="align-middle">{{ item.label }}</span>
+        </Link>
+
+        <BDropdownDivider v-if="item.isDivider" />
+      </template>
+    </BDropdown>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
-
+import { Link, router, usePage } from '@inertiajs/vue3'
 import { BDropdown } from 'bootstrap-vue-next'
+import { computed } from 'vue'
 import Icon from '@/components/wrappers/Icon.vue'
-import { META_DATA } from '@/config/constants'
 
 type UserProfileMenuType = {
   icon: string
   label: string
   href: string
+  onClick?: () => void
   className?: string
   isDivider?: boolean
 }
 
-const userProfileMenuData: UserProfileMenuType[] = [
+const page = usePage<{
+  auth: {
+    user: {
+      id: number
+      name: string
+      profile?: {
+        avatar_path?: string | null
+      } | null
+    } | null
+  }
+}>()
+
+const currentUser = computed(() => page.props.auth.user)
+const avatarUrl = computed(() => currentUser.value?.profile?.avatar_path || null)
+const initials = computed(() => (currentUser.value?.name || 'Team Member')
+  .split(' ')
+  .map((part) => part[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase())
+
+const userProfileMenuData = computed<UserProfileMenuType[]>(() => [
   {
     icon: 'user-circle',
     label: 'Profile',
-    href: '',
-  },
-  {
-    icon: 'bell-ringing',
-    label: 'Notifications',
-    href: '',
-  },
-  {
-    icon: 'credit-card',
-    label: 'Balance: $985.25',
-    href: '',
+    href: currentUser.value ? `/users/profile/${currentUser.value.id}` : '/dashboard/projects',
   },
   {
     icon: 'settings-2',
     label: 'Account Settings',
-    href: '',
+    href: '/settings/profile',
   },
   {
     icon: 'headset',
-    label: 'Support Center',
-    href: '',
+    label: 'Contacts',
+    href: '/users/contacts',
     isDivider: true,
   },
   {
@@ -77,7 +105,8 @@ const userProfileMenuData: UserProfileMenuType[] = [
     icon: 'logout',
     label: 'Log Out',
     href: '',
+    onClick: () => router.post('/logout'),
     className: 'fw-semibold text-danger',
   },
-]
+])
 </script>

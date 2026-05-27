@@ -9,9 +9,14 @@
                 <div class="card-body">
                   <div class="auth-brand text-center mb-4">
                     <AuthLogo />
+                    <p class="text-muted w-lg-75 mt-3 mx-auto">One more step. Verify your email address to continue into the workspace.</p>
                   </div>
 
-                  <form>
+                  <BForm @submit.prevent="submit">
+                    <BAlert v-if="status" variant="success" model-value class="mb-3">
+                      A new verification link has been sent to your email address.
+                    </BAlert>
+
                     <div class="mb-4">
                       <div class="avatar-xxl mx-auto mt-2">
                         <div class="avatar-title bg-light-subtle border border-light border-dashed rounded-circle">
@@ -20,12 +25,20 @@
                       </div>
                     </div>
 
-                    <h4 class="fw-bold text-center mb-4">Well Done! Email verified Successfully</h4>
+                    <h4 class="fw-bold text-center mb-3">Check your inbox</h4>
+                    <p class="text-muted text-center mb-4">We sent you a verification link. Once you open it, you can continue into ForWorship Creative.</p>
 
                     <div class="d-grid">
-                      <BButton type="submit" variant="primary" class="fw-semibold py-2"> Back to Dashboard </BButton>
+                      <BButton type="submit" variant="primary" class="fw-semibold py-2" :disabled="form.processing"> Resend verification email </BButton>
                     </div>
-                  </form>
+                  </BForm>
+
+                  <p class="text-muted text-center mt-4 mb-0">
+                    Need a different account?
+                    <Link href="/logout" method="post" as="button" class="btn btn-link p-0 text-decoration-underline link-offset-3 fw-semibold align-baseline">
+                      Sign out
+                    </Link>
+                  </p>
 
                   <p class="text-center text-muted mt-4 mb-0">
                     © {{ currentYear }} {{ META_DATA.name }} — by
@@ -48,10 +61,19 @@
 </template>
 
 <script setup lang="ts">
-import { BButton, BCard, BCol, BContainer, BRow } from 'bootstrap-vue-next'
+import { Link, useForm } from '@inertiajs/vue3'
+
+import { BAlert, BButton, BCard, BCol, BContainer, BForm, BRow } from 'bootstrap-vue-next'
 import AuthLogo from '@/components/AuthLogo.vue'
 import { currentYear, META_DATA } from '@/config/constants'
 
-</script>
+defineProps<{
+  status?: string | null
+}>()
 
-<style lang="scss" scoped></style>
+const form = useForm({})
+
+const submit = () => {
+  form.post('/email/verification-notification')
+}
+</script>

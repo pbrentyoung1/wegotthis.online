@@ -32,3 +32,5 @@ Recent commits use short Conventional Commit-style prefixes such as `docs:` and 
 ## Agent-Specific Instructions
 
 Read `README.md` and relevant files in `docs/ai/` before implementation changes. Do not add application code beyond the current scaffold, add dependencies, or introduce new workflow statuses unless explicitly requested and reflected in canonical documentation.
+
+For continuity, document meaningful actions, decisions, verification results, and unfinished work as you go. If a session disconnects, the repository should contain enough context for the next agent to resume without guessing.
