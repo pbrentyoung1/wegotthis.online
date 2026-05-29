@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Define how ForWorship Creative handles deliverable review, internal quality control, stakeholder approval, revision rounds, and review-related conversation history.
+Define how ForWorship Creative handles deliverable review, internal quality control, stakeholder approval, revision rounds, change requests, and review-related conversation history.
 
 Approvals should protect quality, preserve accountability, and keep the conversation around a deliverable attached to the project record.
 
@@ -13,6 +13,12 @@ Deliverables should pass through an internal quality gate before they are sent t
 The goal is to avoid sending work for ministry or stakeholder signoff when it still has basic typos, brand/design issues, missing files, broken links, formatting problems, or preventable quality concerns.
 
 The system should help Communications send work that is ready for meaningful stakeholder review.
+
+## Change Request Accountability Principle
+
+Every requested change or update must preserve who requested it, when it was requested, what version or deliverable it applies to, what was requested, and whether it has been resolved.
+
+Change requests are part of project memory and should not live only in email, hallway conversations, text messages, or disconnected chat threads.
 
 ## Two-Stage Approval Model
 
@@ -119,6 +125,66 @@ Recommended statuses:
 | Canceled | Review is no longer needed. |
 | Superseded | A newer version or review request replaced this one. |
 
+## Change Requests
+
+A change request is a specific request to revise, update, correct, or alter a deliverable.
+
+A change request may come from:
+
+- Internal Quality Review.
+- Stakeholder Review.
+- Final Approval.
+- Project Owner.
+- Communications Lead.
+- External Reviewer through a scoped review link.
+
+### Required change request data
+
+Every change request should record:
+
+| Field | Purpose |
+|---|---|
+| Requested By | Person or external reviewer who requested the change. |
+| Requested At | Date/time the change was requested. |
+| Deliverable | Deliverable the change applies to. |
+| Version | File/content/version being reviewed when the request was made. |
+| Review Assignment | Related review assignment, if applicable. |
+| Revision Round | Review/revision round number. |
+| Change Summary | Short description of requested change. |
+| Change Detail | Full notes, comments, or requested update. |
+| Priority | Optional urgency/importance. |
+| Visibility | Internal, project team, stakeholder-visible, external reviewer-visible. |
+| Status | Open, In Progress, Resolved, Declined, Superseded. |
+| Resolved By | Person who resolved or closed the request. |
+| Resolved At | Date/time resolution occurred. |
+| Resolution Notes | What changed, why it was declined, or how it was addressed. |
+
+### Change request behavior
+
+When changes are requested:
+
+- The related review assignment should move to Changes Requested.
+- The deliverable should move to `Revision` unless the request is only a non-blocking comment.
+- The change request should remain attached to the deliverable.
+- The change request should roll up to the project history.
+- The system should preserve the requested-by and requested-at details.
+- Resolution should be recorded before the next review round is completed.
+
+### Update requests after approval
+
+If someone requests an update after approval or delivery, the system should still capture who requested it and when.
+
+Depending on timing and scope, the update may:
+
+- Create a new change request.
+- Reopen the deliverable into Revision.
+- Create a new deliverable version.
+- Create a new task.
+- Create a new project if the update is substantial.
+- Be declined, deferred, or marked as a future/later item.
+
+The system should preserve the decision and reason.
+
 ## Revision Loop
 
 If changes are requested, the deliverable should move to `Revision` in the Deliverable lifecycle.
@@ -133,7 +199,7 @@ Ready for Review
         -> In Review
 ```
 
-The system should track revision round number, requested changes, updated version, and reviewer response.
+The system should track revision round number, requested changes, requested-by, requested-at, updated version, and reviewer response.
 
 ## Version-Specific Approval
 
@@ -207,7 +273,7 @@ The conversation around a deliverable should stay with the deliverable and roll 
 
 This is part of the system’s institutional memory.
 
-Review comments, clarification questions, internal notes, stakeholder questions, requested changes, and approval decisions should not be lost in email, text messages, disconnected chats, or verbal history.
+Review comments, clarification questions, internal notes, stakeholder questions, requested changes, update requests, and approval decisions should not be lost in email, text messages, disconnected chats, or verbal history.
 
 ### MVP expectation
 
@@ -222,6 +288,8 @@ At minimum, the system should preserve:
 - Stakeholder questions.
 - Approval decisions.
 - Waiver notes.
+- Change request history.
+- Requested-by and requested-at details for changes or updates.
 
 ### Future expectation
 
@@ -251,6 +319,7 @@ Keep these concepts distinct:
 |---|---|
 | Conversation | Human discussion, questions, comments, and responses. |
 | Review Comments | Conversation tied to a review assignment or version. |
+| Change Requests | Actionable requested updates with requester, timestamp, status, and resolution. |
 | Activity Feed | Operational history: status changes, uploads, assignment changes, approvals. |
 | Audit Log | Protected system record for security, accountability, and external access. |
 | Notifications | Alerts that someone needs to act. |
@@ -268,6 +337,7 @@ A Project should preserve:
 - Project-level conversations.
 - Deliverable conversations.
 - Review conversations.
+- Change request history.
 - Approval history.
 - Activity history.
 - Closeout notes.
@@ -287,9 +357,11 @@ For MVP, include:
 - Review due date.
 - Basic review comments/notes.
 - Changes Requested behavior.
+- Change request record with requested-by and requested-at.
+- Change request status and resolution notes.
 - Waived review behavior with reason.
 - Basic conversation visibility distinction.
-- Project rollup of review/activity history.
+- Project rollup of review/activity/change history.
 
 Defer:
 
