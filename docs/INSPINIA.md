@@ -72,6 +72,7 @@ We do not use INSPINIA for:
 - file management UI
 - charts when truly needed
 - forms and settings pages
+- project brief and deliverable brief screens built from existing forms, cards, tabs, tables, and activity feeds
 
 ## Do-Not-Reinvent Guidance
 
@@ -88,6 +89,9 @@ Avoid rebuilding from scratch:
 - dashboard card systems
 - messaging layouts
 - alert patterns
+- custom workflow canvases
+- custom strategy boards
+- custom drag-and-drop planning interfaces
 
 Only build custom when the existing pattern cannot reasonably support the product need.
 
@@ -134,6 +138,7 @@ When adapting INSPINIA:
 - convert rigid workflows into guided experiences
 - favor clarity and calm over density
 - preserve proven responsive and component behavior
+- express strategic context through existing dashboards, cards, tables, tabs, activity feeds, messaging assets, notifications, and file lists before inventing new planning surfaces
 
 ## Technical Guardrails
 
@@ -147,6 +152,7 @@ Do not:
 - add new chart libraries unnecessarily
 - create isolated styling conventions
 - ignore existing INSPINIA structure when solving common UI needs
+- build bespoke strategic planning interfaces when an existing INSPINIA structure can carry the workflow
 
 ## Pattern Decision Logging
 
@@ -177,4 +183,4 @@ Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the I
 - `docs/resources/INSPINIA_NOTES.md`
 - `docs/resources/FIGMA_NOTES.md`
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

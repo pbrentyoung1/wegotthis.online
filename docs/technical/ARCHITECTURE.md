@@ -8,10 +8,15 @@ Capture the intended system architecture and major structural choices.
 
 - Build with multi-tenancy in mind from the beginning.
 - Projects should be the primary container object.
-- Working hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
-- Campaigns are optional parent containers above projects.
+- Strategic Context is distinct from Operational Work.
+- Strategic Context includes initiatives, campaigns, programs/content streams, sermon series, seasons, ministry areas, topics, and tags.
+- Operational Work is Projects -> Deliverables -> Tasks.
+- Campaigns and initiatives are optional strategic context, not required project parents.
+- Programs / Content Streams are recurring operational rhythms, distinct from campaigns.
 - Projects remain the primary operational container.
+- Projects require title, owner, objective, start date, and stop date.
 - Deliverables are production and approval units.
+- Deliverables must belong to projects.
 - Tasks are execution units.
 - Requests are separate objects before becoming projects.
 - PostgreSQL should be used from day one.
@@ -29,19 +34,25 @@ Capture the intended system architecture and major structural choices.
 - Working decision: project communication should be captured in context rather than scattered across email, text messages, and meetings.
 - Hosting stack assumptions must be validated before Laravel scaffolding; `host-diagnostics/` provides a temporary PHP diagnostic dashboard for checking hosting.com/cPanel support for PHP, PostgreSQL, filesystem writes, cron, HTTPS, Composer, Node/npm, and related server limits.
 
-## Product Hierarchy
+## Product Structure
 
 ```text
-Campaigns -> Projects -> Deliverables -> Tasks
+Strategic Context
+  -> Project Brief
+    -> Deliverable Brief
+      -> Tasks
 ```
 
-- Campaigns are optional. Simple work can start directly as a project.
-- Projects may belong to a campaign but do not have to.
+- Strategic Context may include initiatives, campaigns, programs/content streams, sermon series, seasons, ministry areas, topics, and tags.
+- Simple work can start directly as a project.
+- Projects may associate with strategic context but do not have to.
+- Projects should preserve one primary operational home in MVP.
 - Projects may have many deliverables.
+- Deliverables must belong to one project in MVP.
 - Deliverables may have their own due dates, statuses, approvals, files/assets, and tasks.
 - Most production tasks should attach to deliverables.
 - General coordination tasks may attach directly to projects.
-- Tasks should not normally attach directly to campaigns except possibly for high-level planning tasks later.
+- Tasks belong to projects and may optionally belong to deliverables.
 
 ## Calm Software Principle
 
@@ -89,7 +100,7 @@ Campaigns -> Projects -> Deliverables -> Tasks
 - What shared integration interface should be defined later, if any?
 - Should Brand Center be modeled independently, as part of Media Library, or both?
 - How should archive packages relate to physical file storage and searchable metadata?
-- Which parts of the hierarchy must be present in the first Laravel scaffold?
+- Which strategic context entities must be first-class records in the first Laravel scaffold?
 - Should inbound email replies become project comments?
 - Which feed events should be review-visible to External Reviewers?
 
@@ -100,6 +111,7 @@ Campaigns -> Projects -> Deliverables -> Tasks
 - Planning Center integration is future optional planning only and is documented in `/docs/technical/PLANNING_CENTER_INTEGRATION.md`.
 - Project lifecycle, closeout, and brand management should be considered before database schema design.
 - Calm software principles are documented in `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`.
+- Strategic context and goal alignment are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

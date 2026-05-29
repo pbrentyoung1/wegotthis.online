@@ -15,10 +15,16 @@ Document database direction, data modeling notes, and schema questions.
 - PostgreSQL 13 is acceptable for early staging/proof if that is the available upgrade path.
 - PostgreSQL 15/16+ is preferred for future production.
 - Migrations and database usage should remain conservative while the project is on the current host.
-- Working hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
-- Campaigns are optional parent containers for large initiatives.
+- Strategic Context is distinct from Operational Work.
+- Strategic Context includes initiatives, campaigns, programs/content streams, sermon series, seasons, ministry areas, topics, and tags.
+- Operational Work is Projects -> Deliverables -> Tasks.
+- Campaigns are optional strategic context for time-bound efforts.
+- Initiatives are optional strategic context for broader goals.
+- Programs / Content Streams are recurring operational rhythms, distinct from campaigns.
 - Projects are the primary operational container.
+- Projects require title, owner, objective, start date, and stop date.
 - Deliverables are the specific outputs being produced.
+- Deliverables must belong to a project and do not stand alone.
 - Tasks are the individual actions required to complete projects or deliverables.
 - Canonical project lifecycle is Intake -> Discovery -> Approved -> Planned -> Active -> In Review -> Revision -> Scheduled -> Published -> Closeout -> Archived.
 - Canonical deliverable lifecycle is Planned -> In Progress -> In Review -> Waiting for Approval -> Changes Requested -> Approved -> Scheduled -> Published -> Archived.
@@ -26,9 +32,10 @@ Document database direction, data modeling notes, and schema questions.
 
 ## Conceptual Relationships
 
-- Tenants have many users, departments, campaigns, projects, requests, assets, templates, and brand assets.
-- Campaigns have many projects.
-- Projects may belong to campaigns.
+- Tenants have many users, departments, initiatives, campaigns, programs/content streams, projects, requests, assets, templates, and brand assets.
+- Initiatives, campaigns, programs/content streams, sermon series, seasons, ministry areas, topics, and tags provide strategic context.
+- Projects may associate with strategic context without requiring a campaign parent.
+- Projects should preserve one primary operational home in MVP.
 - Projects have many deliverables.
 - Projects may have project-level tasks.
 - Deliverables have many tasks, approvals, files/assets, statuses, and due dates.
@@ -48,7 +55,15 @@ Document database direction, data modeling notes, and schema questions.
 - tenant_memberships
 - users
 - departments
+- initiatives
 - campaigns
+- programs_content_streams
+- sermon_series
+- seasons
+- ministry_areas
+- topics
+- tags
+- strategic_context_relationships
 - projects
 - project_statuses
 - project_requests
@@ -90,6 +105,7 @@ Document database direction, data modeling notes, and schema questions.
 ## Open Questions
 
 - What is the initial schema?
+- Which strategic context entities should be first-class tables in MVP versus represented by tags/templates initially?
 - Which entities need status histories or audit logs?
 - What project feed event types are required for MVP?
 - Which closeout entities are needed in MVP versus post-MVP?
@@ -109,10 +125,13 @@ Document database direction, data modeling notes, and schema questions.
 - Asset metadata should remain searchable even when physical files live in different storage systems.
 - Use `tenant_id` scoping consistently for tenant-owned data.
 - Most production tasks should attach to deliverables. General coordination tasks may attach directly to projects.
-- Tasks should not normally attach directly to campaigns except possibly for high-level planning tasks later.
+- Tasks belong to a project and may optionally belong to a deliverable.
+- Tasks should not attach directly to campaigns in MVP.
+- Campaigns, initiatives, programs/content streams, sermon series, seasons, ministry areas, topics, and tags should not replace project ownership for operational work.
 - Notifications, comments, activity logs, and audit logs should be modeled as related but distinct concepts.
 - Department Leader, stakeholder, and vendor are real-world identities or relationships that may map onto canonical roles; they should not become separate base permission-role tables by default.
 - Task status enums should follow the canonical MVP list and avoid extra workflow labels until explicitly approved.
 - Waiting for Approval should be modeled for deliverables or reviewable elements, not as a project status.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

@@ -29,6 +29,8 @@ Define authentication and authorization direction.
 - Base permission roles define general system authority.
 - Review responsibilities are contextual assignments on a project, deliverable, or reviewable element, not separate base roles.
 - A single project or deliverable may have multiple reviewers for budget, resources, design, brand, content, ministry, and final approval.
+- Strategic context association should not grant access by itself in MVP.
+- Project, deliverable, task, tenant, role, assignment, and magic-link scope remain the authorization boundaries.
 
 ## External Access Model
 
@@ -79,6 +81,7 @@ Define authentication and authorization direction.
 | View budget, time, utilization | Full | Full | If authorized | Limited if authorized | None | None | None | None |
 | Manage brand assets | Full | Full | Limited | None | None | None | None | View only if permitted |
 | Close out and archive projects | Full | Full | Full | Full within assigned scope | None | None | None | None |
+| Manage strategic context records and associations | Full | Full | Full | Limited within assigned scope | None | None | None | View only if permitted |
 
 ## Review Assignments
 
@@ -99,6 +102,7 @@ Define authentication and authorization direction.
 - Activity logs are visible project history and should be filtered by role and scope.
 - Audit logs are protected records and should be limited to authorized internal roles.
 - Notification recipients should not gain access beyond their underlying role, tenant membership, or magic-link scope.
+- Campaign, initiative, program/content stream, topic, tag, or sermon series associations should not expand access unless a later permissions decision explicitly allows it.
 
 ## Open Questions
 
@@ -107,6 +111,7 @@ Define authentication and authorization direction.
 - Should departments see budget and time usage?
 - Should project comments support internal-only and review-visible visibility?
 - Which activity entries should be visible to vendor-scoped external reviewers?
+- Who can create or edit strategic context records such as campaigns, programs/content streams, topics, and tags?
 
 ## Notes
 
@@ -116,6 +121,7 @@ Define authentication and authorization direction.
 - Approval permissions should primarily target deliverables for MVP.
 - Comments, asset access, and project visibility must respect both tenant scope and magic-link scope.
 - Communication history visibility should be designed before external reviewer and vendor-scoped links are implemented.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 - See `/docs/architecture/maps/security/external-access-scope-map.md` and `/docs-site/src/pages/architecture/magic-link-scope.astro` for the canonical external access map.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

@@ -13,7 +13,7 @@ Provide a dedicated place for architecture-specific decisions that emerge from t
 
 ## Relationships
 
-- Architecture decisions should connect to product hierarchy, workflow, security, and data diagrams.
+- Architecture decisions should connect to product structure, workflow, security, and data diagrams.
 - This log should support the broader project decision history without competing with it.
 - Decision entries should inform future scaffolding and implementation readiness.
 

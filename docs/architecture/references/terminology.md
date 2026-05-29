@@ -13,7 +13,7 @@ Provide a shared vocabulary for product, workflow, security, and data diagrams.
 
 ## Relationships
 
-- Terminology should align with product hierarchy, workflow maps, permission planning, and data diagrams.
+- Terminology should align with product structure, workflow maps, permission planning, and data diagrams.
 - Naming consistency should support GitHub documentation and Notion execution views.
 - Shared language should reduce confusion across design, planning, and implementation.
 

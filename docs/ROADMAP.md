@@ -22,7 +22,7 @@ Phase
 - Phase planning should reduce cognitive overload, not create a heavy process system.
 - Each phase should have clear goals, visible outcomes, and explicit exit criteria.
 - Product and roadmap decisions should be filtered through two questions: "Does this make the user feel supported or managed?" and "Does this still feel like 'we got this'?"
-- Core architecture maps should include product hierarchy, notification triggers, permission matrix, and the External Access / Magic Link Scope Map before implementation begins.
+- Core architecture maps should include product structure, notification triggers, permission matrix, and the External Access / Magic Link Scope Map before implementation begins.
 - No new maps should be created unless they directly unblock database/schema design, permissions/auth implementation, core workflow implementation, notification/event implementation, or external access/security.
 - The Phase 0 readiness checklist is the final gate before scaffolding; task status modeling is now complete and reflected there.
 
@@ -63,7 +63,7 @@ Every feature or task should eventually answer:
 - Key outcomes:
   - durable product, workflow, architecture, and philosophy docs
   - roadmap, category structure, and phase definitions
-  - initial MVP boundary, hierarchy model, and planning controls
+  - initial MVP boundary, product structure model, and planning controls
   - active coordination structure in Notion
 - Exit criteria:
   - roadmap is documented and accepted
@@ -93,7 +93,7 @@ Every feature or task should eventually answer:
 - Goal: deliver the smallest useful operational core for requests, projects, deliverables, tasks, statuses, and visibility.
 - Key outcomes:
   - request lifecycle and project workspace exist
-  - project hierarchy is usable
+  - project structure is usable
   - deliverables and task coordination are functional
   - primary status and transition logic is stable
 - Exit criteria:
@@ -174,7 +174,7 @@ Every feature or task should eventually answer:
 
 1. Clean up Notion phases and categories.
 2. Create MVP scope checklist.
-3. Create product hierarchy map.
+3. Create product structure map.
 4. Create permissions matrix.
 5. Create status and state transition matrix.
 6. Create notification trigger map.
@@ -200,4 +200,4 @@ Every feature or task should eventually answer:
 - Phases should create execution clarity, not false certainty.
 - Do not bypass phase planning by treating every idea as immediately build-ready.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29
