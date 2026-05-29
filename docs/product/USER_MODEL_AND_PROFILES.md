@@ -22,7 +22,7 @@ Assignments define what they are responsible for now.
 
 Contact information defines how the team can coordinate with them.
 
-A person’s time may be paid, contracted, or donated. Volunteer and lay leader time is still real capacity and should be planned respectfully.
+A person’s time may be paid, contracted, or donated. Volunteer and lay minister time is still real capacity and should be planned respectfully.
 
 ## User vs Person / Contact
 
@@ -32,7 +32,7 @@ The system may need to represent:
 
 - Internal staff.
 - Volunteers.
-- Lay leaders.
+- Lay ministers.
 - Contractors.
 - Outside vendors.
 - Freelancers.
@@ -49,7 +49,7 @@ Some people may receive scoped external review links.
 
 Some people may be vendors who perform work but do not need full workspace access.
 
-Some people may be volunteers or lay leaders donating their time and should receive appropriate boundaries, limited access, and clear assignment expectations.
+Some people may be volunteers or lay ministers donating their time and should receive appropriate boundaries, limited access, and clear assignment expectations.
 
 ## Person Type
 
@@ -59,7 +59,7 @@ Recommended person/contact types:
 |---|---|
 | Staff | Internal staff member. |
 | Volunteer | Volunteer contributor or reviewer donating time. |
-| Lay Leader | Non-staff ministry leader or trusted volunteer with leadership responsibility. |
+| Lay Minister | Non-staff ministry leader or trusted volunteer with ministry responsibility. |
 | Contractor | Individual contractor or freelancer. |
 | Vendor Contact | Person associated with an outside vendor/company. |
 | Department Leader | Ministry or department stakeholder/requester. |
@@ -70,17 +70,17 @@ A person may have more than one relationship over time.
 
 Example:
 
-- A lay leader may submit requests, review deliverables, and volunteer as a photographer.
+- A lay minister may submit requests, review deliverables, and volunteer as a photographer.
 - A volunteer may have design skills and help create social graphics.
 - A contracted sound engineer may be a Contractor and also a Vendor Contact.
 - A graphic artist may be a Contractor with design skills and limited project access.
 - A print shop representative may be a Vendor Contact but not a login user.
 
-## Volunteer and Lay Leader Considerations
+## Volunteer and Lay Minister Considerations
 
-Volunteers and lay leaders should be first-class participants where appropriate, but the system should not treat donated time as unlimited or automatically available.
+Volunteers and lay ministers should be first-class participants where appropriate, but the system should not treat donated time as unlimited or automatically available.
 
-Volunteer/lay leader records may need:
+Volunteer/lay minister records may need:
 
 - Contact information.
 - Ministry affiliation.
@@ -112,7 +112,7 @@ Serving boundaries:
 ```
 
 ```text
-Lay Leader: Maria Gonzalez
+Lay Minister: Maria Gonzalez
 Roles:
 - Department Leader
 - Reviewer
@@ -228,7 +228,7 @@ Membership types may include:
 
 - Staff.
 - Volunteer.
-- Lay Leader.
+- Lay Minister.
 - Contractor.
 - Vendor.
 - Stakeholder.
@@ -307,7 +307,7 @@ Recommended MVP roles:
 | Communications Manager | Owns communications workflow, triage, scheduling, skills, approvals, capacity. |
 | Project Owner | Owns assigned projects and deliverables. |
 | Contributor | Completes assigned deliverables/tasks. |
-| Volunteer Contributor | Volunteer or lay leader who completes assigned work with scoped access. |
+| Volunteer Contributor | Volunteer or lay minister who completes assigned work with scoped access. |
 | Requester / Department Leader | Submits requests and participates in clarification/review. |
 | Reviewer | Reviews/approves assigned deliverables. |
 | Viewer | Can view scoped work/status. |
@@ -483,7 +483,7 @@ Examples:
 - Department leaders may see general capacity guidance but not private out-of-office reasons.
 - Vendors may see only scoped deliverables or review links.
 - Volunteers may see only assigned work and appropriate context.
-- Lay leaders may see ministry-related work but not unrelated internal Communications notes.
+- Lay ministers may see ministry-related work but not unrelated internal Communications notes.
 - External reviewers may see only the work they are asked to review.
 - Internal notes should remain internal.
 
@@ -495,7 +495,7 @@ For MVP schema planning, include:
 - Profiles or contacts.
 - Organization memberships.
 - Person/contact type.
-- Staff, Volunteer, Lay Leader, Contractor, Vendor Contact, Department Leader, External Reviewer types.
+- Staff, Volunteer, Lay Minister, Contractor, Vendor Contact, Department Leader, External Reviewer types.
 - Roles and permissions.
 - Volunteer contributor support.
 - Vendor/contractor contact support.
@@ -520,7 +520,7 @@ Keep the MVP UI light:
 - Basic profile/contact page.
 - Skills multi-select managed by Organization Admin or Communications Manager.
 - Person/contact type selector.
-- Volunteer/lay leader flag or contact type.
+- Volunteer/lay minister flag or contact type.
 - Vendor/contractor flag or contact type.
 - Capacity notes.
 - Availability notes.
