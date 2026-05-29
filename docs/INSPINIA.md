@@ -24,6 +24,35 @@ Before building custom UI, review both the starterkit and the full INSPINIA impl
 
 Use the INSPINIA Figma assets as a screen layout and UX pattern reference when designing ForWorship Creative screens.
 
+## Approved Web UI References
+
+Use these INSPINIA Bootstrap pages as approved structural references for MVP screens and interaction patterns:
+
+| INSPINIA Page | Reference URL | Use For |
+|---|---|---|
+| Chat App | `https://webapplayers.com/inspinia/bootstrap/apps-chat.html` | Direct messages, work-context conversations, project/deliverable discussion layout, message list/detail structure. |
+| Project Details | `https://webapplayers.com/inspinia/bootstrap/apps-projects-details.html` | Project detail page, project summary, team/activity/sidebar patterns, related deliverables/assets/messages. |
+| Projects Kanban | `https://webapplayers.com/inspinia/bootstrap/apps-projects-kanban.html` | Project/deliverable board views, lifecycle columns, status overview, light work planning. |
+| Projects Team Board | `https://webapplayers.com/inspinia/bootstrap/apps-projects-team-board.html` | Team workload, contributor cards, assignment visibility, people/capacity-friendly views. |
+| Topbar Activity Bell | Existing INSPINIA topbar notification pattern | Persistent notifications, recent activity, review/change request alerts, due-soon notices. |
+| Alerts / SweetAlert Pattern | SweetAlert/SweetAlert2-style modal feedback | Immediate success, warning, confirmation, and destructive-action prompts. |
+
+These references should guide structure, spacing, layout, and interaction flow, but ForWorship Creative should still apply its own brand language, typography, tone, and calm visual system.
+
+## Notification UI Layers
+
+ForWorship Creative should use three separate notification layers:
+
+1. SweetAlert-style modals for immediate feedback, warnings, confirmations, and destructive-action prompts.
+2. The INSPINIA topbar activity bell for persistent alerts and recent activity requiring attention.
+3. Dashboard/inbox views for deeper task, review, message, and project follow-up.
+
+Sweet Alerts should not replace the activity bell.
+
+The activity bell should not replace the dashboard.
+
+The dashboard should not become a chat app.
+
 ## How We Use INSPINIA
 
 We use INSPINIA for:
@@ -57,6 +86,12 @@ We do not use INSPINIA for:
 
 - dashboards
 - messaging interfaces
+- chat/direct message interfaces
+- project detail layouts
+- kanban boards
+- team board layouts
+- topbar activity bell / notification dropdowns
+- SweetAlert-style modal alerts
 - alert boxes
 - calendars
 - notification patterns
@@ -79,15 +114,21 @@ Avoid rebuilding from scratch:
 
 - calendar engines
 - modal systems
+- SweetAlert-style confirmation flows
 - dropdown infrastructure
 - responsive grid systems
 - scrollbar systems
 - notification frameworks
+- topbar activity bell behavior
 - chart foundations
 - basic form controls
 - dashboard card systems
 - messaging layouts
+- chat layouts
 - alert patterns
+- kanban board structure
+- project detail page structure
+- team board layout structure
 
 Only build custom when the existing pattern cannot reasonably support the product need.
 
@@ -164,7 +205,7 @@ The goal is to turn Figma work into scalable product language rather than isolat
 
 ## Contributor Instruction
 
-Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for existing patterns that can be adapted.
+Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, web UI references, and Figma assets for existing patterns that can be adapted.
 
 ## Related Documents
 
@@ -176,5 +217,8 @@ Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the I
 - `docs/branding/VISUAL_SYSTEM.md`
 - `docs/resources/INSPINIA_NOTES.md`
 - `docs/resources/FIGMA_NOTES.md`
+- `docs/product/CONVERSATIONS_MESSAGES_ACTIVITY.md`
+- `docs/product/PROJECT_LIFECYCLE_V2.md`
+- `docs/product/DELIVERABLE_LIFECYCLE.md`
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29
