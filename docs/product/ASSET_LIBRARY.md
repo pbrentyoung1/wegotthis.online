@@ -14,6 +14,10 @@ Projects manage work.
 
 Assets preserve institutional memory.
 
+Google Drive stores the files.
+
+ForWorship Creative stores the meaning.
+
 The Asset Library should help answer:
 
 > What is this asset, where did it come from, what can it be used for, where has it been used, and how can we find it again?
@@ -25,6 +29,20 @@ ForWorship Creative should pursue Option B:
 > A true lightweight media asset management system, beginning with practical MVP support and expanding over time.
 
 MVP should keep asset handling simple, but the data model should support future growth into a more complete asset library.
+
+## MVP Storage Strategy
+
+For MVP, ForWorship Creative should use a Google Drive-first, Trello-style attachment model.
+
+That means:
+
+- Google Drive stores the actual files where possible.
+- ForWorship Creative stores metadata, relationships, workflow context, approvals, usage rights, consent status, visibility, tags, and project history.
+- External links are supported immediately.
+- The system should store provider references instead of duplicating every large file.
+- The storage model should remain provider-abstracted for future Dropbox, OneDrive, SharePoint, S3, or other storage providers.
+
+See `docs/technical/GOOGLE_DRIVE_INTEGRATION.md` for the technical integration strategy.
 
 ## Asset Categories
 
@@ -134,6 +152,8 @@ Recommended MVP/future types:
 - Brand Guide.
 - External Link.
 - Folder Link.
+- Google Drive File.
+- Google Drive Folder.
 - Stock Asset.
 - Vendor File.
 - Other.
@@ -184,6 +204,7 @@ MVP should prioritize simple relationships:
 - Asset may use tags.
 - Asset may be marked as Brand Asset.
 - Asset may be linked/external.
+- Asset may be a Google Drive file or folder reference.
 
 Future versions may support richer many-to-many asset relationships.
 
@@ -202,9 +223,17 @@ assets
 - asset_category
 - asset_type
 - asset_source
+- storage_provider
+- provider_file_id, nullable
+- provider_folder_id, nullable
+- provider_url, nullable
 - file_id / storage_path, nullable
 - external_url, nullable
-- thumbnail_path, nullable
+- web_view_link, nullable
+- thumbnail_url, nullable
+- mime_type, nullable
+- file_size, nullable
+- metadata_json, nullable
 - project_id, nullable
 - deliverable_id, nullable
 - department_id, nullable
@@ -266,6 +295,21 @@ Linked/external assets should capture:
 - Permission/usage notes.
 - Related project/deliverable/event/brand context.
 - Whether the file should be downloaded or archived later.
+
+## Google Drive Asset Metadata
+
+Google Drive assets should capture:
+
+- Drive file ID.
+- Drive folder ID, if applicable.
+- Web view link.
+- File/folder name.
+- MIME type.
+- Thumbnail URL, if available.
+- Created/modified time where available.
+- Owner/display owner where available.
+- Permission/access notes.
+- Whether the file lives in a Shared Drive or personal Drive, if detectable.
 
 ## Usage Rights and Consent
 
@@ -386,7 +430,9 @@ Assets may enter the system through:
 - Parent/community upload form, future.
 - Vendor upload/link.
 - External URL/link.
-- Google Drive integration, future.
+- Google Drive file/folder link.
+- Google Drive picker/select existing file, future.
+- Google Drive upload/create folder, future.
 - Canva/Figma link.
 - Closeout archive from deliverable.
 
@@ -424,6 +470,8 @@ Examples:
 
 Closeout should capture enough metadata so future users can find and reuse the work.
 
+If files live in Google Drive, closeout should capture final file links, source file links, folder links, and published/live URLs rather than requiring large file duplication.
+
 ## Search and Discovery
 
 Asset search should eventually support:
@@ -442,6 +490,7 @@ Asset search should eventually support:
 - Brand status.
 - Ministry area.
 - External source.
+- Storage provider.
 
 MVP can begin with basic search/filtering.
 
@@ -449,24 +498,29 @@ MVP can begin with basic search/filtering.
 
 The platform should keep storage abstracted.
 
-MVP may support local/staging storage, but long-term production should use scalable storage.
+MVP should support external links and Google Drive references first to avoid managing terabytes of media directly.
 
 Related storage principles:
 
 - Do not hard-code local-only assumptions.
 - Support external links where files remain outside the platform.
 - Preserve metadata even when asset is externally hosted.
-- Support future migration to cloud/object storage.
+- Prefer Google Shared Drives for church-owned files when possible.
+- Store Drive file IDs where possible, not just URLs.
+- Support future migration or expansion to cloud/object storage.
 
-See `docs/technical/FILE_STORAGE.md` for technical storage decisions.
+See `docs/technical/FILE_STORAGE.md` and `docs/technical/GOOGLE_DRIVE_INTEGRATION.md` for technical storage decisions.
 
 ## MVP Recommendation
 
 For MVP, include:
 
 - Asset Library as a lightweight DAM concept.
+- Google Drive-first / external-link-first storage strategy.
 - Asset records with title, type, category, source, status, visibility, tags, and notes.
-- File upload or external URL support.
+- Provider abstraction fields.
+- External URL support.
+- Google Drive file/folder reference support.
 - Assets attached to Project and/or Deliverable.
 - Brand asset flag/category.
 - Event/candid asset category.
@@ -479,6 +533,7 @@ If scope must be reduced, prioritize:
 
 - Deliverable-created assets.
 - Linked/external assets.
+- Google Drive file/folder references.
 - Brand assets.
 - Basic event/candid uploads.
 
@@ -494,6 +549,8 @@ Defer:
 - Advanced album/gallery management.
 - Detailed usage analytics.
 - Automated Drive/Canva/Figma sync.
+- Google Drive permission management.
+- Dropbox/OneDrive provider implementation.
 - Version comparison.
 - Full DAM permission engine.
 
@@ -506,7 +563,9 @@ Future versions may add:
 - Photo albums.
 - AI-assisted tagging.
 - Consent/release workflows.
-- Google Drive integration.
+- Google Drive picker/upload.
+- Google Drive permission helpers.
+- Dropbox/OneDrive integrations.
 - Canva/Figma integration.
 - Asset usage reports.
 - Brand asset governance dashboards.
@@ -522,6 +581,7 @@ Future versions may add:
 - `docs/product/BRAND_MANAGEMENT.md`
 - `docs/product/DEPARTMENTS_AND_TEAMS.md`
 - `docs/product/USER_MODEL_AND_PROFILES.md`
+- `docs/technical/GOOGLE_DRIVE_INTEGRATION.md`
 - `docs/technical/FILE_STORAGE.md`
 - `docs/technical/SEARCH_STRATEGY.md`
 - `docs/PHASE_FEATURE_MATRIX.md`
