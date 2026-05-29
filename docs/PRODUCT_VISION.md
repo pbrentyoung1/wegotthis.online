@@ -13,7 +13,10 @@ Define the long-term product direction for ForWorship Creative.
 - Working direction: the product should reduce operational friction, preserve institutional creative memory, improve planning, and help churches communicate with clarity and consistency.
 - Working direction: communications work should be easier to request, prioritize, produce, review, archive, report on, and reuse.
 - Working direction: future Google Docs, Dropbox, and OneDrive connectors may help attach external document and file context, but the core product should remain useful without them.
-- Working decision: the product hierarchy is Campaigns -> Projects -> Deliverables -> Tasks, with Campaigns optional and Projects as the primary operational container.
+- Working decision: Strategic Context is distinct from Operational Work.
+- Working decision: Operational Work is Projects -> Deliverables -> Tasks, with Projects as the primary operational container.
+- Working decision: campaigns and initiatives are optional strategic context, and Programs / Content Streams are recurring operational rhythms distinct from campaigns.
+- Working decision: goal context should flow into project briefs, deliverable briefs, and tasks without forcing every project into a campaign.
 - Working decision: deliverables are the main production and approval units.
 - Working decision: request intake, stakeholder approvals, vendor review, and status visibility should support mobile-first flows.
 - Working direction: media assets should preserve rights, release, and usage metadata from the beginning.
@@ -33,5 +36,6 @@ Define the long-term product direction for ForWorship Creative.
 - The system should help departments see project status without relying on repeated interruptions to Communications.
 - Project closeout should preserve final work, source files, approvals, budget context, and reusable assets for future ministry use.
 - The product should reduce overhead and avoid becoming another system that requires more management than the work it replaces.
+- Strategic context and goal alignment are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

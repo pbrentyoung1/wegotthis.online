@@ -8,17 +8,21 @@ Document the canonical lifecycle statuses for communications projects.
 
 - Working direction: projects should move through explicit statuses from request intake through archive.
 - Working direction: projects should not move directly from Published to Archived. Closeout should happen first.
-- Working hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
+- Strategic Context is distinct from Operational Work.
+- Operational Work is Projects -> Deliverables -> Tasks.
 - Projects are the primary operational container.
-- Campaigns are optional parent containers.
+- Campaigns and initiatives are optional strategic context, not required operational parents.
+- Programs / Content Streams are recurring operational rhythms, distinct from campaigns.
 - Deliverables are the specific outputs being produced and may have their own status and approvals.
+- Deliverables must belong to projects.
 - Tasks are execution units that may attach to projects or deliverables.
 
 ## Hierarchy Context
 
 - Request lifecycle is separate from project lifecycle.
 - A request may be accepted and converted into a project.
-- A project may belong to a campaign, but it does not have to.
+- A project may support a campaign, initiative, program/content stream, sermon series, season, ministry area, topic, or tag, but it does not have to.
+- A project should preserve one primary operational home in MVP.
 - A project may contain many deliverables.
 - Deliverables may move through their own planned, production, review, approval, scheduling, publication, and archive states.
 - Project statuses should not force every deliverable through the same status at the same time.
@@ -131,5 +135,6 @@ Document the canonical lifecycle statuses for communications projects.
 - Deliverables are documented in `/docs/product/DELIVERABLES.md`.
 - Requests are documented in `/docs/product/REQUEST_LIFECYCLE.md`.
 - Project communication history is documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

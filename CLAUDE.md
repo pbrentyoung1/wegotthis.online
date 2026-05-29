@@ -44,17 +44,22 @@ This file provides guidance to Claude Code (`claude.ai/code`) when working with 
 
 ## Architecture Overview
 
-### Product Hierarchy
+### Product Structure
 
 ```
-Campaigns -> Projects -> Deliverables -> Tasks
+Strategic Context
+  -> Project Brief
+    -> Deliverable Brief
+      -> Tasks
 ```
 
-- **Campaigns**: Optional parent containers for large initiatives
+- **Strategic Context**: Optional initiatives, campaigns, programs/content streams, sermon series, seasons, ministry areas, topics, and tags
 - **Projects**: Primary operational container (the core object)
 - **Deliverables**: Production and approval units with their own due dates, statuses, files, and tasks
-- **Tasks**: Individual execution units (most attach to deliverables, some to projects)
+- **Tasks**: Individual execution units that belong to projects and may optionally belong to deliverables
 - **Requests**: Separate objects that convert into projects after intake approval
+
+Campaigns and initiatives are strategic context, not required project parents. Programs / Content Streams are recurring operational rhythms, distinct from campaigns.
 
 ### Calm Software Principle
 

@@ -7,8 +7,11 @@ Define deliverables as the specific outputs produced inside projects.
 ## Current Decisions
 
 - Working decision: deliverables are the primary production and approval units.
+- Deliverables must belong to a project.
+- Deliverables do not stand alone.
 - Projects may have many deliverables.
 - Deliverables may have their own due dates, statuses, approvals, files/assets, and tasks.
+- Deliverable briefs should inherit relevant project and strategic context while becoming more specific about channel, audience, content, specifications, timing, approvals, and production tasks.
 - Most approvals should attach to deliverables in MVP.
 - Canonical deliverable lifecycle for MVP:
   - Planned
@@ -53,6 +56,7 @@ Define deliverables as the specific outputs produced inside projects.
 - Assigned owner
 - Related assets
 - Tasks
+- Parent project
 - Channel
 - Size/specs
 - Budget/cost if relevant
@@ -81,8 +85,11 @@ Define deliverables as the specific outputs produced inside projects.
 
 ## Notes
 
-- Deliverables sit between projects and tasks in the hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
+- Deliverables sit between projects and tasks in the operational model: Projects -> Deliverables -> Tasks.
+- Campaigns, initiatives, programs/content streams, sermon series, seasons, ministry areas, topics, and tags are strategic context, not replacements for the required parent project.
+- A deliverable may support multiple strategic contexts through its project context, tags, or future relationships, but it still belongs operationally to one project in MVP.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 - External access boundaries are documented in `/docs/architecture/maps/security/external-access-scope-map.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

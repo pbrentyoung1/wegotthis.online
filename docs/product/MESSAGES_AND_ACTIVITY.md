@@ -14,6 +14,8 @@ Define how collaboration, comments, activity history, and project communication 
 - Comments, activity logs, audit logs, and notifications should be related but conceptually distinct.
 - Working decision: audit/activity logging must be designed in early.
 - Activity history should track meaningful actions such as request submitted, request accepted/deferred/rejected, project created, status changed, deliverable created/updated, task assigned/completed, file uploaded, approval granted/rejected, comment added, budget changed, time logged, project entered closeout, project archived, and External Reviewer link used.
+- Activity history should preserve meaningful strategic context changes, such as campaign association, program/content stream association, topic/tag changes, and brief updates where they affect project direction.
+- Messages/activity should help teams see how strategic context flowed into project and deliverable execution without turning the feed into noisy status chatter.
 
 ## Conceptual Distinctions
 
@@ -27,6 +29,7 @@ Define how collaboration, comments, activity history, and project communication 
 - The project feed may include comments, status changes, approval events, change requests, file events, task events, budget events, and system reminders.
 - The feed should preserve who said what, when it happened, and what changed afterward.
 - External Reviewer feedback, approval notes, requested changes, internal discussion, decision history, file uploads, task updates, and budget changes should remain attached to project context where appropriate.
+- Project brief and deliverable brief changes should be feed-worthy when they affect scope, timing, audience, channel, approvals, or strategic alignment.
 
 ## Open Questions
 
@@ -38,13 +41,15 @@ Define how collaboration, comments, activity history, and project communication 
 - Should project comments support internal-only and review-visible visibility?
 - Should communication history be exportable during project closeout?
 - What notification preferences should users control?
+- Which strategic context changes should create feed entries versus remain quiet metadata?
 
 ## Notes
 
 - Activity history should support accountability without creating noise.
 - Audit/activity logs support institutional memory, troubleshooting, and reporting.
 - Communications system details are documented in `/docs/product/COMMUNICATIONS_SYSTEM.md`.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 - Project communication workflow is documented in `/docs/workflows/PROJECT_COMMUNICATION_WORKFLOW.md`.
 - External access boundaries are documented in `/docs/architecture/maps/security/external-access-scope-map.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

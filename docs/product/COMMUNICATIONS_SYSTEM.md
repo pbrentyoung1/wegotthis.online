@@ -15,6 +15,8 @@ Document the product direction for outbound communication and project communicat
 - Comments, activity logs, audit logs, and notifications should be related but conceptually distinct.
 - Communication should feel supportive, conversational, and human rather than clinical.
 - External Reviewer communication should use narrow, time-bound magic links instead of creating unnecessary full accounts.
+- Project communication should preserve both operational context and strategic context when helpful.
+- Goal alignment should be visible enough that people understand why work matters, not only what task is next.
 
 ## Conceptual Distinctions
 
@@ -50,6 +52,9 @@ Outbound communication should:
 
 Each project should preserve a unified communication/activity feed documenting:
 
+- Strategic context associations when they shape the work
+- Project brief updates
+- Deliverable brief updates
 - Comments
 - External Reviewer feedback
 - Approval notes
@@ -74,6 +79,7 @@ Each project should preserve a unified communication/activity feed documenting:
 - Task events
 - Budget events
 - System reminders
+- Strategic context updates
 
 ## Open Questions
 
@@ -88,6 +94,8 @@ Each project should preserve a unified communication/activity feed documenting:
 - The communications system should reduce interruptions by making project context easy to find.
 - Notification design should favor relevance, batching, and user control where appropriate.
 - Conversational UX should help people think and respond more clearly without turning the product into a chat gimmick.
+- Communications should connect ministry goals to communication strategy and execution without becoming noisy or managerial.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 - External access scope is mapped in `/docs/architecture/maps/security/external-access-scope-map.md` and visualized in the docs site at `/architecture/magic-link-scope`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

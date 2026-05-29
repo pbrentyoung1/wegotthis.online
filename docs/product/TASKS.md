@@ -6,13 +6,15 @@ Define how tasks support project coordination and deliverable production.
 
 ## Current Decisions
 
-- Working decision: tasks can attach to projects or deliverables.
+- Working decision: tasks belong to a project and may optionally belong to a deliverable.
 - Project-level tasks are for coordination.
 - Deliverable-level tasks are for production.
-- Tasks should not normally attach directly to campaigns except possibly for high-level planning tasks later.
+- Tasks should not attach directly to campaigns in MVP.
+- Campaigns, initiatives, programs/content streams, sermon series, seasons, ministry areas, topics, and tags provide strategic context rather than task ownership.
 - Tasks do not define the canonical project or deliverable lifecycle by themselves.
 - Deliverable status and project status should remain separate from task completion state.
 - Canonical MVP task statuses are Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, and Canceled.
+- Tasks are the execution layer below project briefs and deliverable briefs.
 
 ## Task Status Model
 
@@ -71,11 +73,15 @@ Define how tasks support project coordination and deliverable production.
 
 - Should tasks support checklists?
 - Should external vendors be assigned tasks in MVP or only receive scoped links?
+- Should high-level strategic planning tasks exist later, and if so should they remain outside the MVP task model?
 
 ## Notes
 
 - Tasks are execution units, not the primary planning object.
+- Tasks always preserve project context. Deliverable context is optional.
+- Task implementation should use existing Inspinia tables, cards, filters, notification patterns, and activity feed patterns before custom planning interfaces.
 - Deliverable lifecycle details are documented in `/docs/product/DELIVERABLES.md`.
 - Project lifecycle details are documented in `/docs/product/PROJECT_LIFECYCLE.md`.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

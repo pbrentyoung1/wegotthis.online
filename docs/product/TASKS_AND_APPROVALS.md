@@ -16,7 +16,8 @@ Define task management and approval tracking behavior.
 - A project, deliverable, or reviewable element may have multiple review assignments.
 - Required review assignments block approval until approved or explicitly waived.
 - Future support may include project-level approval, asset-level approval, task-level review, and closeout approval.
-- Tasks can attach to projects or deliverables.
+- Tasks belong to a project and may optionally belong to a deliverable.
+- Deliverables must belong to a project and do not stand alone.
 
 ## Open Questions
 
@@ -28,5 +29,6 @@ Define task management and approval tracking behavior.
 - Keep approval workflows simple until real church process requirements are documented.
 - Deliverables are documented in `/docs/product/DELIVERABLES.md`.
 - Tasks are documented in `/docs/product/TASKS.md`.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

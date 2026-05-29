@@ -7,7 +7,8 @@ Define the major modules expected in the product.
 ## Current Decisions
 
 - MVP core or likely core modules include Requests, Projects, Deliverables, Tasks, Templates, Calendar, Dashboard, Messages/Activity, Media Library, Notifications, Search, Activity/Audit Log, permissions, and basic Brand Center.
-- Campaigns are optional parent containers and may be MVP or early post-MVP depending on pilot needs.
+- Campaigns are optional strategic context and may be MVP or early post-MVP depending on pilot needs.
+- Programs / Content Streams are recurring operational rhythms, distinct from campaigns.
 - Deliverables are production and approval units.
 - Tasks may attach to projects or deliverables.
 - Basic templates should provide defaults without becoming a complex workflow builder.
@@ -34,6 +35,7 @@ Define the major modules expected in the product.
 - Use this as the module index and link to detailed module docs as they mature.
 - Detailed module expansion:
   - `/docs/product/CAMPAIGNS.md`
+  - `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`
   - `/docs/product/DELIVERABLES.md`
   - `/docs/product/TASKS.md`
   - `/docs/product/TEMPLATES.md`
@@ -42,4 +44,4 @@ Define the major modules expected in the product.
   - `/docs/product/BRAND_MANAGEMENT.md`
   - `/docs/product/CALM_SOFTWARE_PRINCIPLES.md`
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

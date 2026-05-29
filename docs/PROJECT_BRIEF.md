@@ -16,7 +16,12 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Working direction: the product exists to reduce communications overload for church teams managing many projects across many departments.
 - Working direction: the platform should improve request quality by helping ministries clarify purpose, audience, CTA, timing, budget, assets, stakeholders, and approval needs before work enters Communications.
 - Working direction: timelines, stakeholder sign-offs, budgets, project status, media assets, closeout, and brand standards should be visible enough to reduce administrative follow-up.
-- Working decision: use `tenant_id` tenancy and the hierarchy Campaigns -> Projects -> Deliverables -> Tasks.
+- Working decision: use `tenant_id` tenancy.
+- Working decision: Strategic Context is distinct from Operational Work.
+- Working decision: Operational Work is Projects -> Deliverables -> Tasks.
+- Working decision: campaigns and initiatives are optional strategic context, and Programs / Content Streams are recurring operational rhythms distinct from campaigns.
+- Working decision: projects require title, owner, objective, start date, and stop date.
+- Working decision: deliverables must belong to projects and do not stand alone.
 - Working decision: approvals primarily attach to deliverables.
 - Working decision: External Reviewer and vendor-scoped External Reviewer access should use scoped, time-bound magic links in MVP.
 - Product principle: create calm, not complexity.
@@ -50,8 +55,9 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 - ForWorship Creative should support churches whether or not they use Planning Center.
 - Problem statement: church communications teams are often crushed by administrative coordination, unclear requests, timeline confusion, stakeholder approvals, budget questions, project status interruptions, asset chaos, incomplete closeout, and brand consistency work.
 - Product response: create an operational system that supports self-service visibility, structured intake, timeline management, asset reuse, institutional creative memory, and brand governance.
+- Goal alignment response: connect ministry goals to communication strategy and production execution through strategic context, project briefs, deliverable briefs, and tasks.
 - The platform should be useful from phones for intake, approval, status checks, and scoped External Reviewer access.
 - Execution should move by phase, category, and documented readiness rather than by ad hoc idea collection.
 - The tone, copy, interaction model, and visual system should make users feel supported instead of managed.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

@@ -11,6 +11,8 @@ Document how communications requests behave before they become projects.
 - Deferred and rejected requests should remain searchable.
 - Accepted requests may be converted into a project.
 - Requests should preserve original submitted details and clarification history.
+- Converted projects require title, owner, objective, start date, and stop date.
+- Requests may capture strategic context, but they do not have to force campaign membership before conversion.
 
 ## Request Statuses
 
@@ -59,15 +61,18 @@ Document how communications requests behave before they become projects.
 - Deferred requests may be reconsidered later.
 - Rejected requests may be resubmitted or duplicated into a new request if policy allows.
 - Converted requests should not lose their original submitted details.
+- Conversion should translate request context into a project brief, preserving any initiative, campaign, program/content stream, sermon series, season, ministry area, topic, or tag associations that are useful.
 
 ## Open Questions
 
 - Which request fields are required before submission?
 - Who can move a request from Submitted to Accepted, Deferred, or Rejected?
 - Should request templates vary by department or project type?
+- Which strategic context fields should request intake capture in MVP?
 
 ## Notes
 
 - Request lifecycle is separate from project lifecycle.
+- Goal alignment details are documented in `/docs/product/STRATEGIC_CONTEXT_AND_GOAL_ALIGNMENT.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

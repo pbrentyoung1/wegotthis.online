@@ -26,8 +26,13 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 ## Resolved or Working Decisions
 
 - Tenancy model: single PostgreSQL database with tenant-scoped records using `tenant_id`.
-- Product hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
-- Campaign/parent container concept: Campaign is optional above projects.
+- Strategic context model: Strategic Context is distinct from Operational Work.
+- Operational work model: Projects -> Deliverables -> Tasks.
+- Campaign context: Campaign is optional strategic context, not a required project parent.
+- Program / Content Stream concept: recurring operational rhythms are distinct from campaigns.
+- Project required fields: title, owner, objective, start date, and stop date.
+- Deliverable ownership: deliverables must belong to projects and do not stand alone.
+- Task ownership: tasks belong to projects and may optionally belong to deliverables.
 - Deliverable vs project boundary: Projects are operational containers; deliverables are production and approval units.
 - Approval target: MVP approvals primarily attach to deliverables.
 - External reviewer access: secure, time-bound magic links.
@@ -57,4 +62,4 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - Link to resolved decisions when possible.
 - Resolved items may still need implementation detail before coding.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-05-29

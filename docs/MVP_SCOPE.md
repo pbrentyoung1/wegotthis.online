@@ -11,7 +11,10 @@ Define what belongs in the first useful release and what should wait.
 - PostgreSQL and multi-tenancy awareness should be present from the beginning.
 - Working decision: use single-database `tenant_id` tenancy for MVP.
 - Working decision: requests are their own object before becoming projects.
-- Working decision: use the hierarchy Campaigns -> Projects -> Deliverables -> Tasks, with Campaigns optional.
+- Working decision: Strategic Context is distinct from Operational Work.
+- Working decision: Operational Work is Projects -> Deliverables -> Tasks.
+- Working decision: campaigns and initiatives are optional strategic context, and Programs / Content Streams are recurring operational rhythms distinct from campaigns.
+- Working decision: MVP should not force every project into a campaign.
 - Working decision: deliverables are the primary approval units.
 - Working decision: External Reviewer approvals use secure, time-bound magic links in MVP.
 - Working decision: use transactional email plus in-app notifications.
@@ -25,6 +28,7 @@ Define what belongs in the first useful release and what should wait.
 - Working MVP priorities:
   - structured communications request intake
   - request lifecycle
+  - strategic context capture without overbuilt planning tools
   - project workspace
   - deliverables
   - tasks and approvals
@@ -49,6 +53,7 @@ Define what belongs in the first useful release and what should wait.
 ## Open Questions
 
 - Which fields are required for a project request at launch?
+- Which strategic context entities should be first-class records in MVP?
 - Are vendors included in MVP or deferred?
 - Are social workflows included in MVP or planned as a second wave?
 - Which closeout checks are required before a project can be archived?
@@ -69,6 +74,7 @@ Define what belongs in the first useful release and what should wait.
 - Avoid feature gravity and uncontrolled expansion during MVP planning.
 - Track deferred features explicitly so they are not forgotten.
 - Use phase planning to keep MVP sequencing understandable.
+- Preserve one primary operational home for projects and avoid custom strategy boards or workflow canvases in MVP.
 - Advanced features should be treated as post-MVP unless explicitly re-scoped:
   - social publishing APIs
   - Planning Center integration
@@ -86,4 +92,4 @@ Define what belongs in the first useful release and what should wait.
   - advanced automated archive packaging
   - deep creative platform file inspection
 
-Last Updated: 2026-05-21
+Last Updated: 2026-05-29
