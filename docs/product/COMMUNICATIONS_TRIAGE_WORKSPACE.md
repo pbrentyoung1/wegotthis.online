@@ -23,6 +23,10 @@ Use Inspinia patterns for:
 - Tabs.
 - Accordions.
 - Timeline/activity lists.
+- Chat/conversation views.
+- Messaging/inbox views.
+- Comment threads.
+- Notification/message badges.
 - Badges.
 - Alerts.
 - Forms.
@@ -98,6 +102,7 @@ The triage workspace should help Communications:
 - Decide whether the work belongs inside a campaign.
 - Create project, deliverables, suggested tasks, and review assignments.
 - Preserve the original request history.
+- Communicate with the requester in context using Inspinia conversation, chat, messaging, and activity patterns.
 
 ## What This Workspace Is Not
 
@@ -143,7 +148,8 @@ Main Content
     - Request Metadata card
     - Requester / Stakeholders card
     - Files / Links card
-    - Activity / Clarification History card
+    - Conversation / Clarification card
+    - Activity History card
 
 Footer / Action Area
   - Ask for clarification
@@ -403,6 +409,47 @@ Rows should show:
 - Source: requester idea, system suggestion, manually added.
 - Status: draft plan, accepted, modified, declined, later.
 
+## Conversation / Clarification Card
+
+Use Inspinia chat, conversation, or messaging assets where available.
+
+This card is for human conversation around the request, especially clarification between Communications and the requester.
+
+It should support:
+
+- Threaded or chronological request conversation.
+- Clarification questions.
+- Requester responses.
+- Internal-only comments where permission allows.
+- Review-visible or requester-visible comments where appropriate.
+- Mentions where supported.
+- Message timestamps.
+- Sender identity and avatar.
+- Attachments or linked files where supported by the selected Inspinia pattern.
+
+This card should not be treated as the activity feed. It is human conversation.
+
+Recommended MVP behavior:
+
+- Show requester-visible clarification conversation by default.
+- Allow internal notes only for authorized internal roles.
+- Clearly distinguish internal notes from requester-visible messages.
+- Use existing Inspinia chat/messaging components rather than creating a custom conversation UI.
+
+## Messaging / Inbox Pattern
+
+Where Inspinia provides messaging or inbox-style assets, use those patterns for request follow-up queues.
+
+Potential MVP uses:
+
+- Requests needing clarification.
+- New requester responses.
+- Mentions.
+- Assigned triage conversations.
+- Recent project/request messages.
+
+Do not build a fully custom messaging platform in MVP. The goal is contextual communication, not a separate chat product.
+
 ## Files / Links Card
 
 Use existing Inspinia file list or attachment pattern.
@@ -419,11 +466,11 @@ Show:
 
 For MVP, this can remain a simple list with file role badges.
 
-## Activity / Clarification History Card
+## Activity History Card
 
 Use an Inspinia timeline/activity pattern.
 
-Show:
+Show operational history, such as:
 
 - Request submitted.
 - Clarification requested.
@@ -434,7 +481,22 @@ Show:
 - Request accepted.
 - Request converted to project.
 
-This should be visible operational history, not the protected audit log.
+This should be visible operational history, not human conversation and not the protected audit log.
+
+## Communication Separation
+
+Keep these concepts distinct:
+
+| Concept | Meaning | Recommended Inspinia pattern |
+|---|---|---|
+| Conversation / comments | Human discussion in context. | Chat, conversation, comments, or messaging asset. |
+| Clarification | Request-specific questions and answers. | Conversation thread plus missing-info checklist. |
+| Messages / inbox | Queue of conversations needing attention. | Messaging or inbox asset. |
+| Activity history | Visible operational history. | Timeline/activity feed asset. |
+| Audit log | Protected system record. | Admin table/log view, not requester-facing. |
+| Notifications | Alerts that action is needed. | Notification badges/dropdowns/toasts where appropriate. |
+
+Do not collapse all of these into generic comments. The user experience should make it clear whether something is a conversation, an action-needed message, an activity record, or an audit event.
 
 ## Clarification Workflow
 
@@ -445,7 +507,7 @@ The system should support:
 - Ask one or more questions.
 - Tie questions to missing info items.
 - Notify requester.
-- Preserve requester responses in clarification history.
+- Preserve requester responses in the conversation and clarification history.
 - Update missing information status when resolved.
 
 Requester-facing language should be calm and helpful.
@@ -516,9 +578,12 @@ Recommended mapping:
 | Timeline | Timeline/list/table |
 | Approvals | Table/list |
 | Missing info | Checklist/table |
-| Clarification questions | Modal or side panel |
+| Clarification questions | Chat/conversation thread plus modal or side panel |
+| Requester follow-up | Messaging/inbox pattern |
+| Internal notes | Comments/thread pattern with visibility marker |
 | Convert preview | Modal or review page |
 | Activity history | Timeline/activity feed |
+| Notifications | Notification badges/dropdowns/toasts |
 | Files | File list/attachment card |
 
 Avoid in MVP:
@@ -528,6 +593,7 @@ Avoid in MVP:
 - Over-designed intake visualization.
 - Complex animated planning flows.
 - Fully custom project board UI.
+- Fully custom chat or messaging UI when Inspinia assets already exist.
 - Rebuilding components Inspinia already provides.
 
 ## User-Facing Copy Guidelines
@@ -555,6 +621,9 @@ Recommended MVP permissions:
 | Add/modify creative plan | Communications Lead, Project Owner if delegated |
 | Accept/decline requester ideas | Communications Lead, Project Owner if delegated |
 | Ask clarification questions | Communications Lead, Project Owner if delegated |
+| Add internal triage note | Organization Admin, Communications Lead, Project Owner if delegated |
+| View internal triage note | Organization Admin, Communications Lead, Project Owner if delegated |
+| Send requester-visible message | Organization Admin, Communications Lead, Project Owner if delegated |
 | Accept/defer/reject request | Organization Admin, Communications Lead |
 | Convert request to project | Organization Admin, Communications Lead, Project Owner if delegated |
 | View requester-facing plan summary | Requester, Viewer, Reviewer, or Department Leader according to scope |
@@ -571,6 +640,11 @@ The triage workspace implies these data concepts:
 - Request ideas / suggested channels.
 - Missing information items.
 - Clarification questions and responses.
+- Conversation messages.
+- Message visibility scope.
+- Internal notes.
+- Activity events.
+- Notifications.
 - Creative plan.
 - Proposed deliverables.
 - Proposed tasks.
@@ -595,6 +669,8 @@ The MVP triage workspace is successful when a Communications Lead can:
 - See requester ideas without treating them as required deliverables.
 - Identify missing information.
 - Ask clarification questions.
+- Maintain conversation history using Inspinia communication patterns.
+- Distinguish conversation, internal notes, activity history, and notifications.
 - Build a simple creative plan.
 - Accept, modify, decline, or defer suggested deliverables.
 - Add approved deliverables manually.
@@ -606,6 +682,7 @@ The requester should be able to:
 
 - Submit a request without knowing the final deliverable mix.
 - Receive clarification questions.
+- Respond in context.
 - See a simple plan summary when Communications is ready to share it.
 - Avoid being exposed to unnecessary production complexity.
 
@@ -616,6 +693,8 @@ The requester should be able to:
 - `docs/product/PROJECT_MANAGEMENT.md`
 - `docs/product/DELIVERABLES.md`
 - `docs/product/TASKS.md`
+- `docs/product/COMMUNICATIONS_SYSTEM.md`
+- `docs/product/MESSAGES_AND_ACTIVITY.md`
 - `docs/technical/AUTH_AND_PERMISSIONS.md`
 - `docs/INSPINIA.md`
 
