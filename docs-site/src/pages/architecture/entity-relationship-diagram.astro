@@ -7,13 +7,13 @@ const coreRules = [
   "This is a conceptual ERD, not the final database schema.",
   "Organization is the tenant boundary.",
   "Membership connects users to organizations.",
-  "The product hierarchy drives core work relationships.",
+  "The operational model drives core work relationships.",
   "Activity and audit are related but distinct concepts.",
 ];
 
 const relationships = [
   "Identity and access entities support organization-scoped membership.",
-  "Campaign, project, deliverable, and task define the work backbone.",
+  "Strategic context associates with projects while project, deliverable, and task define the work backbone.",
   "Assets, approvals, and magic links connect fulfillment and external access behavior.",
   "Comments, notifications, activity, and audit shape product history and security traceability.",
 ];
@@ -26,7 +26,7 @@ const openQuestions = [
 ];
 
 const relatedMaps = [
-  { href: "/architecture/product-hierarchy", label: "Product Hierarchy" },
+  { href: "/architecture/product-hierarchy", label: "Product Structure" },
   { href: "/architecture/permission-matrix", label: "Permission Matrix" },
   { href: "/architecture/activity-audit-relationship-diagram", label: "Activity / Audit Relationship Diagram" },
 ];

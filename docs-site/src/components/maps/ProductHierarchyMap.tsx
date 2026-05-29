@@ -1,27 +1,27 @@
 const levels = [
   {
-    label: "Campaign",
-    note: "Optional parent",
-    description: "A strategic container that groups related projects.",
-    helper: "Campaigns organize projects.",
+    label: "Strategic Context",
+    note: "Optional context",
+    description: "Initiatives, campaigns, programs/content streams, sermon series, seasons, ministry areas, topics, and tags.",
+    helper: "Context guides briefs without forcing every project into a campaign.",
   },
   {
     label: "Project",
     note: "Core workspace",
-    description: "A coordinated body of work with its own context, timeline, and people.",
-    helper: "Projects organize deliverables.",
+    description: "A coordinated body of operational work with title, owner, objective, start date, stop date, timeline, and people.",
+    helper: "Projects are the primary operational home.",
   },
   {
     label: "Deliverable",
     note: "Required under project",
     description: "The concrete output being produced, reviewed, scheduled, or delivered.",
-    helper: "Deliverables organize tasks.",
+    helper: "Deliverables focus production tasks.",
   },
   {
     label: "Task",
-    note: "Required under deliverable",
+    note: "Project required",
     description: "The assigned unit of work that moves production forward.",
-    helper: "Tasks get the work done.",
+    helper: "Tasks belong to projects and may optionally belong to deliverables.",
   },
 ];
 
@@ -63,23 +63,23 @@ export default function ProductHierarchyMap() {
 
         <aside className="rounded-[1.5rem] bg-[var(--panel-bg)] p-6 text-white shadow-[0_12px_32px_rgba(15,23,42,0.1)]">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--panel-accent)]">Structure Rules</p>
-          <h3 className="mt-3 text-2xl font-semibold tracking-tight">{"Campaign -> Project -> Deliverable -> Task"}</h3>
+          <h3 className="mt-3 text-2xl font-semibold tracking-tight">{"Strategic Context -> Project Brief -> Deliverable Brief -> Tasks"}</h3>
           <p className="mt-3 text-sm leading-relaxed text-[var(--panel-muted)]">
-            This is the first mental model the team should share before deeper workflow, data, or permission work begins.
+            Strategic context explains why work matters. Projects, deliverables, and tasks remain the operational work model.
           </p>
 
           <div className="mt-6 space-y-4 text-sm">
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <p className="font-semibold text-[var(--panel-accent)]">{"Campaign -> Project"}</p>
-              <p className="mt-1 text-slate-200">Optional relationship</p>
+              <p className="font-semibold text-[var(--panel-accent)]">{"Strategic Context -> Project"}</p>
+              <p className="mt-1 text-slate-200">Optional association</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-[var(--panel-accent)]">{"Project -> Deliverable"}</p>
               <p className="mt-1 text-slate-200">Required relationship</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <p className="font-semibold text-[var(--panel-accent)]">{"Deliverable -> Task"}</p>
-              <p className="mt-1 text-slate-200">Required relationship</p>
+              <p className="font-semibold text-[var(--panel-accent)]">{"Project -> Task"}</p>
+              <p className="mt-1 text-slate-200">Required, with optional deliverable relationship</p>
             </div>
           </div>
         </aside>

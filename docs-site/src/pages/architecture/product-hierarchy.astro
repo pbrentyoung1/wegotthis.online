@@ -4,26 +4,27 @@ import MapPage from "../../components/layout/MapPage.astro";
 import ProductHierarchyMap from "../../components/maps/ProductHierarchyMap";
 
 const coreRules = [
-  "Campaign to Project is optional.",
+  "Strategic Context is distinct from Operational Work.",
+  "Campaigns and initiatives are optional strategic context.",
+  "Programs / Content Streams are recurring operational rhythms.",
   "Project to Deliverable is required.",
-  "Deliverable to Task is required.",
-  "Campaigns organize projects.",
+  "Tasks belong to projects and may optionally belong to deliverables.",
   "Projects organize deliverables.",
-  "Deliverables organize tasks.",
-  "Tasks get the work done.",
+  "Goal context flows into project and deliverable briefs.",
 ];
 
 const relationships = [
-  "Campaigns may contain many projects.",
-  "Projects may stand alone or belong to a campaign.",
+  "Projects may associate with strategic context but do not have to.",
+  "Projects preserve one primary operational home in MVP.",
   "Projects contain deliverables as the main production units.",
-  "Tasks execute work within deliverable context.",
+  "Deliverables must belong to projects.",
+  "Tasks execute work within project or deliverable context.",
 ];
 
 const openQuestions = [
-  "Which supporting objects belong in the first version of the visual hierarchy?",
-  "How much of the hierarchy should appear in first-pass navigation and dashboards?",
-  "Which related objects should remain outside the core hierarchy map?",
+  "Which strategic context entities should be first-class records in MVP?",
+  "How much strategic context should appear in first-pass navigation and dashboards?",
+  "Which related objects should remain outside the core structure map?",
 ];
 
 const relatedMaps = [
@@ -33,10 +34,10 @@ const relatedMaps = [
 ];
 ---
 
-<DocsLayout title="Product Hierarchy | ForWorship Creative Docs" description="The core product hierarchy for ForWorship Creative.">
+<DocsLayout title="Product Structure | ForWorship Creative Docs" description="The core product structure for ForWorship Creative.">
   <MapPage
-    title="Product Hierarchy"
-    purpose="The foundational model for how work is organized in ForWorship Creative before deeper workflow and technical decisions are layered on top."
+    title="Product Structure"
+    purpose="The foundational model for how strategic context connects to operational work before deeper workflow and technical decisions are layered on top."
     coreRules={coreRules}
     relationships={relationships}
     openQuestions={openQuestions}

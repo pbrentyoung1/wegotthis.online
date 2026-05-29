@@ -12,12 +12,13 @@ const groups = [
   {
     title: "Work Structure",
     tone: "blue",
-    entities: ["Campaign", "Project", "Deliverable", "Task"],
+    entities: ["StrategicContext", "Project", "Deliverable", "Task"],
     relationships: [
-      "Organization has many Campaigns and Projects",
-      "Campaign has many Projects",
+      "Organization has many StrategicContext records and Projects",
+      "Project may associate with StrategicContext",
       "Project has many Deliverables",
-      "Deliverable has many Tasks",
+      "Project has many Tasks",
+      "Task may belong to Deliverable",
     ],
   },
   {
@@ -90,8 +91,8 @@ export default function EntityRelationshipDiagram() {
               <p className="mt-1 text-slate-300">Users belong to organizations through memberships rather than a flat account assumption.</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <p className="font-semibold text-white">Product hierarchy drives work</p>
-              <p className="mt-1 text-slate-300">Campaign, project, deliverable, and task remain the backbone of work relationships.</p>
+              <p className="font-semibold text-white">Operational model drives work</p>
+              <p className="mt-1 text-slate-300">Projects, deliverables, and tasks remain the backbone; strategic context is associated separately.</p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <p className="font-semibold text-white">Activity and audit differ</p>
