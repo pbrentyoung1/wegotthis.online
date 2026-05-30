@@ -98,7 +98,7 @@ Recommended order:
 2. Create `organizations`.
 3. Create `profiles`.
 4. Create `departments`.
-5. Add profile/department foreign keys that require both tables.
+5. Add the circular profile/department foreign keys: `profiles.department_id` and `departments.lead_profile_id`.
 6. Create `roles`.
 7. Create `permissions`.
 8. Create `role_permissions`.
@@ -177,7 +177,7 @@ Suggested indexes:
 - Index `user_id`.
 - Index `department_id`.
 - Index `status`.
-- Composite unique candidate: `organization_id`, `user_id` for logged-in members only. Confirm database support for nullable uniqueness before implementation.
+- Composite unique `organization_id`, `user_id`. In PostgreSQL, this allows multiple contact profiles with `user_id = null` while preventing the same logged-in user from having duplicate profiles in the same organization.
 
 Open implementation note:
 
@@ -330,6 +330,8 @@ Seed these initial permission keys:
 - `tasks.complete`
 - `reviews.assign`
 - `reviews.decide`
+
+This intentionally seeds a broader permission vocabulary than the Phase 1 tables require. Phase 1 implements only the identity, profile, department, role, and permission foundation, but seeding the downstream request/project/deliverable/task/review permission keys now gives later migrations and policies stable names to reference without changing the foundational permission set.
 
 Seed role-permission mappings conservatively. The Organization Admin should receive all Phase 1 permissions. Other roles should receive only the permissions needed for their expected MVP behavior.
 
