@@ -43,6 +43,7 @@ The system should support:
 - Required dates.
 - Required owner/assignee decisions.
 - Blocked task status with reason.
+- Blocked attention state with blocker type.
 - Deliverable readiness checklists.
 - Plain-language attention states.
 
@@ -55,7 +56,66 @@ The system should avoid:
 - Complex cross-project dependency chains.
 - Resource leveling.
 
+## Blocked as Parent Attention State
+
+`Blocked` is the top-level attention state when work cannot move forward.
+
+Specific causes such as Over Capacity, Waiting on Department, Waiting on Approval, Vendor Needed, Missing Asset, Missing Information, Budget, Technical, Scheduling, or Scope Decision should be stored as blocker types or blocker reasons, not separate top-level lifecycle statuses.
+
+This keeps dashboards simple while preserving operational detail.
+
+Example:
+
+```text
+Attention State: Blocked
+Blocker Type: Waiting on Department
+Blocker Detail: Final registration link has not been provided.
+```
+
+A dashboard may show:
+
+```text
+Blocked: 6
+  - 2 Waiting on Department
+  - 1 Waiting on Approval
+  - 1 Waiting on Vendor
+  - 1 Over Capacity
+  - 1 Missing Asset
+```
+
+## Top-Level Attention States
+
+Recommended top-level attention states:
+
+| Attention State | Meaning |
+|---|---|
+| On Track | Work is moving as expected. |
+| Needs Attention | Something needs a decision, clarification, or follow-up, but work is not fully blocked. |
+| At Risk | Timeline, capacity, budget, or dependency issues may affect completion. |
+| Blocked | Work cannot move forward until something changes. |
+| Rush | Timeline is shorter than normal TAT/SLA. |
+| Ready for Next Step | Work is ready to move forward. |
+
+## Blocker Types
+
+Recommended blocker types:
+
+| Blocker Type | Example |
+|---|---|
+| Waiting on Department | Need final copy, event details, registration link, approval, or assets from requester/ministry. |
+| Waiting on Approval | Required stakeholder signoff is not complete. |
+| Waiting on Vendor | Vendor proof, quote, delivery, installation, or invoice is pending. |
+| Over Capacity | Team does not have enough available time/resources in the requested window. |
+| Missing Asset | Required photo, video, logo, artwork, copy, or file is missing. |
+| Missing Information | Required details are unknown. |
+| Budget | Budget approval, cost estimate, or spending decision is unresolved. |
+| Technical | Platform, upload, file format, integration, or system issue is preventing progress. |
+| Scheduling | Shoot date, publish date, install date, send date, or service date is unresolved. |
+| Scope Decision | The team needs to decide whether to reduce, expand, defer, or outsource the work. |
+
 ## Dependency Types
+
+Dependency types explain why something may become blocked or not ready. They may map to blocker types when work cannot move forward.
 
 ### Missing Information Dependency
 
@@ -139,6 +199,21 @@ User-facing language:
 
 > Waiting on vendor proof.
 
+### Capacity Dependency
+
+A capacity dependency exists when the team does not have enough available time, staff, budget, vendor support, or production bandwidth to complete the work in the requested window.
+
+Examples:
+
+- Communications is fully committed to a priority project for the next three weeks.
+- Video team is unavailable during the requested production window.
+- Designer capacity is already committed to Easter production.
+- Vendor support or outsourcing may be required.
+
+User-facing language:
+
+> This may need a different timeline, smaller scope, or outside support.
+
 ### Task Blocker
 
 A task blocker exists when an individual task cannot continue until something else happens.
@@ -149,6 +224,7 @@ Examples:
 
 - Task: Schedule Instagram post.
 - Status: Blocked.
+- Blocker Type: Waiting on Approval.
 - Reason: Artwork not approved yet.
 
 ## Deliverable Readiness Checklist
@@ -261,21 +337,27 @@ Examples:
 
 The summary should help a Communications Lead understand what needs attention without opening every deliverable.
 
-## Attention States
+## Attention State Examples
 
 Dependencies and readiness should feed plain-language attention states.
 
 Examples:
+
+- On Track.
+- Needs Attention.
+- At Risk.
+- Blocked.
+- Rush.
+- Ready for Next Step.
+
+When blocked, the blocker type should provide the specific cause:
 
 - Waiting on final copy.
 - Waiting on approved artwork.
 - Waiting on ministry approval.
 - Waiting on registration link.
 - Waiting on vendor proof.
-- Ready to schedule.
-- Not ready yet.
-- Blocked.
-- At risk.
+- Over capacity.
 
 Avoid technical language like:
 
@@ -292,6 +374,7 @@ Tasks should support:
 
 - Blocked status.
 - Blocked reason.
+- Blocker type.
 - Optional reference to what is blocking the task.
 - Comments for context.
 
@@ -313,13 +396,14 @@ These should be treated as visible blockers, not as a full dependency graph.
 
 Dependencies affect turnaround time and capacity.
 
-A project may appear to have enough calendar time, but still be at risk if required inputs are missing.
+A project may appear to have enough calendar time, but still be at risk if required inputs are missing or if team capacity is already committed.
 
 Examples:
 
 - A video has three weeks of lead time, but no shoot date is scheduled.
 - A social post is due tomorrow, but the registration link is not ready.
 - A print piece has a normal turnaround window, but vendor proof approval is still pending.
+- A new request has normal lead time on paper, but Communications is over capacity because of a priority project.
 
 The triage workspace should surface dependency risk alongside TAT / SLA and capacity guidance.
 
@@ -327,6 +411,9 @@ The triage workspace should surface dependency risk alongside TAT / SLA and capa
 
 Potential data concepts:
 
+- Attention state.
+- Blocker type.
+- Blocker detail.
 - Readiness requirement.
 - Readiness requirement type.
 - Readiness status.
@@ -343,6 +430,9 @@ Potential data concepts:
 
 For MVP, include:
 
+- Top-level attention states.
+- Blocked as parent attention state.
+- Blocker types and blocker details.
 - Missing information items.
 - Blocked task status and blocked reason.
 - Deliverable readiness checklist.

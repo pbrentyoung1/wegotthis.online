@@ -24,6 +24,54 @@ Before building custom UI, review both the starterkit and the full INSPINIA impl
 
 Use the INSPINIA Figma assets as a screen layout and UX pattern reference when designing ForWorship Creative screens.
 
+## Approved Web UI References
+
+Use these INSPINIA Bootstrap pages as approved structural references for MVP screens and interaction patterns:
+
+| INSPINIA Page | Reference URL | Use For |
+|---|---|---|
+| Chat App | `https://webapplayers.com/inspinia/bootstrap/apps-chat.html` | Direct messages, work-context conversations, project/deliverable discussion layout, message list/detail structure. |
+| Project Details | `https://webapplayers.com/inspinia/bootstrap/apps-projects-details.html` | Project detail page, project summary, team/activity/sidebar patterns, related deliverables/assets/messages. |
+| Projects Kanban | `https://webapplayers.com/inspinia/bootstrap/apps-projects-kanban.html` | Project/deliverable board views, lifecycle columns, status overview, light work planning. |
+| Projects Team Board | `https://webapplayers.com/inspinia/bootstrap/apps-projects-team-board.html` | Team workload, contributor cards, assignment visibility, people/capacity-friendly views. |
+| Dashboard / Widgets | Existing INSPINIA dashboard and widget patterns | Status summaries, work queues, review queues, due-soon items, capacity snapshots, and lightweight reporting. |
+| Calendar / FullCalendar | Existing INSPINIA calendar implementation | Scheduling views and calendar-compatible data. Use the free FullCalendar version through the INSPINIA calendar implementation unless a future architecture decision changes this. |
+| Topbar Activity Bell | Existing INSPINIA topbar notification pattern | Persistent notifications, recent activity, review/change request alerts, due-soon notices. |
+| Alerts / SweetAlert Pattern | SweetAlert/SweetAlert2-style modal feedback | Immediate success, warning, confirmation, and destructive-action prompts. |
+
+These references should guide structure, spacing, layout, and interaction flow, but ForWorship Creative should still apply its own brand language, typography, tone, and calm visual system.
+
+## MVP UI Discipline
+
+Use existing INSPINIA assets as much as possible for MVP.
+
+MVP screens should favor proven INSPINIA structures over custom UI/UX work:
+
+- dashboard cards and widgets for status summaries
+- project detail pages for project workspaces
+- kanban and team boards for light status and assignment views
+- chat, conversation, messaging, and activity layouts for contextual communication
+- topbar activity notifications for persistent alerts
+- SweetAlert-style prompts for immediate confirmations and warnings
+- FullCalendar-compatible structures for scheduling views
+- tables, cards, tabs, forms, modals, drawers, and file lists for routine operational surfaces
+
+Avoid over-customizing MVP UI. The first implementation should validate workflow and structure before investing in custom visual systems, custom planning canvases, or bespoke interaction models.
+
+## Notification UI Layers
+
+ForWorship Creative should use three separate notification layers:
+
+1. SweetAlert-style modals for immediate feedback, warnings, confirmations, and destructive-action prompts.
+2. The INSPINIA topbar activity bell for persistent alerts and recent activity requiring attention.
+3. Dashboard/inbox views for deeper task, review, message, and project follow-up.
+
+Sweet Alerts should not replace the activity bell.
+
+The activity bell should not replace the dashboard.
+
+The dashboard should not become a chat app.
+
 ## How We Use INSPINIA
 
 We use INSPINIA for:
@@ -57,6 +105,12 @@ We do not use INSPINIA for:
 
 - dashboards
 - messaging interfaces
+- chat/direct message interfaces
+- project detail layouts
+- kanban boards
+- team board layouts
+- topbar activity bell / notification dropdowns
+- SweetAlert-style modal alerts
 - alert boxes
 - calendars
 - notification patterns
@@ -80,18 +134,24 @@ Avoid rebuilding from scratch:
 
 - calendar engines
 - modal systems
+- SweetAlert-style confirmation flows
 - dropdown infrastructure
 - responsive grid systems
 - scrollbar systems
 - notification frameworks
+- topbar activity bell behavior
 - chart foundations
 - basic form controls
 - dashboard card systems
 - messaging layouts
+- chat layouts
 - alert patterns
 - custom workflow canvases
 - custom strategy boards
 - custom drag-and-drop planning interfaces
+- kanban board structure
+- project detail page structure
+- team board layout structure
 
 Only build custom when the existing pattern cannot reasonably support the product need.
 
@@ -139,6 +199,7 @@ When adapting INSPINIA:
 - favor clarity and calm over density
 - preserve proven responsive and component behavior
 - express strategic context through existing dashboards, cards, tables, tabs, activity feeds, messaging assets, notifications, and file lists before inventing new planning surfaces
+- adapt INSPINIA structure carefully while applying ForWorship Creative product voice and brand
 
 ## Technical Guardrails
 
@@ -146,6 +207,7 @@ Do not:
 
 - introduce new JavaScript frameworks without an architecture decision
 - bypass existing Bootstrap, Bootstrap Vue Next, Inspinia SCSS, or token systems
+- add Tailwind unless a future documented decision changes the stack
 - create duplicate layout systems
 - create duplicate modal, notification, calendar, dropdown, or chart systems
 - hardcode colors outside design tokens
@@ -170,7 +232,7 @@ The goal is to turn Figma work into scalable product language rather than isolat
 
 ## Contributor Instruction
 
-Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, and Figma assets for existing patterns that can be adapted.
+Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the INSPINIA starterkit, full Laravel implementation, web UI references, and Figma assets for existing patterns that can be adapted.
 
 ## Related Documents
 
@@ -182,5 +244,8 @@ Before creating or heavily modifying UI, read `docs/INSPINIA.md` and check the I
 - `docs/branding/VISUAL_SYSTEM.md`
 - `docs/resources/INSPINIA_NOTES.md`
 - `docs/resources/FIGMA_NOTES.md`
+- `docs/product/CONVERSATIONS_MESSAGES_ACTIVITY.md`
+- `docs/product/PROJECT_LIFECYCLE_V2.md`
+- `docs/product/DELIVERABLE_LIFECYCLE.md`
 
 Last Updated: 2026-05-29
