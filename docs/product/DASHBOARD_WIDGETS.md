@@ -103,6 +103,7 @@ Future Analytics / Integration Sections
 - YouTube Analytics
 - Service Stats
 - Planning Center Metrics
+- Slack / Discord notification summaries, future
 ```
 
 ## Quick Widget Cards
@@ -249,6 +250,8 @@ Potential future integrations:
 - Planning Center.
 - Google Calendar.
 - Outlook Calendar.
+- Slack.
+- Discord.
 - Social media analytics.
 - Website analytics.
 - Click/campaign analytics.
@@ -262,6 +265,7 @@ Future widgets may include:
 | Widget | Possible Integration |
 |---|---|
 | Upcoming Church Events | Planning Center, Google Calendar, Outlook Calendar. |
+| External Conversation Alerts | Slack, Discord. |
 | Scheduled Posts | Social scheduling provider. |
 | Social Performance | Meta, Instagram, TikTok, X, LinkedIn, etc. |
 | Website Traffic | Google Analytics / website analytics. |
@@ -270,6 +274,28 @@ Future widgets may include:
 | Recent Service Stats | Planning Center or church management system. |
 | New Images | Google Drive / Asset Library. |
 | Email Performance | Email platform integration. |
+
+## Slack and Discord Integration Boundary
+
+Slack and Discord may be useful future integrations for notification handoff, alerts, and external discussion awareness.
+
+They should not replace project memory inside ForWorship Creative.
+
+Potential future uses:
+
+- Send project notifications to a Slack or Discord channel.
+- Surface unread/mentioned external conversations in dashboard widgets.
+- Link a Slack/Discord thread to a Project or Deliverable.
+- Post review/change request alerts to a configured channel.
+
+Avoid:
+
+- Recreating full Slack or Discord inside ForWorship.
+- Treating external chat as the official project memory by default.
+- Importing entire Slack/Discord histories in MVP.
+- Creating noisy duplicate notifications.
+
+Project decisions, approvals, change requests, and official closeout notes should remain in ForWorship Creative.
 
 ## Integration Guardrail
 
@@ -380,6 +406,7 @@ Defer:
 - Custom widget creation.
 - Drag/drop dashboard editor if it slows MVP.
 - Revenue/client widgets that do not fit the product.
+- Slack/Discord integrations.
 
 ## Future Expansion
 
@@ -389,6 +416,7 @@ Future versions may add:
 - API-fed widgets.
 - Planning Center dashboard cards.
 - Google/Outlook calendar widgets.
+- Slack/Discord notification widgets.
 - Social analytics widgets.
 - Website analytics widgets.
 - YouTube analytics widgets.
