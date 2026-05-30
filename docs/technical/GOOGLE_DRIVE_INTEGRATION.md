@@ -12,7 +12,40 @@ Google Drive stores the files.
 
 ForWorship Creative stores the meaning.
 
-The platform should preserve metadata, relationships, workflow context, approvals, usage rights, consent status, search tags, and project/deliverable history while allowing churches to keep ownership of their files in Google Drive.
+The platform should preserve selected metadata, relationships, workflow context, approvals, usage rights, consent status, search tags, and project/deliverable history while allowing churches to keep ownership of their files in Google Drive.
+
+## Boundary Decision
+
+ForWorship Creative is not recreating Google Drive.
+
+ForWorship Creative is not reindexing an organization’s entire Google Drive.
+
+For MVP, the integration should behave like a Trello-style attachment model:
+
+- A user links or selects a Drive file/folder.
+- The platform stores the reference and selected metadata.
+- The platform adds ForWorship context: Project, Deliverable, Asset, tags, usage notes, approvals, closeout, and project memory.
+- The file itself remains in Google Drive.
+- Users open/edit the file in Google Drive.
+
+This keeps ForWorship focused on workflow, context, discovery, and institutional memory instead of becoming a file storage or Drive replacement product.
+
+## What We Are Not Building in MVP
+
+Do not build these in MVP:
+
+- Full Google Drive clone.
+- Full Drive reindexing.
+- Whole-Drive search across every file the church owns.
+- File migration into ForWorship storage.
+- Full file sync engine.
+- Drive permission mirroring.
+- Drive folder governance engine.
+- Large-file proxy/download system.
+- Realtime Drive change watcher.
+- Automated scan of all Shared Drive contents.
+
+MVP should only know about Drive files and folders that are intentionally linked, selected, uploaded through the app, or attached during closeout.
 
 ## Why This Matters
 
@@ -30,7 +63,7 @@ Church communications teams may manage terabytes of:
 
 ForWorship Creative should not require churches to migrate all files into a new proprietary storage system during MVP.
 
-Instead, the platform should connect to Google Drive, reference Drive files and folders, and enrich them with project and asset metadata.
+Instead, the platform should reference selected Drive files and folders and enrich them with project and asset metadata.
 
 ## MVP Storage Decision
 
@@ -39,6 +72,7 @@ For MVP:
 - Google Drive should be the primary file storage integration.
 - External links should be supported immediately.
 - The platform should store metadata and provider references rather than storing every large file directly.
+- The platform should only track Drive items intentionally linked to ForWorship records.
 - The storage model should remain provider-abstracted so future providers can be added.
 
 ## Trello-Style Attachment Model
@@ -46,14 +80,15 @@ For MVP:
 MVP should use a Trello-style attachment pattern:
 
 - Attach Google Drive files or folders to Projects, Deliverables, Assets, comments, or closeout records.
-- Store the file/folder reference and metadata.
+- Store the file/folder reference and selected metadata.
 - Let the file continue to live in the church’s Google Drive.
 - Open the file through Google Drive when users need to view or edit it.
 - Do not duplicate large media files unless intentionally downloaded or archived later.
+- Do not assume the platform knows about unlinked Drive files.
 
 ## What ForWorship Stores
 
-For a Google Drive file or folder, the platform may store:
+For a linked Google Drive file or folder, the platform may store:
 
 ```text
 storage_provider: google_drive
@@ -77,7 +112,7 @@ permission_status
 metadata_json
 ```
 
-For the Asset Library, the platform also stores:
+For the Asset Library, the platform also stores ForWorship context:
 
 ```text
 asset_category
@@ -177,7 +212,7 @@ The platform should support both:
 
 ## Asset Library Relationship
 
-The Asset Library should become the metadata layer over Google Drive and other external file sources.
+The Asset Library should become a metadata layer over intentionally linked Google Drive files/folders and other external file sources.
 
 Examples:
 
@@ -191,7 +226,9 @@ Examples:
 
 ## Google Drive Search and Filters
 
-Google Drive search should feel familiar and useful while adding ForWorship context.
+Google Drive-style search should apply to Drive items that are linked, attached, or represented in the Asset Library.
+
+It should not imply that ForWorship is searching or indexing the church’s entire Google Drive.
 
 Recommended filters:
 
@@ -200,7 +237,7 @@ Recommended filters:
 | Type | Filter by Drive file type, asset type, file family, or extension. |
 | People | Filter by owner, creator, uploader, photographer, linked-by user, or last modified by where available. |
 | Modified | Filter by Drive modified date or platform metadata updated date. |
-| Location | Filter by Drive folder, project folder, or Shared Drive location. |
+| Location | Filter by linked Drive folder, project folder, or Shared Drive location. |
 | Project | Filter assets/files connected to a Project. |
 | Deliverable | Filter assets/files connected to a Deliverable. |
 | Department | Filter by ministry/department context. |
@@ -224,7 +261,7 @@ Tags: VBS
 Modified: This year
 ```
 
-MVP can start with Type, People, and Modified, then add project, deliverable, department, tags, and usage filters as the Asset Library matures.
+MVP can start with Type, People, and Modified for linked assets, then add project, deliverable, department, tags, and usage filters as the Asset Library matures.
 
 ## Permissions Strategy
 
@@ -286,19 +323,19 @@ MVP may support one or more of the following:
 
 User pastes a Drive URL or external URL.
 
-The platform stores the link and metadata.
+The platform stores the link and selected metadata.
 
 ### Select Existing Drive File
 
 User selects a file or folder through Google Picker.
 
-The platform stores Drive IDs and metadata.
+The platform stores Drive IDs and selected metadata.
 
 ### Upload to Drive
 
 User uploads a file through the platform, and the file is stored in the connected Google Drive folder.
 
-The platform stores the returned Drive file ID and metadata.
+The platform stores the returned Drive file ID and selected metadata.
 
 The upload-to-Drive flow can come after link/select if MVP scope is tight.
 
@@ -359,6 +396,16 @@ Mitigation:
 - Store generic provider fields.
 - Add Dropbox/OneDrive later without changing the core Asset model.
 
+### Risk: User Assumes Full Drive Search
+
+Users may assume ForWorship searches every file in Google Drive.
+
+Mitigation:
+
+- Make UI language clear: search linked files, attached files, and Asset Library records.
+- Provide Google Drive open/search shortcuts where useful.
+- Avoid claiming full Drive indexing or sync.
+
 ## MVP Recommendation
 
 For MVP, include:
@@ -370,13 +417,15 @@ For MVP, include:
 - Project and Deliverable attachments linked to Google Drive files/folders.
 - Basic Asset Library records for linked Drive files.
 - Basic linked asset search/filtering.
-- Google Drive search filters for Type, People, and Modified where feasible.
+- Google Drive-style filters for Type, People, and Modified on linked/represented Drive items.
 - Closeout support for final Drive links and folders.
 
 Defer:
 
 - Full Drive permission management.
 - Full file sync.
+- Full Google Drive reindexing.
+- Whole-Drive search.
 - Large file proxy/download storage.
 - Drive-to-platform media migration.
 - Dropbox/OneDrive provider implementation.
