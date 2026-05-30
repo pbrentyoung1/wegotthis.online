@@ -38,6 +38,26 @@ Department Leader submits a request
 
 If MVP proves this loop well, the product is real.
 
+## MVP Now, Expansion-Aware Always
+
+Build the MVP, but keep an eye on where the product is going.
+
+Do not overbuild future features into MVP.
+
+Do not build MVP in a way that blocks future expansion.
+
+Every major implementation should ask:
+
+- What is the simplest MVP version?
+- What future expansion is likely?
+- What small architectural hook preserves that future path?
+- What would paint us into a corner?
+- What would turn into stealth scope creep?
+
+The goal is not to build everything now.
+
+The goal is to build the right foundation so future phases do not require major rewrites.
+
 ## Guiding Priority
 
 Keep MVP centered on the request-to-approved-deliverable loop.
@@ -62,6 +82,185 @@ Priority order:
 | 8 | Asset Library | Starts simple, matures over time. |
 | 9 | Capacity/Skills | Important, but should start light. |
 | 10 | Integrations/Analytics | Powerful, but later. |
+
+## Lean MVP vs Full MVP
+
+### Lean MVP
+
+The smallest version that proves the product.
+
+Includes:
+
+- App shell, users, departments, roles.
+- Intake request flow.
+- Project/Deliverable/Task spine.
+- Work-attached conversations.
+- Review, approval, and change request flow.
+- External and Google Drive file links.
+- Simple dashboard.
+- Simple date visibility.
+
+### Full MVP
+
+The stronger first release after the loop works.
+
+Adds:
+
+- More polished dashboard widgets.
+- Better notification preferences.
+- FullCalendar views if feasible.
+- Better asset filters.
+- Magic links if stable.
+- More deliverable types.
+- Light capacity and skill improvements.
+- Optional widget ordering.
+
+Build Lean MVP first.
+
+Expand toward Full MVP only after the core loop works locally and online.
+
+## Expansion-Aware Architecture Rules
+
+### Intake
+
+MVP should use a small set of request/deliverable types.
+
+Future path:
+
+- Admin-managed deliverable types.
+- Adaptive creative brief questions.
+- More complex templates.
+- Rush/TAT/SLA logic.
+
+Guardrail:
+
+- Store request answers flexibly enough to support future typed questions.
+- Do not hard-code all intake fields directly into one rigid table if that would block future adaptive briefs.
+
+### Projects and Deliverables
+
+MVP should keep Campaigns, Projects, Deliverables, and Tasks simple.
+
+Future path:
+
+- More project templates.
+- More deliverable types.
+- Dependencies.
+- Automation.
+- Multi-department work.
+
+Guardrail:
+
+- Keep status/lifecycle values documented and centralized.
+- Do not bury lifecycle logic in scattered UI code.
+- Keep deliverable type logic extensible.
+
+### Conversations
+
+MVP should include Project and Deliverable discussions.
+
+Future path:
+
+- Campaign and Task discussions.
+- Mentions.
+- Rich inbox.
+- Message-to-task.
+- AI summaries.
+- External notification delivery.
+
+Guardrail:
+
+- Model conversations so they can attach to different work objects.
+- External tools notify, but official responses come back into the system.
+
+### Reviews and Approvals
+
+MVP should support internal review, stakeholder review, approve, and request changes.
+
+Future path:
+
+- Multi-stage approvals.
+- Magic links.
+- External reviewers.
+- Approval templates.
+- Review rounds.
+
+Guardrail:
+
+- Do not model approval as a single boolean field only.
+- Preserve reviewer, timestamp, comments, and change request history.
+
+### Files and Assets
+
+MVP should use Trello-style links to Google Drive/external URLs.
+
+Future path:
+
+- Rich Asset Library.
+- More providers.
+- Better metadata.
+- Consent/usage management.
+- AI tagging.
+
+Guardrail:
+
+- Use storage provider abstraction.
+- Store selected metadata.
+- Do not assume local storage or Google Drive forever.
+- Do not reindex all of Google Drive.
+
+### Calendar
+
+MVP should store dates correctly and provide simple date visibility.
+
+Future path:
+
+- FullCalendar views.
+- Google/Outlook integration.
+- Resource calendars.
+- Drag/drop scheduling.
+
+Guardrail:
+
+- Make API output FullCalendar-compatible.
+- Use bounded date-range queries.
+- Keep calendar source records clear.
+
+### Dashboard
+
+MVP should provide a simple role-aware dashboard.
+
+Future path:
+
+- More widgets.
+- API-fed widgets.
+- User widget ordering.
+- Analytics integrations.
+
+Guardrail:
+
+- Use stable widget keys.
+- Do not hard-code dashboard layout in a way that prevents per-role or per-user customization later.
+
+### Integrations
+
+MVP should not build major integrations beyond file links and basic email notification support.
+
+Future path:
+
+- Planning Center.
+- Google Calendar.
+- Outlook Calendar.
+- Slack.
+- Discord.
+- Teams.
+- SMS.
+- Social/website/YouTube analytics.
+
+Guardrail:
+
+- Keep integration/provider concepts abstract enough to add later.
+- Do not let future integrations drive MVP complexity.
 
 ## Development Philosophy
 
@@ -128,6 +327,7 @@ A review gate should answer:
 - Does this reduce burden on the user?
 - Does it preserve project memory where needed?
 - Is this MVP or are we sneaking in later-phase complexity?
+- Does it preserve likely future expansion paths?
 - Does it work locally?
 - Does it work online?
 - Is the code small enough to understand and troubleshoot?
@@ -220,6 +420,14 @@ Create the usable foundation.
 - Navigation structure.
 - Basic settings.
 
+### Future Hooks
+
+- Multi-tenant expansion.
+- Richer organization settings.
+- Integration settings.
+- Per-role dashboard templates.
+- User preferences.
+
 ### Not Included
 
 - Custom role builder.
@@ -297,6 +505,14 @@ Prove the most important moment: getting a good request.
 - Rush/timing questions.
 - Light TAT/SLA awareness.
 - Comments/questions on request.
+
+### Future Hooks
+
+- Admin-managed request types.
+- Adaptive creative brief questions.
+- Deliverable-type question sets.
+- Rich TAT/SLA rules.
+- Request templates.
 
 ### Priority Request/Deliverable Types
 
@@ -388,6 +604,16 @@ Turn approved requests into manageable communications work.
   - Missing Information.
 - Project detail page using Inspinia project detail reference.
 - Kanban-style status board using Inspinia kanban reference.
+
+### Future Hooks
+
+- Project templates.
+- Deliverable templates.
+- Dependency engine.
+- Resource scheduling.
+- Skill-based assignment suggestions.
+- Multi-department projects.
+- Automation.
 
 ### Not Included
 
@@ -483,6 +709,16 @@ Keep communication in the system of record.
   - Things Waiting on Me.
   - General Updates.
 
+### Future Hooks
+
+- Campaign discussions.
+- Task discussions.
+- Mentions.
+- Rich inbox.
+- Slack/Discord/Teams/SMS notification delivery.
+- AI summaries.
+- Message-to-task/change-request conversion.
+
 ### Not Included
 
 - Slack integration.
@@ -570,6 +806,15 @@ Make approvals trustworthy and easy.
 - Approved state.
 - Ready to publish/deliver state.
 
+### Future Hooks
+
+- Multi-stage approval templates.
+- External reviewer portal.
+- Magic links.
+- Approval routing rules.
+- Version comparison.
+- Comment annotation on files.
+
 ### Milestones
 
 #### Milestone 5.1: Internal Review
@@ -653,6 +898,16 @@ Attach files without becoming Google Drive.
   - Tags.
 - Closeout final/source file links.
 
+### Future Hooks
+
+- Rich Asset Library.
+- More providers.
+- Advanced metadata.
+- Usage/consent workflows.
+- AI tagging.
+- Duplicate detection.
+- Parent/community uploads.
+
 ### Important Boundary
 
 MVP does not:
@@ -732,6 +987,15 @@ Show the work in time.
   - Review.
 - Date-range bounded queries.
 
+### Future Hooks
+
+- Google Calendar integration.
+- Outlook integration.
+- Resource calendars.
+- Drag/drop scheduling.
+- Capacity-aware suggestions.
+- Calendar subscriptions.
+
 ### Not Included
 
 - Google Calendar integration.
@@ -799,6 +1063,17 @@ Make the system feel like a partner.
 - Discussions.
 - Blocked work.
 - Light widget ordering preferences.
+
+### Future Hooks
+
+- API-fed widgets.
+- Planning Center widgets.
+- Social media analytics.
+- Website analytics.
+- YouTube analytics.
+- Service stats.
+- Widget ordering.
+- Admin dashboard presets.
 
 ### Not Included
 
@@ -899,6 +1174,7 @@ Do not move to the next phase until:
 - Documentation is updated.
 - Known blockers are logged.
 - MVP scope is rechecked for creep.
+- Future expansion path remains open.
 
 ## Order of Operations
 
