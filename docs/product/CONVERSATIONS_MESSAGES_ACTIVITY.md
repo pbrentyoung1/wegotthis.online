@@ -12,7 +12,28 @@ The project remembers what people forget.
 
 Conversations should stay close to the work they are about.
 
-The system should capture decisions, questions, approvals, change requests, and key discussions so they do not disappear into email, text messages, hallway conversations, disconnected chats, or someone’s memory.
+Campaigns, Projects, Deliverables, and Tasks all need to capture the conversation around them so questions, decisions, approvals, change requests, and clarifications stay with the work.
+
+The system should capture decisions, questions, approvals, change requests, and key discussions so they do not disappear into email, text messages, hallway conversations, disconnected chats, Teams, Slack, Discord, or someone’s memory.
+
+## System of Record Principle
+
+ForWorship Creative is the system of record for project communication.
+
+External tools may notify people, but the response should bring them back into ForWorship when the message affects the work.
+
+Examples:
+
+- Email notification points back to the Project discussion.
+- Slack notification points back to the Deliverable review.
+- SMS reminder points back to the approval request.
+- Discord alert points back to the blocked task.
+
+Notifications may travel outward.
+
+Decisions, approvals, requested changes, and official project conversations should come back inward.
+
+This keeps the project memory complete.
 
 ## Not Slack
 
@@ -28,13 +49,32 @@ Avoid:
 
 Prefer:
 
+- Campaign-context conversations.
 - Project-context conversations.
 - Deliverable-context conversations.
+- Task-context conversations, where needed.
 - Review conversations.
 - Change request conversations.
 - Direct messages that can be tied to work.
 - Dashboard/inbox visibility for messages that need attention.
 - Searchable project memory.
+
+## External Notification Boundary
+
+Email, Slack, Discord, Teams, SMS, and similar tools may be used as notification channels.
+
+They should not become the official place where project decisions live.
+
+Recommended pattern:
+
+```text
+Something needs attention in ForWorship
+  -> Notification sent through email / Slack / SMS / etc.
+  -> User clicks back into ForWorship
+  -> User responds, approves, requests changes, or comments inside the relevant Project/Deliverable/Task
+```
+
+Avoid allowing external conversations to become shadow project rooms that only some people can access.
 
 ## Communication Types
 
@@ -42,9 +82,11 @@ The system should distinguish several communication/history types.
 
 | Type | Purpose |
 |---|---|
-| Direct Message | Person-to-person or small group message, optionally tied to a Project or Deliverable. |
+| Direct Message | Person-to-person or small group message, optionally tied to a Campaign, Project, Deliverable, Task, review, asset, or change request. |
+| Campaign Discussion | Conversation attached to a Campaign. |
 | Project Discussion | Conversation attached to a Project. |
 | Deliverable Discussion | Conversation attached to a Deliverable. |
+| Task Discussion | Lightweight conversation attached to a Task, if needed. |
 | Review Comment | Comment tied to a review assignment or version. |
 | Change Request | Actionable requested update with requester, timestamp, status, and resolution. |
 | Activity Feed | System-generated operational history. |
@@ -61,8 +103,10 @@ A Direct Message may be:
 
 - One-to-one.
 - Small group.
+- Tied to a Campaign.
 - Tied to a Project.
 - Tied to a Deliverable.
+- Tied to a Task.
 - Tied to a review, change request, or asset.
 - General but still within the organization workspace.
 
@@ -79,6 +123,15 @@ Examples:
 - Message requesting a reply or decision.
 
 A dashboard should surface message summaries without making chat the main product.
+
+## Direct Messages Inside Campaigns
+
+If a Direct Message is related to a Campaign, it should be attachable to that Campaign.
+
+This allows a discussion to appear:
+
+- In the recipient’s dashboard/inbox.
+- In the Campaign’s discussion history.
 
 ## Direct Messages Inside Projects
 
@@ -123,6 +176,30 @@ This message should appear in:
 - The Communications Manager’s inbox/dashboard.
 - The VBS Instagram Post deliverable conversation.
 - The parent Project’s communication history.
+
+## Direct Messages Inside Tasks
+
+Tasks belong to Deliverables.
+
+If a message is about a specific Task, it may attach to the Task and roll up to the Deliverable and Project.
+
+MVP can keep Task discussion light.
+
+Use Task messages for practical execution questions, not broader project decisions unless they are promoted or copied to the Deliverable/Project discussion.
+
+## Campaign Discussions
+
+Campaign Discussions are conversations attached to a Campaign as a whole.
+
+Use for:
+
+- Campaign goals.
+- Strategic alignment.
+- Outcome discussion.
+- Department/stakeholder alignment.
+- Campaign-wide decisions.
+
+Campaign discussion should remain lighter in MVP unless Campaign-level collaboration becomes important.
 
 ## Project Discussions
 
@@ -237,8 +314,10 @@ Notifications are alerts, not history.
 A notification may point to:
 
 - Direct Message.
+- Campaign discussion.
 - Project discussion.
 - Deliverable discussion.
+- Task discussion.
 - Review request.
 - Change request.
 - Task assignment.
@@ -246,6 +325,8 @@ A notification may point to:
 - Blocker.
 
 Once a notification is read or dismissed, the underlying conversation/activity remains attached to the work.
+
+Notifications should link users back to the correct ForWorship location so the response is captured in context.
 
 ## Message Visibility
 
@@ -256,6 +337,7 @@ Recommended visibility scopes:
 | Visibility | Purpose |
 |---|---|
 | Private DM | Visible only to message participants and authorized admins if policy allows. |
+| Campaign Team | Visible to people assigned to or participating in the Campaign. |
 | Project Team | Visible to people assigned to or participating in the Project. |
 | Internal Only | Visible only to Communications/internal team members. |
 | Stakeholder Visible | Visible to stakeholders/reviewers. |
@@ -266,11 +348,11 @@ The UI should make visibility clear before a message is sent.
 
 ## Private DMs and Project Memory
 
-A Direct Message that is not attached to a Project or Deliverable should remain a private/direct conversation.
+A Direct Message that is not attached to a Campaign, Project, Deliverable, Task, review, change request, or asset should remain a private/direct conversation.
 
-A Direct Message attached to a Project or Deliverable becomes part of that work’s communication history according to its visibility scope.
+A Direct Message attached to work becomes part of that work’s communication history according to its visibility scope.
 
-The sender should understand when a message is being saved to Project memory.
+The sender should understand when a message is being saved to project memory.
 
 Suggested UI language:
 
@@ -349,9 +431,11 @@ A Project should preserve:
 
 - Request conversations.
 - Triage notes.
+- Campaign-related context where relevant.
 - Project discussions.
 - Direct messages attached to the Project.
 - Deliverable discussions.
+- Task discussions that roll up from Deliverables.
 - Review comments.
 - Change request history.
 - Activity feed.
@@ -373,6 +457,7 @@ For MVP, include:
 - Review comments.
 - Change request records.
 - Project memory rollup.
+- External notifications that link back into ForWorship rather than capturing official responses externally.
 
 If scope is tight, prioritize:
 
@@ -381,6 +466,7 @@ If scope is tight, prioritize:
 - Review/change request comments.
 - Activity feed.
 - Dashboard notifications.
+- External notification links back to the relevant ForWorship record.
 
 Direct messages may be MVP or early post-MVP depending on implementation capacity, but the data model should plan for them.
 
@@ -396,6 +482,8 @@ Defer:
 - Advanced unread state logic.
 - Full chat search across all DMs.
 - Voice/video calls.
+- Capturing full external Slack/Discord/Teams conversation histories.
+- External-channel reply sync into official project memory.
 
 ## Future Expansion
 
@@ -411,6 +499,7 @@ Future versions may add:
 - External reviewer discussion portal.
 - Message-to-task or message-to-change-request conversion.
 - Advanced notification preferences.
+- External notification delivery through email, Slack, Discord, Teams, or SMS.
 
 ## Related Docs
 
@@ -423,6 +512,7 @@ Future versions may add:
 - `docs/product/USER_MODEL_AND_PROFILES.md`
 - `docs/product/COMMUNICATIONS_SYSTEM.md`
 - `docs/product/MESSAGES_AND_ACTIVITY.md`
+- `docs/product/DASHBOARD_WIDGETS.md`
 - `docs/PHASE_FEATURE_MATRIX.md`
 
-Last Updated: 2026-05-29
+Last Updated: 2026-05-30
