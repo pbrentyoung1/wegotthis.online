@@ -70,6 +70,7 @@ file_size
 created_time
 modified_time
 owner/display owner
+last_modifying_user/display user, if available
 uploaded_by_profile_id
 linked_by_profile_id
 permission_status
@@ -188,6 +189,43 @@ Examples:
 | Google Drive brand logo folder | Brand asset library source. |
 | Vendor Drive folder link | Linked/external asset source. |
 
+## Google Drive Search and Filters
+
+Google Drive search should feel familiar and useful while adding ForWorship context.
+
+Recommended filters:
+
+| Filter | Purpose |
+|---|---|
+| Type | Filter by Drive file type, asset type, file family, or extension. |
+| People | Filter by owner, creator, uploader, photographer, linked-by user, or last modified by where available. |
+| Modified | Filter by Drive modified date or platform metadata updated date. |
+| Location | Filter by Drive folder, project folder, or Shared Drive location. |
+| Project | Filter assets/files connected to a Project. |
+| Deliverable | Filter assets/files connected to a Deliverable. |
+| Department | Filter by ministry/department context. |
+| Tags | Filter by platform tags. |
+| Usage Rights | Filter by approved/restricted/unknown usage. |
+| Status | Filter by approved, needs review, archived, current, deprecated, etc. |
+
+Examples:
+
+```text
+Type: .mov
+People: Jordan
+Modified: Last 30 days
+Project: VBS 2026
+```
+
+```text
+Type: Image
+Department: Children’s Ministry
+Tags: VBS
+Modified: This year
+```
+
+MVP can start with Type, People, and Modified, then add project, deliverable, department, tags, and usage filters as the Asset Library matures.
+
 ## Permissions Strategy
 
 Google Drive permissions can become complex.
@@ -275,6 +313,7 @@ If files live in Google Drive, closeout should capture:
 - Folder links.
 - Published/live URLs.
 - File usage notes.
+- File type, extension, MIME type, and modified date where available.
 - Tags and metadata.
 - Whether the files need to be moved into an archive folder.
 
@@ -331,6 +370,7 @@ For MVP, include:
 - Project and Deliverable attachments linked to Google Drive files/folders.
 - Basic Asset Library records for linked Drive files.
 - Basic linked asset search/filtering.
+- Google Drive search filters for Type, People, and Modified where feasible.
 - Closeout support for final Drive links and folders.
 
 Defer:
@@ -352,4 +392,4 @@ Defer:
 - `docs/product/PROJECT_LIFECYCLE_V2.md`
 - `docs/PHASE_FEATURE_MATRIX.md`
 
-Last Updated: 2026-05-29
+Last Updated: 2026-05-30
