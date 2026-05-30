@@ -34,10 +34,29 @@ Use these INSPINIA Bootstrap pages as approved structural references for MVP scr
 | Project Details | `https://webapplayers.com/inspinia/bootstrap/apps-projects-details.html` | Project detail page, project summary, team/activity/sidebar patterns, related deliverables/assets/messages. |
 | Projects Kanban | `https://webapplayers.com/inspinia/bootstrap/apps-projects-kanban.html` | Project/deliverable board views, lifecycle columns, status overview, light work planning. |
 | Projects Team Board | `https://webapplayers.com/inspinia/bootstrap/apps-projects-team-board.html` | Team workload, contributor cards, assignment visibility, people/capacity-friendly views. |
+| Dashboard / Widgets | Existing INSPINIA dashboard and widget patterns | Status summaries, work queues, review queues, due-soon items, capacity snapshots, and lightweight reporting. |
+| Calendar / FullCalendar | Existing INSPINIA calendar implementation | Scheduling views and calendar-compatible data. Use the free FullCalendar version through the INSPINIA calendar implementation unless a future architecture decision changes this. |
 | Topbar Activity Bell | Existing INSPINIA topbar notification pattern | Persistent notifications, recent activity, review/change request alerts, due-soon notices. |
 | Alerts / SweetAlert Pattern | SweetAlert/SweetAlert2-style modal feedback | Immediate success, warning, confirmation, and destructive-action prompts. |
 
 These references should guide structure, spacing, layout, and interaction flow, but ForWorship Creative should still apply its own brand language, typography, tone, and calm visual system.
+
+## MVP UI Discipline
+
+Use existing INSPINIA assets as much as possible for MVP.
+
+MVP screens should favor proven INSPINIA structures over custom UI/UX work:
+
+- dashboard cards and widgets for status summaries
+- project detail pages for project workspaces
+- kanban and team boards for light status and assignment views
+- chat, conversation, messaging, and activity layouts for contextual communication
+- topbar activity notifications for persistent alerts
+- SweetAlert-style prompts for immediate confirmations and warnings
+- FullCalendar-compatible structures for scheduling views
+- tables, cards, tabs, forms, modals, drawers, and file lists for routine operational surfaces
+
+Avoid over-customizing MVP UI. The first implementation should validate workflow and structure before investing in custom visual systems, custom planning canvases, or bespoke interaction models.
 
 ## Notification UI Layers
 
@@ -76,7 +95,7 @@ We do not use INSPINIA for:
 
 ## Base vs Reference Implementation
 
-- `resources/Laravel/starterkit` is the implementation base when application work begins.
+- `resources/Laravel/starterkit` is the implementation base.
 - `resources/Laravel/inspinia` is the deeper reference implementation for patterns, flows, and component behavior.
 - The starterkit should usually answer how the app is structured.
 - The full INSPINIA implementation should usually answer how a common admin or product pattern behaves.
@@ -107,6 +126,7 @@ We do not use INSPINIA for:
 - file management UI
 - charts when truly needed
 - forms and settings pages
+- project brief and deliverable brief screens built from existing forms, cards, tabs, tables, and activity feeds
 
 ## Do-Not-Reinvent Guidance
 
@@ -126,6 +146,9 @@ Avoid rebuilding from scratch:
 - messaging layouts
 - chat layouts
 - alert patterns
+- custom workflow canvases
+- custom strategy boards
+- custom drag-and-drop planning interfaces
 - kanban board structure
 - project detail page structure
 - team board layout structure
@@ -175,19 +198,23 @@ When adapting INSPINIA:
 - convert rigid workflows into guided experiences
 - favor clarity and calm over density
 - preserve proven responsive and component behavior
+- express strategic context through existing dashboards, cards, tables, tabs, activity feeds, messaging assets, notifications, and file lists before inventing new planning surfaces
+- adapt INSPINIA structure carefully while applying ForWorship Creative product voice and brand
 
 ## Technical Guardrails
 
 Do not:
 
 - introduce new JavaScript frameworks without an architecture decision
-- bypass existing Tailwind or token systems
+- bypass existing Bootstrap, Bootstrap Vue Next, Inspinia SCSS, or token systems
+- add Tailwind unless a future documented decision changes the stack
 - create duplicate layout systems
 - create duplicate modal, notification, calendar, dropdown, or chart systems
 - hardcode colors outside design tokens
 - add new chart libraries unnecessarily
 - create isolated styling conventions
 - ignore existing INSPINIA structure when solving common UI needs
+- build bespoke strategic planning interfaces when an existing INSPINIA structure can carry the workflow
 
 ## Pattern Decision Logging
 
