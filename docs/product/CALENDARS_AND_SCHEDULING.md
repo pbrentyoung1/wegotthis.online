@@ -12,6 +12,16 @@ Use one calendar engine with multiple filtered views.
 
 The product should not create separate calendar systems for projects, production, publishing, events, and capacity. Instead, calendar items should share a common scheduling model and be filtered by context, type, role, and user need.
 
+## FullCalendar Implementation Target
+
+INSPINIA uses the free version of FullCalendar.
+
+The MVP calendar data model and API should be ready to feed FullCalendar-compatible event objects.
+
+FullCalendar should receive normalized, lightweight event objects from the backend, regardless of whether the source is a Project, Deliverable, Review Assignment, Capacity Note, Unavailable Window, or lightweight Event.
+
+The backend should translate source records into a common calendar event shape.
+
 ## Recommended MVP Decision
 
 For MVP, use a unified calendar model that can show different views:
@@ -24,6 +34,135 @@ For MVP, use a unified calendar model that can show different views:
 - Event Calendar, light/future.
 
 These are views over shared date-based records, not separate engines.
+
+## Calendar API Principle
+
+Calendar views should use bounded date-range queries.
+
+The app should never load every calendar-related record in the organization.
+
+Example request:
+
+```text
+GET /calendar?start=2026-06-01&end=2026-06-30&view=publishing
+```
+
+The backend should return only items overlapping the requested date range and matching the current user’s permissions and selected filters.
+
+## FullCalendar Event Shape
+
+The API should return events compatible with FullCalendar’s event object shape.
+
+Recommended normalized shape:
+
+```json
+{
+  "id": "deliverable:123:publish_at",
+  "title": "VBS Instagram Post publishes",
+  "start": "2026-06-12T09:00:00",
+  "end": null,
+  "allDay": false,
+  "url": null,
+  "className": ["calendar-item", "calendar-item-publishing"],
+  "extendedProps": {
+    "organization_id": 1,
+    "calendar_type": "publishing",
+    "event_type": "publish_date",
+    "source_type": "deliverable",
+    "source_id": 123,
+    "source_date_field": "publish_at",
+    "project_id": 44,
+    "deliverable_id": 123,
+    "department_id": 8,
+    "status": "approved",
+    "attention_state": "on_track",
+    "blocker_type": null,
+    "visibility": "project_team",
+    "detail_url": "/deliverables/123"
+  }
+}
+```
+
+Notes:
+
+- `id` should be stable and unique for the calendar occurrence.
+- `title`, `start`, `end`, and `allDay` should map cleanly to FullCalendar.
+- Additional app-specific data should live under `extendedProps`.
+- The UI should lazy-load full details when a calendar item is clicked.
+- Do not return entire Project or Deliverable payloads in calendar responses.
+
+## Source Records vs Calendar Occurrences
+
+For MVP, core dates may live on source records.
+
+Examples:
+
+```text
+projects.start_date
+projects.stop_date
+deliverables.due_at
+deliverables.publish_at
+review_assignments.due_at
+tasks.due_at
+```
+
+The calendar API can query source records, normalize them, and return FullCalendar-compatible event objects.
+
+If performance or complexity requires it later, introduce a generated/indexed `calendar_occurrences` table.
+
+## Optional Future Calendar Occurrences Table
+
+A future `calendar_occurrences` table may include:
+
+```text
+calendar_occurrences
+- id
+- organization_id
+- source_type
+- source_id
+- source_date_field
+- calendar_type
+- event_type
+- title
+- start_at
+- end_at
+- all_day
+- timezone
+- project_id, nullable
+- deliverable_id, nullable
+- department_id, nullable
+- assigned_profile_id, nullable
+- status
+- attention_state
+- blocker_type
+- visibility
+- metadata_json
+```
+
+This table should not be required for MVP unless calendar source queries become too heavy.
+
+Reasons to introduce it later:
+
+- Performance.
+- Complex filtering.
+- Caching.
+- Recurring dates.
+- External calendar sync.
+- Easier FullCalendar feeds.
+
+## Performance Guardrails
+
+To prevent calendar views from creating unnecessary database load:
+
+- Query by visible date range only.
+- Filter by `organization_id` first.
+- Filter by calendar view/type.
+- Respect user permissions before returning results.
+- Use indexes on date fields used by calendar queries.
+- Return lightweight normalized event objects.
+- Lazy-load full details on click.
+- Cache common month views later if needed.
+- Consider `calendar_occurrences` only when source queries become too complex.
 
 ## Calendar Views
 
@@ -144,6 +283,40 @@ May include:
 - Holiday services.
 
 MVP may link event dates to Projects without building a full church event management system.
+
+## Lightweight Events
+
+The platform may need lightweight Event records for real-world dates that many Projects or Deliverables reference.
+
+Examples:
+
+- VBS.
+- Easter services.
+- Christmas Eve services.
+- Fall kickoff.
+- Conference.
+- Camp.
+
+This is not a full church event management system.
+
+Recommended lightweight Event fields:
+
+```text
+events
+- id
+- organization_id
+- department_id, nullable
+- title
+- description, nullable
+- start_at
+- end_at
+- all_day
+- location, nullable
+- notes, nullable
+- status
+```
+
+Projects and Deliverables may reference an Event when helpful.
 
 ## Scheduled Item Types
 
@@ -278,6 +451,8 @@ See `docs/product/CONVERSATIONS_MESSAGES_ACTIVITY.md` and `docs/INSPINIA.md`.
 
 ## Calendar UI
 
+Use FullCalendar free version through the INSPINIA calendar implementation unless a future architecture decision changes this.
+
 Use existing INSPINIA calendar, project, kanban, and dashboard patterns before creating custom calendar UI.
 
 Approved references are documented in `docs/INSPINIA.md`.
@@ -290,11 +465,14 @@ Avoid turning the calendar into a wall of every possible date.
 
 For MVP, include:
 
+- FullCalendar-compatible API event shape.
 - Unified calendar/date model.
+- Bounded date-range calendar endpoint.
 - Project start and stop dates.
 - Deliverable due dates.
 - Deliverable publish/send/install dates where applicable.
 - Review due dates.
+- Lightweight Events if needed.
 - Basic filtered calendar views.
 - Calendar items surfaced in dashboards.
 - Due-soon and overdue notifications.
@@ -306,6 +484,7 @@ If scope is tight, prioritize:
 - Deliverable due dates.
 - Publish/send dates.
 - Review due dates.
+- FullCalendar-compatible API output.
 - Dashboard reminders.
 
 ## Deferred
@@ -320,6 +499,7 @@ Defer:
 - Complex calendar subscription/sync.
 - Full Google Calendar integration.
 - Detailed hour-by-hour production calendar.
+- Recurring event engine.
 
 ## Future Expansion
 
@@ -335,6 +515,7 @@ Future versions may add:
 - Drag-and-drop scheduling.
 - Conflict detection.
 - Department-facing scheduling suggestions.
+- `calendar_occurrences` table for performance/caching if needed.
 
 ## Related Docs
 
