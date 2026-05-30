@@ -76,6 +76,7 @@ Older planning docs may refer to `tenant_id`. For MVP schema design, `organizati
 - Model files as references and metadata, not as a replacement for Google Drive.
 - Model conversations close to the work they are about.
 - Use tags for flexible classification in MVP.
+- Treat `profiles` as the MVP membership record for organization access. A profile with a non-null `user_id` represents a logged-in member. A profile with a null `user_id` represents a contact or external party. A formal `memberships` table may be introduced post-MVP if access lifecycle tracking requires separation.
 - Do not create a full Content Stream entity in MVP.
 - Do not create a complex dependency engine in MVP.
 - Do not create a full Google Drive clone or whole-Drive index.
@@ -110,11 +111,11 @@ Organization
       -> Tasks
       -> Review Assignments
       -> Change Requests
-      -> Assets / File Links
+      -> Assets / Asset Links
       -> Conversations
     -> Conversations
     -> Activity Events
-    -> Assets / File Links
+    -> Assets / Asset Links
     -> Tags
   -> Asset Library
   -> Calendar Sources
@@ -162,6 +163,7 @@ Suggested MVP additions or related fields:
 Represents work/person context for a user or contact.
 
 This prevents login identity from being overloaded with ministry, role, skill, and contact information.
+For MVP, this also serves as the organization membership/access record. A later `memberships` table may separate account access lifecycle from work/person context if needed.
 
 Suggested fields:
 
@@ -173,7 +175,7 @@ Suggested fields:
 | department_id | Nullable. |
 | display_name | Person-facing name. |
 | title | Staff title, ministry title, or working title. |
-| person_type | Staff, Volunteer, Lay Minister, Contractor, Vendor Contact, Department Leader, External Reviewer, General Contact. |
+| person_type | Staff, Volunteer, Lay Minister, Contractor, Vendor Contact, External Reviewer, General Contact. |
 | phone | Nullable. |
 | avatar_url | Nullable. |
 | bio | Nullable. |
@@ -344,6 +346,7 @@ Suggested fields:
 |---|---|
 | id | Primary key. |
 | organization_id | Required. |
+| campaign_id | Nullable. FK stub for future Campaign association. |
 | department_id | Nullable but recommended. |
 | source_request_id | Nullable. |
 | owner_profile_id | Required before Scheduled. |
@@ -366,6 +369,7 @@ Suggested fields:
 | capacity_notes | Nullable. |
 | budget_notes | Nullable. |
 | metadata_json | Flexible MVP extension point. |
+| closeout_started_at | Nullable. Set when project enters Closeout lifecycle stage. |
 | completed_at | Nullable. |
 | archived_at | Nullable. |
 | created_at / updated_at | Standard timestamps. |
@@ -418,6 +422,7 @@ Suggested fields:
 | id | Primary key. |
 | organization_id | Required. |
 | project_id | Required. |
+| source_request_idea_id | Nullable. FK to request_ideas if converted from an idea. |
 | deliverable_type_id | Nullable but recommended. |
 | owner_profile_id | Nullable before planning is complete. |
 | title | Required. |
@@ -507,6 +512,8 @@ Suggested fields:
 | status | Open, closed, archived. |
 | created_by_profile_id | Required. |
 | created_at / updated_at | Standard timestamps. |
+
+Direct Message type is included for schema completeness. DM functionality is deferred from Phase 1 unless explicitly promoted.
 
 ### conversation_participants
 
@@ -614,6 +621,8 @@ Suggested fields:
 | waiver_reason | Nullable. |
 | created_at / updated_at | Standard timestamps. |
 
+Note: `decided_by_profile_id`, `decided_at`, and `decision_notes` represent the most recent decision only. A future `review_decisions` child table (`review_assignment_id`, `round`, `decision`, `notes`, `decided_by_profile_id`, `decided_at`) will be needed to preserve full per-round decision history. This is the planned expansion path.
+
 ### change_requests
 
 Actionable requested updates tied to Deliverables and review context.
@@ -678,9 +687,9 @@ Suggested fields:
 | metadata_json | Provider and asset metadata. |
 | created_at / updated_at | Standard timestamps. |
 
-### attachments
+### asset_links
 
-Trello-style links/files attached to work objects.
+Trello-style links/files attached to work objects. These are references, not a binary upload system.
 
 Suggested fields:
 
@@ -688,8 +697,8 @@ Suggested fields:
 |---|---|
 | id | Primary key. |
 | organization_id | Required. |
-| attachable_type | Request, Project, Deliverable, Task, Message, Review Assignment, Change Request. |
-| attachable_id | Required. |
+| linkable_type | Request, Project, Deliverable, Task, Message, Review Assignment, Change Request. |
+| linkable_id | Required. |
 | asset_id | Nullable if promoted into Asset Library. |
 | storage_provider | external_url, google_drive, local, etc. |
 | provider_file_id | Nullable. |
@@ -698,8 +707,10 @@ Suggested fields:
 | display_name | Required. |
 | mime_type | Nullable. |
 | metadata_json | Nullable. |
-| attached_by_profile_id | Nullable. |
+| linked_by_profile_id | Nullable. |
 | created_at / updated_at | Standard timestamps. |
+
+An `asset_link` may later be promoted into the Asset Library by setting `asset_id` when Communications decides the reference should become a reusable managed asset.
 
 ## Tags and Classification
 
@@ -730,7 +741,7 @@ Suggested fields:
 | Field | Notes |
 |---|---|
 | tag_id | Required. |
-| taggable_type | Project, Deliverable, Request, Asset, Profile, Department. |
+| taggable_type | Project, Deliverable, Request, Asset, Asset Link, Profile, Department. |
 | taggable_id | Required. |
 
 ## Calendar and Dashboard Tables
@@ -806,6 +817,7 @@ Suggested fields:
 | recipient_profile_id | Required. |
 | actor_profile_id | Nullable. |
 | notification_type | Assignment, Mention, Review Needed, Changes Requested, Blocked, Due Soon, Status Update. |
+| channel | Nullable. in_app, email, sms. Defaults to in_app for MVP. |
 | subject_type | Nullable. |
 | subject_id | Nullable. |
 | title | Required. |
@@ -908,11 +920,11 @@ Recommended first implementation order:
 6. Tasks.
 7. Conversations, participants, and messages.
 8. Review assignments and change requests.
-9. Assets and attachments.
+9. Assets and asset links.
 10. Tags and taggables.
 11. Activity events and audit logs.
 12. Notifications.
-13. Calendar/dashboard support.
+13. Calendar/dashboard support. Calendar and dashboard tables should be considered Phase 2 unless Phase 1 feedback requires them. MVP may query source records directly for calendar views.
 
 ## Explicitly Deferred From Lean MVP
 
@@ -932,7 +944,7 @@ Do not build these in the first schema pass unless a later decision promotes the
 - Advanced dashboard builder.
 - Advanced analytics.
 - Slack, Discord, Teams, SMS, or Planning Center integrations.
-- Magic-link external review unless promoted into the current milestone.
+- Magic-link external review unless promoted into the current milestone. When promoted, an `external_review_tokens` table will be needed (`token_hash`, `deliverable_id`, `profile_id`, `access_scope`, `expires_at`, `used_at`, `revoked_at`).
 
 ## Implementation Guardrails
 
