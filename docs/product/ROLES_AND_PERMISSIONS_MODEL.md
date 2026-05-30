@@ -22,6 +22,37 @@ Assignments describe what work a person is responsible for.
 
 Skills describe what work a person is capable of doing.
 
+## Roles as Focus and Routing
+
+The primary product purpose of roles is simplification, routing, and reducing noise.
+
+Roles are not mainly intended to make the product feel restrictive. Security matters, but it is the guardrail underneath the experience, not the personality of the workflow.
+
+Roles should help each person see what is necessary for them and avoid distraction from unrelated projects, deliverables, messages, assets, approvals, and tasks.
+
+A helpful mental model:
+
+> Roles are drawers and cupboards that organize work, not security checkpoints that make people feel blocked.
+
+Good role behavior:
+
+- Shows users the work that matters to them.
+- Routes requests, reviews, messages, and approvals to the right people.
+- Reduces dashboard clutter.
+- Helps department leaders see their department’s work.
+- Helps contributors see assigned work.
+- Helps reviewers see review requests.
+- Helps Communications Managers see the whole production system.
+- Keeps sensitive/internal information appropriately scoped.
+
+Bad role behavior:
+
+- Makes users feel policed.
+- Forces people through confusing permission walls.
+- Exposes unrelated clutter.
+- Hides needed context from people doing the work.
+- Requires normal users to understand permission mechanics.
+
 ## Layered Model
 
 The product should distinguish these layers:
@@ -29,8 +60,8 @@ The product should distinguish these layers:
 | Layer | Question Answered | Examples |
 |---|---|---|
 | Person / Contact Type | What is this person’s relationship to the organization? | Staff, Volunteer, Lay Minister, Contractor, Vendor Contact. |
-| System Role | What can this person do across the organization/workspace? | Organization Admin, Communications Manager. |
-| Scoped Role | What can this person do on this specific Campaign, Project, Deliverable, or Task? | Project Owner, Deliverable Owner, Reviewer, Contributor. |
+| System Role | What default work areas and actions fit this person across the organization/workspace? | Organization Admin, Communications Manager. |
+| Scoped Role | What is this person responsible for on this specific Campaign, Project, Deliverable, or Task? | Project Owner, Deliverable Owner, Reviewer, Contributor. |
 | Permission | What specific action is allowed? | Create Project, Approve Deliverable, Manage Skills. |
 | Skill | What work can this person do? | Video Editing, Audio Mixing, Graphic Design. |
 | Assignment | What work is this person responsible for? | Edit podcast audio, design social post, review landing page. |
@@ -80,6 +111,8 @@ Permissions:
 ```
 
 The system should check permissions, not merely role names, when deciding whether an action is allowed.
+
+The user interface should usually present roles and assignments in plain language rather than exposing raw permission mechanics.
 
 ## Permission Examples
 
@@ -316,6 +349,7 @@ MVP should include:
 - Permissions checked by capability.
 - Person/contact type stored separately from roles.
 - Skills stored separately from permissions.
+- Role-based dashboards and filtered work views.
 
 Avoid in MVP:
 
@@ -324,6 +358,8 @@ Avoid in MVP:
 - Permission logic based only on person/contact type.
 - Vendor/contractor as a catch-all role.
 - Skill-based authorization.
+- Permission checkboxes in normal user workflows.
+- Security language that makes the product feel like a checkpoint system.
 
 ## Database Planning Notes
 
@@ -348,7 +384,6 @@ external_access_grants / magic_links
 
 ## Open Questions
 
-- Which system roles are required for MVP?
 - Which Project roles are required for MVP?
 - Which Deliverable roles are required for MVP?
 - Should Campaign roles be implemented in MVP or deferred?
@@ -357,6 +392,7 @@ external_access_grants / magic_links
 - Which roles can see internal comments?
 - Which roles can waive approvals?
 - Which roles can manage user skills?
+- Which dashboard views should each role see by default?
 
 ## Related Docs
 
