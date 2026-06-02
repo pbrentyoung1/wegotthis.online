@@ -149,4 +149,145 @@ class Phase1FoundationTest extends TestCase
             'assigned_at' => now(),
         ]);
     }
+
+    public function test_organization_deletion_is_restricted_while_profiles_exist(): void
+    {
+        $organization = Organization::query()->create([
+            'name' => 'Test Church',
+            'slug' => 'test-church',
+        ]);
+
+        Profile::query()->create([
+            'organization_id' => $organization->id,
+            'display_name' => 'Communications Director',
+            'person_type' => 'Staff',
+            'status' => 'Active',
+        ]);
+
+        $this->expectException(QueryException::class);
+
+        $organization->delete();
+    }
+
+    public function test_organization_deletion_is_restricted_while_departments_exist(): void
+    {
+        $organization = Organization::query()->create([
+            'name' => 'Test Church',
+            'slug' => 'test-church',
+        ]);
+
+        Department::query()->create([
+            'organization_id' => $organization->id,
+            'name' => 'Kids Ministry',
+            'slug' => 'kids-ministry',
+            'status' => 'Active',
+        ]);
+
+        $this->expectException(QueryException::class);
+
+        $organization->delete();
+    }
+
+    public function test_profile_deletion_is_restricted_while_role_assignments_exist(): void
+    {
+        [$profile] = $this->createAssignedProfileRole();
+
+        $this->expectException(QueryException::class);
+
+        $profile->delete();
+    }
+
+    public function test_role_deletion_is_restricted_while_profile_role_assignments_exist(): void
+    {
+        [, $role] = $this->createAssignedProfileRole();
+
+        $this->expectException(QueryException::class);
+
+        $role->delete();
+    }
+
+    public function test_permission_deletion_is_restricted_while_assigned_to_role(): void
+    {
+        $role = Role::query()->create([
+            'name' => 'Communications Manager',
+            'slug' => 'communications-manager',
+            'scope_type' => 'Organization',
+            'is_system' => true,
+        ]);
+
+        $permission = Permission::query()->create([
+            'key' => 'requests.triage',
+            'name' => 'Triage requests',
+        ]);
+
+        $role->permissions()->attach($permission);
+
+        $this->expectException(QueryException::class);
+
+        $permission->delete();
+    }
+
+    public function test_role_deletion_cascades_role_permissions_without_profile_assignments(): void
+    {
+        $role = Role::query()->create([
+            'name' => 'Communications Manager',
+            'slug' => 'communications-manager',
+            'scope_type' => 'Organization',
+            'is_system' => true,
+        ]);
+
+        $permission = Permission::query()->create([
+            'key' => 'requests.triage',
+            'name' => 'Triage requests',
+        ]);
+
+        $role->permissions()->attach($permission);
+
+        $this->assertDatabaseHas('role_permissions', [
+            'role_id' => $role->id,
+            'permission_id' => $permission->id,
+        ]);
+
+        $role->delete();
+
+        $this->assertDatabaseMissing('role_permissions', [
+            'role_id' => $role->id,
+            'permission_id' => $permission->id,
+        ]);
+    }
+
+    /**
+     * @return array{0: Profile, 1: Role, 2: ProfileRoleAssignment}
+     */
+    private function createAssignedProfileRole(): array
+    {
+        $organization = Organization::query()->create([
+            'name' => 'Test Church',
+            'slug' => 'test-church',
+        ]);
+
+        $profile = Profile::query()->create([
+            'organization_id' => $organization->id,
+            'display_name' => 'Communications Manager',
+            'person_type' => 'Staff',
+            'status' => 'Active',
+        ]);
+
+        $role = Role::query()->create([
+            'name' => 'Communications Manager',
+            'slug' => 'communications-manager',
+            'scope_type' => 'Organization',
+            'is_system' => true,
+        ]);
+
+        $assignment = ProfileRoleAssignment::query()->create([
+            'organization_id' => $organization->id,
+            'profile_id' => $profile->id,
+            'role_id' => $role->id,
+            'scope_type' => 'Organization',
+            'assigned_at' => now(),
+        ]);
+
+        return [$profile, $role, $assignment];
+    }
 }

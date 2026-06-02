@@ -150,6 +150,7 @@ return new class extends Migration
 
     private function createPartialIndexes(): void
     {
+        // Partial unique indexes intentionally support PostgreSQL-backed system/org roles and active scoped assignments.
         DB::statement('CREATE UNIQUE INDEX roles_system_slug_unique ON roles (slug) WHERE organization_id IS NULL');
         DB::statement('CREATE UNIQUE INDEX roles_organization_slug_unique ON roles (organization_id, slug) WHERE organization_id IS NOT NULL');
         DB::statement('CREATE UNIQUE INDEX profile_role_assignments_active_org_scope_unique ON profile_role_assignments (organization_id, profile_id, role_id, scope_type) WHERE scope_id IS NULL AND ended_at IS NULL');
