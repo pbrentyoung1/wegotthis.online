@@ -95,6 +95,340 @@ Older planning docs may refer to `tenant_id`. For MVP schema design, `organizati
 | Classification | Tags and taggables for flexible MVP context. |
 | Calendar and Dashboard | Date visibility, dashboard widgets, saved work summaries. |
 
+## Ownership, Admin Delegation, Stakeholders, Visibility, and Capacity
+
+Ownership, stakeholder visibility, admin delegation, participation, review responsibility, and task assignment are separate concepts.
+
+### One Owner Per Work Object
+
+Each Campaign, Project, and Deliverable has exactly one owner.
+
+Ownership should not be shared.
+
+Recommended ownership fields:
+
+- `campaigns.owner_profile_id`
+- `projects.owner_profile_id`
+- `deliverables.owner_profile_id`
+
+Tasks are execution units, so Lean MVP should use:
+
+- `tasks.assigned_to_profile_id`
+
+Use `profile_id` rather than `user_id` because profiles are the organization-context person record.
+
+### Ownership Authority
+
+Ownership grants operational authority inside the owned work object.
+
+Default ownership behavior:
+
+- Campaign Owner can create Projects within that Campaign.
+- Project Owner can create Deliverables within that Project.
+- Deliverable Owner can create and assign Tasks within that Deliverable.
+- Task Assignee is responsible for completing the assigned work.
+
+A person may own a parent object and also own a child object, but only if explicitly assigned.
+
+### Ownership Does Not Cascade
+
+Ownership does not automatically cascade down the hierarchy.
+
+A Campaign Owner does not automatically become the owner of child Projects.
+
+A Project Owner does not automatically become the owner of child Deliverables.
+
+A Deliverable Owner does not automatically become the assignee of child Tasks.
+
+This preserves clear accountability at every level.
+
+### Visibility May Cascade
+
+Visibility may cascade downward through the hierarchy.
+
+For example:
+
+- A Campaign Owner may have visibility into child Projects and stakeholder-visible child Deliverables.
+- A Project Owner may have visibility into child Deliverables and relevant Tasks.
+- A Deliverable Owner may have visibility into Tasks under that Deliverable.
+
+Cascaded visibility does not create ownership.
+
+Cascaded visibility may be derived from hierarchy and participant role. It does not require creating participant records for every child object.
+
+### Stakeholders
+
+Stakeholders are analogous to clients.
+
+Stakeholders are participants with visibility, comment, review, and sign-off responsibilities.
+
+Stakeholders may:
+
+- view relevant Campaign, Project, or Deliverable details
+- view stakeholder-facing assets
+- view stakeholder-facing conversations
+- receive review requests
+- approve or request changes when assigned as reviewers or approvers
+- see sign-off status
+- see shared delivery dates or milestones when appropriate
+
+Stakeholders do not automatically:
+
+- own work
+- create Projects
+- create Deliverables
+- create or assign Tasks
+- see internal production conversations
+- see rough internal assets
+- see source files unless shared
+- see capacity notes
+- see assignment debates
+- see internal vendor coordination unless shared
+- perform destructive actions
+
+Stakeholders can be owners of child work only if explicitly assigned as the owner of that child work.
+
+### Internal vs Stakeholder-Facing Visibility
+
+The schema should distinguish between internal production work and stakeholder/client-facing work.
+
+Recommended visibility values:
+
+- Internal
+- Stakeholder Visible
+- Public
+
+Visibility should be considered for:
+
+- conversations
+- messages
+- assets
+- asset_links
+- activity_events
+
+Owners and assignees generally need access to internal work needed to produce the deliverable.
+
+Stakeholders generally need access only to stakeholder-visible or public-facing assets, review conversations, sign-off requests, and shared deliverable details.
+
+### Admin Delegation
+
+Admin is a delegated participant role.
+
+An Admin is a person who can update or manage work on behalf of the owner without becoming the owner.
+
+There is still exactly one owner.
+
+Admin does not mean co-owner.
+
+Admin authority is delegated authority.
+
+Different owners or supervisors may delegate different activities to their admins.
+
+Example:
+
+If the Communications Director owns the VBS Campaign, the Communications Director's Admin may be added as an Admin participant.
+
+An Admin may be delegated to:
+
+- update details
+- update dates
+- update status
+- attach files or links
+- add notes
+- manage logistics
+- coordinate review flow
+- create child work if delegated
+- assign tasks if delegated
+- manage participants if delegated
+
+Admin does not automatically:
+
+- become the owner
+- share ownership
+- change ownership
+- approve final work
+- override stakeholder sign-off
+- approve on behalf of a stakeholder
+- delete major work objects
+- perform destructive actions
+
+Admin visibility should include the operational views needed to manage work on behalf of the owner, scoped to the Campaign, Project, Deliverable, or Task where the Admin is assigned.
+
+Admin visibility may include:
+
+- details
+- calendar visibility
+- Kanban board visibility
+- relevant tasks and due dates
+- relevant conversations
+- review status
+- blockers
+- linked assets/files
+
+Admin visibility does not automatically grant approval, sign-off, ownership transfer, or destructive permissions.
+
+Future delegated permissions may allow an owner or supervisor to define exactly what an Admin can do on their behalf.
+
+### Future work_participants Table
+
+Future work should support a flexible `work_participants` table.
+
+Suggested future table:
+
+`work_participants`
+
+- `id`
+- `organization_id`
+- `work_type`
+- `work_id`
+- `profile_id`
+- `participant_role`
+- `responsibility_note`
+- `delegated_by_profile_id` nullable
+- `delegated_permissions_json` nullable
+- `assigned_by_profile_id`
+- `assigned_at`
+- `status`
+- `created_at`
+- `updated_at`
+
+Possible `work_type` values:
+
+- Campaign
+- Project
+- Deliverable
+- Task
+
+Possible `participant_role` values:
+
+- Stakeholder
+- Admin
+- Contributor
+- Reviewer
+- Approver
+- Vendor
+- Observer
+- Coordinator
+
+Owner should not be a `participant_role` in the default model because ownership is represented by the direct `owner_profile_id` field.
+
+If owner is ever mirrored into `work_participants` for query convenience, `owner_profile_id` remains authoritative.
+
+Participant records should not replace ownership fields.
+
+Ownership fields provide clear accountability.
+
+Participant records provide visibility, involvement, review/sign-off, delegated admin support, and future capacity context.
+
+### Future delegated_permissions_json Example
+
+`delegated_permissions_json` is a future hook, not a Lean MVP requirement.
+
+In early MVP, Admin may be treated as a simple participant role with conservative default permissions.
+
+Later, supervisors or owners may define exactly which activities their admins can perform on their behalf.
+
+Example:
+
+```json
+{
+  "can_view_details": true,
+  "can_view_calendar": true,
+  "can_view_kanban": true,
+  "can_view_tasks": true,
+  "can_view_conversations": true,
+  "can_update_details": true,
+  "can_update_dates": true,
+  "can_update_status": true,
+  "can_attach_files": true,
+  "can_manage_participants": false,
+  "can_create_child_work": true,
+  "can_assign_tasks": false,
+  "can_submit_for_review": true,
+  "can_approve": false,
+  "can_change_owner": false,
+  "can_delete": false
+}
+```
+
+### Roles vs Participants
+
+System and scoped roles answer:
+
+"What is this person generally allowed to do?"
+
+Participant records answer:
+
+"How is this person involved in this specific Campaign, Project, Deliverable, or Task?"
+
+Do not overload roles/permissions to model every stakeholder, admin, contributor, or reviewer relationship.
+
+### Capacity
+
+The schema should allow future capacity views based on:
+
+- Campaigns owned by a profile
+- Projects owned by a profile
+- Deliverables owned by a profile
+- Tasks assigned to a profile
+- Review assignments
+- Participant roles
+- Admin delegation
+- Profile skills
+- Deliverable type skill/resource requirements
+- Due dates
+- Blocker states
+
+Lean MVP should not build a full capacity engine, but it should avoid blocking this future path.
+
+Future skills should attach to profiles, not users:
+
+- `skills`
+- `profile_skills`
+
+## Ownership and Visibility Example: VBS
+
+Campaign: VBS
+
+- Owner: Communications Director
+- Admin: Communications Director's Admin
+- Stakeholders:
+  - Kids Pastor
+  - VBS Director
+
+The Communications Director owns the VBS Campaign.
+
+The Communications Director has visibility into child Projects and stakeholder-visible child Deliverables, but does not automatically own those Projects or Deliverables.
+
+The Communications Director's Admin may help manage the Campaign on behalf of the Communications Director within delegated boundaries.
+
+Projects inside the VBS Campaign:
+
+- Production Project, owner: Production Lead
+- Promotion Project, owner: Communications Manager
+- Recruitment Project, owner: Volunteer Coordinator
+- Administration Project, owner: Admin Coordinator
+
+The Communications Director may be a stakeholder or visibility participant in these Projects but is not the Project Owner unless explicitly assigned.
+
+Promotion Project Deliverables:
+
+- Social Post 1
+- Social Post 2
+- Bulletin Insert
+- Web Page Assets
+- Service Slide
+- Outside Banner
+- Lobby Signage
+
+Each Deliverable has exactly one owner.
+
+Tasks inside each Deliverable are assigned to the person or people doing the work. Lean MVP may begin with one assigned profile per task.
+
+Stakeholders see client-facing or review-facing work.
+
+Owners and assignees see the internal work needed to produce the deliverable.
+
 ## Core Relationship Map
 
 ```text
@@ -136,7 +470,7 @@ Suggested fields:
 | name | Organization name. |
 | slug | Stable URL-safe identifier. |
 | status | Active, paused, archived. |
-| timezone | Default organization timezone. |
+| timezone | Default organization timezone. Suggested default: UTC. Each organization may override during setup. |
 | settings_json | Lightweight configuration for MVP. |
 | created_at / updated_at | Standard timestamps. |
 
@@ -179,7 +513,7 @@ Suggested fields:
 | phone | Nullable. |
 | avatar_url | Nullable. |
 | bio | Nullable. |
-| status | Active, inactive, archived. |
+| status | Active, Inactive, Archived. |
 | metadata_json | Flexible profile context. |
 | created_at / updated_at | Standard timestamps. |
 
@@ -386,7 +720,7 @@ Suggested fields:
 | organization_id | Required. |
 | project_id | Required. |
 | profile_id | Required. |
-| project_role | Owner, Coordinator, Contributor, Stakeholder, Reviewer, Viewer. |
+| project_role | Coordinator, Admin, Contributor, Stakeholder, Reviewer, Approver, Vendor, Observer. Ownership is represented by `projects.owner_profile_id`. |
 | created_at / updated_at | Standard timestamps. |
 
 ## Deliverable Tables
@@ -458,7 +792,7 @@ Suggested fields:
 | organization_id | Required. |
 | deliverable_id | Required. |
 | profile_id | Required. |
-| deliverable_role | Owner, Contributor, Reviewer, Approver, Stakeholder, Viewer. |
+| deliverable_role | Admin, Contributor, Reviewer, Approver, Stakeholder, Vendor, Observer, Coordinator. Ownership is represented by `deliverables.owner_profile_id`. |
 | created_at / updated_at | Standard timestamps. |
 
 ## Task Tables
@@ -476,7 +810,7 @@ Suggested fields:
 | id | Primary key. |
 | organization_id | Required. |
 | deliverable_id | Required. |
-| assigned_profile_id | Nullable. |
+| assigned_to_profile_id | Nullable. |
 | title | Required. |
 | description | Nullable. |
 | status | Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, Canceled. |

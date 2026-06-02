@@ -77,6 +77,28 @@ Do not create these tables in the first Phase 1 migration batch:
 
 Do not create post-MVP tables such as `memberships`, `campaigns`, `initiatives`, `review_decisions`, or `external_review_tokens` unless a later reviewed decision promotes them.
 
+## Future Ownership and Participation Anchor
+
+Phase 1 does not create Campaigns, Projects, Deliverables, Tasks, `work_participants`, conversations, assets, reviews, calendar items, or capacity tables.
+
+However, Phase 1 profiles are the identity anchor for future ownership, stakeholder participation, admin delegation, task assignment, reviews, and capacity planning.
+
+Future work objects should reference profiles for:
+
+- owners
+- assignees
+- requesters
+- reviewers
+- approvers
+- stakeholders
+- admins
+- contributors
+- vendors
+- observers
+- participants
+
+Ownership, stakeholder visibility, and admin delegation are intentionally not modeled in Phase 1 tables beyond establishing profiles as the stable organization-context person record.
+
 ## Key Product Decisions To Preserve
 
 - `organizations` is the MVP tenant boundary.
@@ -106,7 +128,37 @@ Recommended order:
 10. Add indexes and unique constraints.
 11. Add seed data for MVP system roles and permissions.
 
+Step 5 adds two deferred FK constraints:
+
+- `profiles.department_id` references `departments.id`
+- `departments.lead_profile_id` references `profiles.id`
+
+Both columns should be created as nullable columns without FK constraints in the earlier table creation steps. The constraints should be added only after both tables exist.
+
 If circular foreign keys create migration-order friction, prefer creating nullable columns first and adding constraints in a follow-up migration within the same reviewed batch.
+
+## Foreign Key Delete Behavior
+
+Foreign key delete behavior must be intentional for every relationship.
+
+Phase 1 should preserve organizational history and avoid destructive cascades except for pure join/pivot records.
+
+| Relationship | FK | Delete behavior | Reason |
+|---|---|---|---|
+| profiles -> organizations | `profiles.organization_id` | RESTRICT | Do not allow organization deletion while profiles exist. |
+| profiles -> users | `profiles.user_id` | SET NULL | Preserve the profile/contact record if a login user account is deleted. |
+| profiles -> departments | `profiles.department_id` | SET NULL | Preserve the profile if a department is removed. |
+| departments -> organizations | `departments.organization_id` | RESTRICT | Do not allow organization deletion while departments exist. |
+| departments -> profiles, lead | `departments.lead_profile_id` | SET NULL | Preserve the department if the lead profile is removed. |
+| departments -> departments, parent | `departments.parent_department_id` | SET NULL | Preserve child departments if a parent department is removed. |
+| roles -> organizations | `roles.organization_id` | RESTRICT | Do not allow organization deletion while custom roles exist. System roles with `organization_id` NULL are unaffected. |
+| role_permissions -> roles | `role_permissions.role_id` | CASCADE | When a role is deleted, its permission mappings should be removed. |
+| role_permissions -> permissions | `role_permissions.permission_id` | RESTRICT | Do not delete permissions that are actively assigned to roles. |
+| profile_role_assignments -> profiles | `profile_role_assignments.profile_id` | RESTRICT | Preserve assignment history. Do not cascade-delete. Use deactivation/soft-delete patterns for profiles. |
+| profile_role_assignments -> roles | `profile_role_assignments.role_id` | RESTRICT | Do not delete roles with active or historical assignments. |
+| profile_role_assignments -> profiles, assigned_by | `profile_role_assignments.assigned_by_profile_id` | SET NULL | Preserve assignment record even if the assigner profile is removed. |
+
+If a future implementation uses soft deletes for profiles, roles, departments, or organizations, these FK rules still apply to hard deletes. Soft deletion should be preferred for records with historical significance.
 
 ## Table Plan
 
@@ -122,7 +174,7 @@ Fields from schema map:
 | name | Required. |
 | slug | Required and unique. |
 | status | Required. Default active. |
-| timezone | Required. Default organization timezone. |
+| timezone | Required. Default organization timezone. Suggested default: UTC. Each organization may override during setup. |
 | settings_json | Nullable JSON. Include now, no settings UI. |
 | created_at / updated_at | Standard timestamps. |
 
@@ -167,7 +219,7 @@ Fields from schema map:
 | phone | Nullable. |
 | avatar_url | Nullable. |
 | bio | Nullable. |
-| status | Required: Active, inactive, archived. |
+| status | Required: Active, Inactive, Archived. |
 | metadata_json | Nullable JSON. Include now, no UI dependency. |
 | created_at / updated_at | Standard timestamps. |
 
@@ -177,7 +229,11 @@ Suggested indexes:
 - Index `user_id`.
 - Index `department_id`.
 - Index `status`.
-- Composite unique `organization_id`, `user_id`. In PostgreSQL, this allows multiple contact profiles with `user_id = null` while preventing the same logged-in user from having duplicate profiles in the same organization.
+- Use a composite unique index on `organization_id` and `user_id`.
+
+PostgreSQL treats NULLs as distinct in unique indexes, so multiple contact-only profiles with `user_id` NULL in the same organization are allowed, while two login-backed profiles for the same user in the same organization are rejected.
+
+No special handling is needed for this behavior in PostgreSQL.
 
 Open implementation note:
 
@@ -331,7 +387,11 @@ Seed these initial permission keys:
 - `reviews.assign`
 - `reviews.decide`
 
-This intentionally seeds a broader permission vocabulary than the Phase 1 tables require. Phase 1 implements only the identity, profile, department, role, and permission foundation, but seeding the downstream request/project/deliverable/task/review permission keys now gives later migrations and policies stable names to reference without changing the foundational permission set.
+Phase 1 seeds the full MVP permission set, not just Phase 1-relevant permissions.
+
+Permissions are a stable lookup table. Seeding them now lets role-permission mappings be complete before Phase 2 work begins.
+
+Permission keys for Phase 2+ features, including requests, projects, deliverables, tasks, and reviews, are included intentionally and remain inert until those tables, policies, and screens exist.
 
 Seed role-permission mappings conservatively. The Organization Admin should receive all Phase 1 permissions. Other roles should receive only the permissions needed for their expected MVP behavior.
 
@@ -354,6 +414,21 @@ Phase 1 should include tests for:
 - Profiles can receive organization-scoped role assignments.
 - Ended role assignments are not treated as active.
 - System roles are protected from accidental deletion or unsafe modification.
+
+## Staging Checkpoint
+
+Before treating Phase 1 as stable:
+
+1. Run Phase 1 migrations against the staging PostgreSQL database.
+2. Confirm all 8 Phase 1 tables are created with correct columns, indexes, and constraints.
+3. Confirm seed data is present: 5 system roles, full MVP permission set, and role-permission mappings.
+4. Confirm organization scoping: a profile created for Organization A cannot be retrieved in an Organization B context.
+5. Confirm a login-backed profile with `user_id` set and a contact profile with `user_id` null both create correctly.
+6. Confirm the composite unique index on `organization_id` and `user_id` behaves correctly: two contact profiles with `user_id` null in the same organization are allowed; two login-backed profiles for the same user in the same organization are not allowed.
+7. Confirm system roles cannot be deleted or modified through normal application paths.
+8. Confirm role-permission assignments survive a migration rollback and re-run without data duplication.
+9. Confirm foreign key constraints prevent unsafe deletions according to the Foreign Key Delete Behavior section.
+10. Confirm Laravel auth, including login, registration, and email verification, is unaffected by Phase 1 migrations.
 
 ## Review Checklist Before Code
 
