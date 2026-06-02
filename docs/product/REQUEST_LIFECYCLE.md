@@ -23,6 +23,12 @@ Requests are the front door for ministry needs. They should help department lead
 
 Department leaders usually know what needs to happen, who needs to be reached, why it matters, and when it is needed. They may have ideas about deliverables, but they are not expected to know the best communication strategy, channel mix, production format, production schedule, or approval workflow.
 
+Ministry request forms are primarily for requesting Campaigns or Projects, not for forcing requesters to define the exact Deliverables.
+
+Department heads and pastors should be able to request an outcome even if they do not know the communications structure needed to accomplish it.
+
+The form should allow "I'm not sure" as a valid answer when asking what kind of communications help is needed.
+
 The intake experience should ask:
 
 - What are you trying to make happen?
@@ -41,6 +47,29 @@ The system should allow requesters to say:
 - I have an idea, but Communications can recommend the best approach.
 - I think we may need a video, social post, slide, email, print piece, or other output.
 - I am not sure, please recommend.
+
+The request form should use ministry/requester language, not internal production language.
+
+Requester-facing language examples:
+
+- What are you trying to accomplish?
+- Who needs to know?
+- What action do you want people to take?
+- When is this happening?
+- What would success look like?
+- What files, examples, or links do you already have?
+- Who needs to review this?
+
+Avoid forcing requesters to answer internal planning questions such as:
+
+- deliverable type
+- review path
+- channel strategy
+- task template
+- TAT/SLA
+- internal visibility
+- owner assignment
+- production workflow
 
 ## Ministry Brief
 
@@ -102,12 +131,59 @@ Triage actions may include:
 
 - Ask for clarification.
 - Accept as project work.
+- Create a new Campaign.
+- Create a Project inside an existing Campaign.
+- Create a standalone Project.
+- Create one or more Deliverables.
+- Create an Administrative Project item.
 - Convert to a project.
 - Convert to a campaign plus project.
 - Merge with an existing project or campaign.
 - Defer.
 - Reject.
 - Archive.
+
+The Communications Manager decides during triage whether the request becomes:
+
+- a new Campaign
+- a Project inside an existing Campaign
+- a standalone Project
+- one or more Deliverables
+- an Administrative Project item
+- deferred or declined work
+
+## Communications Internal Creation Flow
+
+Communications staff need a faster internal workflow rather than a conversational intake form.
+
+Internal planning language is appropriate for Communications staff because they are structuring the work.
+
+The internal creation flow may include:
+
+- quick-create Campaign
+- quick-create Project
+- quick-create Deliverable
+- duplicate existing Campaign/Project structure
+- create from template
+- inline creation from Campaign or Project detail views
+- assign owners
+- create Deliverables
+- create and assign Tasks
+- define visibility
+- attach assets or Google Drive links
+- set review/sign-off flow
+
+## Request Answer Preservation
+
+Because request forms may change over time, stored request answers should preserve:
+
+- `question_key`
+- `question_label` shown at the time of submission
+- `answer_value`
+- `answer_json` where needed
+- `sort_order`
+
+This allows older requests to remain understandable even after forms, labels, or question logic change.
 
 ## Request-to-Project Flow
 
@@ -194,4 +270,4 @@ Ministry Need
 - Deliverable selection during intake should be framed as ideas, not final production commitments.
 - See `docs/product/PROJECT_TASK_MODULE.md` for the canonical Project / Deliverable / Task module behavior.
 
-Last Updated: 2026-05-29
+Last Updated: 2026-06-02

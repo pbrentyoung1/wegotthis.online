@@ -633,6 +633,8 @@ Suggested fields:
 
 Flexible intake answers for future adaptive briefs.
 
+Because request forms may change over time, stored request answers should preserve the question key, the label shown at the time of submission, the submitted answer value, optional structured answer JSON, and sort order. This keeps older requests understandable after forms, labels, or question logic change.
+
 Suggested fields:
 
 | Field | Notes |
@@ -643,8 +645,8 @@ Suggested fields:
 | question_key | Stable key. |
 | question_label | Label shown when answered. |
 | answer_type | Text, date, choice, multi_choice, file_link, url, boolean, json. |
-| answer_value_text | Nullable. |
-| answer_value_json | Nullable. |
+| answer_value | Nullable submitted value. |
+| answer_json | Nullable structured answer data when needed. |
 | sort_order | Nullable. |
 | created_at / updated_at | Standard timestamps. |
 
@@ -1318,4 +1320,4 @@ Do not build these in the first schema pass unless a later decision promotes the
 - `docs/technical/GOOGLE_DRIVE_INTEGRATION.md`
 - `docs/technical/DATABASE.md`
 
-Last Updated: 2026-05-30
+Last Updated: 2026-06-02
