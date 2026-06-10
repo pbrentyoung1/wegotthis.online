@@ -28,7 +28,7 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - Tenancy model: single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - Product hierarchy: Projects -> Deliverables -> Tasks is the MVP operational spine. Campaigns are an optional future parent and remain deferred until explicitly promoted.
 - Backend framework: the checked-in application base uses Laravel 13.
-- Frontend architecture: use Blade and Livewire 4 with the existing Tailwind 4, Preline, and Inspinia foundation. Do not add Vue, Inertia, Bootstrap, or Flux UI for MVP.
+- Frontend architecture: use the checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation directly. Do not add another frontend framework for MVP without a proven gap and explicit approval.
 - Campaign/parent container concept: Campaign is optional above projects.
 - Deliverable vs project boundary: Projects are operational containers; deliverables are production and approval units.
 - Approval target: MVP approvals primarily attach to deliverables.

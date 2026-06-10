@@ -7,8 +7,8 @@ Record technical stack and architecture decisions.
 ## Current Decisions
 
 - Laravel 13 is the approved backend framework because it is the checked-in application base.
-- Blade and Livewire 4 are the approved MVP frontend approach.
-- Vue and Inertia are not approved for MVP. Reconsider them only if real product needs exceed the documented Blade/Livewire boundaries.
+- The checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation is the approved MVP frontend approach.
+- No additional frontend framework is approved for MVP. Reconsider one only if real product needs exceed the documented Inspinia/Laravel boundaries.
 - PostgreSQL should be used from day one.
 - Working decision: use a single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - Working decision: use PostgreSQL full-text search for MVP.
@@ -40,7 +40,7 @@ Record technical stack and architecture decisions.
 
 - Do not replace or re-scaffold the checked-in Laravel base unless explicitly instructed.
 - Do not re-scaffold the application to add frontend or authentication capabilities.
-- Add Livewire 4 and Laravel Fortify to the existing application only in explicitly scoped implementation changes.
+- Do not add a frontend or authentication package without a concrete proven gap, documented cost, and explicit approval.
 - Do not add SDKs or packages until the relevant implementation work is explicitly scoped.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 - Frontend architecture guidance is documented in `/docs/technical/FRONTEND_ARCHITECTURE.md`.

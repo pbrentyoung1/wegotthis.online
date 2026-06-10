@@ -2,128 +2,129 @@
 
 ## Purpose
 
-Define the approved MVP frontend approach for ForWorship Creative.
+Define the simplest approved MVP frontend approach for ForWorship Creative.
 
 ## Decision
 
-Use:
+Use the checked-in Inspinia Laravel starter kit directly.
 
-- Laravel Blade for layouts, reusable view components, and server-rendered pages
-- Livewire 4 for reactive product workflows
-- Tailwind CSS 4 for styling
-- Preline for existing interactive UI primitives
-- the checked-in Inspinia Blade implementation as the structural UI foundation and pattern library
-- Alpine only for small client-only interactions where Livewire is unnecessary
-- existing focused JavaScript libraries for specialized interfaces such as calendars, charts, editors, and sortable boards
+The MVP frontend consists of:
 
-Do not use Vue, Inertia, Bootstrap, Flux UI, React, Svelte, or a separate SPA frontend for MVP.
+- existing Blade layouts, partials, and pages
+- existing Tailwind CSS 4 styles and design tokens
+- existing Preline interactions
+- existing Inspinia JavaScript and specialized libraries
+- standard Laravel routes, controllers, form requests, policies, validation, sessions, and redirects
 
-Do not re-scaffold the Laravel application with an official starter kit. Add the approved packages and capabilities to the existing application base in reviewed implementation slices.
+Do not add Livewire, Vue, Inertia, React, Svelte, Bootstrap, Flux UI, a separate SPA frontend, or another general frontend framework for MVP.
+
+Do not re-scaffold or translate the checked-in Inspinia implementation.
+
+## Core Rule
+
+Adapt before building.
+
+For each MVP screen:
+
+1. Find the closest existing Inspinia page or pattern.
+2. Copy or adapt its Blade structure.
+3. Replace demo content with ForWorship Creative data and language.
+4. Apply existing ForWorship Creative visual tokens and calm product voice.
+5. Add only the minimum Laravel and JavaScript behavior required for the workflow.
 
 ## Why
 
-The checked-in application already contains:
+The primary MVP goal is to validate church communications workflows quickly.
 
-- reusable Blade layouts and partials
-- a large Inspinia Blade pattern library
-- Tailwind CSS 4
-- Preline
-- working Vite asset bundling
-- specialized JavaScript libraries suitable for MVP dashboards and workflows
+The checked-in application already provides:
 
-Blade and Livewire preserve that investment while providing the reactive behavior needed for:
+- a responsive application shell
+- authentication page layouts
+- forms and validation presentation
+- tables, cards, tabs, dropdowns, modals, and drawers
+- dashboards, kanban boards, calendars, file lists, and messaging patterns
+- Tailwind CSS 4 and Preline
+- existing focused JavaScript libraries
 
-- request submission and triage
-- filtered queues and tables
-- guided forms
-- inline status changes
-- modal and drawer workflows
-- review and approval actions
-- task and deliverable coordination
-- dashboard widgets
-- scoped comments and activity updates
-
-Moving to Vue and Inertia now would require translating or replacing much of the strongest existing UI foundation before validating the core workflow.
+Adding another frontend framework would introduce dependency, integration, rendering, testing, and maintenance work before the current template has been proven insufficient.
 
 ## Rendering And Navigation
 
-- Laravel routes remain the primary navigation boundary.
-- Blade renders the application shell and non-reactive content.
-- Livewire page and workflow components handle reactive product surfaces.
-- Prefer class-based Livewire components with separate Blade views for maintainability.
-- Use normal links and server navigation by default.
-- Livewire navigation enhancements may be used only after compatibility with Inspinia and Preline behavior is verified.
+- Laravel routes are the navigation boundary.
+- Controllers load data and return Blade views.
+- Form requests validate submitted input.
+- Policies and domain services enforce authorization and workflow rules.
+- Use normal form submissions, redirects, flash messages, and pagination by default.
+- Use query parameters for filters, search, sorting, and queue views.
+- Use partial Blade components only when they remove demonstrated duplication.
 - The MVP is not an API-first SPA, PWA, or offline-first application.
 
-## State And Business Logic
+## JavaScript Boundaries
 
-- Domain rules remain in Laravel services, actions, policies, and models.
-- Livewire components coordinate UI state and call domain boundaries.
-- Do not place authorization, lifecycle rules, organization scoping, or core workflow decisions only in JavaScript or Livewire component methods.
-- Alpine and browser JavaScript may manage ephemeral interface state such as open panels, local tabs, focus, and presentation behavior.
-- Server state remains authoritative.
+- Reuse existing Inspinia and Preline behavior first.
+- Add small page-specific JavaScript modules only when needed.
+- Use existing specialized libraries for calendars, charts, editors, sortable boards, alerts, and similar interfaces.
+- Keep server-side state authoritative.
+- Do not introduce a general client-side state store.
+- Do not introduce a frontend framework to avoid normal Laravel requests or page loads.
 
 ## Styling And Components
 
 - Tailwind CSS 4 is the sole MVP styling framework.
-- Preline and the current Inspinia Tailwind implementation provide the base interactive component patterns.
-- Do not add Bootstrap.
-- Do not add Flux UI because it would create a second component and token system beside Inspinia.
-- Adapt existing Inspinia patterns before building custom components.
-- Apply ForWorship Creative tokens, typography, spacing, and voice rather than retaining Inspinia's default brand styling.
-- Extract repeated Blade and Livewire UI into reusable components as real duplication appears.
-
-## JavaScript Boundaries
-
-- Use Livewire for server-backed reactive workflows.
-- Use Alpine for small client-only interactions.
-- Use focused existing libraries where they solve specialized problems well.
-- Keep third-party JavaScript integrations isolated behind small initialization modules.
-- Verify plugin behavior after Livewire renders or replaces DOM sections.
-- Do not introduce a general client-side state store for MVP.
-- TypeScript is not required for MVP application code.
+- Preline and Inspinia provide the base interactive and structural patterns.
+- Do not add Bootstrap or Flux UI.
+- Do not build a new component library before real screens demonstrate repeated patterns.
+- Apply ForWorship Creative typography, color, spacing, copy, and visual restraint while preserving Inspinia structure.
 
 ## Forms And Validation
 
 - Laravel validation is authoritative.
-- Livewire forms should provide immediate feedback while using the same server-side validation rules.
-- Preserve submitted request answers and lifecycle decisions through domain services rather than direct uncontrolled model writes.
-- Multi-step or guided forms should save drafts intentionally and recover gracefully from validation failures.
+- Use standard form submissions and redirect-back validation behavior.
+- Preserve drafts only where the product workflow explicitly requires them.
+- Use existing Inspinia form patterns and controls before creating custom inputs.
+- Use progressive enhancement only where it materially improves the workflow.
 
 ## Authentication Direction
 
-- Use Laravel Fortify as the authentication backend when authentication implementation begins.
-- Build custom Blade and Livewire authentication views using the existing Inspinia structure and ForWorship Creative visual language.
-- Public self-registration should remain disabled unless explicitly approved.
-- Do not replace the application with a starter kit to gain authentication screens.
+- Use Laravel's existing authentication capabilities and checked-in Inspinia auth page structures.
+- Do not add an authentication package or replace the application with a starter kit unless a separate reviewed implementation plan proves it necessary.
+- Public self-registration remains disabled unless explicitly approved.
 
 ## Testing Direction
 
 - Continue PHPUnit feature and unit tests for domain and HTTP behavior.
-- Add Livewire component tests for reactive workflow behavior.
+- Add HTTP feature tests for routes, controllers, policies, validation, and redirects.
 - Add browser tests only for critical end-to-end flows after the first usable request intake workflow exists.
-- Keep accessibility, keyboard navigation, responsive behavior, and progressive failure states in review criteria.
+
+## Dependency Rule
+
+A new frontend or authentication dependency requires:
+
+- a concrete MVP workflow that cannot reasonably be delivered with the existing Inspinia/Laravel stack
+- a written explanation of the gap
+- documented implementation and maintenance cost
+- explicit approval before installation
+
+Convenience alone is not sufficient.
 
 ## Reconsideration Triggers
 
-Reconsider Vue/Inertia or another dedicated client framework only if real product needs demonstrate that Blade and Livewire are inadequate for one or more of:
+Reconsider a reactive or dedicated client framework only if real usage demonstrates a requirement such as:
 
 - extensive offline-first behavior
 - a highly stateful client-side editing environment
 - complex real-time collaborative canvases
-- a native/mobile client requiring a shared frontend architecture
-- sustained performance problems that cannot be resolved within the approved stack
+- sustained usability or performance problems that cannot be resolved with the existing stack
 
-The existence of interactive forms, dashboards, kanban boards, comments, notifications, or calendars is not by itself a reason to change frontend frameworks.
+Interactive forms, dashboards, kanban boards, comments, notifications, and calendars do not by themselves justify a new framework because existing Inspinia patterns already cover them.
 
 ## Implementation Sequence
 
 1. Fix the current Vite manifest/full-test failure.
-2. Add Livewire 4 to the existing starter kit in a focused foundation change.
-3. Establish the authenticated application shell and organization context.
-4. Create a small set of ForWorship Creative Blade/Livewire component conventions.
-5. Build the end-to-end request submission and triage workflow.
-6. Evaluate the stack after the first usable vertical slice before expanding UI scope.
+2. Establish the authenticated application shell and organization context using existing Laravel and Inspinia patterns.
+3. Build request submission with standard Laravel forms and Blade views.
+4. Build the Communications request queue and triage screens by adapting existing Inspinia tables, detail pages, forms, and status patterns.
+5. Evaluate the existing stack after the first usable request-to-triage vertical slice.
 
 ## Sources
 
@@ -131,7 +132,5 @@ The existence of interactive forms, dashboards, kanban boards, comments, notific
 - `docs/branding/UI_PRINCIPLES.md`
 - `docs/branding/VISUAL_SYSTEM.md`
 - `docs/product/CALM_SOFTWARE_PRINCIPLES.md`
-- Laravel 13 starter kit documentation
-- Livewire 4 documentation
 
 Last Updated: 2026-06-10

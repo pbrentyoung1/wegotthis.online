@@ -27,6 +27,6 @@ Record major product, technical, branding, and workflow decisions with context.
 | 2026-06-10 | Data | Use `organization_id` as the concrete MVP tenant key on organization-owned records. | Accepted | `/docs/technical/MVP_SCHEMA_MAP.md` |
 | 2026-06-10 | Roles | Preserve the implemented Phase 1 system roles: Organization Admin, Communications Manager, Department Leader, Contributor, and Viewer. Model ownership, review, stakeholder, admin delegate, vendor, and external access context separately. | Accepted | `/docs/technical/AUTH_AND_PERMISSIONS.md` |
 | 2026-06-10 | Scope | Use Projects -> Deliverables -> Tasks as the MVP operational spine. Keep optional Campaigns deferred until explicitly promoted. | Accepted | `/docs/MVP_SCOPE.md` |
-| 2026-06-10 | Frontend | Use Blade and Livewire 4 with the checked-in Tailwind 4, Preline, and Inspinia foundation for MVP. Do not add Vue, Inertia, Bootstrap, Flux UI, or a separate SPA frontend. | Accepted | `/docs/technical/FRONTEND_ARCHITECTURE.md` |
+| 2026-06-10 | Frontend | Use the checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation directly for MVP. Do not add another frontend framework without a proven gap and explicit approval. | Accepted | `/docs/technical/FRONTEND_ARCHITECTURE.md` |
 
 Last updated: 2026-06-10

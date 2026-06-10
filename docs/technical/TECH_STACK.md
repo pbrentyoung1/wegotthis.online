@@ -7,7 +7,7 @@ Document current technology direction and unresolved stack choices.
 ## Current Decisions
 
 - Laravel 13, matching the checked-in application base
-- Blade and Livewire 4 for the MVP frontend
+- Existing Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation for the MVP frontend
 - PostgreSQL
 - Single PostgreSQL database with organization-scoped MVP records using `organization_id`
 - PostgreSQL full-text search for MVP
@@ -40,6 +40,6 @@ Document current technology direction and unresolved stack choices.
 - Search, notifications, backups, storage, and tenant scoping are documented in `/docs/technical`.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 - Frontend architecture is documented in `/docs/technical/FRONTEND_ARCHITECTURE.md`.
-- PHPUnit feature/unit tests and Livewire component tests are the MVP testing standard. Add browser tests only for critical end-to-end flows after the first usable vertical slice.
+- PHPUnit feature/unit and HTTP feature tests are the MVP testing standard. Add browser tests only for critical end-to-end flows after the first usable vertical slice.
 
 Last Updated: 2026-06-10

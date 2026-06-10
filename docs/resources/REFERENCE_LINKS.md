@@ -10,7 +10,7 @@ Store external and internal reference links for the project.
 
 ## Open Questions
 
-- Which links are canonical for Laravel, Livewire, PostgreSQL, Inspinia, hosting.com, and Figma?
+- Which links are canonical for Laravel, PostgreSQL, Inspinia, hosting.com, and Figma?
 - Which church workflow references should be retained?
 
 ## Notes
@@ -19,7 +19,6 @@ Store external and internal reference links for the project.
 | --- | --- | --- |
 | Laravel | TBD | Official docs link to be added. |
 | Vue | TBD | Official docs link to be added. |
-| Livewire | `https://livewire.laravel.com/docs/4.x/quickstart` | Official Livewire 4 documentation. |
 | PostgreSQL | TBD | Official docs link to be added. |
 | Inspinia | TBD | Product/resource link to be added. |
 
