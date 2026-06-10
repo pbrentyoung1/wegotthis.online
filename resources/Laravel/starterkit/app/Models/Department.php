@@ -45,4 +45,9 @@ class Department extends Model
     {
         return $this->hasMany(Profile::class);
     }
+
+    public function requests(): HasMany
+    {
+        return $this->hasMany(MinistryRequest::class);
+    }
 }

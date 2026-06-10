@@ -64,4 +64,24 @@ class Profile extends Model
             ->withPivot(['organization_id', 'scope_type', 'scope_id', 'assigned_by_profile_id', 'assigned_at', 'ended_at'])
             ->withTimestamps();
     }
+
+    public function submittedRequests(): HasMany
+    {
+        return $this->hasMany(MinistryRequest::class, 'requester_profile_id');
+    }
+
+    public function assignedRequests(): HasMany
+    {
+        return $this->hasMany(MinistryRequest::class, 'assigned_manager_profile_id');
+    }
+
+    public function requestDecisions(): HasMany
+    {
+        return $this->hasMany(MinistryRequest::class, 'decision_by_profile_id');
+    }
+
+    public function suggestedRequestIdeas(): HasMany
+    {
+        return $this->hasMany(RequestIdea::class, 'suggested_by_profile_id');
+    }
 }
