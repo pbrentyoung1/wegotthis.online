@@ -6,7 +6,7 @@ Define how the application should expose or consume APIs over time.
 
 ## Current Decisions
 
-- Laravel, Vue, and Inertia.js are the current application direction.
+- Laravel, Blade, and Livewire are the current MVP application direction.
 - No public API has been committed yet.
 - Future integrations such as Planning Center, Google Docs, Dropbox, and OneDrive should be implemented through modular connector services.
 - Core product behavior should not depend on external APIs.
