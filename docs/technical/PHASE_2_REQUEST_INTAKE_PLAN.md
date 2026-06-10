@@ -4,7 +4,13 @@
 
 Define the reviewed implementation boundary for the first Phase 2 slice: the request/intake foundation.
 
-This document is an implementation plan, not implementation code. Do not create Phase 2 migrations, models, seeders, factories, policies, controllers, routes, or UI until this plan is explicitly approved for implementation.
+This document is the approved implementation boundary for the Phase 2 request/intake foundation.
+
+Implementation status:
+
+- Approved on 2026-06-10.
+- Implemented in the current application codebase.
+- The implementation remains limited to the boundary defined here.
 
 ## Source Of Truth
 
@@ -209,7 +215,7 @@ Do not introduce a general tenancy package, controller layer, or UI in this slic
 
 ## Scenario Extension
 
-Extend the Grace Community Church scenario with one request only after implementation approval:
+The opt-in Grace Community Church request scenario includes:
 
 - Requester: Rachel Kim
 - Department: Kids Ministry
@@ -246,7 +252,7 @@ Focused tests should prove:
 
 ## Acceptance Criteria
 
-This plan is ready for implementation approval because:
+This plan was approved for implementation because:
 
 - the table boundary is explicit
 - foreign-key delete behavior is explicit
