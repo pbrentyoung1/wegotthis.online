@@ -74,7 +74,7 @@ Every feature or task should eventually answer:
 
 ## Phase 1 - Scaffold & Technical Foundation
 
-- Goal: create the initial Laravel, Blade, Livewire, and PostgreSQL foundation without jumping ahead into uncontrolled feature work.
+- Goal: create the initial Laravel, Inspinia Blade, and PostgreSQL foundation without jumping ahead into uncontrolled feature work.
 - Key outcomes:
   - hosting.com/cPanel is validated and documented as early staging/proof infrastructure, not final serious production infrastructure
   - application scaffold exists

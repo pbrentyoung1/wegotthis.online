@@ -30,7 +30,7 @@ Track the actual state of the project so planning, design, and development work 
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
 - Canonical implementation guidance now uses Laravel 13, `organization_id`, the implemented Phase 1 role vocabulary, and Projects -> Deliverables -> Tasks as the MVP operational spine.
-- The approved MVP frontend architecture is Blade and Livewire 4 using the checked-in Tailwind 4, Preline, and Inspinia foundation. Vue, Inertia, Bootstrap, and Flux UI are not approved for MVP.
+- The approved MVP frontend architecture is the checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation. No additional frontend framework is approved for MVP.
 - The approved Phase 2 request/intake foundation has been implemented.
 - Phase 2 implementation currently includes only:
   - `requests`
@@ -45,7 +45,7 @@ Track the actual state of the project so planning, design, and development work 
 ## Open Questions
 
 - Which design artifacts are required before building the first application screens?
-- What minimal Blade/Livewire component conventions should be established before request intake UI implementation?
+- Which existing Inspinia patterns should be adapted for request submission, request queue, and triage screens?
 - When should Projects, Deliverables, and Tasks be promoted into implementation after request intake?
 - When should optional Campaigns be promoted from future scope?
 - What staging validation should be completed before treating Phase 1 as stable outside local development?
