@@ -9,6 +9,7 @@ Track the actual state of the project so planning, design, and development work 
 - This repository has moved from planning-only into early Phase 1 implementation.
 - The Laravel starterkit exists at `resources/Laravel/starterkit`.
 - Phase 1 foundation migrations have been merged into `main`.
+- The opt-in Grace Community Church Phase 1 scenario seeder and matching feature tests have been merged into `main`.
 - The immediate focus is the identity, organization, profile, department, role, and permission foundation.
 - Figma will be used for design before application implementation begins.
 - Codex and Claude Code will assist development.
@@ -27,20 +28,24 @@ Track the actual state of the project so planning, design, and development work 
 - Phase 1 seed data exists for the demo organization, system roles, MVP permission keys, role-permission mappings, and a demo admin profile.
 - Phase 1 focused tests cover idempotent seed data, profile uniqueness behavior, circular profile/department foreign keys, active role assignment uniqueness, and documented FK delete behavior.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
+- The next reviewed planning slice is the Phase 2 request/intake foundation. See `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
+- Canonical implementation guidance now uses Laravel 13, `organization_id`, the implemented Phase 1 role vocabulary, and Projects -> Deliverables -> Tasks as the MVP operational spine.
 
 ## Open Questions
 
 - Which design artifacts are required before building the first application screens?
-- What is the next approved implementation slice after Phase 1 foundation?
-- When should request intake, triage, Campaigns, Projects, Deliverables, and Tasks be promoted into implementation?
+- When should the reviewed Phase 2 request/intake plan be promoted into implementation?
+- When should Projects, Deliverables, and Tasks be promoted into implementation after request intake?
+- When should optional Campaigns be promoted from future scope?
 - What staging validation should be completed before treating Phase 1 as stable outside local development?
 
 ## Notes
 
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - `php artisan test tests/Feature/Phase1FoundationTest.php` passes.
+- `php artisan test tests/Feature/Phase1ScenarioTest.php` passes.
 - The full `composer test` command still has a known pre-existing failure in `Tests\Feature\ExampleTest` because the existing `/` view cannot locate `resources/js/pages/dashboard-projects.js` in the Vite manifest.
 - No request intake forms, Campaigns, Projects, Deliverables, Tasks, conversations, assets, reviews, calendar/dashboard, skills, capacity model, policies, controllers, routes, or UI workflows have been implemented yet.
 - No deployment pipeline exists yet.
 
-Last updated: 2026-06-02
+Last updated: 2026-06-10

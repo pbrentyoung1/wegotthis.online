@@ -2,6 +2,15 @@
 
 Last updated: 2026-06-03
 
+## Completion Notice
+
+This handoff is historical and complete.
+
+- PR #7 was merged into `main` on 2026-06-10.
+- Merge commit: `e2459fa`
+- Do not use the branch resume instructions below as the current project workflow.
+- Use `docs/CURRENT_STATE.md` and `docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md` for current direction.
+
 ## Working Directory
 
 ```bash

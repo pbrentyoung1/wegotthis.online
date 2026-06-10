@@ -6,23 +6,23 @@ Define authentication and authorization direction.
 
 ## Current Decisions
 
-- Canonical MVP role set:
-  - Platform Owner / Super Admin
+- Canonical Phase 1 system role set:
   - Organization Admin
-  - Communications Lead
-  - Project Owner
+  - Communications Manager
+  - Department Leader
   - Contributor
-  - Reviewer
-  - External Reviewer
   - Viewer
-- Department Leader, stakeholder, and vendor describe real-world identities or contexts, not base permission roles by themselves.
+- Project Owner, Reviewer, Approver, stakeholder, admin delegate, and vendor participation are contextual work assignments, not additional Phase 1 system roles.
+- External Reviewer is a person/contact type and future scoped access context, not a Phase 1 login role.
+- Platform Owner / Super Admin is a future platform-level concern and is not represented by the Phase 1 organization role tables.
 - Older labels should map forward as follows:
   - Admin -> Organization Admin
-  - Manager -> Communications Lead or Project Owner depending context
+  - Communications Lead -> Communications Manager
+  - Manager -> Communications Manager or Project Owner depending context
   - User -> Contributor or Viewer depending context
   - Vendor -> External Reviewer with vendor-scoped access
   - Stakeholder -> Reviewer or External Reviewer depending account or access model
-  - Department Leader -> organizational or persona identity that may be assigned Project Owner, Reviewer, Viewer, or External Reviewer in context
+  - Department Leader -> organization role used for ministry request, department-facing visibility, and contextual review participation
 - Internal users should have accounts.
 - External reviewers should use secure, time-bound magic links for review and approval in MVP.
 - Vendor participation in MVP should be handled as External Reviewer access with vendor-scoped permissions.
@@ -45,7 +45,7 @@ Define authentication and authorization direction.
   - manage platform-wide settings, tenants, support operations, and cross-tenant administration
 - Organization Admin:
   - manage organization settings, users, roles, departments, templates, tenant configuration, and restricted archive access
-- Communications Lead:
+- Communications Manager:
   - triage requests, manage projects, assign work, oversee approvals, manage communications workflow, and view utilization where authorized
 - Project Owner:
   - manage assigned project details, deliverables, tasks, stakeholders, comments, status, and closeout within project scope
@@ -60,25 +60,18 @@ Define authentication and authorization direction.
 
 ## MVP Permission Matrix
 
-| Action | Platform Owner / Super Admin | Organization Admin | Communications Lead | Project Owner | Contributor | Reviewer | External Reviewer | Viewer |
-|---|---|---|---|---|---|---|---|---|
-| Manage platform / tenants | Full | None | None | None | None | None | None | None |
-| Manage organization settings, users, departments, templates | Full | Full | Limited | None | None | None | None | None |
-| Create and triage requests | Full | Full | Full | Limited | Limited | None | None | None |
-| Create projects | Full | Full | Full | Limited | None | None | None | None |
-| Edit assigned project details | Full | Full | Full | Full | Limited | None | None | View only |
-| Change project status | Full | Full | Full | Full within assigned scope | None | None | None | None |
-| Create and edit deliverables | Full | Full | Full | Full within assigned scope | Limited when assigned | None | None | View only |
-| Move deliverables through production statuses | Full | Full | Full | Full within assigned scope | Limited when assigned | None | None | None |
-| Request review or approval | Full | Full | Full | Full within assigned scope | Limited when assigned | None | None | None |
-| Approve or request changes | Full | Full | When assigned or overseeing | When assigned | None | When assigned | Through scoped link only | None |
-| Create External Reviewer links | Full | Full | Full | Limited within assigned scope | None | None | None | None |
-| Upload files | Full | Full | Full | Full within assigned scope | When assigned | Limited review attachments | If scoped link allows | None |
-| View internal-only comments | Full | Full | Full | Full within assigned scope | When assigned | When assigned | None | Limited if permitted |
-| View review-visible comments | Full | Full | Full | Full within assigned scope | When assigned | When assigned | Through scoped link only | If permitted |
-| View budget, time, utilization | Full | Full | If authorized | Limited if authorized | None | None | None | None |
-| Manage brand assets | Full | Full | Limited | None | None | None | None | View only if permitted |
-| Close out and archive projects | Full | Full | Full | Full within assigned scope | None | None | None | None |
+| Action | Organization Admin | Communications Manager | Department Leader | Contributor | Viewer |
+|---|---|---|---|---|---|
+| Manage organization settings, users, departments, roles | Full | Limited | None | None | None |
+| Submit requests | Full | Full | Full | None | None |
+| Triage requests | Full | Full | None | None | None |
+| Create projects | Full | Full | None | None | None |
+| View projects and deliverables | Full | Full | Department-visible/contextual | Assigned/contextual | Permitted read-only |
+| Manage projects and deliverables | Full | Full | Contextual future assignment | Contextual future assignment | None |
+| Complete tasks | Full | Full | None | Assigned tasks | None |
+| Decide assigned reviews | Full | Full | When assigned | None | None |
+
+This base matrix reflects Phase 1 seeded permissions. Future scoped assignments will refine project, deliverable, task, and review authority without expanding the system role set by default.
 
 ## Review Assignments
 
@@ -118,4 +111,4 @@ Define authentication and authorization direction.
 - Communication history visibility should be designed before external reviewer and vendor-scoped links are implemented.
 - See `/docs/architecture/maps/security/external-access-scope-map.md` and `/docs-site/src/pages/architecture/magic-link-scope.astro` for the canonical external access map.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

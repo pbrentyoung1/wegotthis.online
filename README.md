@@ -12,7 +12,8 @@ ForWorship Creative is a communications operations platform for churches. It is 
 - Working codename/current domain: `wegotthis.online` until infrastructure transitions.
 - ForWorship is the umbrella ecosystem; public subdomains such as `comms.forworship.org` and `creative.forworship.org` are marketing and education entry points, not separate apps.
 - Figma will be used for product and interface design.
-- The application is expected to be built later with Laravel 12, Vue 3, Inertia.js, PostgreSQL, and Inspinia.
+- The checked-in application base uses Laravel 13, PostgreSQL, and Inspinia.
+- Vue 3 and Inertia.js remain an intended frontend direction, but they are not installed in the checked-in starter kit and must be explicitly approved before UI implementation.
 - `resources/Laravel/starterkit` is the planned Laravel application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common UI patterns.
 - PostgreSQL should be used from day one.
@@ -21,7 +22,7 @@ ForWorship Creative is a communications operations platform for churches. It is 
 - Documentation and decision history live in `/docs`.
 - Future optional integrations may include Planning Center and other church operations tools.
 - The repository now documents expanded product pain points, project lifecycle, closeout workflow, creative file handling, brand management, and department utilization reporting.
-- Major modeling questions now have working decisions: `tenant_id` tenancy, Campaigns -> Projects -> Deliverables -> Tasks hierarchy, deliverable-centered approvals, magic link external reviews, request lifecycle, and calm software principles.
+- Major modeling questions now have working decisions: `organization_id` tenancy for MVP, Projects -> Deliverables -> Tasks as the implemented operational spine, optional future Campaigns, deliverable-centered approvals, magic link external reviews, request lifecycle, and calm software principles.
 - The product promise is "We got this."; the experience should feel calm, capable, warm, and steady.
 - The platform should feel like a conversational ministry workspace that supports people rather than managing them.
 - The visual system direction is a calm editorial workspace with warm neutrals, soft geometry, restrained accents, and thoughtful typography.
@@ -41,7 +42,7 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 
 ## Notes
 
-This repository is currently a planning and documentation foundation only. Laravel has not been scaffolded yet, and no application code has been added.
+This repository is in early Phase 1 implementation. The Laravel application base and Phase 1 organization, profile, department, role, and permission foundation exist under `resources/Laravel/starterkit`.
 
 Standard Git procedure for this repository:
 
@@ -69,4 +70,4 @@ Key documentation areas:
 - `/docs/branding/VOICE_AND_TONE.md`, `/docs/branding/TYPOGRAPHY.md`, and `/docs/branding/UI_PRINCIPLES.md` define the warm, conversational, human-centered product experience.
 - `/docs/technical/SEARCH_STRATEGY.md`, `/docs/technical/NOTIFICATIONS.md`, and `/docs/technical/BACKUPS_AND_RETENTION.md` document core platform planning concerns.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

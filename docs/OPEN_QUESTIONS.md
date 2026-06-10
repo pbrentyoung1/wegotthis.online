@@ -21,12 +21,14 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - Which email provider should be used if the Postmark preference changes?
 - What exact local server path and disk quota should be used on hosting.com/cPanel?
 - What final storage provider/path should be used for scalable production file storage?
-- Which remaining Phase 0 blockers should be resolved before Laravel scaffolding begins?
+- Which frontend application approach should be approved before product UI implementation: the current Blade/Inspinia base, Vue 3 with Inertia.js, or a staged transition?
+- What staging validation is required before Phase 1 is considered stable outside local development?
 
 ## Resolved or Working Decisions
 
-- Tenancy model: single PostgreSQL database with tenant-scoped records using `tenant_id`.
-- Product hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
+- Tenancy model: single PostgreSQL database with organization-scoped MVP records using `organization_id`.
+- Product hierarchy: Projects -> Deliverables -> Tasks is the MVP operational spine. Campaigns are an optional future parent and remain deferred until explicitly promoted.
+- Backend framework: the checked-in application base uses Laravel 13.
 - Campaign/parent container concept: Campaign is optional above projects.
 - Deliverable vs project boundary: Projects are operational containers; deliverables are production and approval units.
 - Approval target: MVP approvals primarily attach to deliverables.
@@ -57,4 +59,4 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - Link to resolved decisions when possible.
 - Resolved items may still need implementation detail before coding.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

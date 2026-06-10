@@ -32,7 +32,7 @@ Captured from `worship@mi3-sr7` in `~/public_html` on 2026-05-24:
 
 | Check | Result | Notes |
 |---|---|---|
-| PHP CLI | PHP 8.4.21 | Meets Laravel 12 PHP requirement; PHP 8.4 preferred/confirmed for CLI. |
+| PHP CLI | PHP 8.4.21 | Meets the checked-in Laravel 13 application's PHP requirement; PHP 8.4 preferred/confirmed for CLI. |
 | Required PHP extensions | Strong | Many required extensions are present, including `bcmath`, `ctype`, `curl`, `dom`, `fileinfo`, `gd`, `intl`, `json`, `mbstring`, `openssl`, `PDO`, `tokenizer`, `xml`, and `zip`. |
 | PostgreSQL PHP extensions | Enabled | `pdo_pgsql` and `pgsql` are enabled. Actual PostgreSQL connection is confirmed in the deployed diagnostic findings below. |
 | Composer | Composer 2.6.5 | Available, but emits PHP 8.4 `E_STRICT` deprecation notices from the cPanel Composer phar. |
@@ -77,7 +77,7 @@ Captured from `https://diagnostics.forworship.org` on 2026-05-24:
 
 - Verify hosting constraints before finalizing application setup.
 - The diagnostic site should be deployed to `diagnostics.forworship.org` or `staging.forworship.org`, protected with `ACCESS_KEY`, and removed or protected after testing.
-- Core Laravel 12 + PostgreSQL runtime requirements are now confirmed by the deployed diagnostic. HTTP-triggered cPanel cron is confirmed. Laravel scheduler/queue command strategy and exact GitHub-to-host deployment process remain open.
+- Core Laravel 13 + PostgreSQL runtime requirements are now confirmed by the deployed diagnostic. HTTP-triggered cPanel cron is confirmed. Laravel scheduler/queue command strategy and exact GitHub-to-host deployment process remain open.
 - Node.js and npm are available through cPanel application setup, but normal SSH does not expose them globally. Deployment should account for cPanel's activation/virtual environment commands or use local/CI asset builds.
 
 Last Updated: 2026-05-24

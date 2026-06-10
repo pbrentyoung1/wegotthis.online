@@ -16,7 +16,7 @@ Requests are the front door for ministry needs. They should help department lead
 - Intake should begin with the ministry need, not deliverable selection.
 - Department leaders define the need. Communications defines the plan.
 - Requester deliverable ideas should be stored as suggestions, not production commitments.
-- The Communications Lead or Project Owner should shape the submitted request into a creative plan before approved deliverables are created.
+- The Communications Manager or a future assigned Project Owner should shape the submitted request into a creative plan before approved deliverables are created.
 - The canonical Project / Deliverable / Task module behavior is documented in `docs/product/PROJECT_TASK_MODULE.md`.
 
 ## Need-First Intake Principle
@@ -98,7 +98,7 @@ Requester ideas belong to the request. Approved deliverables belong to the proje
 
 A requester may suggest that a project needs a video, social posts, sermon announcement, bulletin insert, newsletter blurb, signage, web page, or print piece. Those suggestions should be preserved, but they should not automatically become production deliverables.
 
-The Communications Lead or Project Owner should review the ministry need and decide the final communication plan.
+The Communications Manager or a future assigned Project Owner should review the ministry need and decide the final communication plan.
 
 Suggested deliverable states may include:
 
@@ -270,4 +270,4 @@ Ministry Need
 - Deliverable selection during intake should be framed as ideas, not final production commitments.
 - See `docs/product/PROJECT_TASK_MODULE.md` for the canonical Project / Deliverable / Task module behavior.
 
-Last Updated: 2026-06-02
+Last Updated: 2026-06-10

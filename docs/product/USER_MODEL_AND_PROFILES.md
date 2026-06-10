@@ -62,7 +62,6 @@ Recommended person/contact types:
 | Lay Minister | Non-staff ministry leader or trusted volunteer with ministry responsibility. |
 | Contractor | Individual contractor or freelancer. |
 | Vendor Contact | Person associated with an outside vendor/company. |
-| Department Leader | Ministry or department stakeholder/requester. |
 | External Reviewer | Scoped reviewer using magic link or limited access. |
 | General Contact | Useful contact that does not fit another category. |
 
@@ -114,7 +113,6 @@ Serving boundaries:
 ```text
 Lay Minister: Maria Gonzalez
 Roles:
-- Department Leader
 - Reviewer
 
 Can:
@@ -495,7 +493,7 @@ For MVP schema planning, include:
 - Profiles or contacts.
 - Organization memberships.
 - Person/contact type.
-- Staff, Volunteer, Lay Minister, Contractor, Vendor Contact, Department Leader, External Reviewer types.
+- Staff, Volunteer, Lay Minister, Contractor, Vendor Contact, External Reviewer, and General Contact types.
 - Roles and permissions.
 - Volunteer contributor support.
 - Vendor/contractor contact support.

@@ -9,14 +9,14 @@ Document database direction, data modeling notes, and schema questions.
 - PostgreSQL should be used from day one.
 - Projects should connect to related records such as media assets, tasks, approvals, messages, files, vendors, deliverables, and timelines.
 - Working direction: database planning should support request intake, project lifecycle, media usage tracking, closeout, brand management, and department reporting.
-- Working decision: use a single PostgreSQL database with tenant-scoped records using `tenant_id`.
+- Working decision: use a single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - Current hosting.com/cPanel PostgreSQL is acceptable for early staging/proof only.
 - PostgreSQL 9.6 should not be considered acceptable for long-term production.
 - PostgreSQL 13 is acceptable for early staging/proof if that is the available upgrade path.
 - PostgreSQL 15/16+ is preferred for future production.
 - Migrations and database usage should remain conservative while the project is on the current host.
-- Working hierarchy: Campaigns -> Projects -> Deliverables -> Tasks.
-- Campaigns are optional parent containers for large initiatives.
+- MVP operational spine: Projects -> Deliverables -> Tasks.
+- Campaigns are optional future parent containers for large initiatives and remain deferred until explicitly promoted.
 - Projects are the primary operational container.
 - Deliverables are the specific outputs being produced.
 - Tasks are the individual actions required to complete projects or deliverables.
@@ -107,7 +107,7 @@ Document database direction, data modeling notes, and schema questions.
 - Plan for eventual migration to a newer server or managed PostgreSQL environment before serious production use.
 - This file documents conceptual entities only. Do not create schemas or migrations until implementation is explicitly requested.
 - Asset metadata should remain searchable even when physical files live in different storage systems.
-- Use `tenant_id` scoping consistently for tenant-owned data.
+- Use `organization_id` scoping consistently for organization-owned MVP data.
 - Most production tasks should attach to deliverables. General coordination tasks may attach directly to projects.
 - Tasks should not normally attach directly to campaigns except possibly for high-level planning tasks later.
 - Notifications, comments, activity logs, and audit logs should be modeled as related but distinct concepts.
@@ -115,4 +115,4 @@ Document database direction, data modeling notes, and schema questions.
 - Task status enums should follow the canonical MVP list and avoid extra workflow labels until explicitly approved.
 - Waiting for Approval should be modeled for deliverables or reviewable elements, not as a project status.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

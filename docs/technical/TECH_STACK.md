@@ -6,11 +6,10 @@ Document current technology direction and unresolved stack choices.
 
 ## Current Decisions
 
-- Laravel 12
-- Vue 3
-- Inertia.js
+- Laravel 13, matching the checked-in application base
+- Vue 3 and Inertia.js remain an intended frontend direction but are not installed or approved for implementation yet
 - PostgreSQL
-- Single PostgreSQL database with tenant-scoped records using `tenant_id`
+- Single PostgreSQL database with organization-scoped MVP records using `organization_id`
 - PostgreSQL full-text search for MVP
 - Inspinia
 - Inspinia as admin UI foundation, with mobile-first design for stakeholder, approval, intake, and status flows
@@ -30,6 +29,7 @@ Document current technology direction and unresolved stack choices.
 ## Open Questions
 
 - Should the application use Tailwind, Bootstrap, or both?
+- Should product UI continue from the current Blade/Inspinia base or add Vue 3 and Inertia.js?
 - Which testing stack should be standard?
 - Should future integrations rely on framework HTTP clients, official SDKs, or custom service classes?
 - What exact queue, cache, and backup tooling should be used?
@@ -43,4 +43,4 @@ Document current technology direction and unresolved stack choices.
 - Search, notifications, backups, storage, and tenant scoping are documented in `/docs/technical`.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

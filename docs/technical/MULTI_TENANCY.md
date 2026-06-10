@@ -7,10 +7,10 @@ Capture tenant strategy and related architecture questions.
 ## Current Decisions
 
 - Build with multi-tenancy in mind from the beginning, even if the first version serves one church.
-- Working decision: use a single PostgreSQL database with tenant-scoped records using `tenant_id`.
+- Working decision: use a single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - This is the MVP and likely long-term tenancy model.
 - Do not use schema-per-tenant or database-per-tenant for MVP.
-- A single database with `tenant_id` keeps hosting, backups, reporting, migrations, and development simpler.
+- A single database with `organization_id` keeps hosting, backups, reporting, migrations, and development simpler.
 - The unified app should live at `app.forworship.org`, with tenant selected after login or inferred from user membership.
 - Custom tenant subdomains are not required for MVP. If needed later, they should use a domain pattern approved under the ForWorship ecosystem.
 - Future integrations should be configurable per church or tenant.
@@ -31,4 +31,4 @@ Capture tenant strategy and related architecture questions.
 - Schema-per-tenant and database-per-tenant are deferred because they add operational complexity before the product needs it.
 - Tenant scoping should be treated as a core architectural concern in models, queries, permissions, files, notifications, search, and audit logs.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10
