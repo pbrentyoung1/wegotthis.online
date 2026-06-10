@@ -14,7 +14,7 @@ Collect research and implementation notes about Inspinia.
 
 ## Open Questions
 
-- Does the chosen starterkit and reference implementation support Laravel 12, Vue 3, and Inertia.js cleanly?
+- Does the checked-in Laravel 13 starterkit and reference implementation support the approved future product UI approach cleanly?
 - What licensing or asset handling requirements apply?
 
 ## Notes

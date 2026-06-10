@@ -14,7 +14,7 @@ Document how contributors should run the project locally once implementation beg
 - PHP `pdo_pgsql` and `pgsql` extensions are installed locally.
 - Use `npm run check:local` to run the lightweight local readiness check. The check auto-loads `/opt/homebrew` paths when Homebrew is installed there.
 - Preferred local runtime target should match or exceed hosting where practical:
-  - PHP 8.4 preferred for parity with hosting; PHP 8.3 minimum for Laravel 12. Local PHP is currently newer at 8.5.6 and should be watched for Laravel dependency compatibility.
+  - PHP 8.4 preferred for parity with hosting. The checked-in Laravel 13 base requires PHP 8.2 or newer. Local PHP is currently newer at 8.5.6 and should be watched for dependency compatibility.
   - Node.js 22.x for the docs site and modern frontend tooling.
   - PostgreSQL locally, with current hosting.com/cPanel PostgreSQL used only for early staging/proof. PostgreSQL 15/16+ is preferred for future production.
 

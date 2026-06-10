@@ -6,10 +6,10 @@ Record technical stack and architecture decisions.
 
 ## Current Decisions
 
-- Laravel 12 is the intended backend framework.
-- Vue 3 and Inertia.js are the intended frontend application approach.
+- Laravel 13 is the approved backend framework because it is the checked-in application base.
+- Vue 3 and Inertia.js remain an intended frontend direction, but adding them requires a separate reviewed implementation decision.
 - PostgreSQL should be used from day one.
-- Working decision: use a single PostgreSQL database with tenant-scoped records using `tenant_id`.
+- Working decision: use a single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - Working decision: use PostgreSQL full-text search for MVP.
 - Working decision: use transactional email with Postmark preferred unless cost or hosting constraints change the decision.
 - Working decision: use local server storage for the initial single-tenant proof/staging build, abstract storage from day one, and transition to S3-compatible storage when the product moves to scalable production/multi-tenant hosting.
@@ -36,9 +36,9 @@ Record technical stack and architecture decisions.
 
 ## Notes
 
-- Do not scaffold Laravel until explicitly instructed.
-- Revisit stack decisions before implementation begins.
+- Do not replace or re-scaffold the checked-in Laravel base unless explicitly instructed.
+- Revisit frontend stack decisions before product UI implementation begins.
 - Do not add SDKs or packages until the relevant implementation work is explicitly scoped.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

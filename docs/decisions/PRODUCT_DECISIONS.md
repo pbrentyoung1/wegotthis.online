@@ -10,14 +10,16 @@ Capture product direction and scope decisions.
 - The platform is centered on communications operations, not generic project management.
 - Projects should function as the primary container object.
 - Projects are the central container object.
-- Working decision: use the hierarchy Campaigns -> Projects -> Deliverables -> Tasks.
-- Campaigns are optional.
+- Working decision: use Projects -> Deliverables -> Tasks as the MVP operational spine.
+- Campaigns are an optional future parent and remain deferred until explicitly promoted.
 - Projects are the primary operational container.
 - Deliverables are production and approval units.
 - Tasks can attach to projects or deliverables.
 - Media assets, tasks, approvals, messages, files, vendors, deliverables, and timelines should eventually relate back to projects.
-- Canonical MVP roles are Platform Owner / Super Admin, Organization Admin, Communications Lead, Project Owner, Contributor, Reviewer, External Reviewer, and Viewer.
-- Department Leader, stakeholder, and vendor describe real-world identities or workflow contexts, not base permission roles by themselves.
+- Canonical Phase 1 system roles are Organization Admin, Communications Manager, Department Leader, Contributor, and Viewer.
+- Older references to Communications Lead map to Communications Manager.
+- Project Owner, Reviewer, Approver, stakeholder, admin delegate, and vendor participation are contextual assignments rather than additional Phase 1 system roles.
+- External Reviewer is a person/contact type and future scoped access context. Platform Owner / Super Admin remains a future platform-level concern.
 - Review responsibilities such as Budget, Resources, Design, Brand, Content, Ministry, and Final are contextual assignments, not separate base roles.
 - A project, deliverable, or reviewable element may have multiple review assignments.
 - Required review assignments must be approved or explicitly waived before the reviewed item clears approval.

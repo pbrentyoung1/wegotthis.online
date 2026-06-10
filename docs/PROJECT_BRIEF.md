@@ -16,7 +16,8 @@ Summarize the project in a concise, durable form for contributors, designers, an
 - Working direction: the product exists to reduce communications overload for church teams managing many projects across many departments.
 - Working direction: the platform should improve request quality by helping ministries clarify purpose, audience, CTA, timing, budget, assets, stakeholders, and approval needs before work enters Communications.
 - Working direction: timelines, stakeholder sign-offs, budgets, project status, media assets, closeout, and brand standards should be visible enough to reduce administrative follow-up.
-- Working decision: use `tenant_id` tenancy and the hierarchy Campaigns -> Projects -> Deliverables -> Tasks.
+- Working decision: use `organization_id` as the MVP tenant key.
+- Working decision: Projects -> Deliverables -> Tasks is the MVP operational spine. Campaigns remain an optional future parent and are not part of the next implementation slice.
 - Working decision: approvals primarily attach to deliverables.
 - Working decision: External Reviewer and vendor-scoped External Reviewer access should use scoped, time-bound magic links in MVP.
 - Product principle: create calm, not complexity.
@@ -54,4 +55,4 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 - Execution should move by phase, category, and documented readiness rather than by ad hoc idea collection.
 - The tone, copy, interaction model, and visual system should make users feel supported instead of managed.
 
-Last Updated: 2026-05-24
+Last Updated: 2026-06-10

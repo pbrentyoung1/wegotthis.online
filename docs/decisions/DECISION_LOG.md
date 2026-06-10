@@ -23,5 +23,9 @@ Record major product, technical, branding, and workflow decisions with context.
 | 2026-05-21 | UX | Evaluate major UX decisions by whether they make users feel supported or managed. | Accepted | `/docs/product/SYSTEM_PHILOSOPHY.md` |
 | 2026-05-21 | Typography | Use IBM Plex Serif for editorial brand voice, IBM Plex Sans for operational UI, and Caveat as a sparing human accent. | Accepted | `/docs/branding/TYPOGRAPHY.md` |
 | 2026-05-24 | Brand / Naming | Product name is ForWorship Creative. Target app URL is `app.forworship.org`. Working codename `wegotthis.online` is retained until the domain transitions. "We got this." is preserved as the product promise. ForWorship is the ecosystem umbrella; public subdomains serve as marketing/education entry points, not separate apps. | Accepted | `/docs/decisions/BRANDING_DECISIONS.md` |
+| 2026-06-10 | Technical | Treat Laravel 13 as the approved backend framework because it is the checked-in application base. Vue 3 and Inertia.js require a separate reviewed decision before UI implementation. | Accepted | `/docs/decisions/TECHNOLOGY_DECISIONS.md` |
+| 2026-06-10 | Data | Use `organization_id` as the concrete MVP tenant key on organization-owned records. | Accepted | `/docs/technical/MVP_SCHEMA_MAP.md` |
+| 2026-06-10 | Roles | Preserve the implemented Phase 1 system roles: Organization Admin, Communications Manager, Department Leader, Contributor, and Viewer. Model ownership, review, stakeholder, admin delegate, vendor, and external access context separately. | Accepted | `/docs/technical/AUTH_AND_PERMISSIONS.md` |
+| 2026-06-10 | Scope | Use Projects -> Deliverables -> Tasks as the MVP operational spine. Keep optional Campaigns deferred until explicitly promoted. | Accepted | `/docs/MVP_SCOPE.md` |
 
-Last updated: 2026-05-24
+Last updated: 2026-06-10

@@ -9,9 +9,9 @@ Define what belongs in the first useful release and what should wait.
 - MVP planning should center on projects as the primary container.
 - Early modules under consideration include projects, tasks/to-dos, dashboard, calendar, messages/activity, media library, user taxonomy, and permissions.
 - PostgreSQL and multi-tenancy awareness should be present from the beginning.
-- Working decision: use single-database `tenant_id` tenancy for MVP.
+- Working decision: use a single PostgreSQL database with `organization_id` on organization-owned MVP records.
 - Working decision: requests are their own object before becoming projects.
-- Working decision: use the hierarchy Campaigns -> Projects -> Deliverables -> Tasks, with Campaigns optional.
+- Working decision: use Projects -> Deliverables -> Tasks as the MVP operational spine. Campaigns are an optional future parent and remain deferred until explicitly promoted.
 - Working decision: deliverables are the primary approval units.
 - Working decision: External Reviewer approvals use secure, time-bound magic links in MVP.
 - Working decision: use transactional email plus in-app notifications.
@@ -86,4 +86,4 @@ Define what belongs in the first useful release and what should wait.
   - advanced automated archive packaging
   - deep creative platform file inspection
 
-Last Updated: 2026-05-21
+Last Updated: 2026-06-10
