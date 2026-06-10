@@ -13,7 +13,7 @@ ForWorship Creative is a communications operations platform for churches. It is 
 - ForWorship is the umbrella ecosystem; public subdomains such as `comms.forworship.org` and `creative.forworship.org` are marketing and education entry points, not separate apps.
 - Figma will be used for product and interface design.
 - The checked-in application base uses Laravel 13, PostgreSQL, and Inspinia.
-- Vue 3 and Inertia.js remain an intended frontend direction, but they are not installed in the checked-in starter kit and must be explicitly approved before UI implementation.
+- Blade and Livewire 4 are the approved MVP frontend approach, using the checked-in Tailwind 4, Preline, and Inspinia foundation.
 - `resources/Laravel/starterkit` is the planned Laravel application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common UI patterns.
 - PostgreSQL should be used from day one.

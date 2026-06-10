@@ -17,7 +17,7 @@ ForWorship Creative should remain calm, simple, and supportive. The system may t
 | Phase | Name | Purpose |
 |---|---|---|
 | Phase 0 | Foundation & Planning | Define product, workflow, architecture, decisions, and build readiness. |
-| Phase 1 | Scaffold & Technical Foundation | Create Laravel, Vue, Inertia, PostgreSQL, auth, tenancy, storage, and deployment foundations. |
+| Phase 1 | Scaffold & Technical Foundation | Create Laravel, Blade, Livewire, PostgreSQL, auth, tenancy, storage, and deployment foundations. |
 | Phase 2 | Core Operational MVP | Build the smallest useful operational core for intake, projects, deliverables, tasks, and visibility. |
 | Phase 3 | Approvals, Notifications & External Review | Add deliverable-centered approvals, restrained notifications, and scoped external review. |
 | Phase 4 | Media Library & Closeout | Support asset preservation, reuse, searchability, and project closeout. |

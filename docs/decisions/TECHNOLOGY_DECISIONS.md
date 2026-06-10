@@ -7,7 +7,8 @@ Record technical stack and architecture decisions.
 ## Current Decisions
 
 - Laravel 13 is the approved backend framework because it is the checked-in application base.
-- Vue 3 and Inertia.js remain an intended frontend direction, but adding them requires a separate reviewed implementation decision.
+- Blade and Livewire 4 are the approved MVP frontend approach.
+- Vue and Inertia are not approved for MVP. Reconsider them only if real product needs exceed the documented Blade/Livewire boundaries.
 - PostgreSQL should be used from day one.
 - Working decision: use a single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - Working decision: use PostgreSQL full-text search for MVP.
@@ -18,10 +19,11 @@ Record technical stack and architecture decisions.
 - PostgreSQL 13 is acceptable for early staging/proof if that is the available upgrade path; PostgreSQL 15/16+ is preferred for future production.
 - Do not depend on host-specific constraints, cPanel-specific behavior, or old PostgreSQL behavior.
 - Inspinia is the intended UI/admin foundation.
+- Tailwind CSS 4 and Preline are the approved MVP styling and interactive primitive foundation because they are used by the checked-in Inspinia application base.
+- Do not add Bootstrap or Flux UI for MVP.
 - Inspinia is an admin foundation, but stakeholder, approval, intake, and status flows must be designed mobile-first.
 - `resources/Laravel/starterkit` is the planned application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common patterns.
-- Tailwind and/or Bootstrap will depend on how the chosen starterkit and reference implementation are actually structured.
 - GitHub will be the source of truth.
 - Initial early staging/proof hosting uses the current hosting.com/cPanel environment with SSH access available.
 
@@ -37,8 +39,10 @@ Record technical stack and architecture decisions.
 ## Notes
 
 - Do not replace or re-scaffold the checked-in Laravel base unless explicitly instructed.
-- Revisit frontend stack decisions before product UI implementation begins.
+- Do not re-scaffold the application to add frontend or authentication capabilities.
+- Add Livewire 4 and Laravel Fortify to the existing application only in explicitly scoped implementation changes.
 - Do not add SDKs or packages until the relevant implementation work is explicitly scoped.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
+- Frontend architecture guidance is documented in `/docs/technical/FRONTEND_ARCHITECTURE.md`.
 
 Last Updated: 2026-06-10

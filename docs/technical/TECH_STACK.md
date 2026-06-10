@@ -7,15 +7,15 @@ Document current technology direction and unresolved stack choices.
 ## Current Decisions
 
 - Laravel 13, matching the checked-in application base
-- Vue 3 and Inertia.js remain an intended frontend direction but are not installed or approved for implementation yet
+- Blade and Livewire 4 for the MVP frontend
 - PostgreSQL
 - Single PostgreSQL database with organization-scoped MVP records using `organization_id`
 - PostgreSQL full-text search for MVP
 - Inspinia
 - Inspinia as admin UI foundation, with mobile-first design for stakeholder, approval, intake, and status flows
+- Tailwind CSS 4 and Preline, matching the checked-in starter kit
 - `resources/Laravel/starterkit` as the planned application base
 - `resources/Laravel/inspinia` as the planned reference implementation for common patterns
-- Tailwind and/or Bootstrap depending on how the chosen starterkit and reference implementation are actually structured
 - hosting.com reseller account for initial hosting
 - cPanel and SSH access available
 - Transactional email with Postmark preferred unless cost or hosting constraints change the decision
@@ -28,9 +28,6 @@ Document current technology direction and unresolved stack choices.
 
 ## Open Questions
 
-- Should the application use Tailwind, Bootstrap, or both?
-- Should product UI continue from the current Blade/Inspinia base or add Vue 3 and Inertia.js?
-- Which testing stack should be standard?
 - Should future integrations rely on framework HTTP clients, official SDKs, or custom service classes?
 - What exact queue, cache, and backup tooling should be used?
 - Is Postmark final after cost and hosting constraints are reviewed?
@@ -42,5 +39,7 @@ Document current technology direction and unresolved stack choices.
 - Integration services should be modular and isolated from core business logic.
 - Search, notifications, backups, storage, and tenant scoping are documented in `/docs/technical`.
 - INSPINIA implementation guidance is documented in `/docs/INSPINIA.md`.
+- Frontend architecture is documented in `/docs/technical/FRONTEND_ARCHITECTURE.md`.
+- PHPUnit feature/unit tests and Livewire component tests are the MVP testing standard. Add browser tests only for critical end-to-end flows after the first usable vertical slice.
 
 Last Updated: 2026-06-10

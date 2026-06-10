@@ -26,7 +26,7 @@ Use the INSPINIA Figma assets as a screen layout and UX pattern reference when d
 
 ## Approved Web UI References
 
-Use these INSPINIA Bootstrap pages as approved structural references for MVP screens and interaction patterns:
+Use these INSPINIA reference pages as approved structural references for MVP screens and interaction patterns:
 
 | INSPINIA Page | Reference URL | Use For |
 |---|---|---|
@@ -206,8 +206,8 @@ When adapting INSPINIA:
 Do not:
 
 - introduce new JavaScript frameworks without an architecture decision
-- bypass existing Bootstrap, Bootstrap Vue Next, Inspinia SCSS, or token systems
-- add Tailwind unless a future documented decision changes the stack
+- bypass the existing Tailwind 4, Preline, Inspinia CSS, or token systems
+- add Bootstrap, Flux UI, Vue, or Inertia for MVP
 - create duplicate layout systems
 - create duplicate modal, notification, calendar, dropdown, or chart systems
 - hardcode colors outside design tokens

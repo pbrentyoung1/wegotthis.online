@@ -9,7 +9,7 @@ Collect research and implementation notes about Inspinia.
 - Inspinia is the intended UI/admin foundation.
 - `resources/Laravel/starterkit` is the planned application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common patterns.
-- Tailwind and/or Bootstrap will depend on how the chosen starterkit and reference implementation are actually structured.
+- Use the checked-in Tailwind 4 and Preline implementation. Do not add Bootstrap for MVP.
 - `docs/INSPINIA.md` is the canonical implementation guidance document for how `wegotthis` uses INSPINIA.
 
 ## Open Questions

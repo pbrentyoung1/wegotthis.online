@@ -21,7 +21,6 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - Which email provider should be used if the Postmark preference changes?
 - What exact local server path and disk quota should be used on hosting.com/cPanel?
 - What final storage provider/path should be used for scalable production file storage?
-- Which frontend application approach should be approved before product UI implementation: the current Blade/Inspinia base, Vue 3 with Inertia.js, or a staged transition?
 - What staging validation is required before Phase 1 is considered stable outside local development?
 
 ## Resolved or Working Decisions
@@ -29,6 +28,7 @@ Maintain a central list of unresolved questions that block Phase 0 completion or
 - Tenancy model: single PostgreSQL database with organization-scoped MVP records using `organization_id`.
 - Product hierarchy: Projects -> Deliverables -> Tasks is the MVP operational spine. Campaigns are an optional future parent and remain deferred until explicitly promoted.
 - Backend framework: the checked-in application base uses Laravel 13.
+- Frontend architecture: use Blade and Livewire 4 with the existing Tailwind 4, Preline, and Inspinia foundation. Do not add Vue, Inertia, Bootstrap, or Flux UI for MVP.
 - Campaign/parent container concept: Campaign is optional above projects.
 - Deliverable vs project boundary: Projects are operational containers; deliverables are production and approval units.
 - Approval target: MVP approvals primarily attach to deliverables.
