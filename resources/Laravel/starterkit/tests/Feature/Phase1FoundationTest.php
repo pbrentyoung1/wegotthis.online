@@ -27,6 +27,7 @@ class Phase1FoundationTest extends TestCase
         $this->assertSame(5, Role::query()->where('is_system', true)->count());
         $this->assertSame(18, Permission::query()->count());
         $this->assertSame(1, User::query()->where('email', 'demo@user.com')->count());
+        $this->assertNotNull(User::query()->where('email', 'demo@user.com')->firstOrFail()->email_verified_at);
         $this->assertSame(1, Profile::query()->whereNotNull('user_id')->count());
         $this->assertSame(1, ProfileRoleAssignment::query()->whereNull('ended_at')->count());
     }

@@ -231,7 +231,7 @@ class Phase2RequestIntakeTest extends TestCase
 
         $this->assertSame(0, RequestAnswer::query()->where('request_id', $requestId)->count());
         $this->assertSame(0, RequestIdea::query()->where('request_id', $requestId)->count());
-        $this->assertSame(6, Profile::query()->where('organization_id', $this->graceOrganization()->id)->count());
+        $this->assertSame(7, Profile::query()->where('organization_id', $this->graceOrganization()->id)->count());
         $this->assertSame(5, Department::query()->where('organization_id', $this->graceOrganization()->id)->count());
     }
 

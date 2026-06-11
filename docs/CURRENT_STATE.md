@@ -26,6 +26,7 @@ Track the actual state of the project so planning, design, and development work 
   - `role_permissions`
   - `profile_role_assignments`
 - Phase 1 seed data exists for the demo organization, system roles, MVP permission keys, role-permission mappings, and a demo admin profile.
+- The opt-in Grace scenario provides verified demo accounts for Communications Manager, Department Leader, and Contributor perspectives; all local demo accounts use password `password`.
 - Phase 1 focused tests cover idempotent seed data, profile uniqueness behavior, circular profile/department foreign keys, active role assignment uniqueness, and documented FK delete behavior.
 - Fortify authentication is connected to the ForWorship-branded Blade views. Login, logout, password reset, email verification, password confirmation, and two-factor challenge flows are implemented. **Registration is disabled — user accounts are created by invitation only.** The `sign-up.blade.php` view is retained for the future invitation-acceptance flow.
 - Authenticated users can edit their login name, email, and canonical organization profile fields through the Inspinia account-settings screen.

@@ -24,7 +24,21 @@ class PeopleDirectoryTest extends TestCase
             ->assertOk()
             ->assertSee('Rachel Kim')
             ->assertSee('Chris Morgan')
-            ->assertDontSee('Demo Admin');
+            ->assertSee('Demo Admin');
+    }
+
+    public function test_demo_admin_sees_the_grace_community_church_directory(): void
+    {
+        $this->seed(Phase1ScenarioSeeder::class);
+        $user = User::query()->where('email', 'demo@user.com')->firstOrFail();
+
+        $this->actingAs($user)
+            ->get(route('people.index'))
+            ->assertOk()
+            ->assertSee('Jordan Lee')
+            ->assertSee('Rachel Kim')
+            ->assertSee('Marcus Bell')
+            ->assertSee('Elena Torres');
     }
 
     public function test_directory_can_filter_by_department_and_person_type(): void

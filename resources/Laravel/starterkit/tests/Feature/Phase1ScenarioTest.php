@@ -9,6 +9,7 @@ use App\Models\ProfileRoleAssignment;
 use App\Models\User;
 use Database\Seeders\Phase1ScenarioSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
@@ -39,8 +40,8 @@ class Phase1ScenarioTest extends TestCase
             $this->assertSame(1, User::query()->where('email', $email)->count());
         }
 
-        $this->assertSame(6, Profile::query()->where('organization_id', $grace->id)->count());
-        $this->assertSame(4, ProfileRoleAssignment::query()->where('organization_id', $grace->id)->whereNull('ended_at')->count());
+        $this->assertSame(7, Profile::query()->where('organization_id', $grace->id)->count());
+        $this->assertSame(5, ProfileRoleAssignment::query()->where('organization_id', $grace->id)->whereNull('ended_at')->count());
     }
 
     public function test_staff_profiles_are_login_backed_and_connected_to_departments(): void
@@ -51,6 +52,18 @@ class Phase1ScenarioTest extends TestCase
         $this->assertLoginBackedStaffProfile('Rachel Kim', 'Kids Ministry');
         $this->assertLoginBackedStaffProfile('Marcus Bell', 'Production');
         $this->assertLoginBackedStaffProfile('Elena Torres', 'Administration');
+    }
+
+    public function test_demo_accounts_are_verified_and_use_the_documented_local_password(): void
+    {
+        $this->seed(Phase1ScenarioSeeder::class);
+
+        foreach (['demo@user.com', 'jordan@example.test', 'rachel@example.test', 'marcus@example.test', 'elena@example.test'] as $email) {
+            $user = User::query()->where('email', $email)->firstOrFail();
+
+            $this->assertNotNull($user->email_verified_at);
+            $this->assertTrue(Hash::check('password', $user->password));
+        }
     }
 
     public function test_contact_only_profiles_do_not_require_users(): void
@@ -86,6 +99,7 @@ class Phase1ScenarioTest extends TestCase
     {
         $this->seed(Phase1ScenarioSeeder::class);
 
+        $this->assertTrue($this->profileHasRole($this->profile('Demo Admin'), 'Organization Admin'));
         $this->assertTrue($this->profileHasRole($this->profile('Jordan Lee'), 'Communications Manager'));
         $this->assertTrue($this->profileHasRole($this->profile('Rachel Kim'), 'Department Leader'));
         $this->assertTrue($this->profileHasRole($this->profile('Marcus Bell'), 'Contributor'));

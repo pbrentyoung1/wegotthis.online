@@ -163,6 +163,7 @@ class Phase1FoundationSeeder extends Seeder
             [
                 'name' => 'Demo Admin',
                 'password' => Hash::make('password'),
+                'email_verified_at' => now(),
             ],
         );
 

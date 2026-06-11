@@ -55,6 +55,10 @@ Create these departments:
 
 Define these profiles:
 
+All login-backed scenario profiles are email-verified demo accounts with the local-only password `password`.
+
+When this opt-in scenario runs, the foundation `demo@user.com` Organization Admin profile is moved into Grace Community Church so the default demo login can see and administer the complete scenario.
+
 ### Jordan Lee
 
 - display_name: Jordan Lee

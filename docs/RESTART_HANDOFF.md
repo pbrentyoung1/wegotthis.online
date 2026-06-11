@@ -319,18 +319,21 @@ host: 127.0.0.1
 port: 5432
 ```
 
-Seeded local demo login:
-
-```text
-email: demo@user.com
-password: password
-```
-
-Email verification is enforced. The local demo account may need to be marked verified after a fresh database seed:
+Seed the complete local demo scenario:
 
 ```bash
-php artisan tinker --execute="App\\Models\\User::where('email', 'demo@user.com')->update(['email_verified_at' => now()]);"
+php artisan db:seed --class=Phase2RequestIntakeScenarioSeeder
 ```
+
+All demo accounts are email-verified and use the local-only password `password`.
+
+| Email | Organization | Role |
+|---|---|---|
+| `demo@user.com` | Grace Community Church | Organization Admin |
+| `jordan@example.test` | Grace Community Church | Communications Manager |
+| `rachel@example.test` | Grace Community Church | Department Leader |
+| `marcus@example.test` | Grace Community Church | Contributor |
+| `elena@example.test` | Grace Community Church | Contributor |
 
 Start local servers:
 

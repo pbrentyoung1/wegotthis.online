@@ -34,12 +34,15 @@ class Phase1ScenarioSeeder extends Seeder
         $roles = Role::query()
             ->whereNull('organization_id')
             ->whereIn('slug', [
+                'organization-admin',
                 'communications-manager',
                 'department-leader',
                 'contributor',
             ])
             ->get()
             ->keyBy('slug');
+
+        $this->moveDemoAdminToOrganization($organization, $roles['organization-admin']);
 
         $this->seedLoginBackedProfile(
             organization: $organization,
@@ -183,6 +186,7 @@ class Phase1ScenarioSeeder extends Seeder
             [
                 'name' => $name,
                 'password' => Hash::make('password'),
+                'email_verified_at' => now(),
             ],
         );
 
@@ -207,6 +211,34 @@ class Phase1ScenarioSeeder extends Seeder
         $this->assignRole($organization, $profile, $role);
 
         return $profile;
+    }
+
+    private function moveDemoAdminToOrganization(Organization $organization, Role $role): void
+    {
+        $user = User::query()->where('email', 'demo@user.com')->firstOrFail();
+        $profile = $user->profiles()->firstOrFail();
+
+        $profile->update([
+            'organization_id' => $organization->id,
+            'display_name' => 'Demo Admin',
+            'title' => 'Organization Admin',
+            'person_type' => 'Staff',
+            'status' => 'Active',
+            'metadata_json' => [
+                'scenario_contact_email' => $user->email,
+                'future_use' => [
+                    'organization administration',
+                    'role and permission testing',
+                    'full Grace Community Church visibility',
+                ],
+            ],
+        ]);
+
+        ProfileRoleAssignment::query()
+            ->where('profile_id', $profile->id)
+            ->update(['organization_id' => $organization->id]);
+
+        $this->assignRole($organization, $profile, $role);
     }
 
     private function seedContactProfile(
