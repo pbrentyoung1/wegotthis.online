@@ -21,30 +21,30 @@
                     </div>
 
                     <div class="card">
-                        <div class="overflow-x-auto">
-                            <table class="table-custom table-centered table-hover w-full">
-                                <thead class="thead-sm">
+                        <div class="table-wrapper">
+                            <table class="table table-custom table-centered table-hover w-full">
+                                <thead class="bg-light/25 thead-sm">
                                     <tr class="bg-light/25 text-2xs uppercase">
                                         <th>Request</th>
                                         <th>Department</th>
                                         <th>Status</th>
                                         <th>Important date</th>
                                         <th>Last activity</th>
-                                        <th class="text-center w-[1%]">Actions</th>
+                                        <th class="text-end w-[1%]">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-default-300 divide-y">
+                                <tbody class="divide-default-300 divide-y whitespace-nowrap">
                                     @forelse ($requests as $ministryRequest)
                                         @php($importantDate = data_get($ministryRequest->key_dates_json, "action_deadline") ?: data_get($ministryRequest->key_dates_json, "registration_deadline") ?: data_get($ministryRequest->key_dates_json, "needed_by") ?: data_get($ministryRequest->key_dates_json, "event_date") ?: data_get($ministryRequest->key_dates_json, "event_starts_on"))
                                         <tr>
                                             <td>
-                                                <div class="flex gap-base">
-                                                    <div class="bg-light text-default-400 flex size-9 shrink-0 items-center justify-center rounded">
-                                                        <i class="iconify tabler--message-2 text-xl"></i>
-                                                    </div>
-                                                    <div class="min-w-0">
-                                                        <h5 class="hover:text-primary mb-1 font-semibold"><a href="{{ route("requests.show", $ministryRequest) }}">{{ $ministryRequest->title }}</a></h5>
-                                                        <p class="text-default-400 max-w-md truncate text-xs">{{ $ministryRequest->ministry_need ?: "This draft does not have a ministry need yet." }}</p>
+                                                <div class="min-w-72">
+                                                    <h5 class="hover:text-primary mb-1.25 font-semibold">
+                                                        <a href="{{ route("requests.show", $ministryRequest) }}">{{ $ministryRequest->title }}</a>
+                                                    </h5>
+                                                    <div class="flex items-center gap-2 text-2xs text-default-400">
+                                                        <i class="iconify tabler--message-circle shrink-0 text-sm"></i>
+                                                        <span class="max-w-md truncate">{{ $ministryRequest->ministry_need ?: "This draft does not have a ministry need yet." }}</span>
                                                     </div>
                                                 </div>
                                             </td>
@@ -55,17 +55,11 @@
                                                 <p class="font-medium">{{ $ministryRequest->updated_at->diffForHumans() }}</p>
                                                 <p class="text-default-400 text-xs">{{ $ministryRequest->updated_at->format("M j, Y g:i A") }}</p>
                                             </td>
-                                            <td>
-                                                <div class="flex justify-center gap-1.25">
-                                                    <a aria-label="View {{ $ministryRequest->title }}" class="btn btn-icon btn-sm border border-default-300 hover:border-default-400" href="{{ route("requests.show", $ministryRequest) }}">
-                                                        <i class="iconify tabler--eye text-base"></i>
-                                                    </a>
-                                                    @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Draft, \App\Enums\RequestStatus::NeedsClarification], true))
-                                                        <a aria-label="Update {{ $ministryRequest->title }}" class="btn btn-icon btn-sm border border-default-300 hover:border-default-400" href="{{ route("requests.edit", $ministryRequest) }}">
-                                                            <i class="iconify tabler--edit text-base"></i>
-                                                        </a>
-                                                    @endif
-                                                </div>
+                                            <td class="text-end">
+                                                <a class="text-primary inline-flex items-center gap-1 font-medium hover:underline" href="{{ route("requests.show", $ministryRequest) }}">
+                                                    Open
+                                                    <i class="iconify tabler--chevron-right text-sm"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @empty
