@@ -24,6 +24,8 @@ class PeopleDirectoryTest extends TestCase
             ->assertOk()
             ->assertSee('Rachel Kim')
             ->assertSee('Chris Morgan')
+            ->assertSee('/images/users/user-3.jpg')
+            ->assertSee('/images/users/user-6.jpg')
             ->assertSee('Demo Admin');
     }
 

@@ -52,6 +52,12 @@ class Phase1ScenarioTest extends TestCase
         $this->assertLoginBackedStaffProfile('Rachel Kim', 'Kids Ministry');
         $this->assertLoginBackedStaffProfile('Marcus Bell', 'Production');
         $this->assertLoginBackedStaffProfile('Elena Torres', 'Administration');
+
+        $this->assertSame('/images/users/user-1.jpg', $this->profile('Demo Admin')->avatar_url);
+        $this->assertSame('/images/users/user-2.jpg', $this->profile('Jordan Lee')->avatar_url);
+        $this->assertSame('/images/users/user-3.jpg', $this->profile('Rachel Kim')->avatar_url);
+        $this->assertSame('/images/users/user-4.jpg', $this->profile('Marcus Bell')->avatar_url);
+        $this->assertSame('/images/users/user-5.jpg', $this->profile('Elena Torres')->avatar_url);
     }
 
     public function test_demo_accounts_are_verified_and_use_the_documented_local_password(): void

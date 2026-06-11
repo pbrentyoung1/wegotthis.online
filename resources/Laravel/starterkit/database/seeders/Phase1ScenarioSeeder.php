@@ -51,6 +51,7 @@ class Phase1ScenarioSeeder extends Seeder
             name: 'Jordan Lee',
             email: 'jordan@example.test',
             title: 'Communications Manager',
+            avatarUrl: '/images/users/user-2.jpg',
             futureUse: [
                 'Campaign owner',
                 'Project owner',
@@ -66,6 +67,7 @@ class Phase1ScenarioSeeder extends Seeder
             name: 'Rachel Kim',
             email: 'rachel@example.test',
             title: 'Kids Pastor',
+            avatarUrl: '/images/users/user-3.jpg',
             futureUse: [
                 'requester',
                 'stakeholder',
@@ -80,6 +82,7 @@ class Phase1ScenarioSeeder extends Seeder
             name: 'Marcus Bell',
             email: 'marcus@example.test',
             title: 'Production Lead',
+            avatarUrl: '/images/users/user-4.jpg',
             futureUse: [
                 'Production Project owner',
                 'task assignee',
@@ -94,6 +97,7 @@ class Phase1ScenarioSeeder extends Seeder
             name: 'Elena Torres',
             email: 'elena@example.test',
             title: 'Communications Admin',
+            avatarUrl: '/images/users/user-5.jpg',
             futureUse: [
                 'delegated Admin participant',
                 'calendar/Kanban visibility support',
@@ -108,6 +112,7 @@ class Phase1ScenarioSeeder extends Seeder
             email: 'chris@example.test',
             personType: 'Vendor Contact',
             title: 'Print Vendor Contact',
+            avatarUrl: '/images/users/user-6.jpg',
             futureUse: [
                 'vendor contact for banners, signage, and print projects',
             ],
@@ -120,6 +125,7 @@ class Phase1ScenarioSeeder extends Seeder
             email: 'avery@example.test',
             personType: 'External Reviewer',
             title: 'Parent Volunteer Reviewer',
+            avatarUrl: '/images/users/user-7.jpg',
             futureUse: [
                 'external reviewer/contact without login',
                 'future stakeholder/reviewer flow',
@@ -179,6 +185,7 @@ class Phase1ScenarioSeeder extends Seeder
         string $name,
         string $email,
         string $title,
+        string $avatarUrl,
         array $futureUse,
     ): Profile {
         $user = User::query()->updateOrCreate(
@@ -200,6 +207,7 @@ class Phase1ScenarioSeeder extends Seeder
                 'display_name' => $name,
                 'title' => $title,
                 'person_type' => 'Staff',
+                'avatar_url' => $avatarUrl,
                 'status' => 'Active',
                 'metadata_json' => [
                     'scenario_contact_email' => $email,
@@ -223,6 +231,7 @@ class Phase1ScenarioSeeder extends Seeder
             'display_name' => 'Demo Admin',
             'title' => 'Organization Admin',
             'person_type' => 'Staff',
+            'avatar_url' => '/images/users/user-1.jpg',
             'status' => 'Active',
             'metadata_json' => [
                 'scenario_contact_email' => $user->email,
@@ -248,6 +257,7 @@ class Phase1ScenarioSeeder extends Seeder
         string $email,
         string $personType,
         string $title,
+        string $avatarUrl,
         array $futureUse,
     ): Profile {
         return Profile::query()->updateOrCreate(
@@ -260,6 +270,7 @@ class Phase1ScenarioSeeder extends Seeder
                 'department_id' => $department?->id,
                 'title' => $title,
                 'person_type' => $personType,
+                'avatar_url' => $avatarUrl,
                 'status' => 'Active',
                 'metadata_json' => [
                     'contact_email' => $email,

@@ -176,6 +176,7 @@ class Phase1FoundationSeeder extends Seeder
                 'display_name' => $user->name,
                 'title' => 'Organization Admin',
                 'person_type' => 'Staff',
+                'avatar_url' => '/images/users/user-1.jpg',
                 'status' => 'Active',
                 'metadata_json' => [],
             ],

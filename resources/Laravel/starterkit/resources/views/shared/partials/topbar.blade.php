@@ -1,3 +1,4 @@
+@php($currentAvatarUrl = auth()->user()->profiles()->where("status", "Active")->orderBy("id")->value("avatar_url") ?: "/images/users/user-1.jpg")
 <header class="app-header">
     <div class="container-fluid flex items-center justify-between">
         <div class="flex items-center gap-2.5">
@@ -746,7 +747,7 @@
             <!-- Profile Dropdown Button -->
             <div class="topbar-item hs-dropdown before:bg-default-700/35 relative inline-flex before:h-4.5 before:w-px before:content-['']" id="simple-user-dropdown">
                 <button aria-expanded="false" aria-haspopup="menu" aria-label="Dropdown" class="hs-dropdown-toggle topbar-link ms-2.5 cursor-pointer items-center px-3! flex">
-                    <img alt="user-image" class="size-8 rounded-full lg:me-3" src="/images/users/user-1.jpg" />
+                    <img alt="{{ auth()->user()->name }}" class="size-8 rounded-full object-cover lg:me-3" src="{{ $currentAvatarUrl }}" />
                     <div class="hidden lg:flex items-center gap-1.5">
                         <h5 class="pro-username">{{ auth()->user()->name }}</h5>
                         <i class="iconify tabler--chevron-down align-middle"></i>

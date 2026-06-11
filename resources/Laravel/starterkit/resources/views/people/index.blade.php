@@ -52,9 +52,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="mb-5 flex items-start gap-4">
-                                        <div class="bg-primary/10 text-primary flex size-14 shrink-0 items-center justify-center rounded-full text-lg font-semibold">
-                                            {{ str($profile->display_name)->explode(" ")->filter()->map(fn ($part) => str($part)->substr(0, 1)->upper())->take(2)->implode("") }}
-                                        </div>
+                                        @if ($profile->avatar_url)
+                                            <img alt="{{ $profile->display_name }}" class="size-14 shrink-0 rounded-full object-cover" src="{{ $profile->avatar_url }}" />
+                                        @else
+                                            <div class="bg-primary/10 text-primary flex size-14 shrink-0 items-center justify-center rounded-full text-lg font-semibold">
+                                                {{ str($profile->display_name)->explode(" ")->filter()->map(fn ($part) => str($part)->substr(0, 1)->upper())->take(2)->implode("") }}
+                                            </div>
+                                        @endif
                                         <div class="min-w-0">
                                             <h5 class="truncate text-base font-semibold">{{ $profile->display_name }}</h5>
                                             <p class="text-default-400 truncate">{{ $profile->title ?: "Organization contact" }}</p>

@@ -1,3 +1,4 @@
+@php($currentAvatarUrl = auth()->user()->profiles()->where("status", "Active")->orderBy("id")->value("avatar_url") ?: "/images/users/user-1.jpg")
 <aside class="app-menu" id="app-menu">
     <!-- Sidenav Menu Brand Logo -->
     <a class="logo-box" href="{{ url("/") }}">
@@ -67,7 +68,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <a class="link-reset" href="{{ route("profile.edit") }}">
-                            <img alt="user-image" class="mb-3 size-9 rounded-full" src="/images/users/user-1.jpg" />
+                            <img alt="{{ auth()->user()->name }}" class="mb-3 size-9 rounded-full object-cover" src="{{ $currentAvatarUrl }}" />
                             <span class="sidenav-user-name block font-bold text-nowrap">{{ auth()->user()->name }}</span>
                             <span class="text-xs font-semibold" data-lang="user-role">Your workspace</span>
                         </a>

@@ -326,6 +326,7 @@ php artisan db:seed --class=Phase2RequestIntakeScenarioSeeder
 ```
 
 All demo accounts are email-verified and use the local-only password `password`.
+Demo profiles use the numbered portraits in `resources/headshots/`, served from `/images/users/`.
 
 | Email | Organization | Role |
 |---|---|---|
