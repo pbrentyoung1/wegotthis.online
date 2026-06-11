@@ -45,6 +45,8 @@
                                 </div>
                             </div>
 
+                            @include("requests._brief-details")
+
                             @if ($ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
                                 <div class="rounded-lg bg-warning/10 p-4 text-sm text-warning">
                                     <p class="font-semibold">Clarification requested</p>
@@ -77,6 +79,7 @@
                                         <div><dt class="text-default-400">Submitted</dt><dd class="font-medium">{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: "Not recorded" }}</dd></div>
                                         <div><dt class="text-default-400">Assigned manager</dt><dd class="font-medium">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Unassigned" }}</dd></div>
                                         <div><dt class="text-default-400">Support needed by</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "needed_by") ?: "Not provided" }}</dd></div>
+                                        <div><dt class="text-default-400">Audience action deadline</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "action_deadline") ?: "Not provided" }}</dd></div>
                                     </dl>
                                 </div>
                             </div>

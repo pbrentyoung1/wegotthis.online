@@ -104,6 +104,48 @@ class RequestIntakeUiTest extends TestCase
         $this->assertNotNull($request->submitted_at);
     }
 
+    public function test_requester_can_submit_a_complete_ministry_brief_with_asset_links_and_ideas(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $assetLinks = "Brand guide: https://drive.example.test/brand\nVBS registration: https://example.test/vbs";
+
+        $this->actingAs($rachel->user)->post(route('requests.store'), [
+            'title' => 'Complete ministry brief',
+            'ministry_need' => 'Invite families to VBS.',
+            'success_looks_like' => 'Fifty new families register.',
+            'key_message' => 'VBS is welcoming and easy to join.',
+            'existing_assets_links' => $assetLinks,
+            'reviewers_approvals' => 'Kids Pastor and Executive Pastor',
+            'sensitivities' => 'Avoid language that assumes every child attends with a parent.',
+            'requester_ideas' => "Parent email\nSocial countdown",
+            'action_deadline' => '2026-07-06',
+            'intent' => 'submit',
+        ]);
+
+        $request = MinistryRequest::query()->where('title', 'Complete ministry brief')->firstOrFail();
+
+        $this->assertSame('2026-07-06', data_get($request->key_dates_json, 'action_deadline'));
+        $this->assertSame($assetLinks, $request->answers()->where('question_key', 'existing_assets')->value('answer_value'));
+        $this->assertSame('Fifty new families register.', $request->answers()->where('question_key', 'success_looks_like')->value('answer_value'));
+        $this->assertEqualsCanonicalizing(['Parent email', 'Social countdown'], $request->ideas()->pluck('title')->all());
+
+        $this->actingAs($rachel->user)
+            ->get(route('requests.show', $request))
+            ->assertOk()
+            ->assertSee('Existing branding, assets, examples, and links')
+            ->assertSee('https://example.test/vbs')
+            ->assertSee('Kids Pastor and Executive Pastor')
+            ->assertSee('Parent email');
+
+        $this->actingAs($this->profile('Jordan Lee')->user)
+            ->get(route('triage.show', $request))
+            ->assertOk()
+            ->assertSee('Fifty new families register.')
+            ->assertSee('Social countdown');
+    }
+
     public function test_submission_requires_a_ministry_need_without_creating_a_request(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
@@ -121,6 +163,28 @@ class RequestIntakeUiTest extends TestCase
             ->assertSessionHasErrors('ministry_need');
 
         $this->assertSame($requestCount, MinistryRequest::query()->count());
+    }
+
+    public function test_requester_update_does_not_reset_an_existing_idea_triage_decision(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $request = MinistryRequest::query()->where('title', 'VBS Promotion Support')->firstOrFail();
+        $idea = $request->ideas()->where('title', 'Social posts')->firstOrFail();
+
+        $request->update(['status' => RequestStatus::NeedsClarification]);
+        $idea->update(['triage_decision' => 'Accepted']);
+
+        $this->actingAs($rachel->user)->put(route('requests.update', $request), [
+            'title' => $request->title,
+            'department_id' => $request->department_id,
+            'ministry_need' => $request->ministry_need,
+            'requester_ideas' => $request->ideas()->pluck('title')->implode("\n"),
+            'intent' => 'draft',
+        ])->assertRedirect(route('requests.show', $request));
+
+        $this->assertSame('Accepted', $idea->refresh()->triage_decision);
     }
 
     public function test_requester_cannot_view_another_requester_request_or_edit_a_submitted_request(): void

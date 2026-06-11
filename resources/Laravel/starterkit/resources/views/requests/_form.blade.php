@@ -1,5 +1,9 @@
 @php($editing = isset($ministryRequest))
 @php($requestDates = $editing ? ($ministryRequest->key_dates_json ?? []) : [])
+@php($requestAnswers = $editing ? $ministryRequest->answers->keyBy("question_key") : collect())
+@php($existingAssetsAnswer = $requestAnswers->get("existing_assets"))
+@php($existingAssetsDefault = $existingAssetsAnswer?->answer_value ?: collect($existingAssetsAnswer?->answer_json ?? [])->filter(fn ($value) => is_string($value))->implode("\n"))
+@php($requesterIdeasDefault = $editing ? $ministryRequest->ideas->where("source", "Requester")->pluck("title")->implode("\n") : "")
 
 @include("auth.partials.messages")
 
@@ -63,14 +67,51 @@
         <textarea class="form-textarea" id="desired_tone" name="desired_tone" rows="3">{{ old("desired_tone", $ministryRequest->desired_tone ?? "") }}</textarea>
     </div>
 
+    <div class="lg:col-span-2">
+        <label class="form-label" for="success_looks_like">What would success look like?</label>
+        <textarea class="form-textarea" id="success_looks_like" name="success_looks_like" rows="3">{{ old("success_looks_like", $requestAnswers->get("success_looks_like")?->answer_value) }}</textarea>
+    </div>
+
+    <div class="lg:col-span-2">
+        <label class="form-label" for="key_message">What key message must people understand?</label>
+        <textarea class="form-textarea" id="key_message" name="key_message" rows="3">{{ old("key_message", $requestAnswers->get("key_message")?->answer_value) }}</textarea>
+    </div>
+
     <div>
         <label class="form-label" for="event_date">Event or launch date</label>
         <input class="form-input" id="event_date" name="event_date" type="date" value="{{ old("event_date", data_get($requestDates, "event_date")) }}" />
     </div>
 
     <div>
+        <label class="form-label" for="action_deadline">When do people need to act?</label>
+        <input class="form-input" id="action_deadline" name="action_deadline" type="date" value="{{ old("action_deadline", data_get($requestDates, "action_deadline")) }}" />
+    </div>
+
+    <div>
         <label class="form-label" for="needed_by">When do you need communications support?</label>
         <input class="form-input" id="needed_by" name="needed_by" type="date" value="{{ old("needed_by", data_get($requestDates, "needed_by")) }}" />
+    </div>
+
+    <div class="lg:col-span-2">
+        <label class="form-label" for="existing_assets_links">What existing branding, assets, examples, or links should Communications use?</label>
+        <textarea class="form-textarea" id="existing_assets_links" name="existing_assets_links" placeholder="Add Google Drive folders, brand guides, logos, registration pages, previous examples, Canva or Figma links, and related references. Use one item per line." rows="5">{{ old("existing_assets_links", $existingAssetsDefault) }}</textarea>
+        <p class="text-default-400 mt-1 text-xs">External and Google Drive links are supported now. File uploads will be added with the asset-linking milestone.</p>
+    </div>
+
+    <div>
+        <label class="form-label" for="reviewers_approvals">Who needs to review or approve this?</label>
+        <textarea class="form-textarea" id="reviewers_approvals" name="reviewers_approvals" rows="4">{{ old("reviewers_approvals", $requestAnswers->get("reviewers_approvals")?->answer_value) }}</textarea>
+    </div>
+
+    <div>
+        <label class="form-label" for="sensitivities">Are there sensitivities or pastoral concerns?</label>
+        <textarea class="form-textarea" id="sensitivities" name="sensitivities" rows="4">{{ old("sensitivities", $requestAnswers->get("sensitivities")?->answer_value) }}</textarea>
+    </div>
+
+    <div class="lg:col-span-2">
+        <label class="form-label" for="requester_ideas">What communication ideas do you already have?</label>
+        <textarea class="form-textarea" id="requester_ideas" name="requester_ideas" placeholder="Social posts&#10;Parent email&#10;Service announcement slide" rows="5">{{ old("requester_ideas", $requesterIdeasDefault) }}</textarea>
+        <p class="text-default-400 mt-1 text-xs">Use one idea per line. These are suggestions; Communications will shape the final plan.</p>
     </div>
 
     <div class="lg:col-span-2">

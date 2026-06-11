@@ -120,8 +120,11 @@ Implemented behavior:
 - triage start, clarification, accept, defer, and reject actions through `RequestIntakeService`
 - requester clarification update and resubmission
 - requester-visible terminal decision notes
+- expanded ministry brief fields for success criteria, key message, audience-action deadline, existing branding/assets/examples/links, reviewers/approvals, sensitivities, and requester ideas
 
 Clarification currently preserves the latest requested-information message in `missing_information_json`. Full clarification history remains part of the future contextual conversations/activity slice.
+
+Existing branding, asset, example, and external/Drive link references currently use the flexible `request_answers` foundation and are visible in requester and triage detail screens. This is intake context, not the future `asset_links` table or an upload system.
 
 No Projects, Deliverables, Tasks, conversations, reviews, assets, or request-to-project conversion exists yet.
 
@@ -369,8 +372,8 @@ php artisan test
 Passed:
 
 ```text
-60 tests
-284 assertions
+62 tests
+299 assertions
 ```
 
 ```bash

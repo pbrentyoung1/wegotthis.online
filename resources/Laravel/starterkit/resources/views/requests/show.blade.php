@@ -68,6 +68,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @include("requests._brief-details")
                         </div>
 
                         <div class="space-y-base">
@@ -86,6 +88,10 @@
                                         <div>
                                             <dt class="text-default-400">Support needed by</dt>
                                             <dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "needed_by") ?: "Not provided" }}</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-default-400">Audience action deadline</dt>
+                                            <dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "action_deadline") ?: "Not provided" }}</dd>
                                         </div>
                                         <div>
                                             <dt class="text-default-400">Submitted</dt>

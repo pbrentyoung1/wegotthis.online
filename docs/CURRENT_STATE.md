@@ -35,6 +35,8 @@ Track the actual state of the project so planning, design, and development work 
 - Users with `requests.submit` can create, save, edit, view, and submit their own ministry requests through the Inspinia Blade UI.
 - Users with `requests.triage` can review an organization-scoped intake queue, start triage, request clarification, and accept, defer, or reject requests.
 - Requesters can update and resubmit requests marked Needs Clarification. The latest clarification request is preserved on the request until contextual conversations are implemented.
+- The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, existing branding/assets/examples/links, reviewers/approvals, sensitivities, constraints, and requester ideas.
+- Existing asset and branding references are stored as flexible request answers and shown in requester and triage views. Full Trello-style asset links and uploads remain part of the later asset-linking milestone.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
@@ -54,6 +56,7 @@ Track the actual state of the project so planning, design, and development work 
   - reusable permission-based request lifecycle authorization
   - Communications intake queue and triage detail/action screens
   - requester clarification update and resubmission flow
+  - expanded documented ministry brief fields using request answers, key dates, and request ideas
 
 ## ForWorship Theme and Branding Applied
 
