@@ -1,6 +1,6 @@
 # Restart Handoff
 
-Last updated: 2026-06-10 (session 2)
+Last updated: 2026-06-10 (consolidated handoff)
 
 ## Purpose
 
@@ -128,6 +128,24 @@ Clarification currently preserves the latest requested-information message in `m
 Existing branding, asset, example, and external/Drive link references currently use the flexible `request_answers` foundation and are visible in requester and triage detail screens. This is intake context, not the future `asset_links` table or an upload system.
 
 No Projects, Deliverables, Tasks, conversations, reviews, assets, or request-to-project conversion exists yet.
+
+## Approved Pending Triage Layout Refinement
+
+Do this first in the next context before conversion schema work:
+
+- Move the Request details card to the top of the triage sidebar.
+- Keep Activity below Request details.
+- Move Convert to to the bottom of the sidebar.
+- Replace the three visible conversion choices with one compact pull-down for Project, Campaign, or Initiative.
+- Make the major triage cards collapsible using existing Inspinia/Preline collapse patterns:
+  - Ministry brief
+  - Additional ministry brief details
+  - Clarification conversation
+  - Request details
+  - Activity
+  - Convert to
+- Preserve the conversation-centered main layout.
+- Do not implement conversion persistence during this layout refinement. Conversion schema remains the next broad slice.
 
 ## Current Reconciled Application Work
 
@@ -454,15 +472,18 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus Projects -> Deliverables -> Tasks.
-2. Add contextual conversations and activity history, including full clarification history.
-3. Add deliverable-centered reviews, approvals, and change requests.
-4. Add basic file/external-link attachments and simple dashboard/date visibility.
-5. Validate the complete loop locally and in staging.
+1. Complete the approved triage layout refinement.
+2. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus Projects -> Deliverables -> Tasks.
+3. Add contextual conversations and activity history, including full clarification history.
+4. Add deliverable-centered reviews, approvals, and change requests.
+5. Add basic file/external-link attachments and simple dashboard/date visibility.
+6. Validate the complete loop locally and in staging.
 
 ## Recommended Next Slice
 
-The next coherent slice is the **conversion foundation: Project, Campaign, Initiative, and Projects -> Deliverables -> Tasks**.
+The immediate next task is the approved triage layout refinement documented above.
+
+After that refinement, the next broad slice is the **conversion foundation: Project, Campaign, Initiative, and Projects -> Deliverables -> Tasks**.
 
 Requirements:
 
@@ -479,7 +500,7 @@ Requirements:
 - Do not recreate `UserProfile`.
 - Do not add Vue, Inertia, Livewire, Bootstrap, or another frontend framework.
 - Do not build a full CRM, HR profile system, vendor portal, or complex role builder.
-- Do not add Campaigns before Projects -> Deliverables -> Tasks.
+- Do not build full Campaign or Initiative planning modules before the Project -> Deliverable -> Task execution foundation.
 - Do not treat Inspinia demo screens/routes as finished product features.
 - Do not begin broad visual redesign work before the request-to-approved-deliverable loop exists.
 - Do not stage every untracked file with `git add .`.
@@ -507,4 +528,5 @@ Before implementing the next slice, read:
 - `docs/technical/AUTH_AND_PERMISSIONS.md`
 - `docs/product/ROLES_AND_PERMISSIONS_MODEL.md`
 - `docs/product/MVP_PHASES_AND_PRIORITIES.md`
+- `docs/product/COMMUNICATIONS_TRIAGE_WORKSPACE.md`
 - `docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`

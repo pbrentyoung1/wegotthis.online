@@ -35,6 +35,7 @@ Track the actual state of the project so planning, design, and development work 
 - Users with `requests.submit` can create, save, edit, view, and submit their own ministry requests through the Inspinia Blade UI.
 - Users with `requests.triage` can review an organization-scoped intake queue, ask for clarification, and make intake decisions.
 - The triage detail workspace is conversation-centered: Communications reviews the brief, asks questions in context, sees a current-state activity sidebar, and chooses a future conversion target.
+- The approved next UI refinement moves Request details to the top of the triage sidebar, keeps Activity beneath it, places a compact Convert to pull-down at the bottom, and makes major workspace cards collapsible.
 - Requesters can update and resubmit requests marked Needs Clarification. The latest clarification request is preserved on the request until contextual conversations are implemented.
 - The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, existing branding/assets/examples/links, reviewers/approvals, sensitivities, constraints, and requester ideas.
 - Existing asset and branding references are stored as flexible request answers and shown in requester and triage views. Full Trello-style asset links and uploads remain part of the later asset-linking milestone.
@@ -126,11 +127,12 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus the Projects -> Deliverables -> Tasks execution foundation.
-2. Add contextual conversations and activity history, including full clarification history.
-3. Add deliverable-centered reviews, approvals, and change requests.
-4. Add basic file/external-link attachment support and simple dashboard/date visibility.
-5. Validate the complete request-to-approved-deliverable loop locally and in staging.
+1. Complete the approved triage layout refinement without adding conversion persistence.
+2. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus the Projects -> Deliverables -> Tasks execution foundation.
+3. Add contextual conversations and activity history, including full clarification history.
+4. Add deliverable-centered reviews, approvals, and change requests.
+5. Add basic file/external-link attachment support and simple dashboard/date visibility.
+6. Validate the complete request-to-approved-deliverable loop locally and in staging.
 
 Do not import the historical Inertia/Vue implementation or its duplicate `UserProfile`, role, or permission structures. Recover useful behavior by adapting it to the canonical organization-scoped models and Inspinia Blade frontend.
 
@@ -142,4 +144,4 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - No Campaigns, Projects, Deliverables, Tasks, contextual conversations, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
 - No deployment pipeline exists yet.
 
-Last updated: 2026-06-10 (session 2)
+Last updated: 2026-06-10 (consolidated handoff)
