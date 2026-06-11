@@ -230,6 +230,8 @@ Potential Project-scoped roles:
 
 The Project Owner is accountable for the overall body of work, but does not automatically own every deliverable.
 
+Project Stakeholders participate in the Project's stakeholder-visible conversation. Their avatar and name should appear with the conversation participants. They do not receive access to internal Project, Deliverable, or Task execution conversations unless separately assigned an internal work role.
+
 ## Deliverable Roles
 
 Potential Deliverable-scoped roles:

@@ -171,6 +171,7 @@ Stakeholders may:
 - approve or request changes when assigned as reviewers or approvers
 - see sign-off status
 - see shared delivery dates or milestones when appropriate
+- participate in the Project's stakeholder-visible conversation
 
 Stakeholders do not automatically:
 
@@ -185,6 +186,7 @@ Stakeholders do not automatically:
 - see assignment debates
 - see internal vendor coordination unless shared
 - perform destructive actions
+- participate in internal Project, Deliverable, or Task execution conversations
 
 Stakeholders can be owners of child work only if explicitly assigned as the owner of that child work.
 
@@ -209,6 +211,8 @@ Visibility should be considered for:
 Owners and assignees generally need access to internal work needed to produce the deliverable.
 
 Stakeholders generally need access only to stakeholder-visible or public-facing assets, review conversations, sign-off requests, and shared deliverable details.
+
+For Projects, `Stakeholder Visible` is the shared stakeholder-facing surface. It may be described as the Project's "public" conversation in the UI or product discussion, but it is never internet-public. Project, Deliverable, and Task execution conversations use `Project Team` or `Internal` visibility and are limited to owners, assignees, contributors, and other explicitly authorized internal participants.
 
 ### Admin Delegation
 
@@ -850,6 +854,8 @@ Suggested fields:
 | created_at / updated_at | Standard timestamps. |
 
 Direct Message type is included for schema completeness. DM functionality is deferred from Phase 1 unless explicitly promoted.
+
+A Project should have separate stakeholder-visible and internal/team conversations. Converting a Request to a Project carries its requester-visible conversation forward as the Project stakeholder conversation. Adding a Project Stakeholder adds the profile to that conversation. Internal Project, Deliverable, and Task conversations derive participants from assigned internal work roles and must not automatically include stakeholders.
 
 ### conversation_participants
 

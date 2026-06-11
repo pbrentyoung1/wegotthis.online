@@ -203,17 +203,40 @@ Campaign discussion should remain lighter in MVP unless Campaign-level collabora
 
 ## Project Discussions
 
-Project Discussions are conversations attached to the Project as a whole.
+Projects have two intentionally separate conversation contexts:
+
+### Stakeholder Conversation
+
+The stakeholder conversation is the Project's shared or "public" communication surface. Public means visible to the Project's stakeholders and authorized Project team members; it does not mean internet-public.
 
 Use for:
 
 - Scope clarification.
-- Timeline decisions.
-- Budget/resource questions.
 - Stakeholder alignment.
+- Shared timeline expectations.
+- Questions and answers between stakeholders and the Project team.
+- Project-level updates intended for stakeholders.
+- Decisions that stakeholders need to understand.
+
+Adding a Project Stakeholder automatically adds that profile to the stakeholder conversation. The conversation header should show participant avatars and names so membership is clear.
+
+When a Request becomes a Project, its requester-visible conversation becomes the Project stakeholder conversation. Existing participants, messages, and replies remain part of that shared history.
+
+### Internal Project Conversation
+
+The internal Project conversation is the private execution surface for the Project Owner, Project Manager/Coordinator, assigned contributors, and other explicitly assigned internal participants.
+
+Use for:
+
+- Production planning.
+- Assignment and coordination questions.
+- Budget/resource questions.
 - Capacity conversations.
-- Project-level updates.
-- General discussion not tied to one deliverable.
+- Internal timeline decisions.
+- Risks, blockers, and internal concerns.
+- General execution discussion not appropriate for stakeholders.
+
+Project Stakeholders do not receive access to the internal Project conversation unless they are separately assigned an internal Project role.
 
 ## Deliverable Discussions
 
@@ -340,7 +363,7 @@ Recommended visibility scopes:
 | Campaign Team | Visible to people assigned to or participating in the Campaign. |
 | Project Team | Visible to people assigned to or participating in the Project. |
 | Internal Only | Visible only to Communications/internal team members. |
-| Stakeholder Visible | Visible to stakeholders/reviewers. |
+| Stakeholder Visible | Visible to Project stakeholders and authorized Project team members. This is the Project's shared or "public" conversation surface, not internet-public content. |
 | External Reviewer Visible | Visible through scoped review link. |
 | Requester Visible | Visible to requester/department leader. |
 
@@ -429,13 +452,14 @@ not:
 
 A Project should preserve:
 
-- Request conversations.
+- The requester-visible Request conversation, continued as the Project stakeholder conversation.
 - Triage notes.
 - Campaign-related context where relevant.
-- Project discussions.
+- Stakeholder-visible Project conversation.
+- Internal Project conversation.
 - Direct messages attached to the Project.
-- Deliverable discussions.
-- Task discussions that roll up from Deliverables.
+- Private Deliverable execution discussions.
+- Private Task execution discussions that roll up from Deliverables.
 - Review comments.
 - Change request history.
 - Activity feed.
@@ -447,8 +471,10 @@ This supports future reuse, accountability, onboarding, and context recovery.
 
 For MVP, include:
 
-- Project discussions.
-- Deliverable discussions.
+- Stakeholder-visible Project conversations.
+- Internal Project conversations.
+- Private Deliverable discussions.
+- Private Task discussions where execution needs them.
 - Basic direct messages.
 - Direct messages attachable to Projects or Deliverables.
 - Dashboard/inbox surfacing for unread or actionable messages.
@@ -461,8 +487,9 @@ For MVP, include:
 
 If scope is tight, prioritize:
 
-- Project discussion.
-- Deliverable discussion.
+- Stakeholder-visible Project conversation.
+- Internal Project discussion.
+- Private Deliverable discussion.
 - Review/change request comments.
 - Activity feed.
 - Dashboard notifications.

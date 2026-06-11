@@ -86,7 +86,10 @@ This base matrix reflects Phase 1 seeded permissions. Future scoped assignments 
 
 ## Communication Visibility
 
-- Internal users may need project comments and internal discussion.
+- Project Stakeholders participate in the Project's stakeholder-visible conversation and are automatically added as participants when assigned.
+- The requester-visible Request conversation continues as the stakeholder-visible Project conversation after conversion.
+- Project, Deliverable, and Task execution conversations are private to owners, assignees, contributors, and other explicitly authorized internal participants.
+- Stakeholder assignment alone must not grant access to internal execution conversations.
 - Reviewer and External Reviewer experiences may need access only to review-visible comments, review notes, and approval context.
 - Vendor-scoped external review may need limited access to vendor-relevant comments, file events, and deliverable context.
 - Activity logs are visible project history and should be filtered by role and scope.
@@ -98,7 +101,6 @@ This base matrix reflects Phase 1 seeded permissions. Future scoped assignments 
 - Are roles tenant-specific?
 - Will churches need custom roles later?
 - Should departments see budget and time usage?
-- Should project comments support internal-only and review-visible visibility?
 - Which activity entries should be visible to vendor-scoped external reviewers?
 
 ## Notes
