@@ -48,7 +48,7 @@ Track the actual state of the project so planning, design, and development work 
 - Selected request reviewers are synchronized into the shared requester-visible conversation, appear by avatar and name in its participant header, and can open and reply to the request conversation without receiving broader request permissions.
 - Additional ministry brief details render for structured reviewer-only answers, and requesters can update active requests after submission without resetting the request's workflow status.
 - Asking for clarification now records future Task intent assigned to the requester with a next-weekday target and shows that marker in the conversation. No Task record, My Tasks view, or Calendar task entry is created until Projects, Deliverables, and Tasks are implemented. Rush-specific deadlines remain pending until rush classification exists.
-- Accepted requests can now convert into Planning Projects. Conversion preserves and links the source Request, assigns the Communications converter as Project owner/coordinator, adds the requester as Stakeholder, carries request conversation participants into Project membership, and creates selected request ideas as Proposed Deliverables.
+- Active Submitted, In Triage, or Accepted requests can now convert into Planning Projects. Conversion records acceptance, preserves and links the source Request, assigns the Communications converter as Project owner/coordinator, adds the requester as Stakeholder, carries request conversation participants into Project membership, and creates selected request ideas as Proposed Deliverables.
 - The Projects list and Inspinia project-details-informed Project workspace are implemented. The requester-visible Request conversation continues on the Project workspace as the stakeholder-visible conversation.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
@@ -69,7 +69,7 @@ Track the actual state of the project so planning, design, and development work 
   - `project_members`
   - `deliverable_types`
   - `deliverables`
-  - accepted Request -> Project conversion with selected proposed Deliverables
+  - active Request -> Project conversion that records acceptance and creates selected proposed Deliverables
   - centralized request statuses
   - a request intake domain write service for organization scope and lifecycle transitions
   - an opt-in Grace Community Church VBS request scenario seeder

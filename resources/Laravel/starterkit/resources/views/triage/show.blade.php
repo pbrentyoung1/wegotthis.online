@@ -131,9 +131,18 @@
                                             Open project
                                             <i class="iconify tabler--arrow-right ms-1"></i>
                                         </a>
-                                    @elseif ($ministryRequest->status === \App\Enums\RequestStatus::Accepted)
+                                    @elseif (in_array($ministryRequest->status, [
+                                        \App\Enums\RequestStatus::Submitted,
+                                        \App\Enums\RequestStatus::InTriage,
+                                        \App\Enums\RequestStatus::Accepted,
+                                    ], true))
                                         <form action="{{ route("triage.convert", $ministryRequest) }}" method="POST">
                                             @csrf
+                                            @if ($ministryRequest->status !== \App\Enums\RequestStatus::Accepted)
+                                                <div class="bg-primary/10 text-primary mb-4 rounded p-3 text-sm">
+                                                    Converting this request records the acceptance decision and creates the Project.
+                                                </div>
+                                            @endif
                                             <label class="form-label" for="conversion-target">Conversion target</label>
                                             <select class="form-select mb-4" id="conversion-target" disabled>
                                                 <option selected>Project</option>
@@ -171,7 +180,7 @@
                                             <button class="btn w-full bg-primary text-white hover:bg-primary-hover" type="submit">Convert to project</button>
                                         </form>
                                     @else
-                                        <p class="text-default-400 mb-4 text-sm">Accept this request before converting it into operational work.</p>
+                                        <p class="text-default-400 mb-4 text-sm">Resolve the current request status before converting it into operational work.</p>
                                         <select class="form-select" disabled>
                                             <option selected>Select a conversion type</option>
                                             <option>Project</option>

@@ -25,10 +25,12 @@ class ProjectConversionService
             throw ValidationException::withMessages(['conversion' => 'You cannot create a project for this request.']);
         }
 
-        if ($request->status !== RequestStatus::Accepted || $request->converted_project_id !== null) {
-            throw ValidationException::withMessages(['conversion' => 'Only an accepted, unconverted request can become a project.']);
+        if (! in_array($request->status, [RequestStatus::Submitted, RequestStatus::InTriage, RequestStatus::Accepted], true)
+            || $request->converted_project_id !== null) {
+            throw ValidationException::withMessages(['conversion' => 'Only an active, unconverted request can become a project.']);
         }
 
+        $request = $this->acceptForConversion($request, $actor);
         $ideaIds = collect($attributes['idea_ids'] ?? [])->map(fn ($id) => (int) $id)->unique()->values();
         $ideas = RequestIdea::query()
             ->where('organization_id', $request->organization_id)
@@ -94,6 +96,24 @@ class ProjectConversionService
         $this->requestIntakeService->transition($request->refresh(), RequestStatus::Converted, $actor);
 
         return $project->refresh();
+    }
+
+    private function acceptForConversion(MinistryRequest $request, Profile $actor): MinistryRequest
+    {
+        if ($request->status === RequestStatus::Submitted) {
+            $request = $this->requestIntakeService->transition($request, RequestStatus::InTriage, $actor);
+        }
+
+        if ($request->status === RequestStatus::InTriage) {
+            $request = $this->requestIntakeService->transition(
+                $request,
+                RequestStatus::Accepted,
+                $actor,
+                'Accepted through project conversion.',
+            );
+        }
+
+        return $request;
     }
 
     private function createDeliverable(Project $project, MinistryRequest $request, RequestIdea $idea): Deliverable

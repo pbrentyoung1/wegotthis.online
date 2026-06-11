@@ -52,7 +52,7 @@ class ProjectConversionTest extends TestCase
         ]);
     }
 
-    public function test_only_accepted_unconverted_requests_can_be_converted(): void
+    public function test_active_unconverted_requests_can_be_converted(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
 
@@ -62,18 +62,31 @@ class ProjectConversionTest extends TestCase
         $this->actingAs($jordan->user)->post(route('triage.convert', $request), [
             'title' => $request->title,
             'project_type' => 'Standard',
-        ])->assertSessionHasErrors('conversion');
-
-        $request = $this->acceptedRequest($jordan);
-        $this->actingAs($jordan->user)->post(route('triage.convert', $request), [
-            'title' => $request->title,
-            'project_type' => 'Standard',
         ])->assertRedirect();
+
+        $this->assertSame(RequestStatus::Converted, $request->refresh()->status);
 
         $this->actingAs($jordan->user)->post(route('triage.convert', $request->refresh()), [
             'title' => $request->title,
             'project_type' => 'Standard',
         ])->assertSessionHasErrors('conversion');
+    }
+
+    public function test_request_with_unresolved_or_terminal_status_cannot_be_converted(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+
+        foreach ([RequestStatus::NeedsClarification, RequestStatus::Deferred, RequestStatus::Rejected, RequestStatus::Archived] as $status) {
+            $request = $this->scenarioRequest();
+            $request->update(['status' => $status]);
+
+            $this->actingAs($jordan->user)->post(route('triage.convert', $request), [
+                'title' => $request->title,
+                'project_type' => 'Standard',
+            ])->assertSessionHasErrors('conversion');
+        }
     }
 
     public function test_requester_can_view_converted_project_and_continuing_stakeholder_conversation(): void

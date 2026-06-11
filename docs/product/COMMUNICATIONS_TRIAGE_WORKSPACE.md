@@ -635,7 +635,7 @@ Default MVP recommendation:
 
 Lightweight Campaign and Initiative conversion targets are in MVP scope. Their full planning modules remain deferred; operational execution still flows through Projects -> Deliverables -> Tasks.
 
-The first conversion slice is implemented for Project conversion only. An accepted Request can create a Planning Project and selected Proposed Deliverables while preserving the source Request and stakeholder conversation. Campaign and Initiative remain visible as future conversion choices but are not actionable yet.
+The first conversion slice is implemented for Project conversion only. Converting an active Submitted, In Triage, or Accepted Request records the acceptance decision, creates a Planning Project and selected Proposed Deliverables, and preserves the source Request and stakeholder conversation. Campaign and Initiative remain visible as future conversion choices but are not actionable yet.
 
 ## Inspinia MVP UI Guidance
 

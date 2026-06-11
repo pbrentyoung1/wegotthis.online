@@ -87,7 +87,8 @@ class TriageRequestUiTest extends TestCase
             ->assertSee('Initiative')
             ->assertSeeInOrder(['Request details', 'Activity', 'Convert to'])
             ->assertSee('data-action="card-toggle"', false)
-            ->assertSee('Select a conversion type')
+            ->assertSee('Convert to project')
+            ->assertSee('Converting this request records the acceptance decision')
             ->assertDontSee('Start triage');
     }
 
