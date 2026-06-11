@@ -2,8 +2,13 @@
 
 @if ($briefAnswers->whereNotNull("answer_value")->isNotEmpty() || $briefAnswers->get("existing_assets")?->answer_json || $ministryRequest->ideas->isNotEmpty())
     <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Additional ministry brief details</h4>
+            <button aria-label="Collapse additional ministry brief details" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                <i class="iconify tabler--chevron-up text-base"></i>
+            </button>
+        </div>
         <div class="card-body">
-            <h4 class="card-title mb-5">Additional ministry brief details</h4>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                 @foreach ([
                     "success_looks_like" => "Success looks like",

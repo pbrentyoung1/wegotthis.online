@@ -15,7 +15,7 @@ Requests are the front door for ministry needs. They should help department lead
 - Requests should preserve original submitted details and clarification history.
 - Intake should begin with the ministry need, not deliverable selection.
 - Department leaders define the need. Communications defines the plan.
-- Requester deliverable ideas should be stored as suggestions, not production commitments.
+- Communication ideas and channel strategy belong in Communications planning, not the requester-facing intake form.
 - The Communications Manager or a future assigned Project Owner should shape the submitted request into a creative plan before approved deliverables are created.
 - Communications reviews the request, asks questions in context, and then chooses whether to convert it to a Project, Campaign, or Initiative.
 - `In Triage` remains a valid internal lifecycle status, but "Start triage" is not a required user-facing action.
@@ -41,14 +41,8 @@ The intake experience should ask:
 - When do people need to act?
 - What tone, feeling, or pastoral posture is needed?
 - What details, links, assets, or constraints already exist?
-- What ideas do you already have?
 
-The system should allow requesters to say:
-
-- I know what I need to promote, but I am not sure how.
-- I have an idea, but Communications can recommend the best approach.
-- I think we may need a video, social post, slide, email, print piece, or other output.
-- I am not sure, please recommend.
+The system should reassure requesters that Communications will recommend the appropriate approach, channels, and deliverables.
 
 The request form should use ministry/requester language, not internal production language.
 
@@ -88,17 +82,15 @@ The ministry brief should summarize:
 - Tone or desired feeling.
 - Known assets, links, or references.
 - Constraints, sensitivities, or risks.
-- Requester ideas or suggested channels.
+- Communications planning ideas added during triage.
 - Missing information.
 - Clarification history.
 
 The ministry brief should be human-readable, not just a raw form response dump.
 
-## Request Ideas vs Approved Deliverables
+## Planning Ideas vs Approved Deliverables
 
-Requester ideas belong to the request. Approved deliverables belong to the project.
-
-A requester may suggest that a project needs a video, social posts, sermon announcement, bulletin insert, newsletter blurb, signage, web page, or print piece. Those suggestions should be preserved, but they should not automatically become production deliverables.
+Planning ideas may be added during Communications triage. Approved deliverables belong to the project.
 
 The Communications Manager or a future assigned Project Owner should review the ministry need and decide the final communication plan.
 
@@ -256,7 +248,7 @@ Ministry Need
 - Deferred requests may be reconsidered later.
 - Rejected requests may be resubmitted or duplicated into a new request if policy allows.
 - Converted requests should not lose their original submitted details.
-- Requester ideas should remain visible as part of the request history even after Communications modifies the final plan.
+- Planning ideas should remain visible as part of the request history even after Communications modifies the final plan.
 
 ## Open Questions
 
@@ -271,7 +263,7 @@ Ministry Need
 - Request lifecycle is separate from project lifecycle.
 - Draft belongs to the request lifecycle, not the project lifecycle.
 - The project lifecycle begins after a request is accepted or converted into project work.
-- Deliverable selection during intake should be framed as ideas, not final production commitments.
+- Deliverable selection belongs to Communications triage and project planning, not requester intake.
 - See `docs/product/PROJECT_TASK_MODULE.md` for the canonical Project / Deliverable / Task module behavior.
 
 Last Updated: 2026-06-10

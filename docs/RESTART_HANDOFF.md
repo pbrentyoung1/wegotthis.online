@@ -129,23 +129,28 @@ Existing branding, asset, example, and external/Drive link references currently 
 
 No Projects, Deliverables, Tasks, conversations, reviews, assets, or request-to-project conversion exists yet.
 
-## Approved Pending Triage Layout Refinement
+## Approved Request UX Sequence
 
-Do this first in the next context before conversion schema work:
+Completed in the intake refinement:
 
-- Move the Request details card to the top of the triage sidebar.
-- Keep Activity below Request details.
-- Move Convert to to the bottom of the sidebar.
-- Replace the three visible conversion choices with one compact pull-down for Project, Campaign, or Initiative.
-- Make the major triage cards collapsible using existing Inspinia/Preline collapse patterns:
-  - Ministry brief
-  - Additional ministry brief details
-  - Clarification conversation
-  - Request details
-  - Activity
-  - Convert to
-- Preserve the conversation-centered main layout.
-- Do not implement conversion persistence during this layout refinement. Conversion schema remains the next broad slice.
+- Request details is at the top of the triage sidebar, Activity is below it, and a compact Convert to pull-down is at the bottom.
+- Major triage cards use the existing Inspinia card-toggle pattern.
+- Intake queue views cover Active, In conversation, Accepted, Deferred, Rejected, and Archived.
+- Last activity is visible in the queue.
+- Request status and activity colors use consistent lifecycle meaning.
+
+Next request UX work:
+
+- Add per-user read tracking before adding the Unread queue view.
+- Adapt Inspinia `/apps/projects/list` for the requester Requests list.
+- Adapt conversation threads from `/apps/projects/details` for requester and triage pages.
+- Support multi-participant conversation and in-context request updates.
+- Replace reviewer free text with a user picker.
+- Replace asset/link free text with structured, validated link rows.
+- Remove requester-facing communication-ideas input.
+- Replace vague constraint prompts with specific supportive questions.
+- Explore a guided wizard and Quill formatting for appropriate long-form fields without source-code editing.
+- Implement conversion persistence without losing the source request.
 
 ## Current Reconciled Application Work
 

@@ -46,6 +46,28 @@ class TriageRequestUiTest extends TestCase
         $this->actingAs($rachel->user)->get(route('triage.index'))->assertForbidden();
     }
 
+    public function test_triage_queue_filters_by_workflow_view_and_shows_last_activity(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+        $requester = $this->profile('Rachel Kim');
+        $accepted = MinistryRequest::query()->create([
+            'organization_id' => $jordan->organization_id,
+            'requester_profile_id' => $requester->id,
+            'title' => 'Accepted request',
+            'status' => RequestStatus::Accepted,
+            'submitted_at' => now()->subDay(),
+        ]);
+
+        $this->actingAs($jordan->user)
+            ->get(route('triage.index', ['queue' => 'accepted']))
+            ->assertOk()
+            ->assertSee($accepted->title)
+            ->assertSee('Last activity')
+            ->assertDontSee('VBS Promotion Support');
+    }
+
     public function test_triage_workspace_centers_conversation_activity_and_conversion_choices(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
@@ -61,6 +83,9 @@ class TriageRequestUiTest extends TestCase
             ->assertSee('Project')
             ->assertSee('Campaign')
             ->assertSee('Initiative')
+            ->assertSeeInOrder(['Request details', 'Activity', 'Convert to'])
+            ->assertSee('data-action="card-toggle"', false)
+            ->assertSee('Select a conversion type')
             ->assertDontSee('Start triage');
     }
 
@@ -173,6 +198,24 @@ class TriageRequestUiTest extends TestCase
 
         $this->actingAs($jordan->user)->get(route('triage.show', $draft))->assertForbidden();
         $this->actingAs($jordan->user)->get(route('triage.show', $this->otherOrganizationRequest()))->assertForbidden();
+    }
+
+    public function test_triage_manager_can_open_an_archived_request_from_the_archive_view(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+        $request = $this->scenarioRequest();
+        $request->update(['status' => RequestStatus::Archived]);
+
+        $this->actingAs($jordan->user)
+            ->get(route('triage.index', ['queue' => 'archived']))
+            ->assertOk()
+            ->assertSee($request->title);
+
+        $this->actingAs($jordan->user)
+            ->get(route('triage.show', $request))
+            ->assertOk();
     }
 
     private function scenarioRequest(): MinistryRequest

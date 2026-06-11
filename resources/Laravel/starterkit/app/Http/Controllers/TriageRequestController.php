@@ -20,21 +20,20 @@ class TriageRequestController extends Controller
     public function index(Request $request): View
     {
         $currentProfile = $this->currentProfile($request);
-        $status = RequestStatus::tryFrom($request->string('status')->toString());
+        $queue = $request->string('queue', 'active')->toString();
+        $queueStatuses = match ($queue) {
+            'conversation' => [RequestStatus::NeedsClarification],
+            'accepted' => [RequestStatus::Accepted],
+            'deferred' => [RequestStatus::Deferred],
+            'rejected' => [RequestStatus::Rejected],
+            'archived' => [RequestStatus::Archived],
+            default => [RequestStatus::Submitted, RequestStatus::InTriage],
+        };
         $search = trim($request->string('search')->toString());
 
         $requests = MinistryRequest::query()
             ->where('organization_id', $currentProfile->organization_id)
-            ->whereNotIn('status', [RequestStatus::Draft, RequestStatus::Archived])
-            ->when(
-                $status,
-                fn (Builder $query) => $query->where('status', $status),
-                fn (Builder $query) => $query->whereIn('status', [
-                    RequestStatus::Submitted,
-                    RequestStatus::NeedsClarification,
-                    RequestStatus::InTriage,
-                ]),
-            )
+            ->whereIn('status', $queueStatuses)
             ->when($search !== '', function (Builder $query) use ($search) {
                 $query->where(function (Builder $builder) use ($search) {
                     $builder
@@ -53,10 +52,16 @@ class TriageRequestController extends Controller
             'requests' => $requests,
             'filters' => [
                 'search' => $search,
-                'status' => $status?->value,
+                'queue' => $queue,
             ],
-            'statuses' => collect(RequestStatus::cases())
-                ->reject(fn (RequestStatus $status) => in_array($status, [RequestStatus::Draft, RequestStatus::Archived], true)),
+            'queueOptions' => [
+                'active' => 'Active',
+                'conversation' => 'In conversation',
+                'accepted' => 'Accepted',
+                'deferred' => 'Deferred',
+                'rejected' => 'Rejected',
+                'archived' => 'Archived',
+            ],
         ]);
     }
 
@@ -138,7 +143,7 @@ class TriageRequestController extends Controller
     {
         abort_unless(
             $request->organization_id === $profile->organization_id
-                && ! in_array($request->status, [RequestStatus::Draft, RequestStatus::Archived], true),
+                && $request->status !== RequestStatus::Draft,
             403,
         );
     }

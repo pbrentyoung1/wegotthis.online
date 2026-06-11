@@ -19,10 +19,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <select class="form-select" name="status">
-                                        <option value="">Active intake</option>
-                                        @foreach ($statuses as $status)
-                                            <option @selected($filters["status"] === $status->value) value="{{ $status->value }}">{{ $status->value }}</option>
+                                    <select class="form-select" name="queue">
+                                        @foreach ($queueOptions as $value => $label)
+                                            <option @selected($filters["queue"] === $value) value="{{ $value }}">{{ $label }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -48,6 +47,7 @@
                                         <th class="px-5 py-3 text-start font-medium">Requester</th>
                                         <th class="px-5 py-3 text-start font-medium">Status</th>
                                         <th class="px-5 py-3 text-start font-medium">Submitted</th>
+                                        <th class="px-5 py-3 text-start font-medium">Last activity</th>
                                         <th class="px-5 py-3"></th>
                                     </tr>
                                 </thead>
@@ -59,13 +59,17 @@
                                                 <p class="text-default-400 mt-1">{{ $ministryRequest->department?->name ?: "No department selected" }}</p>
                                             </td>
                                             <td class="px-5 py-4">{{ $ministryRequest->requesterProfile->display_name }}</td>
-                                            <td class="px-5 py-4"><span class="badge bg-primary/10 text-primary">{{ $ministryRequest->status->value }}</span></td>
+                                            <td class="px-5 py-4"><span class="badge {{ $ministryRequest->status->badgeClasses() }}">{{ $ministryRequest->status->value }}</span></td>
                                             <td class="px-5 py-4 text-default-500">{{ $ministryRequest->submitted_at?->format("M j, Y") ?: "Not recorded" }}</td>
+                                            <td class="px-5 py-4">
+                                                <p class="font-medium">{{ $ministryRequest->updated_at->diffForHumans() }}</p>
+                                                <p class="text-default-400 mt-1 text-xs" title="{{ $ministryRequest->updated_at->format("M j, Y g:i A") }}">{{ $ministryRequest->updated_at->format("M j, Y g:i A") }}</p>
+                                            </td>
                                             <td class="px-5 py-4 text-end"><a class="text-primary font-medium hover:underline" href="{{ route("triage.show", $ministryRequest) }}">Review</a></td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td class="px-5 py-12 text-center text-default-400" colspan="5">No requests match this queue view.</td>
+                                            <td class="px-5 py-12 text-center text-default-400" colspan="6">No requests match this queue view.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

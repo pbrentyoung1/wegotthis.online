@@ -11,7 +11,7 @@
                 <div class="container-fluid">
                     <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <a class="text-primary text-sm hover:underline" href="{{ route("triage.index") }}"><i class="iconify tabler--arrow-left me-1"></i>Back to intake queue</a>
-                        <span class="badge bg-primary/10 text-primary">{{ $ministryRequest->status->value }}</span>
+                        <span class="badge {{ $ministryRequest->status->badgeClasses() }}">{{ $ministryRequest->status->value }}</span>
                     </div>
 
                     @include("auth.partials.messages")
@@ -19,11 +19,16 @@
                     <div class="grid grid-cols-1 gap-base xl:grid-cols-3">
                         <div class="space-y-base xl:col-span-2">
                             <div class="card">
-                                <div class="card-body">
-                                    <div class="mb-6">
-                                        <h3 class="text-xl font-semibold">{{ $ministryRequest->title }}</h3>
-                                        <p class="text-default-400 mt-1">{{ $ministryRequest->department?->name ?: "No department selected" }} · requested by {{ $ministryRequest->requesterProfile->display_name }}</p>
+                                <div class="card-header">
+                                    <div>
+                                        <h4 class="card-title">{{ $ministryRequest->title }}</h4>
+                                        <p class="text-default-400 mt-1 text-sm">{{ $ministryRequest->department?->name ?: "No department selected" }} · requested by {{ $ministryRequest->requesterProfile->display_name }}</p>
                                     </div>
+                                    <button aria-label="Collapse ministry brief" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
                                     <div class="space-y-6">
                                         <div>
                                             <h5 class="mb-2 font-semibold">Ministry need</h5>
@@ -46,12 +51,16 @@
                             @include("requests._brief-details")
 
                             <div class="card">
-                                <div class="card-body">
-                                    <div class="mb-5">
-                                        <h4 class="card-title mb-1">Clarification conversation</h4>
-                                        <p class="text-default-400 text-sm">Ask the requester questions while you decide what this request should become.</p>
+                                <div class="card-header">
+                                    <div>
+                                        <h4 class="card-title">Clarification conversation</h4>
+                                        <p class="text-default-400 mt-1 text-sm">Ask the requester questions while you decide what this request should become.</p>
                                     </div>
-
+                                    <button aria-label="Collapse clarification conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
                                     <div class="space-y-5">
                                         <div class="flex items-start gap-3">
                                             <div class="bg-light text-default-600 flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">{{ str($ministryRequest->requesterProfile->display_name)->substr(0, 1) }}</div>
@@ -97,34 +106,34 @@
 
                         <div class="space-y-base">
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Request details</h4>
+                                    <button aria-label="Collapse request details" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Convert to</h4>
-                                    <p class="text-default-400 mb-4 text-sm">Choose the operational container this request should become.</p>
-                                    <div class="space-y-2">
-                                        @foreach ([
-                                            ["Project", "tabler--briefcase", "A focused body of communications work."],
-                                            ["Campaign", "tabler--speakerphone", "A coordinated group of related projects."],
-                                            ["Initiative", "tabler--target-arrow", "A broader strategic effort that may contain campaigns or projects."],
-                                        ] as [$label, $icon, $description])
-                                            <button class="flex w-full cursor-not-allowed items-start gap-3 rounded-lg border border-default-200 p-3 text-start opacity-60" disabled type="button">
-                                                <i class="iconify {{ $icon }} text-primary mt-0.5 size-5"></i>
-                                                <span>
-                                                    <span class="block font-semibold">{{ $label }}</span>
-                                                    <span class="text-default-400 text-xs">{{ $description }}</span>
-                                                </span>
-                                            </button>
-                                        @endforeach
-                                    </div>
-                                    <p class="text-default-400 mt-4 text-xs">Conversion creation is the next implementation slice. These options will create and link the selected container without losing this request.</p>
+                                    <dl class="space-y-4 text-sm">
+                                        <div><dt class="text-default-400">Requester</dt><dd class="font-medium">{{ $ministryRequest->requesterProfile->display_name }}</dd></div>
+                                        <div><dt class="text-default-400">Submitted</dt><dd class="font-medium">{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: "Not recorded" }}</dd></div>
+                                        <div><dt class="text-default-400">Communications contact</dt><dd class="font-medium">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Unassigned" }}</dd></div>
+                                        <div><dt class="text-default-400">Support needed by</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "needed_by") ?: "Not provided" }}</dd></div>
+                                        <div><dt class="text-default-400">Audience action deadline</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "action_deadline") ?: "Not provided" }}</dd></div>
+                                    </dl>
                                 </div>
                             </div>
 
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Activity</h4>
+                                    <button aria-label="Collapse activity" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Activity</h4>
                                     <ol class="space-y-5 border-s border-default-200 ps-5 text-sm">
                                         <li class="relative">
-                                            <span class="bg-success absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                            <span class="bg-default-300 absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
                                             <p class="font-medium">Request created</p>
                                             <p class="text-default-400">{{ $ministryRequest->created_at->format("M j, Y g:i A") }}</p>
                                         </li>
@@ -144,7 +153,7 @@
                                         @endif
                                         @if ($ministryRequest->decision_at)
                                             <li class="relative">
-                                                <span class="bg-success absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                                <span class="{{ $ministryRequest->status->dotClass() }} absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
                                                 <p class="font-medium">Request {{ str($ministryRequest->status->value)->lower() }}</p>
                                                 <p class="text-default-400">{{ $ministryRequest->decision_at->format("M j, Y g:i A") }}</p>
                                             </li>
@@ -160,15 +169,21 @@
                             </div>
 
                             <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Convert to</h4>
+                                    <button aria-label="Collapse conversion options" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                                        <i class="iconify tabler--chevron-up text-base"></i>
+                                    </button>
+                                </div>
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Request details</h4>
-                                    <dl class="space-y-4 text-sm">
-                                        <div><dt class="text-default-400">Requester</dt><dd class="font-medium">{{ $ministryRequest->requesterProfile->display_name }}</dd></div>
-                                        <div><dt class="text-default-400">Submitted</dt><dd class="font-medium">{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: "Not recorded" }}</dd></div>
-                                        <div><dt class="text-default-400">Communications contact</dt><dd class="font-medium">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Unassigned" }}</dd></div>
-                                        <div><dt class="text-default-400">Support needed by</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "needed_by") ?: "Not provided" }}</dd></div>
-                                        <div><dt class="text-default-400">Audience action deadline</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "action_deadline") ?: "Not provided" }}</dd></div>
-                                    </dl>
+                                    <p class="text-default-400 mb-4 text-sm">Choose the operational container this request should become.</p>
+                                    <select class="form-select" disabled>
+                                        <option selected>Select a conversion type</option>
+                                        <option>Project</option>
+                                        <option>Campaign</option>
+                                        <option>Initiative</option>
+                                    </select>
+                                    <p class="text-default-400 mt-4 text-xs">Conversion creation is the next implementation slice. It will create and link the selected container without losing this request.</p>
                                 </div>
                             </div>
                         </div>

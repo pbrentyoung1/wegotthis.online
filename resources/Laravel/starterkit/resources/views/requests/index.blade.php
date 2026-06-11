@@ -22,13 +22,6 @@
 
                     <div class="grid grid-cols-1 gap-base lg:grid-cols-2">
                         @forelse ($requests as $ministryRequest)
-                            @php($statusClass = match ($ministryRequest->status) {
-                                \App\Enums\RequestStatus::Draft => "bg-light text-default-600",
-                                \App\Enums\RequestStatus::Accepted, \App\Enums\RequestStatus::Converted => "bg-success/10 text-success",
-                                \App\Enums\RequestStatus::Rejected => "bg-danger/10 text-danger",
-                                \App\Enums\RequestStatus::Deferred, \App\Enums\RequestStatus::NeedsClarification => "bg-warning/10 text-warning",
-                                default => "bg-primary/10 text-primary",
-                            })
                             <a class="card block transition hover:-translate-y-0.5 hover:shadow-md" href="{{ route("requests.show", $ministryRequest) }}">
                                 <div class="card-body">
                                     <div class="mb-4 flex items-start justify-between gap-4">
@@ -36,7 +29,7 @@
                                             <h5 class="text-base font-semibold">{{ $ministryRequest->title }}</h5>
                                             <p class="text-default-400 mt-1 text-sm">{{ $ministryRequest->department?->name ?: "No department selected" }}</p>
                                         </div>
-                                        <span class="badge {{ $statusClass }}">{{ $ministryRequest->status->value }}</span>
+                                        <span class="badge {{ $ministryRequest->status->badgeClasses() }}">{{ $ministryRequest->status->value }}</span>
                                     </div>
                                     <p class="text-default-500 line-clamp-2 text-sm">{{ $ministryRequest->ministry_need ?: "This draft does not have a ministry need yet." }}</p>
                                     <p class="text-default-400 mt-4 text-xs">Updated {{ $ministryRequest->updated_at->diffForHumans() }}</p>

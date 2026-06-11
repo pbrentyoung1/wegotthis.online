@@ -40,6 +40,69 @@ Avoid custom UI unless an existing Inspinia pattern cannot support the behavior.
 
 The product should remain calm, simple, and structurally stable. Custom interface work should be deferred unless it directly improves clarity or removes friction.
 
+## Approved Intake Queue Pattern
+
+The intake queue should use the Inspinia `/apps/projects/list` page as its structural reference. A scalable list or table is preferred over a card grid because Communications may need to scan and manage many requests.
+
+Queue views should be:
+
+- Active.
+- Unread.
+- In conversation.
+- Accepted.
+- Deferred.
+- Rejected.
+- Archived.
+
+`Unread` requires per-user read tracking and must not be simulated from request status. Until that foundation exists, the UI should not claim that a request is unread.
+
+The queue should show Last activity so Communications can see both what changed recently and whether a request has gone quiet. Last activity should support future timeliness and follow-up reporting.
+
+Request status and activity colors should have stable meaning across the queue, detail workspace, badges, and activity events:
+
+- Primary: submitted or actively being triaged.
+- Warning: waiting for clarification or deferred.
+- Success: accepted or converted.
+- Danger: rejected.
+- Neutral: draft or archived.
+
+## Approved Triage Detail Pattern
+
+The triage detail workspace remains conversation-centered.
+
+- Request details belongs at the top of the sidebar.
+- Activity belongs below Request details.
+- Convert to belongs at the bottom of the sidebar.
+- Convert to uses one compact pull-down for Project, Campaign, or Initiative.
+- Major cards are collapsible using the existing Inspinia card-toggle pattern.
+- Conversation and activity remain distinct concepts.
+
+The Activity timeline should use the same lifecycle color meaning as status badges and related actions.
+
+## Approved Request Experience Direction
+
+The requester-facing Requests area should be redesigned in staged work after the intake-queue refinement:
+
+- Use the Inspinia `/apps/projects/list` structure for the Requests list rather than a card grid.
+- Use the conversation-thread pattern from `/apps/projects/details` on both requester and triage detail pages.
+- Allow request information to be updated when conversation identifies missing or changed details.
+- Replace the awkward Respond action with an in-context conversation composer.
+- Support more than two conversation participants.
+- Make major detail cards collapsible.
+- Use existing Inspinia calendar selectors and other demo-page controls consistently.
+- Consider a guided wizard for new requests so the experience walks alongside the requester rather than presenting a long interrogation form.
+- Replace cold labels such as Request title with warmer, outcome-oriented language.
+
+Long-form narrative fields may use Quill formatting, but users must not be given source-code or HTML editing controls.
+
+Reviewers and approvers should be selected from users through a pull-down or user-picker pattern rather than entered as unstructured text.
+
+Existing branding, assets, examples, and links should use structured link rows with validation and a clear way to verify or open each link. A single freeform text box is not sufficient.
+
+Remove requester-facing questions that ask for communication ideas or channel strategy. Communications should shape those during project or campaign planning.
+
+Replace vague prompts such as "Known constraints or important context" with specific, supportive questions that help the requester explain what Communications needs to know.
+
 ## Core Product Principle
 
 Department leaders define the need. Communications defines the plan. The system helps both sides understand each other.

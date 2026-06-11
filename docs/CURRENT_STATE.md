@@ -35,7 +35,10 @@ Track the actual state of the project so planning, design, and development work 
 - Users with `requests.submit` can create, save, edit, view, and submit their own ministry requests through the Inspinia Blade UI.
 - Users with `requests.triage` can review an organization-scoped intake queue, ask for clarification, and make intake decisions.
 - The triage detail workspace is conversation-centered: Communications reviews the brief, asks questions in context, sees a current-state activity sidebar, and chooses a future conversion target.
-- The approved next UI refinement moves Request details to the top of the triage sidebar, keeps Activity beneath it, places a compact Convert to pull-down at the bottom, and makes major workspace cards collapsible.
+- The triage workspace now places Request details at the top of the sidebar, keeps Activity beneath it, places a compact Convert to pull-down at the bottom, and makes major workspace cards collapsible.
+- The intake queue now uses workflow-oriented views for Active, In conversation, Accepted, Deferred, Rejected, and Archived requests, and shows Last activity. Unread remains pending because it requires per-user read tracking.
+- Request lifecycle colors now carry consistent meaning across request lists, queue badges, and triage activity.
+- The approved next request UX work uses Inspinia `/apps/projects/list` and `/apps/projects/details` as structural references, adds shared multi-participant conversation, replaces unstructured reviewer and link fields, and explores a guided wizard intake flow.
 - Requesters can update and resubmit requests marked Needs Clarification. The latest clarification request is preserved on the request until contextual conversations are implemented.
 - The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, existing branding/assets/examples/links, reviewers/approvals, sensitivities, constraints, and requester ideas.
 - Existing asset and branding references are stored as flexible request answers and shown in requester and triage views. Full Trello-style asset links and uploads remain part of the later asset-linking milestone.
