@@ -23,7 +23,7 @@
     <div class="card-header">
         <div>
             <h4 class="card-title">Conversation</h4>
-            <p class="text-default-400 mt-1 text-sm">Keep questions, answers, and decisions with this request.</p>
+            <p class="text-default-400 mt-1 text-sm">Reviewers and request participants can keep questions, answers, and decisions together here.</p>
         </div>
         <div class="flex items-center gap-3">
             <div class="flex" aria-label="{{ $participants->count() }} conversation participants">
@@ -40,6 +40,7 @@
                     <span class="bg-light text-default-500 -ms-2 flex size-8 items-center justify-center rounded-full border-2 border-white text-xs font-semibold">+{{ $participants->count() - 4 }}</span>
                 @endif
             </div>
+            <p class="text-default-400 hidden text-xs sm:block">{{ $participants->pluck("display_name")->implode(", ") }}</p>
             <button aria-label="Collapse conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
                 <i class="iconify tabler--chevron-up text-base"></i>
             </button>

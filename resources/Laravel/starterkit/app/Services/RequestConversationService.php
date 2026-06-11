@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Message;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -36,6 +37,8 @@ class RequestConversationService
                 ],
             );
 
+            $this->syncParticipants($request);
+
             $parentMessage = $parentMessageId === null
                 ? null
                 : $conversation->messages()->find($parentMessageId);
@@ -50,15 +53,13 @@ class RequestConversationService
                 $parentMessage = $conversation->messages()->findOrFail($parentMessage->parent_message_id);
             }
 
-            foreach (collect([$request->requesterProfile, $request->assignedManagerProfile, $author])->filter()->unique('id') as $profile) {
-                $conversation->participants()->firstOrCreate(
-                    ['profile_id' => $profile->id],
-                    [
-                        'organization_id' => $request->organization_id,
-                        'participant_role' => $profile->id === $request->requester_profile_id ? 'requester' : 'participant',
-                    ],
-                );
-            }
+            $conversation->participants()->firstOrCreate(
+                ['profile_id' => $author->id],
+                [
+                    'organization_id' => $request->organization_id,
+                    'participant_role' => 'participant',
+                ],
+            );
 
             $message = $conversation->messages()->create([
                 'organization_id' => $request->organization_id,
@@ -77,5 +78,69 @@ class RequestConversationService
 
             return $message;
         });
+    }
+
+    /**
+     * @param  Collection<int, Profile>|null  $reviewers
+     */
+    public function syncParticipants(MinistryRequest $request, ?Collection $reviewers = null): void
+    {
+        $reviewers ??= $this->reviewersFor($request);
+
+        $conversation = $request->conversation()->firstOrCreate(
+            [],
+            [
+                'organization_id' => $request->organization_id,
+                'conversation_type' => 'Request Discussion',
+                'title' => $request->title,
+                'visibility' => 'Requester Visible',
+                'status' => 'Open',
+                'created_by_profile_id' => $request->requester_profile_id,
+            ],
+        );
+
+        $participants = collect([$request->requesterProfile, $request->assignedManagerProfile])
+            ->merge($reviewers)
+            ->filter()
+            ->unique('id');
+
+        foreach ($participants as $profile) {
+            $role = match (true) {
+                $profile->id === $request->requester_profile_id => 'requester',
+                $profile->id === $request->assigned_manager_profile_id => 'manager',
+                default => 'reviewer',
+            };
+
+            $conversation->participants()->updateOrCreate(
+                ['profile_id' => $profile->id],
+                [
+                    'organization_id' => $request->organization_id,
+                    'participant_role' => $role,
+                ],
+            );
+        }
+
+        $conversation->participants()
+            ->where('participant_role', 'reviewer')
+            ->whereNotIn('profile_id', $reviewers->pluck('id'))
+            ->delete();
+    }
+
+    /**
+     * @return Collection<int, Profile>
+     */
+    private function reviewersFor(MinistryRequest $request): Collection
+    {
+        $reviewerIds = collect($request->answers()
+            ->where('question_key', 'reviewers_approvals')
+            ->value('answer_json') ?? [])
+            ->pluck('profile_id')
+            ->filter();
+
+        return Profile::query()
+            ->where('organization_id', $request->organization_id)
+            ->where('status', 'Active')
+            ->whereIn('id', $reviewerIds)
+            ->get();
     }
 }

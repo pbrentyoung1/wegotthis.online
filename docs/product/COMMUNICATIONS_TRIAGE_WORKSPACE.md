@@ -105,6 +105,8 @@ Replace vague prompts such as "Known constraints or important context" with spec
 
 These intake corrections are implemented for MVP: reviewers use active organization profiles, asset references use validated label/URL rows, requester communication ideas are no longer collected, and constraints are framed as supportive planning considerations.
 
+Selecting a reviewer or approver also adds that profile to the request's shared conversation. Conversation participants are shown by avatar and name at the top of the conversation. Removing a selected reviewer removes their conversation access unless they remain involved through another request role.
+
 The request conversation is one shared multi-participant conversation rendered on requester and triage pages. It preserves requester-visible messages and clarification requests in context. The same conversation component and persistence pattern should be extended to Projects and Deliverables when those work objects are implemented.
 
 Request conversation messages use the Inspinia project-details comment pattern. People can reply to a specific root question or comment, and replies render beneath that message rather than turning the page into an undifferentiated chat room. MVP keeps replies one level deep.

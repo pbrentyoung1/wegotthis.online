@@ -166,6 +166,85 @@ class RequestIntakeUiTest extends TestCase
             ->assertSee('Brand guide');
     }
 
+    public function test_selected_reviewer_is_added_to_the_shared_conversation_and_can_reply(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $reviewer = $this->profile('Marcus Bell');
+
+        $this->assertFalse($reviewer->hasPermission('requests.submit'));
+        $this->assertFalse($reviewer->hasPermission('requests.triage'));
+
+        $this->actingAs($rachel->user)->post(route('requests.store'), [
+            'title' => 'Stakeholder conversation request',
+            'ministry_need' => 'Prepare a stakeholder-facing update.',
+            'reviewer_profile_ids' => [$reviewer->id],
+            'intent' => 'submit',
+        ]);
+
+        $request = MinistryRequest::query()->where('title', 'Stakeholder conversation request')->firstOrFail();
+        $participant = $request->conversation->participants()->where('profile_id', $reviewer->id)->firstOrFail();
+
+        $this->assertSame('reviewer', $participant->participant_role);
+
+        $this->actingAs($reviewer->user)
+            ->get(route('requests.show', $request))
+            ->assertOk()
+            ->assertSee('Marcus Bell')
+            ->assertSee('Rachel Kim');
+
+        $this->actingAs($reviewer->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'I can answer stakeholder questions here.',
+                'intent' => 'message',
+            ])
+            ->assertRedirect(route('requests.show', $request));
+
+        $this->assertDatabaseHas('messages', [
+            'conversation_id' => $request->conversation->id,
+            'author_profile_id' => $reviewer->id,
+            'body' => 'I can answer stakeholder questions here.',
+        ]);
+    }
+
+    public function test_removing_reviewer_removes_conversation_access(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $reviewer = $this->profile('Marcus Bell');
+        $request = MinistryRequest::query()->where('title', 'VBS Promotion Support')->firstOrFail();
+        $request->update(['status' => RequestStatus::NeedsClarification]);
+
+        $this->actingAs($rachel->user)->put(route('requests.update', $request), [
+            'title' => $request->title,
+            'ministry_need' => $request->ministry_need,
+            'reviewer_profile_ids' => [$reviewer->id],
+            'intent' => 'draft',
+        ]);
+
+        $this->assertDatabaseHas('conversation_participants', [
+            'conversation_id' => $request->conversation->id,
+            'profile_id' => $reviewer->id,
+            'participant_role' => 'reviewer',
+        ]);
+
+        $this->actingAs($rachel->user)->put(route('requests.update', $request), [
+            'title' => $request->title,
+            'ministry_need' => $request->ministry_need,
+            'reviewer_profile_ids' => [],
+            'intent' => 'draft',
+        ]);
+
+        $this->assertDatabaseMissing('conversation_participants', [
+            'conversation_id' => $request->conversation->id,
+            'profile_id' => $reviewer->id,
+        ]);
+
+        $this->actingAs($reviewer->user)->get(route('requests.show', $request))->assertForbidden();
+    }
+
     public function test_request_form_rejects_invalid_asset_links_and_inactive_reviewers(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);

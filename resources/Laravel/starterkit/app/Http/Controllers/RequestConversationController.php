@@ -23,11 +23,14 @@ class RequestConversationController extends Controller
         $profile = $this->currentProfile($request);
         $isRequester = $ministryRequest->requester_profile_id === $profile->id && $profile->hasPermission('requests.submit');
         $canTriage = $profile->hasPermission('requests.triage');
+        $isParticipant = $ministryRequest->conversation()
+            ->whereHas('participants', fn ($query) => $query->where('profile_id', $profile->id))
+            ->exists();
 
         abort_unless(
             $ministryRequest->organization_id === $profile->organization_id
                 && ! in_array($ministryRequest->status, [RequestStatus::Draft, RequestStatus::Archived], true)
-                && ($isRequester || $canTriage),
+                && ($isRequester || $canTriage || $isParticipant),
             403,
         );
 
