@@ -9,8 +9,9 @@
             <main>
                 @include("shared.partials.page-title", ["subtitle" => "Intake Queue", "title" => $ministryRequest->title])
                 <div class="container-fluid">
-                    <div class="mb-5">
+                    <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <a class="text-primary text-sm hover:underline" href="{{ route("triage.index") }}"><i class="iconify tabler--arrow-left me-1"></i>Back to intake queue</a>
+                        <span class="badge bg-primary/10 text-primary">{{ $ministryRequest->status->value }}</span>
                     </div>
 
                     @include("auth.partials.messages")
@@ -19,12 +20,9 @@
                         <div class="space-y-base xl:col-span-2">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
-                                        <div>
-                                            <h3 class="text-xl font-semibold">{{ $ministryRequest->title }}</h3>
-                                            <p class="text-default-400 mt-1">{{ $ministryRequest->department?->name ?: "No department selected" }}</p>
-                                        </div>
-                                        <span class="badge bg-primary/10 text-primary">{{ $ministryRequest->status->value }}</span>
+                                    <div class="mb-6">
+                                        <h3 class="text-xl font-semibold">{{ $ministryRequest->title }}</h3>
+                                        <p class="text-default-400 mt-1">{{ $ministryRequest->department?->name ?: "No department selected" }} · requested by {{ $ministryRequest->requesterProfile->display_name }}</p>
                                     </div>
                                     <div class="space-y-6">
                                         <div>
@@ -47,90 +45,132 @@
 
                             @include("requests._brief-details")
 
-                            @if ($ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
-                                <div class="rounded-lg bg-warning/10 p-4 text-sm text-warning">
-                                    <p class="font-semibold">Clarification requested</p>
-                                    <p class="mt-1 whitespace-pre-line">{{ data_get($ministryRequest->missing_information_json, "message") }}</p>
-                                </div>
-                            @endif
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="mb-5">
+                                        <h4 class="card-title mb-1">Clarification conversation</h4>
+                                        <p class="text-default-400 text-sm">Ask the requester questions while you decide what this request should become.</p>
+                                    </div>
 
-                            @if ($ministryRequest->triage_summary)
-                                <div class="rounded-lg bg-info/10 p-4 text-sm text-info">
-                                    <p class="font-semibold">Triage summary</p>
-                                    <p class="mt-1 whitespace-pre-line">{{ $ministryRequest->triage_summary }}</p>
-                                </div>
-                            @endif
+                                    <div class="space-y-5">
+                                        <div class="flex items-start gap-3">
+                                            <div class="bg-light text-default-600 flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">{{ str($ministryRequest->requesterProfile->display_name)->substr(0, 1) }}</div>
+                                            <div class="max-w-2xl rounded-lg bg-light p-4">
+                                                <div class="mb-1 flex items-center gap-2 text-xs text-default-400">
+                                                    <span class="font-semibold text-default-600">{{ $ministryRequest->requesterProfile->display_name }}</span>
+                                                    <span>{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: $ministryRequest->created_at->format("M j, Y g:i A") }}</span>
+                                                </div>
+                                                <p class="text-default-600 whitespace-pre-line">{{ $ministryRequest->ministry_need }}</p>
+                                            </div>
+                                        </div>
 
-                            @if ($ministryRequest->decision_notes)
-                                <div class="rounded-lg bg-light p-4 text-sm text-default-600">
-                                    <p class="font-semibold">Decision notes</p>
-                                    <p class="mt-1 whitespace-pre-line">{{ $ministryRequest->decision_notes }}</p>
+                                        @if (data_get($ministryRequest->missing_information_json, "message"))
+                                            <div class="flex items-start justify-end gap-3">
+                                                <div class="max-w-2xl rounded-lg bg-primary/10 p-4">
+                                                    <div class="mb-1 flex items-center justify-end gap-2 text-xs text-default-400">
+                                                        <span>{{ \Illuminate\Support\Carbon::parse(data_get($ministryRequest->missing_information_json, "requested_at"))->format("M j, Y g:i A") }}</span>
+                                                        <span class="font-semibold text-primary">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Communications" }}</span>
+                                                    </div>
+                                                    <p class="text-default-600 whitespace-pre-line">{{ data_get($ministryRequest->missing_information_json, "message") }}</p>
+                                                </div>
+                                                <div class="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">C</div>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Submitted, \App\Enums\RequestStatus::InTriage], true))
+                                        <form action="{{ route("triage.transition", $ministryRequest) }}" class="mt-6 border-t border-default-200 pt-5" method="POST">
+                                            @csrf
+                                            <input name="status" type="hidden" value="{{ \App\Enums\RequestStatus::NeedsClarification->value }}" />
+                                            <label class="form-label" for="notes">Ask a question</label>
+                                            <textarea class="form-textarea mb-3" id="notes" name="notes" placeholder="A few details will help us shape the best communication plan..." required rows="4"></textarea>
+                                            <div class="text-end">
+                                                <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">Send question</button>
+                                            </div>
+                                        </form>
+                                    @elseif ($ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
+                                        <div class="mt-6 rounded-lg bg-warning/10 p-4 text-sm text-warning">Waiting for the requester to update and resubmit this request.</div>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
                         </div>
 
                         <div class="space-y-base">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title mb-4">Requester</h4>
-                                    <p class="font-semibold">{{ $ministryRequest->requesterProfile->display_name }}</p>
-                                    <p class="text-default-400 text-sm">{{ $ministryRequest->requesterProfile->user?->email }}</p>
-                                    <dl class="mt-5 space-y-4 text-sm">
+                                    <h4 class="card-title mb-4">Convert to</h4>
+                                    <p class="text-default-400 mb-4 text-sm">Choose the operational container this request should become.</p>
+                                    <div class="space-y-2">
+                                        @foreach ([
+                                            ["Project", "tabler--briefcase", "A focused body of communications work."],
+                                            ["Campaign", "tabler--speakerphone", "A coordinated group of related projects."],
+                                            ["Initiative", "tabler--target-arrow", "A broader strategic effort that may contain campaigns or projects."],
+                                        ] as [$label, $icon, $description])
+                                            <button class="flex w-full cursor-not-allowed items-start gap-3 rounded-lg border border-default-200 p-3 text-start opacity-60" disabled type="button">
+                                                <i class="iconify {{ $icon }} text-primary mt-0.5 size-5"></i>
+                                                <span>
+                                                    <span class="block font-semibold">{{ $label }}</span>
+                                                    <span class="text-default-400 text-xs">{{ $description }}</span>
+                                                </span>
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                    <p class="text-default-400 mt-4 text-xs">Conversion creation is the next implementation slice. These options will create and link the selected container without losing this request.</p>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-4">Activity</h4>
+                                    <ol class="space-y-5 border-s border-default-200 ps-5 text-sm">
+                                        <li class="relative">
+                                            <span class="bg-success absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                            <p class="font-medium">Request created</p>
+                                            <p class="text-default-400">{{ $ministryRequest->created_at->format("M j, Y g:i A") }}</p>
+                                        </li>
+                                        @if ($ministryRequest->submitted_at)
+                                            <li class="relative">
+                                                <span class="bg-primary absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                                <p class="font-medium">Request submitted</p>
+                                                <p class="text-default-400">{{ $ministryRequest->submitted_at->format("M j, Y g:i A") }}</p>
+                                            </li>
+                                        @endif
+                                        @if (data_get($ministryRequest->missing_information_json, "requested_at"))
+                                            <li class="relative">
+                                                <span class="bg-warning absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                                <p class="font-medium">Clarification requested</p>
+                                                <p class="text-default-400">{{ \Illuminate\Support\Carbon::parse(data_get($ministryRequest->missing_information_json, "requested_at"))->format("M j, Y g:i A") }}</p>
+                                            </li>
+                                        @endif
+                                        @if ($ministryRequest->decision_at)
+                                            <li class="relative">
+                                                <span class="bg-success absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                                <p class="font-medium">Request {{ str($ministryRequest->status->value)->lower() }}</p>
+                                                <p class="text-default-400">{{ $ministryRequest->decision_at->format("M j, Y g:i A") }}</p>
+                                            </li>
+                                        @endif
+                                        <li class="relative">
+                                            <span class="bg-default-300 absolute -start-[1.45rem] top-1 size-2 rounded-full"></span>
+                                            <p class="font-medium">Last updated</p>
+                                            <p class="text-default-400">{{ $ministryRequest->updated_at->format("M j, Y g:i A") }}</p>
+                                        </li>
+                                    </ol>
+                                    <p class="text-default-400 mt-5 text-xs">This is a current-state activity summary. Full event history will be added with the activity-events foundation.</p>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-4">Request details</h4>
+                                    <dl class="space-y-4 text-sm">
+                                        <div><dt class="text-default-400">Requester</dt><dd class="font-medium">{{ $ministryRequest->requesterProfile->display_name }}</dd></div>
                                         <div><dt class="text-default-400">Submitted</dt><dd class="font-medium">{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: "Not recorded" }}</dd></div>
-                                        <div><dt class="text-default-400">Assigned manager</dt><dd class="font-medium">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Unassigned" }}</dd></div>
+                                        <div><dt class="text-default-400">Communications contact</dt><dd class="font-medium">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Unassigned" }}</dd></div>
                                         <div><dt class="text-default-400">Support needed by</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "needed_by") ?: "Not provided" }}</dd></div>
                                         <div><dt class="text-default-400">Audience action deadline</dt><dd class="font-medium">{{ data_get($ministryRequest->key_dates_json, "action_deadline") ?: "Not provided" }}</dd></div>
                                     </dl>
                                 </div>
                             </div>
-
-                            @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Submitted, \App\Enums\RequestStatus::NeedsClarification, \App\Enums\RequestStatus::Deferred], true))
-                                <form action="{{ route("triage.transition", $ministryRequest) }}" class="card" method="POST">
-                                    @csrf
-                                    <input name="status" type="hidden" value="{{ \App\Enums\RequestStatus::InTriage->value }}" />
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-2">Start triage</h4>
-                                        <p class="text-default-400 mb-4 text-sm">Assign this request to yourself and record the current assessment.</p>
-                                        <textarea class="form-textarea mb-4" name="triage_summary" placeholder="Triage summary" rows="3">{{ old("triage_summary", $ministryRequest->triage_summary) }}</textarea>
-                                        <button class="btn bg-primary w-full text-white hover:bg-primary-hover" type="submit">Move to In Triage</button>
-                                    </div>
-                                </form>
-                            @endif
-
-                            @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Submitted, \App\Enums\RequestStatus::InTriage], true))
-                                <form action="{{ route("triage.transition", $ministryRequest) }}" class="card" method="POST">
-                                    @csrf
-                                    <input name="status" type="hidden" value="{{ \App\Enums\RequestStatus::NeedsClarification->value }}" />
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-2">Ask for clarification</h4>
-                                        <textarea class="form-textarea mb-4" name="notes" placeholder="What information does the requester need to provide?" required rows="4"></textarea>
-                                        <button class="btn bg-warning w-full text-white" type="submit">Request information</button>
-                                    </div>
-                                </form>
-                            @endif
-
-                            @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Submitted, \App\Enums\RequestStatus::InTriage, \App\Enums\RequestStatus::NeedsClarification, \App\Enums\RequestStatus::Deferred, \App\Enums\RequestStatus::Accepted], true))
-                                <form action="{{ route("triage.transition", $ministryRequest) }}" class="card" method="POST">
-                                    @csrf
-                                    <div class="card-body">
-                                        <h4 class="card-title mb-2">Record decision</h4>
-                                        <select class="form-select mb-4" name="status" required>
-                                            <option value="">Choose decision</option>
-                                            @if ($ministryRequest->status === \App\Enums\RequestStatus::InTriage)
-                                                <option value="{{ \App\Enums\RequestStatus::Accepted->value }}">Accept</option>
-                                            @endif
-                                            @if ($ministryRequest->status !== \App\Enums\RequestStatus::Deferred)
-                                                <option value="{{ \App\Enums\RequestStatus::Deferred->value }}">Defer</option>
-                                            @endif
-                                            @if ($ministryRequest->status !== \App\Enums\RequestStatus::Accepted)
-                                                <option value="{{ \App\Enums\RequestStatus::Rejected->value }}">Reject</option>
-                                            @endif
-                                        </select>
-                                        <textarea class="form-textarea mb-4" name="notes" placeholder="Explain the decision to the requester" rows="4"></textarea>
-                                        <button class="btn bg-success w-full text-white hover:bg-success-hover" type="submit">Save decision</button>
-                                    </div>
-                                </form>
-                            @endif
                         </div>
                     </div>
                 </div>

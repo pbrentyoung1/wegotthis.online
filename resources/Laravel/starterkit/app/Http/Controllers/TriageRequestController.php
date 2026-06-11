@@ -101,6 +101,7 @@ class TriageRequestController extends Controller
                     'requested_at' => now()->toIso8601String(),
                     'requested_by_profile_id' => $currentProfile->id,
                 ];
+                $updates['assigned_manager_profile_id'] = $currentProfile->id;
             }
 
             if ($status === RequestStatus::InTriage) {

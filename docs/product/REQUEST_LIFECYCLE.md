@@ -17,6 +17,8 @@ Requests are the front door for ministry needs. They should help department lead
 - Department leaders define the need. Communications defines the plan.
 - Requester deliverable ideas should be stored as suggestions, not production commitments.
 - The Communications Manager or a future assigned Project Owner should shape the submitted request into a creative plan before approved deliverables are created.
+- Communications reviews the request, asks questions in context, and then chooses whether to convert it to a Project, Campaign, or Initiative.
+- `In Triage` remains a valid internal lifecycle status, but "Start triage" is not a required user-facing action.
 - The canonical Project / Deliverable / Task module behavior is documented in `docs/product/PROJECT_TASK_MODULE.md`.
 
 ## Need-First Intake Principle
@@ -145,6 +147,7 @@ Triage actions may include:
 
 The Communications Manager decides during triage whether the request becomes:
 
+- a new Initiative
 - a new Campaign
 - a Project inside an existing Campaign
 - a standalone Project
@@ -221,6 +224,7 @@ Ministry Need
 
 - Description: Communications is reviewing the ministry brief and shaping the communication plan.
 - Notes: This is where requester ideas become accepted, modified, declined, or later deliverable recommendations.
+- Notes: The application may use this status internally, but Communications should not have to click a separate "Start triage" action before asking questions or converting the request.
 
 ## Accepted
 
@@ -237,10 +241,10 @@ Ministry Need
 - Description: The request will not move forward in its current form.
 - Notes: Rejection should preserve the reason and decision history.
 
-## Converted to Project
+## Converted
 
-- Description: The accepted request has become a project.
-- Notes: The original request should remain linked to the project.
+- Description: The accepted request has become a Project, Campaign, or Initiative.
+- Notes: The original request should remain linked to the selected conversion target.
 
 ## Archived
 

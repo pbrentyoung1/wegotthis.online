@@ -11,7 +11,9 @@ Capture product direction and scope decisions.
 - Projects should function as the primary container object.
 - Projects are the central container object.
 - Working decision: use Projects -> Deliverables -> Tasks as the MVP operational spine.
-- Campaigns are an optional future parent and remain deferred until explicitly promoted.
+- Requests may convert to a Project, Campaign, or Initiative.
+- Project remains the primary operational container and Projects -> Deliverables -> Tasks remains the MVP execution spine.
+- Lightweight Campaign and Initiative containers are promoted as request-conversion targets; full Campaign and Initiative planning modules remain deferred.
 - Projects are the primary operational container.
 - Deliverables are production and approval units.
 - Tasks can attach to projects or deliverables.

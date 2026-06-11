@@ -11,7 +11,8 @@ Define what belongs in the first useful release and what should wait.
 - PostgreSQL and multi-tenancy awareness should be present from the beginning.
 - Working decision: use a single PostgreSQL database with `organization_id` on organization-owned MVP records.
 - Working decision: requests are their own object before becoming projects.
-- Working decision: use Projects -> Deliverables -> Tasks as the MVP operational spine. Campaigns are an optional future parent and remain deferred until explicitly promoted.
+- Working decision: use Projects -> Deliverables -> Tasks as the MVP operational spine.
+- Working decision: accepted requests may convert to a Project, Campaign, or Initiative. Campaigns and Initiatives begin as lightweight parent/context containers; their full planning modules remain deferred.
 - Working decision: deliverables are the primary approval units.
 - Working decision: External Reviewer approvals use secure, time-bound magic links in MVP.
 - Working decision: use transactional email plus in-app notifications.

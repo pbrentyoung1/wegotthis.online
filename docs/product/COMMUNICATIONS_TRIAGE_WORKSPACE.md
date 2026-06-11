@@ -176,12 +176,10 @@ Display:
 
 Primary actions:
 
-- Start triage.
-- Ask for clarification.
-- Accept.
-- Defer.
-- Decline.
-- Convert to project.
+- Ask a question in the request conversation.
+- Convert to Project.
+- Convert to Campaign.
+- Convert to Initiative.
 
 Only show actions allowed by the current user role and request status.
 
@@ -520,9 +518,9 @@ Not:
 
 > Required information missing.
 
-## Convert to Project Workflow
+## Convert Workflow
 
-When Communications converts a request to a project, show a project setup preview.
+When Communications converts a request, first choose Project, Campaign, or Initiative, then show the appropriate setup preview.
 
 Preview should include:
 
@@ -546,18 +544,21 @@ Actions:
 Conversion should:
 
 - Preserve the original request.
-- Create the project.
+- Create the selected Project, Campaign, or Initiative.
+- Create a Project as part of conversion when the selected Campaign or Initiative needs immediate operational work.
 - Create approved deliverables.
 - Optionally create suggested tasks.
 - Optionally create suggested review assignments.
 - Link all created objects back to the request.
-- Set request status to Converted to Project.
+- Set request status to Converted and link it to the selected conversion target.
 - Set project status to Intake, Discovery, Approved, or Planned depending on triage decision.
 
 Default MVP recommendation:
 
 - If scope is still being clarified: project status = Discovery.
 - If scope and ownership are clear but work has not begun: project status = Approved or Planned.
+
+Lightweight Campaign and Initiative conversion targets are in MVP scope. Their full planning modules remain deferred; operational execution still flows through Projects -> Deliverables -> Tasks.
 
 ## Inspinia MVP UI Guidance
 
@@ -616,7 +617,7 @@ Recommended MVP permissions:
 | Action | Roles |
 |---|---|
 | View submitted requests | Organization Admin, Communications Lead, limited Project Owner if assigned |
-| Start triage | Organization Admin, Communications Lead, Project Owner if delegated |
+| Review request and ask questions | Organization Admin, Communications Lead, Project Owner if delegated |
 | Edit ministry brief summary | Communications Lead, Project Owner if delegated |
 | Add/modify creative plan | Communications Lead, Project Owner if delegated |
 | Accept/decline requester ideas | Communications Lead, Project Owner if delegated |

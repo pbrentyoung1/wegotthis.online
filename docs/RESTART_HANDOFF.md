@@ -29,7 +29,7 @@ cd "/Volumes/Big Grey/websites/wegotthis.online"
 - Do not add Vue, Inertia, Livewire, Bootstrap, or another frontend framework without an explicit architecture decision.
 - Canonical tenancy model: organization-owned records use `organization_id`.
 - Canonical operational spine: Requests -> Projects -> Deliverables -> Tasks.
-- Campaigns remain deferred/optional strategic context.
+- Requests may convert to lightweight Project, Campaign, or Initiative containers. Full Campaign and Initiative planning modules remain deferred.
 
 ## Git State
 
@@ -121,6 +121,7 @@ Implemented behavior:
 - requester clarification update and resubmission
 - requester-visible terminal decision notes
 - expanded ministry brief fields for success criteria, key message, audience-action deadline, existing branding/assets/examples/links, reviewers/approvals, sensitivities, and requester ideas
+- conversation-centered triage detail layout with a current-state activity sidebar and Project/Campaign/Initiative conversion choices
 
 Clarification currently preserves the latest requested-information message in `missing_information_json`. Full clarification history remains part of the future contextual conversations/activity slice.
 
@@ -372,8 +373,8 @@ php artisan test
 Passed:
 
 ```text
-62 tests
-299 assertions
+63 tests
+307 assertions
 ```
 
 ```bash
@@ -453,7 +454,7 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Approve and implement Projects -> Deliverables -> Tasks and request-to-project conversion.
+1. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus Projects -> Deliverables -> Tasks.
 2. Add contextual conversations and activity history, including full clarification history.
 3. Add deliverable-centered reviews, approvals, and change requests.
 4. Add basic file/external-link attachments and simple dashboard/date visibility.
@@ -461,15 +462,15 @@ Active sequence:
 
 ## Recommended Next Slice
 
-The next coherent slice is the **Projects -> Deliverables -> Tasks foundation and request-to-project conversion**.
+The next coherent slice is the **conversion foundation: Project, Campaign, Initiative, and Projects -> Deliverables -> Tasks**.
 
 Requirements:
 
 - approve a focused implementation plan before adding the next schema
 - use the canonical organization-scoped models and permissions
-- create Projects only from accepted requests
-- preserve the original request and link it to the created Project
-- keep Campaigns deferred
+- create Project, Campaign, or Initiative only through an authorized request conversion workflow
+- preserve the original request and link it to the created conversion target
+- keep full Campaign and Initiative planning modules deferred while supporting lightweight conversion targets
 - establish the minimum Project -> Deliverable -> Task path needed for the MVP loop
 
 ## Do Not Do Next

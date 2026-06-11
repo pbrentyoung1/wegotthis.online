@@ -46,6 +46,24 @@ class TriageRequestUiTest extends TestCase
         $this->actingAs($rachel->user)->get(route('triage.index'))->assertForbidden();
     }
 
+    public function test_triage_workspace_centers_conversation_activity_and_conversion_choices(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+
+        $this->actingAs($jordan->user)
+            ->get(route('triage.show', $this->scenarioRequest()))
+            ->assertOk()
+            ->assertSee('Clarification conversation')
+            ->assertSee('Activity')
+            ->assertSee('Convert to')
+            ->assertSee('Project')
+            ->assertSee('Campaign')
+            ->assertSee('Initiative')
+            ->assertDontSee('Start triage');
+    }
+
     public function test_triage_manager_can_start_triage_and_assign_the_request(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
