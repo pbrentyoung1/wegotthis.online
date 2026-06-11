@@ -48,6 +48,8 @@ Track the actual state of the project so planning, design, and development work 
 - Selected request reviewers are synchronized into the shared requester-visible conversation, appear by avatar and name in its participant header, and can open and reply to the request conversation without receiving broader request permissions.
 - Additional ministry brief details render for structured reviewer-only answers, and requesters can update active requests after submission without resetting the request's workflow status.
 - Asking for clarification now records future Task intent assigned to the requester with a next-weekday target and shows that marker in the conversation. No Task record, My Tasks view, or Calendar task entry is created until Projects, Deliverables, and Tasks are implemented. Rush-specific deadlines remain pending until rush classification exists.
+- Accepted requests can now convert into Planning Projects. Conversion preserves and links the source Request, assigns the Communications converter as Project owner/coordinator, adds the requester as Stakeholder, carries request conversation participants into Project membership, and creates selected request ideas as Proposed Deliverables.
+- The Projects list and Inspinia project-details-informed Project workspace are implemented. The requester-visible Request conversation continues on the Project workspace as the stakeholder-visible conversation.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
@@ -63,6 +65,11 @@ Track the actual state of the project so planning, design, and development work 
   - `messages`
   - request intake models and Phase 1 relationships
   - future Task intent markers for clarification follow-up
+  - `projects`
+  - `project_members`
+  - `deliverable_types`
+  - `deliverables`
+  - accepted Request -> Project conversion with selected proposed Deliverables
   - centralized request statuses
   - a request intake domain write service for organization scope and lifecycle transitions
   - an opt-in Grace Community Church VBS request scenario seeder
@@ -140,11 +147,11 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus the Projects -> Deliverables -> Tasks execution foundation.
-2. Expand contextual conversations with unread state and add persisted activity history.
-3. Add deliverable-centered reviews, approvals, and change requests.
-4. Add basic file/external-link attachment support and simple dashboard/date visibility.
-5. Validate the complete request-to-approved-deliverable loop locally and in staging.
+1. Add Project and Deliverable editing/lifecycle management, then implement Tasks under Deliverables.
+2. Implement lightweight Campaign and Initiative conversion targets without building full planning modules.
+3. Expand contextual conversations with unread state and add persisted activity history.
+4. Add deliverable-centered reviews, approvals, and change requests.
+5. Add basic file/external-link attachment support and validate the complete request-to-approved-deliverable loop.
 
 Do not import the historical Inertia/Vue implementation or its duplicate `UserProfile`, role, or permission structures. Recover useful behavior by adapting it to the canonical organization-scoped models and Inspinia Blade frontend.
 
@@ -153,7 +160,7 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - The full Laravel test suite passes.
 - The starterkit Vite production build passes.
-- No Campaigns, Projects, Deliverables, Tasks, persisted activity events, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
+- No Campaigns, Initiatives, Tasks, persisted activity events, assets, reviews, calendar workflow, skills, capacity model, or Project/Deliverable editing lifecycle has been implemented yet.
 - No deployment pipeline exists yet.
 
 Last updated: 2026-06-10 (consolidated handoff)

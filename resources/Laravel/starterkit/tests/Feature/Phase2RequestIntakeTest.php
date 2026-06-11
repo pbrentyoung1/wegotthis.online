@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\RequestStatus;
+use App\Models\Deliverable;
 use App\Models\Department;
 use App\Models\MinistryRequest;
 use App\Models\Organization;
@@ -53,7 +54,7 @@ class Phase2RequestIntakeTest extends TestCase
         $this->assertSame('Families understand VBS and complete registration.', $answer->answer_value);
 
         $this->assertSame(['Suggested'], $request->ideas()->pluck('triage_decision')->unique()->values()->all());
-        $this->assertFalse(Schema::hasTable('deliverables'));
+        $this->assertSame(0, Deliverable::query()->count());
     }
 
     public function test_request_service_rejects_cross_organization_request_relationships(): void
@@ -243,13 +244,13 @@ class Phase2RequestIntakeTest extends TestCase
         $this->assertSame(5, Department::query()->where('organization_id', $this->graceOrganization()->id)->count());
     }
 
-    public function test_only_approved_phase_2_request_intake_tables_exist(): void
+    public function test_only_approved_request_and_conversion_foundation_tables_exist(): void
     {
-        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages'] as $table) {
+        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages', 'projects', 'project_members', 'deliverable_types', 'deliverables'] as $table) {
             $this->assertTrue(Schema::hasTable($table));
         }
 
-        foreach (['campaigns', 'projects', 'deliverables', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests'] as $table) {
+        foreach (['campaigns', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests'] as $table) {
             $this->assertFalse(Schema::hasTable($table), "Unexpected later-scope table exists: {$table}");
         }
     }

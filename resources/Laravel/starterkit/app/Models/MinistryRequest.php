@@ -40,6 +40,7 @@ class MinistryRequest extends Model
         'decision_at',
         'decision_by_profile_id',
         'decision_notes',
+        'converted_project_id',
         'archived_at',
     ];
 
@@ -93,5 +94,10 @@ class MinistryRequest extends Model
     public function conversation(): MorphOne
     {
         return $this->morphOne(Conversation::class, 'subject');
+    }
+
+    public function convertedProject(): BelongsTo
+    {
+        return $this->belongsTo(Project::class, 'converted_project_id');
     }
 }

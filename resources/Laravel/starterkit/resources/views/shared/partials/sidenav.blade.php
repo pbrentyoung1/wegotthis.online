@@ -118,7 +118,7 @@
                         <span>Main</span>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ url("/") }}">
+                        <a class="menu-link {{ request()->routeIs("projects.*") ? "active" : "" }}" href="{{ route("projects.index") }}">
                             <span class="menu-icon"><i class="iconify tabler--dashboard"></i></span>
                             <span class="menu-text" data-lang="dashboard-projects">Projects</span>
                         </a>

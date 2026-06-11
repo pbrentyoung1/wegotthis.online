@@ -635,6 +635,8 @@ Default MVP recommendation:
 
 Lightweight Campaign and Initiative conversion targets are in MVP scope. Their full planning modules remain deferred; operational execution still flows through Projects -> Deliverables -> Tasks.
 
+The first conversion slice is implemented for Project conversion only. An accepted Request can create a Planning Project and selected Proposed Deliverables while preserving the source Request and stakeholder conversation. Campaign and Initiative remain visible as future conversion choices but are not actionable yet.
+
 ## Inspinia MVP UI Guidance
 
 MVP implementation should rely on Inspinia-created assets and structural patterns.

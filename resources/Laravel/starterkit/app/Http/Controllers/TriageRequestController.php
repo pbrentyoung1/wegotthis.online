@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RequestStatus;
+use App\Http\Requests\ConvertRequestToProjectRequest;
 use App\Http\Requests\TriageTransitionRequest;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
 use App\Services\ClarificationFollowUpService;
+use App\Services\ProjectConversionService;
 use App\Services\RequestConversationService;
 use App\Services\RequestIntakeService;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +23,7 @@ class TriageRequestController extends Controller
         private readonly RequestIntakeService $requestIntakeService,
         private readonly RequestConversationService $conversationService,
         private readonly ClarificationFollowUpService $clarificationFollowUpService,
+        private readonly ProjectConversionService $projectConversionService,
     ) {}
 
     public function index(Request $request): View
@@ -142,6 +145,20 @@ class TriageRequestController extends Controller
         });
 
         return to_route('triage.show', $ministryRequest)->with('status', "Request moved to {$status->value}.");
+    }
+
+    public function convert(ConvertRequestToProjectRequest $request, MinistryRequest $ministryRequest): RedirectResponse
+    {
+        $currentProfile = $this->currentProfile($request);
+        $this->authorizeTriageRequest($ministryRequest, $currentProfile);
+
+        $project = DB::transaction(fn () => $this->projectConversionService->convert(
+            $ministryRequest,
+            $currentProfile,
+            $request->validated(),
+        ));
+
+        return to_route('projects.show', $project)->with('status', 'Request converted to a project.');
     }
 
     private function currentProfile(Request $request): Profile

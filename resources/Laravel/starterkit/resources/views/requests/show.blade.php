@@ -126,6 +126,16 @@
                                 </div>
                             @endif
 
+                            @if ($ministryRequest->convertedProject)
+                                <div class="rounded-lg bg-success/10 p-4 text-sm text-success">
+                                    <p class="font-semibold">This request is now a project.</p>
+                                    <a class="mt-2 inline-flex items-center gap-1 font-medium underline" href="{{ route("projects.show", $ministryRequest->convertedProject) }}">
+                                        Open {{ $ministryRequest->convertedProject->title }}
+                                        <i class="iconify tabler--arrow-right"></i>
+                                    </a>
+                                </div>
+                            @endif
+
                             <div class="rounded-lg bg-info/10 p-4 text-sm text-info">
                                 @if ($ministryRequest->status === \App\Enums\RequestStatus::Draft)
                                     Your request is private until you submit it. Add the ministry need before submitting.

@@ -680,6 +680,8 @@ Suggested fields:
 
 Primary operational container.
 
+The initial implemented subset supports Request conversion, Project list/detail visibility, ownership, membership, source Request linkage, brief context, and dates. Additional lifecycle/editing fields remain part of later Project management slices.
+
 Suggested fields:
 
 | Field | Notes |
@@ -754,6 +756,8 @@ Suggested fields:
 ### deliverables
 
 Specific outputs produced inside a Project.
+
+The initial implemented subset creates Proposed Deliverables from selected request ideas and preserves bidirectional source links. Deliverable editing, lifecycle actions, members, reviews, files, and Tasks remain later slices.
 
 Suggested fields:
 

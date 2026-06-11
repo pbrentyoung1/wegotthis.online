@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/pages/auth-two-factor.js',
                 'resources/js/pages/dashboard-projects.js',
                 'resources/js/pages/form-choice.js',
+                'resources/js/pages/form-quilljs.js',
                 'resources/js/vendor.js'
             ],
             refresh: true,

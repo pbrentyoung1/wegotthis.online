@@ -114,7 +114,7 @@ class Phase1ScenarioTest extends TestCase
         $this->assertFalse($this->profile('Avery Brooks')->roleAssignments()->whereNull('ended_at')->exists());
     }
 
-    public function test_scenario_supports_future_vbs_identity_anchors_without_later_scope_tables(): void
+    public function test_scenario_supports_vbs_identity_anchors_without_unapproved_later_scope_tables(): void
     {
         $this->seed(Phase1ScenarioSeeder::class);
 
@@ -125,7 +125,7 @@ class Phase1ScenarioTest extends TestCase
         $this->assertSame('Vendor Contact', $this->profile('Chris Morgan')->person_type);
         $this->assertSame('External Reviewer', $this->profile('Avery Brooks')->person_type);
 
-        foreach (['campaigns', 'projects', 'deliverables', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests', 'calendar_items', 'dashboard_widgets', 'skills', 'profile_skills'] as $table) {
+        foreach (['campaigns', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests', 'calendar_items', 'dashboard_widgets', 'skills', 'profile_skills'] as $table) {
             $this->assertFalse(Schema::hasTable($table), "Unexpected later-scope table exists: {$table}");
         }
     }

@@ -125,14 +125,60 @@
                                     </button>
                                 </div>
                                 <div class="card-body">
-                                    <p class="text-default-400 mb-4 text-sm">Choose the operational container this request should become.</p>
-                                    <select class="form-select" disabled>
-                                        <option selected>Select a conversion type</option>
-                                        <option>Project</option>
-                                        <option>Campaign</option>
-                                        <option>Initiative</option>
-                                    </select>
-                                    <p class="text-default-400 mt-4 text-xs">Conversion creation is the next implementation slice. It will create and link the selected container without losing this request.</p>
+                                    @if ($ministryRequest->convertedProject)
+                                        <p class="text-default-400 mb-4 text-sm">This request has been converted and preserved as the source brief.</p>
+                                        <a class="btn bg-success text-white hover:bg-success-hover" href="{{ route("projects.show", $ministryRequest->convertedProject) }}">
+                                            Open project
+                                            <i class="iconify tabler--arrow-right ms-1"></i>
+                                        </a>
+                                    @elseif ($ministryRequest->status === \App\Enums\RequestStatus::Accepted)
+                                        <form action="{{ route("triage.convert", $ministryRequest) }}" method="POST">
+                                            @csrf
+                                            <label class="form-label" for="conversion-target">Conversion target</label>
+                                            <select class="form-select mb-4" id="conversion-target" disabled>
+                                                <option selected>Project</option>
+                                                <option>Campaign · coming later</option>
+                                                <option>Initiative · coming later</option>
+                                            </select>
+
+                                            <label class="form-label" for="conversion-title">Project title</label>
+                                            <input class="form-input mb-4" id="conversion-title" name="title" required type="text" value="{{ old("title", $ministryRequest->title) }}" />
+
+                                            <label class="form-label" for="conversion-project-type">Project type</label>
+                                            <select class="form-select mb-4" id="conversion-project-type" name="project_type">
+                                                @foreach (["Standard", "Administrative", "Event", "Other"] as $projectType)
+                                                    <option @selected(old("project_type", "Standard") === $projectType)>{{ $projectType }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            <p class="mb-2 text-sm font-semibold">Proposed deliverables</p>
+                                            <div class="mb-4 space-y-2">
+                                                @forelse ($ministryRequest->ideas as $idea)
+                                                    <label class="bg-light flex cursor-pointer items-center gap-2 rounded p-3 text-sm">
+                                                        <input class="form-checkbox" checked name="idea_ids[]" type="checkbox" value="{{ $idea->id }}" />
+                                                        <span>{{ $idea->title }} <span class="text-default-400">· {{ $idea->idea_type }}</span></span>
+                                                    </label>
+                                                @empty
+                                                    <p class="text-default-400 text-sm">No proposed deliverables were added during intake.</p>
+                                                @endforelse
+                                            </div>
+
+                                            <div class="bg-light mb-4 rounded p-3 text-xs">
+                                                <p><span class="font-semibold">Owner:</span> {{ $currentProfile->display_name }}</p>
+                                                <p class="mt-1"><span class="font-semibold">Stakeholder:</span> {{ $ministryRequest->requesterProfile->display_name }}</p>
+                                            </div>
+
+                                            <button class="btn w-full bg-primary text-white hover:bg-primary-hover" type="submit">Convert to project</button>
+                                        </form>
+                                    @else
+                                        <p class="text-default-400 mb-4 text-sm">Accept this request before converting it into operational work.</p>
+                                        <select class="form-select" disabled>
+                                            <option selected>Select a conversion type</option>
+                                            <option>Project</option>
+                                            <option>Campaign</option>
+                                            <option>Initiative</option>
+                                        </select>
+                                    @endif
                                 </div>
                             </div>
                         </div>

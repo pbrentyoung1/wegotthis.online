@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MinistryRequestController;
 use App\Http\Controllers\PeopleDirectoryController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RequestConversationController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\TaggedRequestController;
@@ -14,6 +15,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/requests/tagged', [TaggedRequestController::class, 'index'])->name('requests.tagged');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
     Route::resource('requests', MinistryRequestController::class)
         ->parameters(['requests' => 'ministryRequest'])
         ->except(['destroy']);
@@ -22,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/triage/requests', [TriageRequestController::class, 'index'])->name('triage.index');
     Route::get('/triage/requests/{ministryRequest}', [TriageRequestController::class, 'show'])->name('triage.show');
     Route::post('/triage/requests/{ministryRequest}/transition', [TriageRequestController::class, 'transition'])->name('triage.transition');
+    Route::post('/triage/requests/{ministryRequest}/convert', [TriageRequestController::class, 'convert'])->name('triage.convert');
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
     Route::redirect('/settings', '/settings/profile');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');

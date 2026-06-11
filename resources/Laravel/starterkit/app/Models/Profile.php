@@ -93,4 +93,14 @@ class Profile extends Model
     {
         return $this->hasMany(RequestIdea::class, 'suggested_by_profile_id');
     }
+
+    public function ownedProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'owner_profile_id');
+    }
+
+    public function projectMemberships(): HasMany
+    {
+        return $this->hasMany(ProjectMember::class);
+    }
 }

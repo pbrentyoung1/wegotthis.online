@@ -19,6 +19,7 @@ class RequestIdea extends Model
         'source',
         'triage_decision',
         'decision_notes',
+        'converted_deliverable_id',
     ];
 
     public function organization(): BelongsTo
@@ -34,5 +35,10 @@ class RequestIdea extends Model
     public function suggestedByProfile(): BelongsTo
     {
         return $this->belongsTo(Profile::class, 'suggested_by_profile_id');
+    }
+
+    public function convertedDeliverable(): BelongsTo
+    {
+        return $this->belongsTo(Deliverable::class, 'converted_deliverable_id');
     }
 }

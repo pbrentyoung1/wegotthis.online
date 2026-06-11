@@ -43,7 +43,7 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 
 ## Notes
 
-This repository is completing the Phase 1 identity foundation and has begun Phase 2 request/intake implementation. Authentication, self-service profile editing, an organization-scoped People directory, and the Phase 2 request domain foundation exist under `resources/Laravel/starterkit`.
+This repository has completed the Phase 1 identity foundation, implemented the Phase 2 request/intake workflow, and begun the Project/Deliverable conversion foundation. Authentication, profile editing, People, request intake/triage, stakeholder conversations, Tagged Requests, accepted Request-to-Project conversion, and proposed Deliverables exist under `resources/Laravel/starterkit`.
 
 Current operational handoff:
 

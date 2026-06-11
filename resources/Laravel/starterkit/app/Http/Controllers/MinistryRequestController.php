@@ -85,6 +85,7 @@ class MinistryRequestController extends Controller
                 'assignedManagerProfile',
                 'answers',
                 'ideas',
+                'convertedProject',
                 'conversation.participants.profile',
                 'conversation.messages.authorProfile',
             ]),
