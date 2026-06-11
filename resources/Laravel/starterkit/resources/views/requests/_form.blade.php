@@ -2,8 +2,10 @@
 @php($requestDates = $editing ? ($ministryRequest->key_dates_json ?? []) : [])
 @php($requestAnswers = $editing ? $ministryRequest->answers->keyBy("question_key") : collect())
 @php($existingAssetsAnswer = $requestAnswers->get("existing_assets"))
-@php($existingAssetsDefault = $existingAssetsAnswer?->answer_value ?: collect($existingAssetsAnswer?->answer_json ?? [])->filter(fn ($value) => is_string($value))->implode("\n"))
-@php($requesterIdeasDefault = $editing ? $ministryRequest->ideas->where("source", "Requester")->pluck("title")->implode("\n") : "")
+@php($legacyAssetLinks = collect(preg_split("/\R/", (string) $existingAssetsAnswer?->answer_value))->map(function ($line) { preg_match("/https?:\/\/\S+/", $line, $matches); return ["label" => trim(str_replace($matches[0] ?? "", "", $line), " :-"), "url" => $matches[0] ?? ""]; })->filter(fn ($link) => filled($link["url"])))
+@php($assetLinks = collect(old("asset_links", collect($existingAssetsAnswer?->answer_json ?? [])->filter(fn ($link) => is_array($link))->merge($legacyAssetLinks)->values()->all()))->filter(fn ($link) => is_array($link)))
+@php($assetLinks = $assetLinks->isNotEmpty() ? $assetLinks : collect([["label" => "", "url" => ""]]))
+@php($reviewerProfileIds = collect(old("reviewer_profile_ids", collect($requestAnswers->get("reviewers_approvals")?->answer_json ?? [])->pluck("profile_id")->all()))->map(fn ($id) => (string) $id))
 
 @include("auth.partials.messages")
 
@@ -93,14 +95,35 @@
     </div>
 
     <div class="lg:col-span-2">
-        <label class="form-label" for="existing_assets_links">What existing branding, assets, examples, or links should Communications use?</label>
-        <textarea class="form-textarea" id="existing_assets_links" name="existing_assets_links" placeholder="Add Google Drive folders, brand guides, logos, registration pages, previous examples, Canva or Figma links, and related references. Use one item per line." rows="5">{{ old("existing_assets_links", $existingAssetsDefault) }}</textarea>
-        <p class="text-default-400 mt-1 text-xs">External and Google Drive links are supported now. File uploads will be added with the asset-linking milestone.</p>
+        <div class="mb-2 flex items-center justify-between gap-3">
+            <label class="form-label mb-0">What existing branding, assets, examples, or links should Communications use?</label>
+            <button class="btn bg-light text-default-700 hover:bg-default-200" data-add-asset-link type="button">
+                <i class="iconify tabler--plus me-1"></i>Add link
+            </button>
+        </div>
+        <div class="space-y-3" data-asset-links>
+            @foreach ($assetLinks as $index => $assetLink)
+                <div class="grid grid-cols-1 gap-3 rounded border border-default-200 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]" data-asset-link-row>
+                    <input class="form-input" name="asset_links[{{ $index }}][label]" placeholder="Label, such as Brand guide" type="text" value="{{ $assetLink["label"] ?? "" }}" />
+                    <input class="form-input" name="asset_links[{{ $index }}][url]" placeholder="https://..." type="url" value="{{ $assetLink["url"] ?? "" }}" />
+                    <button aria-label="Remove link" class="btn bg-light text-default-500 hover:text-danger" data-remove-asset-link type="button"><i class="iconify tabler--trash"></i></button>
+                </div>
+            @endforeach
+        </div>
+        <p class="text-default-400 mt-2 text-xs">Add a verified web, Google Drive, Canva, or Figma URL. File uploads will come with the asset-linking milestone.</p>
     </div>
 
-    <div>
-        <label class="form-label" for="reviewers_approvals">Who needs to review or approve this?</label>
-        <textarea class="form-textarea" id="reviewers_approvals" name="reviewers_approvals" rows="4">{{ old("reviewers_approvals", $requestAnswers->get("reviewers_approvals")?->answer_value) }}</textarea>
+    <div class="lg:col-span-2">
+        <label class="form-label" for="reviewer_profile_ids">Who should be included when this work is ready for review?</label>
+        <select class="form-input" data-choices data-choices-removeitem data-placeholder="Select reviewers" id="reviewer_profile_ids" multiple name="reviewer_profile_ids[]">
+            @foreach ($reviewerProfiles as $reviewerProfile)
+                <option @selected($reviewerProfileIds->contains((string) $reviewerProfile->id)) value="{{ $reviewerProfile->id }}">{{ $reviewerProfile->display_name }}{{ $reviewerProfile->title ? " · ".$reviewerProfile->title : "" }}{{ $reviewerProfile->department?->name ? " · ".$reviewerProfile->department->name : "" }}</option>
+            @endforeach
+        </select>
+        <p class="text-default-400 mt-1 text-xs">Choose one or more people from your organization. Communications can refine the approval path during planning.</p>
+        @if ($requestAnswers->get("reviewers_approvals")?->answer_value)
+            <p class="mt-2 rounded bg-warning/10 p-3 text-xs text-warning">Previously entered reviewer note: {{ $requestAnswers->get("reviewers_approvals")->answer_value }}. Select specific people above when they are known.</p>
+        @endif
     </div>
 
     <div>
@@ -109,16 +132,49 @@
     </div>
 
     <div class="lg:col-span-2">
-        <label class="form-label" for="requester_ideas">What communication ideas do you already have?</label>
-        <textarea class="form-textarea" id="requester_ideas" name="requester_ideas" placeholder="Social posts&#10;Parent email&#10;Service announcement slide" rows="5">{{ old("requester_ideas", $requesterIdeasDefault) }}</textarea>
-        <p class="text-default-400 mt-1 text-xs">Use one idea per line. These are suggestions; Communications will shape the final plan.</p>
-    </div>
-
-    <div class="lg:col-span-2">
-        <label class="form-label" for="known_constraints">Known constraints or important context</label>
+        <label class="form-label" for="known_constraints">Is there anything Communications should plan around?</label>
         <textarea class="form-textarea" id="known_constraints" name="known_constraints" rows="4">{{ old("known_constraints", $ministryRequest->known_constraints ?? "") }}</textarea>
+        <p class="text-default-400 mt-1 text-xs">For example: dates that cannot move, information still being confirmed, budget limits, accessibility needs, or people who should be consulted.</p>
     </div>
 </div>
+
+<template id="asset-link-row-template">
+    <div class="grid grid-cols-1 gap-3 rounded border border-default-200 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]" data-asset-link-row>
+        <input class="form-input" data-asset-label placeholder="Label, such as Brand guide" type="text" />
+        <input class="form-input" data-asset-url placeholder="https://..." type="url" />
+        <button aria-label="Remove link" class="btn bg-light text-default-500 hover:text-danger" data-remove-asset-link type="button"><i class="iconify tabler--trash"></i></button>
+    </div>
+</template>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const links = document.querySelector("[data-asset-links]")
+        const template = document.getElementById("asset-link-row-template")
+        const addButton = document.querySelector("[data-add-asset-link]")
+
+        if (!links || !template || !addButton) return
+
+        const reindex = () => {
+            links.querySelectorAll("[data-asset-link-row]").forEach((row, index) => {
+                row.querySelector("[data-asset-label], input[name$='[label]']")?.setAttribute("name", `asset_links[${index}][label]`)
+                row.querySelector("[data-asset-url], input[name$='[url]']")?.setAttribute("name", `asset_links[${index}][url]`)
+            })
+        }
+
+        links.addEventListener("click", (event) => {
+            const removeButton = event.target.closest("[data-remove-asset-link]")
+            if (!removeButton) return
+            removeButton.closest("[data-asset-link-row]")?.remove()
+            reindex()
+        })
+
+        addButton.addEventListener("click", () => {
+            links.append(template.content.cloneNode(true))
+            reindex()
+            links.querySelector("[data-asset-link-row]:last-child input")?.focus()
+        })
+    })
+</script>
 
 <div class="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-default-200 pt-5">
     <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ $editing ? route("requests.show", $ministryRequest) : route("requests.index") }}">Cancel</a>

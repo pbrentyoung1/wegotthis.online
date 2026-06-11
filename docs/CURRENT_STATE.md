@@ -42,8 +42,8 @@ Track the actual state of the project so planning, design, and development work 
 - Requester and triage detail pages now use one shared multi-participant conversation component backed by organization-scoped conversations, participants, and messages.
 - Shared request conversations support one-level replies to specific questions and comments using the Inspinia project-details comment pattern.
 - Requesters can update and resubmit requests marked Needs Clarification. Clarification questions and requester-visible replies are preserved in the request conversation.
-- The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, existing branding/assets/examples/links, reviewers/approvals, sensitivities, constraints, and requester ideas.
-- Existing asset and branding references are stored as flexible request answers and shown in requester and triage views. Full Trello-style asset links and uploads remain part of the later asset-linking milestone.
+- The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, structured branding/assets/examples links, organization-scoped reviewers, sensitivities, and supportive planning considerations.
+- Existing asset and branding references use validated label/URL rows and reviewers use an organization-scoped profile picker. Full uploads remain part of the later asset-linking milestone.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
@@ -135,12 +135,11 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Complete the remaining requester intake UX corrections: structured reviewer and asset links, supportive prompts, and removal of requester-facing communication ideas.
-2. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus the Projects -> Deliverables -> Tasks execution foundation.
-3. Expand contextual conversations with unread state and add persisted activity history.
-4. Add deliverable-centered reviews, approvals, and change requests.
-5. Add basic file/external-link attachment support and simple dashboard/date visibility.
-6. Validate the complete request-to-approved-deliverable loop locally and in staging.
+1. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus the Projects -> Deliverables -> Tasks execution foundation.
+2. Expand contextual conversations with unread state and add persisted activity history.
+3. Add deliverable-centered reviews, approvals, and change requests.
+4. Add basic file/external-link attachment support and simple dashboard/date visibility.
+5. Validate the complete request-to-approved-deliverable loop locally and in staging.
 
 Do not import the historical Inertia/Vue implementation or its duplicate `UserProfile`, role, or permission structures. Recover useful behavior by adapting it to the canonical organization-scoped models and Inspinia Blade frontend.
 

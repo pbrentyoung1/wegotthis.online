@@ -24,3 +24,7 @@
     </div>
     @include("shared.partials.customizer")
 @endsection
+
+@section("scripts")
+    @vite(["resources/js/pages/form-choice.js"])
+@endsection

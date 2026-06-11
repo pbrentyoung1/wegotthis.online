@@ -47,6 +47,19 @@ class RequestIntakeUiTest extends TestCase
         $this->actingAs($marcus->user)->get(route('requests.create'))->assertForbidden();
     }
 
+    public function test_request_form_uses_structured_intake_controls(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $this->actingAs($this->profile('Rachel Kim')->user)
+            ->get(route('requests.create'))
+            ->assertOk()
+            ->assertSee('data-choices', false)
+            ->assertSee('name="asset_links[0][url]"', false)
+            ->assertSee('Is there anything Communications should plan around?')
+            ->assertDontSee('What communication ideas do you already have?');
+    }
+
     public function test_requester_can_save_and_update_a_draft(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
@@ -107,46 +120,72 @@ class RequestIntakeUiTest extends TestCase
         $this->assertNotNull($request->submitted_at);
     }
 
-    public function test_requester_can_submit_a_complete_ministry_brief_with_asset_links_and_ideas(): void
+    public function test_requester_can_submit_a_complete_ministry_brief_with_structured_links_and_reviewers(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
 
         $rachel = $this->profile('Rachel Kim');
-        $assetLinks = "Brand guide: https://drive.example.test/brand\nVBS registration: https://example.test/vbs";
+        $jordan = $this->profile('Jordan Lee');
 
         $this->actingAs($rachel->user)->post(route('requests.store'), [
             'title' => 'Complete ministry brief',
             'ministry_need' => 'Invite families to VBS.',
             'success_looks_like' => 'Fifty new families register.',
             'key_message' => 'VBS is welcoming and easy to join.',
-            'existing_assets_links' => $assetLinks,
-            'reviewers_approvals' => 'Kids Pastor and Executive Pastor',
+            'asset_links' => [
+                ['label' => 'Brand guide', 'url' => 'https://drive.example.test/brand'],
+                ['label' => 'VBS registration', 'url' => 'https://example.test/vbs'],
+            ],
+            'reviewer_profile_ids' => [$jordan->id],
             'sensitivities' => 'Avoid language that assumes every child attends with a parent.',
-            'requester_ideas' => "Parent email\nSocial countdown",
             'action_deadline' => '2026-07-06',
             'intent' => 'submit',
         ]);
 
         $request = MinistryRequest::query()->where('title', 'Complete ministry brief')->firstOrFail();
+        $assetAnswer = $request->answers()->where('question_key', 'existing_assets')->firstOrFail();
+        $reviewerAnswer = $request->answers()->where('question_key', 'reviewers_approvals')->firstOrFail();
 
         $this->assertSame('2026-07-06', data_get($request->key_dates_json, 'action_deadline'));
-        $this->assertSame($assetLinks, $request->answers()->where('question_key', 'existing_assets')->value('answer_value'));
+        $this->assertSame('https://example.test/vbs', $assetAnswer->answer_json[1]['url']);
+        $this->assertSame($jordan->id, $reviewerAnswer->answer_json[0]['profile_id']);
         $this->assertSame('Fifty new families register.', $request->answers()->where('question_key', 'success_looks_like')->value('answer_value'));
-        $this->assertEqualsCanonicalizing(['Parent email', 'Social countdown'], $request->ideas()->pluck('title')->all());
+        $this->assertCount(0, $request->ideas);
 
         $this->actingAs($rachel->user)
             ->get(route('requests.show', $request))
             ->assertOk()
             ->assertSee('Existing branding, assets, examples, and links')
-            ->assertSee('https://example.test/vbs')
-            ->assertSee('Kids Pastor and Executive Pastor')
-            ->assertSee('Parent email');
+            ->assertSee('VBS registration')
+            ->assertSee('Jordan Lee');
 
         $this->actingAs($this->profile('Jordan Lee')->user)
             ->get(route('triage.show', $request))
             ->assertOk()
             ->assertSee('Fifty new families register.')
-            ->assertSee('Social countdown');
+            ->assertSee('Brand guide');
+    }
+
+    public function test_request_form_rejects_invalid_asset_links_and_inactive_reviewers(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $inactiveReviewer = $this->profile('Marcus Bell');
+        $inactiveReviewer->update(['status' => 'Inactive']);
+
+        $this->actingAs($rachel->user)
+            ->from(route('requests.create'))
+            ->post(route('requests.store'), [
+                'title' => 'Invalid structured brief',
+                'asset_links' => [['label' => 'Brand guide', 'url' => 'not-a-url']],
+                'reviewer_profile_ids' => [$inactiveReviewer->id],
+                'intent' => 'draft',
+            ])
+            ->assertRedirect(route('requests.create'))
+            ->assertSessionHasErrors(['asset_links.0.url', 'reviewer_profile_ids.0']);
+
+        $this->assertDatabaseMissing('requests', ['title' => 'Invalid structured brief']);
     }
 
     public function test_submission_requires_a_ministry_need_without_creating_a_request(): void
@@ -183,7 +222,6 @@ class RequestIntakeUiTest extends TestCase
             'title' => $request->title,
             'department_id' => $request->department_id,
             'ministry_need' => $request->ministry_need,
-            'requester_ideas' => $request->ideas()->pluck('title')->implode("\n"),
             'intent' => 'draft',
         ])->assertRedirect(route('requests.show', $request));
 

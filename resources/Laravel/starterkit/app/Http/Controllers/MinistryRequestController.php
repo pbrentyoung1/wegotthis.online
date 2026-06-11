@@ -39,6 +39,7 @@ class MinistryRequestController extends Controller
         return view('requests.create', [
             'currentProfile' => $currentProfile,
             'departments' => $this->departmentsFor($currentProfile),
+            'reviewerProfiles' => $this->reviewerProfilesFor($currentProfile),
         ]);
     }
 
@@ -95,6 +96,7 @@ class MinistryRequestController extends Controller
             'currentProfile' => $currentProfile,
             'ministryRequest' => $ministryRequest->load(['answers', 'ideas']),
             'departments' => $this->departmentsFor($currentProfile),
+            'reviewerProfiles' => $this->reviewerProfilesFor($currentProfile),
         ]);
     }
 
@@ -165,6 +167,16 @@ class MinistryRequestController extends Controller
             ->get();
     }
 
+    private function reviewerProfilesFor(Profile $profile)
+    {
+        return Profile::query()
+            ->where('organization_id', $profile->organization_id)
+            ->where('status', 'Active')
+            ->with('department')
+            ->orderBy('display_name')
+            ->get();
+    }
+
     /**
      * @param  array<string, mixed>  $validated
      * @return array<string, mixed>
@@ -205,8 +217,6 @@ class MinistryRequestController extends Controller
         foreach ([
             ['field' => 'success_looks_like', 'key' => 'success_looks_like', 'label' => 'What would success look like?', 'type' => 'text'],
             ['field' => 'key_message', 'key' => 'key_message', 'label' => 'What key message must people understand?', 'type' => 'text'],
-            ['field' => 'existing_assets_links', 'key' => 'existing_assets', 'label' => 'What existing branding, assets, examples, or links should Communications use?', 'type' => 'file_link'],
-            ['field' => 'reviewers_approvals', 'key' => 'reviewers_approvals', 'label' => 'Who needs to review or approve this?', 'type' => 'text'],
             ['field' => 'sensitivities', 'key' => 'sensitivities', 'label' => 'Are there sensitivities or pastoral concerns?', 'type' => 'text'],
         ] as $answer) {
             if (! array_key_exists($answer['field'], $validated)) {
@@ -228,35 +238,55 @@ class MinistryRequestController extends Controller
             ]);
         }
 
-        if (! array_key_exists('requester_ideas', $validated)) {
-            return;
-        }
-
-        $ideas = collect(preg_split('/\R/', (string) ($validated['requester_ideas'] ?? '')))
-            ->map(fn (string $idea) => trim($idea))
-            ->filter()
-            ->unique()
+        $assetLinks = collect($validated['asset_links'] ?? [])
+            ->map(fn (array $link) => [
+                'label' => trim((string) ($link['label'] ?? '')),
+                'url' => trim((string) ($link['url'] ?? '')),
+            ])
+            ->filter(fn (array $link) => filled($link['url']))
+            ->unique('url')
             ->values();
 
-        $existingIdeas = $request->ideas()
-            ->where('source', 'Requester')
-            ->get()
-            ->keyBy('title');
+        $existingAssetsAnswer = $request->answers()->where('question_key', 'existing_assets')->first();
+        $hasLegacyAssets = collect($existingAssetsAnswer?->answer_json ?? [])
+            ->doesntContain(fn ($link) => is_array($link) && filled($link['url'] ?? null))
+            && filled($existingAssetsAnswer?->answer_json);
 
-        $request->ideas()
-            ->where('source', 'Requester')
-            ->where('triage_decision', 'Suggested')
-            ->whereNotIn('title', $ideas)
-            ->delete();
+        if ($assetLinks->isEmpty() && blank($existingAssetsAnswer?->answer_value) && ! $hasLegacyAssets) {
+            $request->answers()->where('question_key', 'existing_assets')->delete();
+        } elseif ($assetLinks->isNotEmpty()) {
+            $this->requestIntakeService->saveAnswer($request, [
+                'question_key' => 'existing_assets',
+                'question_label' => 'What existing branding, assets, examples, or links should Communications use?',
+                'answer_type' => 'file_link',
+                'answer_value' => null,
+                'answer_json' => $assetLinks->all(),
+            ]);
+        }
 
-        $ideas
-            ->reject(fn (string $idea) => $existingIdeas->has($idea))
-            ->each(fn (string $idea) => $this->requestIntakeService->saveIdea($request, [
-                'suggested_by_profile' => $profile,
-                'title' => $idea,
-                'idea_type' => 'Other',
-                'source' => 'Requester',
-                'triage_decision' => 'Suggested',
-            ]));
+        $reviewers = Profile::query()
+            ->where('organization_id', $profile->organization_id)
+            ->where('status', 'Active')
+            ->whereIn('id', $validated['reviewer_profile_ids'] ?? [])
+            ->orderBy('display_name')
+            ->get(['id', 'display_name', 'title']);
+
+        $existingReviewersAnswer = $request->answers()->where('question_key', 'reviewers_approvals')->first();
+
+        if ($reviewers->isEmpty() && blank($existingReviewersAnswer?->answer_value)) {
+            $request->answers()->where('question_key', 'reviewers_approvals')->delete();
+        } elseif ($reviewers->isNotEmpty()) {
+            $this->requestIntakeService->saveAnswer($request, [
+                'question_key' => 'reviewers_approvals',
+                'question_label' => 'Who needs to review or approve this?',
+                'answer_type' => 'profile_reference',
+                'answer_value' => null,
+                'answer_json' => $reviewers->map(fn (Profile $reviewer) => [
+                    'profile_id' => $reviewer->id,
+                    'display_name' => $reviewer->display_name,
+                    'title' => $reviewer->title,
+                ])->all(),
+            ]);
+        }
     }
 }

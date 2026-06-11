@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/pages/auth-password.js',
                 'resources/js/pages/auth-two-factor.js',
                 'resources/js/pages/dashboard-projects.js',
+                'resources/js/pages/form-choice.js',
                 'resources/js/vendor.js'
             ],
             refresh: true,

@@ -42,7 +42,7 @@
                                             <div><h5 class="mb-2 font-semibold">Audience</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->audience ?: "Not provided." }}</p></div>
                                             <div><h5 class="mb-2 font-semibold">Desired action</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->desired_action ?: "Not provided." }}</p></div>
                                             <div><h5 class="mb-2 font-semibold">Desired tone</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->desired_tone ?: "Not provided." }}</p></div>
-                                            <div><h5 class="mb-2 font-semibold">Known constraints</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->known_constraints ?: "Not provided." }}</p></div>
+                                            <div><h5 class="mb-2 font-semibold">Planning considerations</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->known_constraints ?: "Not provided." }}</p></div>
                                         </div>
                                     </div>
                                 </div>

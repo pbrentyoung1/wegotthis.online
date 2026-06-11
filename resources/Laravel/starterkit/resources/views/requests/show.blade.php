@@ -61,7 +61,7 @@
                                                 <p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->desired_tone ?: "Not provided yet." }}</p>
                                             </div>
                                             <div>
-                                                <h5 class="mb-2 font-semibold">Known constraints</h5>
+                                                <h5 class="mb-2 font-semibold">Planning considerations</h5>
                                                 <p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->known_constraints ?: "Not provided yet." }}</p>
                                             </div>
                                         </div>
