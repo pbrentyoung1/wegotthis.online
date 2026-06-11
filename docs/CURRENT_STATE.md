@@ -40,6 +40,7 @@ Track the actual state of the project so planning, design, and development work 
 - Request lifecycle colors now carry consistent meaning across request lists, queue badges, and triage activity.
 - The requester-scoped My Requests screen now uses an Inspinia `/apps/projects/list`-informed table with status, important date, Last activity, and contextual actions.
 - Requester and triage detail pages now use one shared multi-participant conversation component backed by organization-scoped conversations, participants, and messages.
+- Shared request conversations support one-level replies to specific questions and comments using the Inspinia project-details comment pattern.
 - Requesters can update and resubmit requests marked Needs Clarification. Clarification questions and requester-visible replies are preserved in the request conversation.
 - The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, existing branding/assets/examples/links, reviewers/approvals, sensitivities, constraints, and requester ideas.
 - Existing asset and branding references are stored as flexible request answers and shown in requester and triage views. Full Trello-style asset links and uploads remain part of the later asset-linking milestone.

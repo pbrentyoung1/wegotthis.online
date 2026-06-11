@@ -41,6 +41,7 @@ class RequestConversationController extends Controller
                 $profile,
                 $validated['message'],
                 $clarification ? 'Clarification Request' : 'Comment',
+                $validated['parent_message_id'] ?? null,
             );
 
             if ($clarification) {

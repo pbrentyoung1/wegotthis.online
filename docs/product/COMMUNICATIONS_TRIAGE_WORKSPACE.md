@@ -105,6 +105,8 @@ Replace vague prompts such as "Known constraints or important context" with spec
 
 The request conversation is one shared multi-participant conversation rendered on requester and triage pages. It preserves requester-visible messages and clarification requests in context. The same conversation component and persistence pattern should be extended to Projects and Deliverables when those work objects are implemented.
 
+Request conversation messages use the Inspinia project-details comment pattern. People can reply to a specific root question or comment, and replies render beneath that message rather than turning the page into an undifferentiated chat room. MVP keeps replies one level deep.
+
 ## Core Product Principle
 
 Department leaders define the need. Communications defines the plan. The system helps both sides understand each other.

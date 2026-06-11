@@ -10,15 +10,20 @@ use Illuminate\Validation\ValidationException;
 
 class RequestConversationService
 {
-    public function addMessage(MinistryRequest $request, Profile $author, string $body, string $messageType = 'Comment'): Message
-    {
+    public function addMessage(
+        MinistryRequest $request,
+        Profile $author,
+        string $body,
+        string $messageType = 'Comment',
+        ?int $parentMessageId = null,
+    ): Message {
         if ($request->organization_id !== $author->organization_id) {
             throw ValidationException::withMessages([
                 'message' => 'The message author must belong to the request organization.',
             ]);
         }
 
-        return DB::transaction(function () use ($request, $author, $body, $messageType) {
+        return DB::transaction(function () use ($request, $author, $body, $messageType, $parentMessageId) {
             $conversation = $request->conversation()->firstOrCreate(
                 [],
                 [
@@ -30,6 +35,20 @@ class RequestConversationService
                     'created_by_profile_id' => $author->id,
                 ],
             );
+
+            $parentMessage = $parentMessageId === null
+                ? null
+                : $conversation->messages()->find($parentMessageId);
+
+            if ($parentMessageId !== null && $parentMessage === null) {
+                throw ValidationException::withMessages([
+                    'parent_message_id' => 'The message being replied to does not belong to this request.',
+                ]);
+            }
+
+            if ($parentMessage?->parent_message_id !== null) {
+                $parentMessage = $conversation->messages()->findOrFail($parentMessage->parent_message_id);
+            }
 
             foreach (collect([$request->requesterProfile, $request->assignedManagerProfile, $author])->filter()->unique('id') as $profile) {
                 $conversation->participants()->firstOrCreate(
@@ -47,6 +66,7 @@ class RequestConversationService
                 'body' => $body,
                 'message_type' => $messageType,
                 'visibility' => 'Requester Visible',
+                'parent_message_id' => $parentMessage?->id,
             ]);
 
             $conversation->participants()

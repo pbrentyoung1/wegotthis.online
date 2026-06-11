@@ -260,6 +260,80 @@ class RequestIntakeUiTest extends TestCase
         $this->assertDatabaseMissing('messages', ['body' => 'I should not be able to post this.']);
     }
 
+    public function test_requester_can_reply_to_a_specific_conversation_message(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $jordan = $this->profile('Jordan Lee');
+        $request = MinistryRequest::query()->where('title', 'VBS Promotion Support')->firstOrFail();
+
+        $this->actingAs($jordan->user)->post(route('requests.messages.store', $request), [
+            'message' => 'Which registration link should we use?',
+            'intent' => 'message',
+        ]);
+
+        $question = Message::query()->where('body', 'Which registration link should we use?')->firstOrFail();
+
+        $this->actingAs($rachel->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'Use the registration link already included in the brief.',
+                'intent' => 'message',
+                'parent_message_id' => $question->id,
+            ])
+            ->assertRedirect(route('requests.show', $request));
+
+        $this->assertDatabaseHas('messages', [
+            'body' => 'Use the registration link already included in the brief.',
+            'parent_message_id' => $question->id,
+        ]);
+
+        $this->actingAs($rachel->user)
+            ->get(route('requests.show', $request))
+            ->assertOk()
+            ->assertSee('Reply')
+            ->assertSeeInOrder([
+                'Which registration link should we use?',
+                'Use the registration link already included in the brief.',
+            ]);
+    }
+
+    public function test_requester_cannot_reply_to_a_message_from_another_request(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $jordan = $this->profile('Jordan Lee');
+        $request = MinistryRequest::query()->where('title', 'VBS Promotion Support')->firstOrFail();
+        $otherRequest = MinistryRequest::query()->create([
+            'organization_id' => $jordan->organization_id,
+            'requester_profile_id' => $jordan->id,
+            'title' => 'Other submitted request',
+            'status' => RequestStatus::Submitted,
+            'ministry_need' => 'Keep replies scoped.',
+            'submitted_at' => now(),
+        ]);
+
+        $this->actingAs($jordan->user)->post(route('requests.messages.store', $otherRequest), [
+            'message' => 'Message from another request.',
+            'intent' => 'message',
+        ]);
+
+        $otherMessage = Message::query()->where('body', 'Message from another request.')->firstOrFail();
+
+        $this->actingAs($rachel->user)
+            ->from(route('requests.show', $request))
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'This reply should be rejected.',
+                'intent' => 'message',
+                'parent_message_id' => $otherMessage->id,
+            ])
+            ->assertRedirect(route('requests.show', $request))
+            ->assertSessionHasErrors('parent_message_id');
+
+        $this->assertDatabaseMissing('messages', ['body' => 'This reply should be rejected.']);
+    }
+
     private function profile(string $displayName): Profile
     {
         return Profile::query()
