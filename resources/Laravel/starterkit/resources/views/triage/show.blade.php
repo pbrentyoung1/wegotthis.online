@@ -154,11 +154,32 @@
                                             <input class="form-input mb-4" id="conversion-title" name="title" required type="text" value="{{ old("title", $ministryRequest->title) }}" />
 
                                             <label class="form-label" for="conversion-project-type">Project type</label>
-                                            <select class="form-select mb-4" id="conversion-project-type" name="project_type">
-                                                @foreach (["Standard", "Administrative", "Event", "Other"] as $projectType)
-                                                    <option @selected(old("project_type", "Standard") === $projectType)>{{ $projectType }}</option>
+                                            <select class="form-select mb-4" id="conversion-project-type" name="project_type_id">
+                                                <option value="">No template</option>
+                                                @foreach ($projectTypes as $projectType)
+                                                    <option @selected((string) old("project_type_id") === (string) $projectType->id) value="{{ $projectType->id }}">{{ $projectType->name }}</option>
                                                 @endforeach
                                             </select>
+
+                                            <div class="mb-4">
+                                                <p class="mb-2 text-sm font-semibold">Template defaults</p>
+                                                <p class="text-default-400 mb-3 text-xs">Choose a Project Type to preview its defaults. Uncheck anything that does not belong in this Project.</p>
+                                                @foreach ($projectTypes as $projectType)
+                                                    <div class="hidden space-y-2" data-project-type-defaults="{{ $projectType->id }}">
+                                                        @forelse ($projectType->deliverableTemplates as $template)
+                                                            <label class="bg-primary/5 flex cursor-pointer items-start gap-2 rounded p-3 text-sm">
+                                                                <input class="form-checkbox mt-0.5" data-template-deliverable checked disabled name="template_deliverable_ids[]" type="checkbox" value="{{ $template->id }}" />
+                                                                <span><span class="font-medium">{{ $template->title }}</span> <span class="text-default-400">· {{ $template->deliverableType?->name ?: "Other" }}</span>@if ($template->description)<span class="text-default-400 mt-1 block text-xs">{{ $template->description }}</span>@endif</span>
+                                                            </label>
+                                                        @empty
+                                                            <p class="text-default-400 text-sm">This Project Type has no default Deliverables.</p>
+                                                        @endforelse
+                                                    </div>
+                                                @endforeach
+                                                @if ($projectTypes->isEmpty())
+                                                    <p class="text-default-400 text-sm">No Project Types exist yet. <a class="text-primary hover:underline" href="{{ route("project-types.index") }}">Create one</a>.</p>
+                                                @endif
+                                            </div>
 
                                             <p class="mb-2 text-sm font-semibold">Proposed deliverables</p>
                                             <div class="mb-4 space-y-2">
@@ -198,4 +219,22 @@
         </div>
     </div>
     @include("shared.partials.customizer")
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const projectType = document.getElementById("conversion-project-type")
+            if (!projectType) return
+
+            const updateTemplateDefaults = () => {
+                document.querySelectorAll("[data-project-type-defaults]").forEach((group) => {
+                    const selected = group.dataset.projectTypeDefaults === projectType.value
+                    group.classList.toggle("hidden", !selected)
+                    group.querySelectorAll("[data-template-deliverable]").forEach((checkbox) => checkbox.disabled = !selected)
+                })
+            }
+
+            projectType.addEventListener("change", updateTemplateDefaults)
+            updateTemplateDefaults()
+        })
+    </script>
 @endsection

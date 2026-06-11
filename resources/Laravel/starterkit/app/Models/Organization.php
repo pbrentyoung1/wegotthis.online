@@ -49,4 +49,9 @@ class Organization extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+    public function projectTypes(): HasMany
+    {
+        return $this->hasMany(ProjectType::class);
+    }
 }

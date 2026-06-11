@@ -3,6 +3,7 @@
 use App\Http\Controllers\MinistryRequestController;
 use App\Http\Controllers\PeopleDirectoryController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\RequestConversationController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\TaggedRequestController;
@@ -17,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/requests/tagged', [TaggedRequestController::class, 'index'])->name('requests.tagged');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::resource('project-types', ProjectTypeController::class)->only(['index', 'store', 'edit', 'update']);
     Route::resource('requests', MinistryRequestController::class)
         ->parameters(['requests' => 'ministryRequest'])
         ->except(['destroy']);

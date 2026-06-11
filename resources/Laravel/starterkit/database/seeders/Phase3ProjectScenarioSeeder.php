@@ -3,11 +3,13 @@
 namespace Database\Seeders;
 
 use App\Enums\RequestStatus;
+use App\Models\DeliverableType;
 use App\Models\Department;
 use App\Models\MinistryRequest;
 use App\Models\Organization;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\ProjectType;
 use App\Services\ProjectConversionService;
 use App\Services\RequestIntakeService;
 use Illuminate\Database\Seeder;
@@ -24,6 +26,7 @@ class Phase3ProjectScenarioSeeder extends Seeder
         $organization = Organization::query()->where('slug', 'grace-community-church')->firstOrFail();
         $jordan = $this->profile($organization, 'Jordan Lee');
         $rachel = $this->profile($organization, 'Rachel Kim');
+        $this->seedProjectTypes($organization);
 
         $this->seedConvertedProject(
             organization: $organization,
@@ -100,6 +103,59 @@ class Phase3ProjectScenarioSeeder extends Seeder
                 ['Groups launch email', 'Email'],
             ],
         );
+    }
+
+    private function seedProjectTypes(Organization $organization): void
+    {
+        $deliverableTypes = collect([
+            'Branding', 'Email', 'Print', 'Sermon Slide', 'Signage',
+            'Social Post', 'Video', 'Web Page',
+        ])->mapWithKeys(fn (string $name) => [
+            $name => DeliverableType::query()->firstOrCreate(
+                ['organization_id' => $organization->id, 'slug' => str($name)->slug()],
+                ['name' => $name, 'is_active' => true],
+            ),
+        ]);
+
+        $this->seedProjectType($organization, 'Sermon Series', 'A recurring teaching series with a coordinated visual and service package.', [
+            ['Series branding', 'Branding', 'Core visual direction and reusable series identity.', 35, true],
+            ['Sermon slide', 'Sermon Slide', 'Primary teaching slide for the series.', 21, true],
+            ['Intro bumper', 'Video', 'Short series introduction video.', 14, false],
+            ['Social post set', 'Social Post', 'Launch and weekly social graphics.', 10, false],
+            ['Lower third package', 'Video', 'Speaker and scripture lower thirds.', 7, false],
+            ['Scripture slide package', 'Sermon Slide', 'Reusable scripture presentation style.', 7, false],
+        ], $deliverableTypes);
+
+        $this->seedProjectType($organization, 'Event Promotion', 'A coordinated invitation and information plan for a ministry event.', [
+            ['Event landing page', 'Web Page', 'Primary event information and registration destination.', 35, true],
+            ['Event branding', 'Branding', 'Event-specific visual direction.', 28, false],
+            ['Announcement slides', 'Signage', 'Service and lobby announcement slides.', 21, true],
+            ['Email invitation', 'Email', 'Primary invitation email.', 14, false],
+            ['Social promotion set', 'Social Post', 'Social invitation and reminder graphics.', 10, false],
+            ['Printed invitation', 'Print', 'Optional print invitation or handout.', 21, false],
+        ], $deliverableTypes);
+    }
+
+    private function seedProjectType(Organization $organization, string $name, string $description, array $templates, $deliverableTypes): void
+    {
+        $projectType = ProjectType::query()->updateOrCreate(
+            ['organization_id' => $organization->id, 'slug' => str($name)->slug()],
+            ['name' => $name, 'description' => $description, 'is_active' => true],
+        );
+
+        $projectType->deliverableTemplates()->delete();
+
+        foreach ($templates as $index => [$title, $type, $guidance, $offset, $required]) {
+            $projectType->deliverableTemplates()->create([
+                'organization_id' => $organization->id,
+                'deliverable_type_id' => $deliverableTypes[$type]->id,
+                'title' => $title,
+                'description' => $guidance,
+                'suggested_due_offset_days' => $offset,
+                'sort_order' => $index,
+                'is_required' => $required,
+            ]);
+        }
     }
 
     /**

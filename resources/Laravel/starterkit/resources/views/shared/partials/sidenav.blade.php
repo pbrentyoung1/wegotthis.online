@@ -156,6 +156,14 @@
                             </a>
                         </li>
                     @endif
+                    @if ($navigationProfile?->hasPermission("projects.manage"))
+                        <li class="menu-item">
+                            <a class="menu-link {{ request()->routeIs("project-types.*") ? "active" : "" }}" href="{{ route("project-types.index") }}">
+                                <span class="menu-icon"><i class="iconify tabler--template"></i></span>
+                                <span class="menu-text">Project Types</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="menu-item">
                         <a class="menu-link" href="{{ route("people.index") }}">
                             <span class="menu-icon"><i class="iconify tabler--users"></i></span>

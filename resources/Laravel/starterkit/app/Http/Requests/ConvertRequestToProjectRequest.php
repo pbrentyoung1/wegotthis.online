@@ -15,9 +15,12 @@ class ConvertRequestToProjectRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'project_type' => ['required', 'in:Standard,Administrative,Event,Other'],
+            'project_type_id' => ['nullable', 'integer', 'exists:project_types,id'],
+            'project_type' => ['nullable', 'string', 'max:255'],
             'idea_ids' => ['nullable', 'array'],
             'idea_ids.*' => ['integer', 'distinct'],
+            'template_deliverable_ids' => ['nullable', 'array'],
+            'template_deliverable_ids.*' => ['integer', 'distinct'],
         ];
     }
 }

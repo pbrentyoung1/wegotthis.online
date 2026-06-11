@@ -246,7 +246,7 @@ class Phase2RequestIntakeTest extends TestCase
 
     public function test_only_approved_request_and_conversion_foundation_tables_exist(): void
     {
-        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages', 'projects', 'project_members', 'deliverable_types', 'deliverables'] as $table) {
+        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages', 'projects', 'project_members', 'project_types', 'project_type_deliverable_templates', 'deliverable_types', 'deliverables'] as $table) {
             $this->assertTrue(Schema::hasTable($table));
         }
 

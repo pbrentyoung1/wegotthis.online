@@ -7,6 +7,7 @@ use App\Http\Requests\ConvertRequestToProjectRequest;
 use App\Http\Requests\TriageTransitionRequest;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
+use App\Models\ProjectType;
 use App\Services\ClarificationFollowUpService;
 use App\Services\ProjectConversionService;
 use App\Services\RequestConversationService;
@@ -91,6 +92,12 @@ class TriageRequestController extends Controller
                 'conversation.participants.profile',
                 'conversation.messages.authorProfile',
             ]),
+            'projectTypes' => ProjectType::query()
+                ->where('organization_id', $currentProfile->organization_id)
+                ->where('is_active', true)
+                ->with('deliverableTemplates.deliverableType')
+                ->orderBy('name')
+                ->get(),
         ]);
     }
 

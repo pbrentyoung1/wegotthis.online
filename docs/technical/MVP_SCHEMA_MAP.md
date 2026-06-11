@@ -676,6 +676,37 @@ Suggested fields:
 
 ## Project Tables
 
+### project_types
+
+Organization-managed Project Type templates used to suggest a Deliverable lineup during Request conversion.
+
+| Field | Notes |
+|---|---|
+| id | Primary key. |
+| organization_id | Required. |
+| name | Required display name, such as Sermon Series or Event Promotion. |
+| slug | Stable organization-scoped identifier. |
+| description | Nullable usage guidance. |
+| is_active | Controls availability during conversion. |
+| created_at / updated_at | Standard timestamps. |
+
+### project_type_deliverable_templates
+
+Ordered default Deliverables attached to a Project Type. Selected defaults become independent Deliverable copies during conversion.
+
+| Field | Notes |
+|---|---|
+| id | Primary key. |
+| organization_id | Required. |
+| project_type_id | Required. |
+| deliverable_type_id | Nullable but recommended. |
+| title | Required. |
+| description | Nullable template guidance. |
+| suggested_due_offset_days | Nullable number of days before the target date. |
+| sort_order | Default display order. |
+| is_required | Signals that the template considers this a core default; Communications may still adjust the conversion plan. |
+| created_at / updated_at | Standard timestamps. |
+
 ### projects
 
 Primary operational container.
@@ -692,6 +723,7 @@ Suggested fields:
 | department_id | Nullable but recommended. |
 | source_request_id | Nullable. |
 | owner_profile_id | Required before Scheduled. |
+| project_type_id | Nullable link to the Project Type template used during conversion. Existing Projects remain independent from later template edits. |
 | title | Required. |
 | slug | Stable identifier. |
 | project_type | Standard, Administrative, Campaign Support, Event, Other. |

@@ -7,6 +7,7 @@ Document simple request and project templates for reducing administrative setup 
 ## Current Decisions
 
 - Working decision: MVP should include simple project/request templates.
+- Implemented first slice: organization-managed Project Types can define ordered default Deliverables, guidance, optional required signals, and suggested due offsets. Managers adjust the defaults during conversion, and created Deliverables remain independent from later template edits.
 - Templates should reduce admin work, not create more setup burden.
 - Do not build a complex workflow builder in MVP.
 
