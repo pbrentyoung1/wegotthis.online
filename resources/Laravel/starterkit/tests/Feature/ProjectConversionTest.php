@@ -110,7 +110,11 @@ class ProjectConversionTest extends TestCase
             ->assertOk()
             ->assertSee($project->title)
             ->assertSee('Deliverables')
+            ->assertSee('Tasks')
+            ->assertSee('Activity')
             ->assertSee('Conversation')
+            ->assertSee('Tasks will live under Deliverables')
+            ->assertSee('Project created')
             ->assertSee('Stakeholder');
 
         $this->actingAs($rachel->user)

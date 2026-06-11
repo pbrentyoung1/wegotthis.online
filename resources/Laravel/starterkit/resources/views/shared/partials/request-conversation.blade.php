@@ -17,19 +17,28 @@
             \App\Enums\RequestStatus::Submitted,
             \App\Enums\RequestStatus::InTriage,
         ], true);
+    $conversationEmbedded = $conversationEmbedded ?? false;
 @endphp
 
-<div class="card">
-    <div class="card-header">
-        <div>
-            <h4 class="card-title">Conversation</h4>
-            <p class="text-default-400 mt-1 text-sm">Reviewers and request participants can keep questions, answers, and decisions together here.</p>
+<div class="{{ $conversationEmbedded ? "" : "card" }}">
+    @unless ($conversationEmbedded)
+        <div class="card-header">
+            <div>
+                <h4 class="card-title">Conversation</h4>
+                <p class="text-default-400 mt-1 text-sm">Reviewers and request participants can keep questions, answers, and decisions together here.</p>
+            </div>
+            <button aria-label="Collapse conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+                <i class="iconify tabler--chevron-up text-base"></i>
+            </button>
         </div>
-        <button aria-label="Collapse conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
-            <i class="iconify tabler--chevron-up text-base"></i>
-        </button>
-    </div>
-    <div class="card-body">
+    @endunless
+    <div class="{{ $conversationEmbedded ? "" : "card-body" }}">
+        @if ($conversationEmbedded)
+            <div class="mb-5">
+                <h4 class="font-semibold">Stakeholder conversation</h4>
+                <p class="text-default-400 mt-1 text-sm">Questions, answers, and decisions shared with stakeholders.</p>
+            </div>
+        @endif
         @if ($participants->isNotEmpty())
             <div class="mb-5 flex items-center gap-3" aria-label="{{ $participants->count() }} conversation participants">
                 <div class="flex">
