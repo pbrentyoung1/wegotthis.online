@@ -14,13 +14,22 @@
                             <i class="iconify tabler--arrow-left me-1"></i>
                             Back to my requests
                         </a>
-                        @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Draft, \App\Enums\RequestStatus::NeedsClarification], true))
+                        @if ($currentProfile->id === $ministryRequest->requester_profile_id && in_array($ministryRequest->status, [
+                            \App\Enums\RequestStatus::Draft,
+                            \App\Enums\RequestStatus::Submitted,
+                            \App\Enums\RequestStatus::NeedsClarification,
+                            \App\Enums\RequestStatus::InTriage,
+                            \App\Enums\RequestStatus::Accepted,
+                            \App\Enums\RequestStatus::Deferred,
+                        ], true))
                             <div class="flex gap-2">
                                 <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ route("requests.edit", $ministryRequest) }}">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Edit draft" : "Update request details" }}</a>
-                                <form action="{{ route("requests.submit", $ministryRequest) }}" method="POST">
-                                    @csrf
-                                    <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Submit request" : "Resubmit request" }}</button>
-                                </form>
+                                @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Draft, \App\Enums\RequestStatus::NeedsClarification], true))
+                                    <form action="{{ route("requests.submit", $ministryRequest) }}" method="POST">
+                                        @csrf
+                                        <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Submit request" : "Resubmit request" }}</button>
+                                    </form>
+                                @endif
                             </div>
                         @endif
                     </div>

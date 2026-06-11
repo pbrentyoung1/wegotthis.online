@@ -162,8 +162,33 @@ class RequestIntakeUiTest extends TestCase
         $this->actingAs($this->profile('Jordan Lee')->user)
             ->get(route('triage.show', $request))
             ->assertOk()
+            ->assertSee('Additional ministry brief details')
             ->assertSee('Fifty new families register.')
             ->assertSee('Brand guide');
+    }
+
+    public function test_structured_reviewer_details_show_on_new_request_intake(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $reviewer = $this->profile('Marcus Bell');
+
+        $this->actingAs($rachel->user)->post(route('requests.store'), [
+            'title' => 'Reviewer-only brief details',
+            'ministry_need' => 'Coordinate a review.',
+            'reviewer_profile_ids' => [$reviewer->id],
+            'intent' => 'submit',
+        ]);
+
+        $request = MinistryRequest::query()->where('title', 'Reviewer-only brief details')->firstOrFail();
+
+        $this->actingAs($this->profile('Jordan Lee')->user)
+            ->get(route('triage.show', $request))
+            ->assertOk()
+            ->assertSee('Additional ministry brief details')
+            ->assertSee('Reviewers and approvals')
+            ->assertSee('Marcus Bell');
     }
 
     public function test_selected_reviewer_is_added_to_the_shared_conversation_and_can_reply(): void
@@ -192,7 +217,8 @@ class RequestIntakeUiTest extends TestCase
             ->get(route('requests.show', $request))
             ->assertOk()
             ->assertSee('Marcus Bell')
-            ->assertSee('Rachel Kim');
+            ->assertSee('Rachel Kim')
+            ->assertDontSee('Update request details');
 
         $this->actingAs($reviewer->user)
             ->post(route('requests.messages.store', $request), [
@@ -307,7 +333,7 @@ class RequestIntakeUiTest extends TestCase
         $this->assertSame('Accepted', $idea->refresh()->triage_decision);
     }
 
-    public function test_requester_cannot_view_another_requester_request_or_edit_a_submitted_request(): void
+    public function test_requester_cannot_view_another_requester_request_but_can_edit_an_active_submitted_request(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
 
@@ -322,7 +348,25 @@ class RequestIntakeUiTest extends TestCase
         ]);
 
         $this->actingAs($rachel->user)->get(route('requests.show', $jordanRequest))->assertForbidden();
-        $this->actingAs($rachel->user)->get(route('requests.edit', $rachelRequest))->assertForbidden();
+        $this->actingAs($rachel->user)
+            ->get(route('requests.show', $rachelRequest))
+            ->assertOk()
+            ->assertSee('Update request details');
+
+        $this->actingAs($rachel->user)
+            ->get(route('requests.edit', $rachelRequest))
+            ->assertOk()
+            ->assertSee('Save changes')
+            ->assertDontSee('Submit request');
+
+        $this->actingAs($rachel->user)->put(route('requests.update', $rachelRequest), [
+            'title' => $rachelRequest->title,
+            'ministry_need' => 'Updated after submission without resetting workflow.',
+            'intent' => 'draft',
+        ])->assertRedirect(route('requests.show', $rachelRequest));
+
+        $this->assertSame(RequestStatus::Submitted, $rachelRequest->refresh()->status);
+        $this->assertSame('Updated after submission without resetting workflow.', $rachelRequest->ministry_need);
     }
 
     public function test_requester_can_post_to_the_shared_request_conversation(): void

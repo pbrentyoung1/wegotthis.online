@@ -1,6 +1,6 @@
 @php($briefAnswers = $ministryRequest->answers->keyBy("question_key"))
 
-@if ($briefAnswers->whereNotNull("answer_value")->isNotEmpty() || $briefAnswers->get("existing_assets")?->answer_json || $ministryRequest->ideas->isNotEmpty())
+@if ($briefAnswers->contains(fn ($answer) => filled($answer->answer_value) || filled($answer->answer_json)) || $ministryRequest->ideas->isNotEmpty())
     <div class="card">
         <div class="card-header">
             <h4 class="card-title">Additional ministry brief details</h4>

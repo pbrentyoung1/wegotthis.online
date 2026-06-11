@@ -6,6 +6,7 @@
 @php($assetLinks = collect(old("asset_links", collect($existingAssetsAnswer?->answer_json ?? [])->filter(fn ($link) => is_array($link))->merge($legacyAssetLinks)->values()->all()))->filter(fn ($link) => is_array($link)))
 @php($assetLinks = $assetLinks->isNotEmpty() ? $assetLinks : collect([["label" => "", "url" => ""]]))
 @php($reviewerProfileIds = collect(old("reviewer_profile_ids", collect($requestAnswers->get("reviewers_approvals")?->answer_json ?? [])->pluck("profile_id")->all()))->map(fn ($id) => (string) $id))
+@php($canSubmitRequest = ! $editing || in_array($ministryRequest->status, [\App\Enums\RequestStatus::Draft, \App\Enums\RequestStatus::NeedsClarification], true))
 
 @include("auth.partials.messages")
 
@@ -179,7 +180,9 @@
 <div class="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-default-200 pt-5">
     <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ $editing ? route("requests.show", $ministryRequest) : route("requests.index") }}">Cancel</a>
     <div class="flex flex-wrap gap-2">
-        <button class="btn bg-light text-default-700 hover:bg-default-200" name="intent" type="submit" value="draft">{{ $editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification ? "Save update" : "Save draft" }}</button>
-        <button class="btn bg-primary text-white hover:bg-primary-hover" name="intent" type="submit" value="submit">{{ $editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification ? "Resubmit request" : "Submit request" }}</button>
+        <button class="btn bg-light text-default-700 hover:bg-default-200" name="intent" type="submit" value="draft">{{ $editing && $ministryRequest->status !== \App\Enums\RequestStatus::Draft ? "Save changes" : "Save draft" }}</button>
+        @if ($canSubmitRequest)
+            <button class="btn bg-primary text-white hover:bg-primary-hover" name="intent" type="submit" value="submit">{{ $editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification ? "Resubmit request" : "Submit request" }}</button>
+        @endif
     </div>
 </div>

@@ -109,18 +109,22 @@ class MinistryRequestController extends Controller
         $currentProfile = $this->currentProfile($request, 'requests.submit');
         $this->authorizeEditableRequest($ministryRequest, $currentProfile);
         $validated = $request->validated();
+        $willSubmit = $validated['intent'] === 'submit'
+            && in_array($ministryRequest->status, [RequestStatus::Draft, RequestStatus::NeedsClarification], true);
 
-        DB::transaction(function () use ($ministryRequest, $validated, $currentProfile) {
+        DB::transaction(function () use ($ministryRequest, $validated, $currentProfile, $willSubmit) {
             $ministryRequest->update($this->requestAttributes($validated, $currentProfile));
             $this->saveMinistryBriefDetails($ministryRequest, $validated, $currentProfile);
 
-            if ($validated['intent'] === 'submit') {
+            if ($willSubmit) {
                 $this->requestIntakeService->transition($ministryRequest->refresh(), RequestStatus::Submitted, $currentProfile);
             }
         });
 
         return to_route('requests.show', $ministryRequest)
-            ->with('status', $validated['intent'] === 'submit' ? 'Your request has been submitted.' : 'Your draft has been saved.');
+            ->with('status', $willSubmit
+                ? 'Your request has been submitted.'
+                : 'Your request changes have been saved.');
     }
 
     public function submit(Request $request, MinistryRequest $ministryRequest): RedirectResponse
@@ -173,7 +177,14 @@ class MinistryRequestController extends Controller
     private function authorizeEditableRequest(MinistryRequest $request, Profile $profile): void
     {
         $this->authorizeOwnedRequest($request, $profile);
-        abort_unless(in_array($request->status, [RequestStatus::Draft, RequestStatus::NeedsClarification], true), 403);
+        abort_unless(in_array($request->status, [
+            RequestStatus::Draft,
+            RequestStatus::Submitted,
+            RequestStatus::NeedsClarification,
+            RequestStatus::InTriage,
+            RequestStatus::Accepted,
+            RequestStatus::Deferred,
+        ], true), 403);
     }
 
     private function departmentsFor(Profile $profile)
