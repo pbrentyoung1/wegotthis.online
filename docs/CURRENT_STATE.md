@@ -31,6 +31,9 @@ Track the actual state of the project so planning, design, and development work 
 - Fortify authentication is connected to the ForWorship-branded Blade views. Login, logout, password reset, email verification, password confirmation, and two-factor challenge flows are implemented. **Registration is disabled — user accounts are created by invitation only.** The `sign-up.blade.php` view is retained for the future invitation-acceptance flow.
 - Authenticated users can edit their login name, email, and canonical organization profile fields through the Inspinia account-settings screen.
 - Verified internal users with an active organization profile can view and filter a read-only, organization-scoped People directory.
+- Profiles expose reusable organization-scoped permission checks based on active role assignments.
+- Users with `requests.submit` can create, save, edit, view, and submit their own ministry requests through the Inspinia Blade UI.
+- Request intake UI access and record visibility are permission-, organization-, and requester-scoped. Submitted requests are read-only to the requester.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
 - Canonical implementation guidance now uses Laravel 13, `organization_id`, the implemented Phase 1 role vocabulary, and Projects -> Deliverables -> Tasks as the MVP operational spine.
@@ -45,10 +48,12 @@ Track the actual state of the project so planning, design, and development work 
   - a request intake domain write service for organization scope and lifecycle transitions
   - an opt-in Grace Community Church VBS request scenario seeder
   - focused request intake feature tests
+  - requester-facing My Requests, draft intake form, and request detail screens
+  - reusable permission-based request lifecycle authorization
 
 ## ForWorship Theme and Branding Applied
 
-The Inspinia starterkit has been visually aligned to the ForWorship brand. This work is in the uncommitted working tree along with the auth/profile/people work described above.
+The Inspinia starterkit has been visually aligned to the ForWorship brand.
 
 ### Theme and App Shell
 
@@ -114,14 +119,12 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Finish reconciling Phase 1 identity administration:
-   - authorized role and permission visibility/management
-2. Build the Phase 2 request intake UI on the implemented request domain service.
-3. Implement Projects -> Deliverables -> Tasks and request-to-project conversion.
-4. Add contextual conversations and activity history.
-5. Add deliverable-centered reviews, approvals, and change requests.
-6. Add basic file/external-link attachment support and simple dashboard/date visibility.
-7. Validate the complete request-to-approved-deliverable loop locally and in staging.
+1. Build the Communications triage queue and request clarification/decision UI.
+2. Implement Projects -> Deliverables -> Tasks and request-to-project conversion.
+3. Add contextual conversations and activity history.
+4. Add deliverable-centered reviews, approvals, and change requests.
+5. Add basic file/external-link attachment support and simple dashboard/date visibility.
+6. Validate the complete request-to-approved-deliverable loop locally and in staging.
 
 Do not import the historical Inertia/Vue implementation or its duplicate `UserProfile`, role, or permission structures. Recover useful behavior by adapting it to the canonical organization-scoped models and Inspinia Blade frontend.
 
@@ -130,7 +133,7 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - The full Laravel test suite passes.
 - The starterkit Vite production build passes.
-- No request intake UI, Campaigns, Projects, Deliverables, Tasks, conversations, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
+- No Communications triage UI, Campaigns, Projects, Deliverables, Tasks, conversations, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
 - No deployment pipeline exists yet.
 
 Last updated: 2026-06-10 (session 2)

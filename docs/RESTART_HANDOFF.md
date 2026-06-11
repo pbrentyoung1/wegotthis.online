@@ -39,20 +39,7 @@ Current branch:
 main
 ```
 
-Current committed `main` and `origin/main`:
-
-```text
-f96b0ed Merge Inspinia-first MVP frontend correction
-```
-
-The authentication, profile settings, People directory, CSS-loading fix, ForWorship theme/branding, auth page branding, UI demo pages, favicon deployment, Quill.js integration, and invite-only registration described below currently exist as **uncommitted tracked and untracked work in the working tree**.
-
-Before starting another feature:
-
-1. Review the working tree carefully.
-2. Preserve the intended reconciliation files.
-3. Do not stage known unrelated untracked residue.
-4. Commit/push the reconciliation as a coherent change before beginning a broad new slice.
+The authenticated Inspinia reconciliation, verified demo accounts, and demo profile headshots are committed on `main`. Review `git status` before starting work and do not stage known unrelated untracked residue.
 
 ## Why Reconciliation Was Required
 
@@ -119,7 +106,16 @@ Committed on `main`:
 - `RequestIntakeService`
 - Phase 2 scenario seeder and focused tests
 
-No request intake UI exists yet.
+Requester-facing request intake UI now exists.
+
+Implemented behavior:
+
+- reusable active-role permission checks on `Profile`
+- My Requests list scoped to the signed-in requester and organization
+- need-first request draft creation and editing
+- complete-request submission through `RequestIntakeService`
+- read-only submitted request detail
+- authorization tests for permission, ownership, organization scope, and draft status
 
 No Projects, Deliverables, Tasks, conversations, reviews, assets, or request-to-project conversion exists yet.
 
@@ -284,6 +280,9 @@ Primary working application routes:
 /two-factor-challenge   two-factor challenge
 /settings/profile       account/profile settings
 /people                 organization-scoped People directory
+/requests               requester-scoped My Requests list
+/requests/create        new ministry request
+/requests/{request}     requester-scoped request detail
 ```
 
 UI demo routes (reference only, not product features):
@@ -362,8 +361,8 @@ php artisan test
 Passed:
 
 ```text
-45 tests
-193 assertions
+53 tests
+242 assertions
 ```
 
 ```bash
@@ -443,32 +442,25 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Finish Phase 1 identity administration:
-   - authorized role and permission visibility
-   - carefully scoped management only after authorization behavior is explicit
-2. Build the Phase 2 request intake UI using the existing request domain service.
-3. Build the Communications triage queue and request detail/decision UI.
-4. Implement Projects -> Deliverables -> Tasks and request-to-project conversion.
-5. Add contextual conversations and activity history.
-6. Add deliverable-centered reviews, approvals, and change requests.
-7. Add basic file/external-link attachments and simple dashboard/date visibility.
-8. Validate the complete loop locally and in staging.
+1. Build the Communications triage queue and request clarification/decision UI.
+2. Implement Projects -> Deliverables -> Tasks and request-to-project conversion.
+3. Add contextual conversations and activity history.
+4. Add deliverable-centered reviews, approvals, and change requests.
+5. Add basic file/external-link attachments and simple dashboard/date visibility.
+6. Validate the complete loop locally and in staging.
 
 ## Recommended Next Slice
 
-The next coherent slice is **authorized role and permission visibility**, not broad role mutation.
+The next coherent slice is the **Communications triage queue and request decision UI**.
 
 Requirements:
 
-- use canonical `roles`, `permissions`, `role_permissions`, and `profile_role_assignments`
+- require `requests.triage`
 - remain organization-scoped
-- distinguish global system-role definitions from organization assignments
-- expose role/permission data only to users authorized by current seeded permissions
-- add reusable authorization helpers or policies before management actions
-- do not import historical Inertia/Vue screens
-- do not introduce new roles or permissions without updating canonical docs
-
-After this slice, move directly to request intake and triage UI.
+- list submitted and active-triage requests without exposing drafts
+- support clarification, triage, defer, reject, and accept transitions through `RequestIntakeService`
+- record decision notes for terminal intake decisions
+- preserve requester-facing read-only visibility after submission
 
 ## Do Not Do Next
 

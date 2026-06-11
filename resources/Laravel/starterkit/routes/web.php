@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PeopleDirectoryController;
+use App\Http\Controllers\MinistryRequestController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,10 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('requests', MinistryRequestController::class)
+        ->parameters(['requests' => 'ministryRequest'])
+        ->except(['destroy']);
+    Route::post('/requests/{ministryRequest}/submit', [MinistryRequestController::class, 'submit'])->name('requests.submit');
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
     Route::redirect('/settings', '/settings/profile');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');

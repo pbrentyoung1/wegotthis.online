@@ -123,6 +123,15 @@
                             <span class="menu-text" data-lang="dashboard-projects">Projects</span>
                         </a>
                     </li>
+                    @php($navigationProfile = auth()->user()->profiles()->where("status", "Active")->orderBy("id")->first())
+                    @if ($navigationProfile?->hasPermission("requests.submit"))
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ route("requests.index") }}">
+                                <span class="menu-icon"><i class="iconify tabler--clipboard-text"></i></span>
+                                <span class="menu-text">Requests</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="menu-item">
                         <a class="menu-link" href="{{ route("people.index") }}">
                             <span class="menu-icon"><i class="iconify tabler--users"></i></span>

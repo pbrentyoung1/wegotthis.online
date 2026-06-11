@@ -128,43 +128,36 @@ class RequestIntakeService
     private function allowedTransitions(MinistryRequest $request, Profile $actor): array
     {
         $isRequester = $request->requester_profile_id === $actor->id;
-        $isAdmin = $this->hasActiveRole($actor, 'organization-admin');
-        $isManager = $this->hasActiveRole($actor, 'communications-manager');
+        $canSubmit = $actor->hasPermission('requests.submit');
+        $canTriage = $actor->hasPermission('requests.triage');
+        $canManageOrganization = $actor->hasPermission('organizations.manage');
 
         return match ($request->status) {
-            RequestStatus::Draft => $isRequester || $isAdmin
+            RequestStatus::Draft => ($isRequester && $canSubmit) || $canManageOrganization
                 ? [RequestStatus::Submitted, RequestStatus::Archived]
                 : [],
-            RequestStatus::Submitted => $isManager || $isAdmin
+            RequestStatus::Submitted => $canTriage
                 ? [RequestStatus::NeedsClarification, RequestStatus::InTriage, RequestStatus::Deferred, RequestStatus::Rejected, RequestStatus::Archived]
                 : [],
-            RequestStatus::NeedsClarification => $isAdmin
+            RequestStatus::NeedsClarification => $canManageOrganization
                 ? [RequestStatus::Submitted, RequestStatus::InTriage, RequestStatus::Deferred, RequestStatus::Rejected, RequestStatus::Archived]
-                : ($isRequester
+                : ($isRequester && $canSubmit
                     ? [RequestStatus::Submitted]
-                    : ($isManager ? [RequestStatus::InTriage, RequestStatus::Deferred, RequestStatus::Rejected, RequestStatus::Archived] : [])),
-            RequestStatus::InTriage => $isManager || $isAdmin
+                    : ($canTriage ? [RequestStatus::InTriage, RequestStatus::Deferred, RequestStatus::Rejected, RequestStatus::Archived] : [])),
+            RequestStatus::InTriage => $canTriage
                 ? [RequestStatus::NeedsClarification, RequestStatus::Accepted, RequestStatus::Deferred, RequestStatus::Rejected, RequestStatus::Archived]
                 : [],
-            RequestStatus::Accepted => $isManager || $isAdmin
+            RequestStatus::Accepted => $canTriage
                 ? [RequestStatus::Converted, RequestStatus::Deferred, RequestStatus::Archived]
                 : [],
-            RequestStatus::Deferred => $isManager || $isAdmin
+            RequestStatus::Deferred => $canTriage
                 ? [RequestStatus::InTriage, RequestStatus::Rejected, RequestStatus::Archived]
                 : [],
-            RequestStatus::Rejected, RequestStatus::Converted => $isManager || $isAdmin
+            RequestStatus::Rejected, RequestStatus::Converted => $canTriage
                 ? [RequestStatus::Archived]
                 : [],
             RequestStatus::Archived => [],
         };
-    }
-
-    private function hasActiveRole(Profile $profile, string $roleSlug): bool
-    {
-        return $profile->roleAssignments()
-            ->whereNull('ended_at')
-            ->whereHas('role', fn ($query) => $query->where('slug', $roleSlug))
-            ->exists();
     }
 
     /**

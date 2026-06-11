@@ -65,6 +65,15 @@ class Profile extends Model
             ->withTimestamps();
     }
 
+    public function hasPermission(string $permissionKey): bool
+    {
+        return $this->roleAssignments()
+            ->where('organization_id', $this->organization_id)
+            ->whereNull('ended_at')
+            ->whereHas('role.permissions', fn ($query) => $query->where('key', $permissionKey))
+            ->exists();
+    }
+
     public function submittedRequests(): HasMany
     {
         return $this->hasMany(MinistryRequest::class, 'requester_profile_id');
