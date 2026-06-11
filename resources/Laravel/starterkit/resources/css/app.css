@@ -11,6 +11,7 @@
 @layer base {
 @import "choices.js/public/assets/styles/choices.min.css";
 @import "flatpickr/dist/flatpickr.min.css";
+@import "quill/dist/quill.snow.css";
 }
 
 
@@ -40,6 +41,7 @@
 @import "./config/_theme-modern.css";
 @import "./config/_theme-saas.css";
 @import "./config/_theme-flat.css";
+@import "./config/_theme-forworship.css";
 
 
 @plugin "@iconify/tailwind4" {
@@ -78,3 +80,4 @@
 @import "./pages/_widgets.css";
 
 @import "./plugins/_pass-bar.css";
+@import "./plugins/_quill-editor.css";

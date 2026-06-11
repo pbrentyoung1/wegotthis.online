@@ -1,41 +1,57 @@
 <?php
 
+use App\Http\Controllers\PeopleDirectoryController;
+use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
+    Route::redirect('/settings', '/settings/profile');
+    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/ui/typography', fn () => view('ui.typography'));
+    Route::get('/ui/colors', fn () => view('ui.colors'));
+    Route::get('/ui/buttons', fn () => view('ui.buttons'));
+    Route::get('/ui/forms', fn () => view('ui.forms'));
+    Route::get('/ui/cards', fn () => view('ui.cards'));
 });
 
 Route::get('/auth/lock-screen', function () {
-    return view('auth.lock-screen');
+    return redirect()->route('password.confirm');
 });
 
 Route::get('/auth/sign-in', function () {
-    return view('auth.sign-in');
+    return redirect()->route('login');
 });
 
 Route::get('/auth/new-pass', function () {
-    return view('auth.new-pass');
+    return redirect()->route('password.request');
 });
 
 Route::get('/auth/delete-account', function () {
     return view('auth.delete-account');
 });
 
+// Registration is invite-only — /auth/sign-up redirects to login
 Route::get('/auth/sign-up', function () {
-    return view('auth.sign-up');
+    return redirect()->route('login');
 });
 
 Route::get('/auth/reset-pass', function () {
-    return view('auth.reset-pass');
+    return redirect()->route('password.request');
 });
 
 Route::get('/auth/success-mail', function () {
-    return view('auth.success-mail');
+    return redirect()->route('verification.notice');
 });
 
 Route::get('/auth/two-factor', function () {
-    return view('auth.two-factor');
+    return redirect()->route('two-factor.login');
 });
 
 Route::get('/auth/login-pin', function () {

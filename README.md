@@ -14,6 +14,7 @@ ForWorship Creative is a communications operations platform for churches. It is 
 - Figma will be used for product and interface design.
 - The checked-in application base uses Laravel 13, PostgreSQL, and Inspinia.
 - The checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation is the approved MVP frontend.
+- npm is the canonical JavaScript package manager; commit `package-lock.json` and do not create a Yarn lockfile.
 - `resources/Laravel/starterkit` is the planned Laravel application base.
 - `resources/Laravel/inspinia` is the planned reference implementation for common UI patterns.
 - PostgreSQL should be used from day one.
@@ -42,7 +43,12 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 
 ## Notes
 
-This repository is in early Phase 1 implementation. The Laravel application base and Phase 1 organization, profile, department, role, and permission foundation exist under `resources/Laravel/starterkit`.
+This repository is completing the Phase 1 identity foundation and has begun Phase 2 request/intake implementation. Authentication, self-service profile editing, an organization-scoped People directory, and the Phase 2 request domain foundation exist under `resources/Laravel/starterkit`.
+
+Current operational handoff:
+
+- `/docs/RESTART_HANDOFF.md`
+- `/docs/CURRENT_STATE.md`
 
 Standard Git procedure for this repository:
 

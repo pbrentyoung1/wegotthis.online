@@ -1,61 +1,93 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 :root {
-  --font-serif: "IBM Plex Serif", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
   --font-sans: "IBM Plex Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
-  --color-steady-blue: #4f6b7a;
-  --color-terracotta: #d9865b;
-  --color-sage: #7d9b87;
-  --color-dusty-gold: #c6a56b;
-  --color-soft-clay: #c98d7a;
-  --color-muted-sky: #8aa6b3;
-  --color-deep-forest: #556b61;
-  --color-warm-plum: #7a5c68;
-  --color-warm-canvas: #f7f6f3;
+
+  /* ForWorship brand color primitives */
+  --color-slate: #6b7280;
+  --color-terracotta: #b65e3c;
+  --color-olive: #848e6c;
+  --color-gold: #bfa052;
+  --color-mauve: #7a5c63;
+  --color-canvas: #f7f4ee;
   --color-surface: #ffffff;
-  --color-soft-contrast: #ece9e2;
-  --color-soft-fog: #c3c1bb;
-  --color-primary-text: #2f3437;
-  --color-secondary-text: #66707a;
-  --color-muted-brick: #b46a6a;
-  --page-bg: var(--color-warm-canvas);
+  --color-light-gray: #d6d2c8;
+  --color-near-black: #1c1c1e;
+  --color-dark-bg: #2a2a2d;
+  --color-primary-text: #1c1c1e;
+  --color-secondary-text: #6b7280;
+  --color-muted-brick: #a05252;
+
+  /* Legacy aliases kept for compatibility */
+  --color-steady-blue: var(--color-slate);
+  --color-sage: var(--color-olive);
+  --color-dusty-gold: var(--color-gold);
+  --color-warm-plum: var(--color-mauve);
+  --color-warm-canvas: var(--color-canvas);
+  --color-soft-fog: var(--color-light-gray);
+  --color-soft-contrast: #e4e0d8;
+
+  /* Semantic surface layer */
+  --page-bg: var(--color-canvas);
   --card-bg: var(--color-surface);
-  --panel-bg: #25313a;
-  --accent-blue: var(--color-steady-blue);
+  --panel-bg: #333337;
+
+  /* Accent aliases */
+  --accent-blue: var(--color-slate);
   --accent-coral: var(--color-terracotta);
-  --accent-sage: var(--color-sage);
-  --accent-gold: var(--color-dusty-gold);
-  --accent-clay: var(--color-soft-clay);
-  --accent-sky: var(--color-muted-sky);
-  --accent-forest: var(--color-deep-forest);
-  --accent-plum: var(--color-warm-plum);
-  --accent-blue-soft: #e8eef1;
-  --accent-blue-border: #c8d4da;
-  --accent-coral-soft: #f8ede7;
-  --accent-coral-border: #ebc4ae;
-  --accent-sage-soft: #edf2ee;
-  --accent-sage-border: #cad7ce;
-  --accent-gold-soft: #f6f0e4;
-  --accent-gold-border: #decca7;
-  --accent-clay-soft: #f5ebe7;
-  --accent-clay-border: #dcb4a7;
-  --accent-sky-soft: #ebf1f4;
-  --accent-sky-border: #bfd0d8;
-  --accent-forest-soft: #edf1ef;
-  --accent-forest-border: #b8c4be;
-  --accent-plum-soft: #f1ebee;
-  --accent-plum-border: #cfbec6;
-  --accent-brick-soft: #f5ebeb;
-  --accent-brick-border: #d7aaaa;
+  --accent-sage: var(--color-olive);
+  --accent-gold: var(--color-gold);
+  --accent-clay: var(--color-mauve);
+  --accent-sky: var(--color-slate);
+  --accent-forest: var(--color-olive);
+  --accent-plum: var(--color-mauve);
+
+  /* Slate soft/border */
+  --accent-blue-soft: #eaecef;
+  --accent-blue-border: #bcc2ca;
+
+  /* Terracotta soft/border */
+  --accent-coral-soft: #f5e4db;
+  --accent-coral-border: #d9a48d;
+
+  /* Olive soft/border (also forest) */
+  --accent-sage-soft: #edf0e7;
+  --accent-sage-border: #bfc8b5;
+  --accent-forest-soft: #edf0e7;
+  --accent-forest-border: #bfc8b5;
+
+  /* Gold soft/border */
+  --accent-gold-soft: #f4edda;
+  --accent-gold-border: #dacf9e;
+
+  /* Mauve soft/border (also clay, plum) */
+  --accent-clay-soft: #f0e9eb;
+  --accent-clay-border: #c2afb4;
+  --accent-plum-soft: #f0e9eb;
+  --accent-plum-border: #c2afb4;
+
+  /* Slate aliased as sky */
+  --accent-sky-soft: #eaecef;
+  --accent-sky-border: #bcc2ca;
+
+  /* Error */
+  --accent-brick-soft: #f2e9e9;
+  --accent-brick-border: #ceaaaa;
+
+  /* Text */
   --text-strong: var(--color-primary-text);
-  --text-body: #4c555b;
+  --text-body: #3d3d42;
   --text-muted: var(--color-secondary-text);
-  --border-soft: var(--color-soft-contrast);
-  --surface-soft: #fcfbf8;
-  --panel-accent: #b9cbd4;
-  --panel-muted: #d8dfe3;
+
+  /* Borders and surfaces */
+  --border-soft: #e4e0d8;
+  --surface-soft: #faf9f5;
+  --panel-accent: #9aa0ab;
+  --panel-muted: #c4c8cd;
+
+  /* Shadows */
   --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow-2: 0 4px 12px rgba(15, 23, 42, 0.06);
   --shadow-3: 0 12px 32px rgba(15, 23, 42, 0.1);
@@ -63,42 +95,52 @@
 
 html[data-docs-theme="dark"] {
   color-scheme: dark;
-  --page-bg: #171b1e;
-  --card-bg: #22282c;
-  --panel-bg: #1b2023;
-  --accent-blue: #8aa6b3;
-  --accent-coral: #c98d7a;
-  --accent-sage: #8da897;
-  --accent-gold: #c6a56b;
-  --accent-clay: #c98d7a;
-  --accent-sky: #8aa6b3;
-  --accent-forest: #7d9b87;
-  --accent-plum: #9b7b88;
-  --accent-blue-soft: #233038;
-  --accent-blue-border: #3f5460;
-  --accent-coral-soft: #332824;
-  --accent-coral-border: #6d5047;
-  --accent-sage-soft: #24312b;
-  --accent-sage-border: #486055;
-  --accent-gold-soft: #352f24;
-  --accent-gold-border: #6f6145;
-  --accent-clay-soft: #352926;
-  --accent-clay-border: #725248;
-  --accent-sky-soft: #243039;
-  --accent-sky-border: #455864;
-  --accent-forest-soft: #223029;
-  --accent-forest-border: #445b51;
-  --accent-plum-soft: #2d252b;
-  --accent-plum-border: #5a4952;
-  --accent-brick-soft: #342526;
-  --accent-brick-border: #714b4e;
-  --text-strong: #f1ede8;
-  --text-body: #d2cec8;
-  --text-muted: #a8ada8;
-  --border-soft: #3a4348;
-  --surface-soft: #1d2326;
-  --panel-accent: #d0dde3;
-  --panel-muted: #aab2b7;
+  --page-bg: #1c1c1e;
+  --card-bg: #2a2a2d;
+  --panel-bg: #232326;
+
+  /* Dark mode accents (brightened for dark surfaces) */
+  --accent-blue: #8a95a3;
+  --accent-coral: #c97a5a;
+  --accent-sage: #96a082;
+  --accent-gold: #c6ae6e;
+  --accent-clay: #9a7a82;
+  --accent-sky: #8a95a3;
+  --accent-forest: #96a082;
+  --accent-plum: #9a7a82;
+
+  /* Dark mode soft/border variants */
+  --accent-blue-soft: #252830;
+  --accent-blue-border: #404854;
+  --accent-coral-soft: #2e1e18;
+  --accent-coral-border: #6a3a28;
+  --accent-sage-soft: #1e2418;
+  --accent-sage-border: #485240;
+  --accent-forest-soft: #1e2418;
+  --accent-forest-border: #485240;
+  --accent-gold-soft: #302818;
+  --accent-gold-border: #604e2c;
+  --accent-clay-soft: #281e24;
+  --accent-clay-border: #504048;
+  --accent-plum-soft: #281e24;
+  --accent-plum-border: #504048;
+  --accent-sky-soft: #252830;
+  --accent-sky-border: #404854;
+  --accent-brick-soft: #2e2020;
+  --accent-brick-border: #6e4444;
+
+  /* Text */
+  --text-strong: #f2ede5;
+  --text-body: #d0ccc4;
+  --text-muted: #8a8a94;
+
+  /* Borders and surfaces */
+  --border-soft: #3a3a3e;
+  --surface-soft: #242428;
+  --panel-accent: #d0d5db;
+  --panel-muted: #aab0b6;
+
+  /* Shadows */
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.24);
   --shadow-2: 0 8px 20px rgba(0, 0, 0, 0.24);
   --shadow-3: 0 16px 40px rgba(0, 0, 0, 0.34);
@@ -122,11 +164,11 @@ html[data-docs-theme="dark"] .bg-white {
 }
 
 html[data-docs-theme="dark"] .bg-white\/70 {
-  background-color: rgba(34, 40, 44, 0.72) !important;
+  background-color: rgba(42, 42, 45, 0.72) !important;
 }
 
 html[data-docs-theme="dark"] .bg-white\/80 {
-  background-color: rgba(34, 40, 44, 0.82) !important;
+  background-color: rgba(42, 42, 45, 0.82) !important;
 }
 
 html[data-docs-theme="dark"] .bg-white\/5 {
@@ -186,13 +228,6 @@ a {
 .docs-display {
   font-family: var(--font-serif);
   letter-spacing: -0.02em;
-}
-
-.font-hand {
-  font-family: var(--font-hand);
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 0.92;
 }
 
 .theme-toggle-wrap {

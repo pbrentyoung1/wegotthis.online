@@ -2,36 +2,33 @@
 import DocsLayout from "../../components/layout/DocsLayout.astro";
 
 const corePalette = [
-  { name: "Steady Blue", hex: "#4F6B7A", usage: "Primary brand emphasis, calm action states, structure." },
-  { name: "Terracotta", hex: "#D9865B", usage: "Warm prompts, editorial accents, conversational warmth." },
-  { name: "Sage", hex: "#7D9B87", usage: "Supportive moments, collaboration, calm secondary emphasis." },
-  { name: "Warm Canvas", hex: "#F7F6F3", usage: "Primary page background and workspace atmosphere." },
-  { name: "Surface", hex: "#FFFFFF", usage: "Cards, forms, panels, and readable focus areas." },
-  { name: "Soft Contrast", hex: "#ECE9E2", usage: "Dividers, quiet panels, subtle separation." },
-  { name: "Primary Text", hex: "#2F3437", usage: "Headlines, strong labels, and readable interface text." },
-  { name: "Secondary Text", hex: "#66707A", usage: "Supporting copy, metadata, and softer instructional text." },
+  { name: "Slate", hex: "#6b7280", usage: "Primary structural color, interactive elements, calm emphasis, and secondary text." },
+  { name: "Terracotta", hex: "#b65e3c", usage: "Warmth, conversational energy, creative accents, and editorial highlights." },
+  { name: "Olive", hex: "#848e6c", usage: "Collaboration, growth, steady support, and ministry depth." },
+  { name: "Warm Canvas", hex: "#f7f4ee", usage: "Primary page background and workspace atmosphere." },
+  { name: "Surface", hex: "#ffffff", usage: "Cards, forms, panels, and readable focus areas." },
+  { name: "Light Gray", hex: "#d6d2c8", usage: "Dividers, borders, subtle panels, and quiet structural separation." },
+  { name: "Primary Text", hex: "#1c1c1e", usage: "Headlines, strong labels, readable interface text, and the ForWorship mark." },
+  { name: "Secondary Text", hex: "#6b7280", usage: "Supporting copy, metadata, and softer instructional text." },
 ];
 
 const supportingPalette = [
-  { name: "Dusty Gold", hex: "#C6A56B", usage: "Highlights, celebratory moments, encouragement, and warm callouts.", role: "Hopeful, mature, grounded warmth. Think worn brass, not shiny gold." },
-  { name: "Soft Clay", hex: "#C98D7A", usage: "Secondary warmth, onboarding accents, relational UI, and gentle warning-adjacent moments.", role: "Earthy, human, relational warmth." },
-  { name: "Muted Sky", hex: "#8AA6B3", usage: "Information, AI suggestions, collaboration, planning flows, and quiet highlights.", role: "Air, clarity, openness without generic tech blue." },
-  { name: "Deep Forest", hex: "#556B61", usage: "Confirmation states, grounded success, navigation depth, and calm progress.", role: "Stable, trustworthy, mature. Use instead of bright success green." },
-  { name: "Warm Plum", hex: "#7A5C68", usage: "Reflective moments, storytelling, emotional depth, and occasional editorial accents.", role: "Richness, reflection, emotional intelligence, sophistication." },
-  { name: "Soft Fog", hex: "#C3C1BB", usage: "Panel separation, layered surfaces, hover states, structure, framing, and disabled UI.", role: "Quiet structure without harshness." },
+  { name: "Gold", hex: "#BFA052", usage: "Encouragement, highlights, celebratory moments, and warm callouts.", role: "Worn brass, mature warmth. Hopeful without being bright." },
+  { name: "Mauve", hex: "#7a5c63", usage: "Reflective moments, emotional depth, storytelling, and occasional editorial accents.", role: "Richness, reflection, and emotional intelligence." },
+  { name: "Dark Canvas", hex: "#2a2a2d", usage: "Dark mode page background and base surface.", role: "Warm charcoal without blue cast. Not pure black." },
 ];
 
 const semanticCards = [
   {
     label: "Success",
-    tone: "Use Deep Forest + Sage",
+    tone: "Use Olive",
     className: "border-[var(--accent-forest-border)] bg-[var(--accent-forest-soft)]",
     chipClass: "bg-[var(--accent-forest)] text-white",
     body: "Upload complete. Everything is in place and ready for the next step.",
   },
   {
     label: "Warning",
-    tone: "Use Dusty Gold + Soft Clay",
+    tone: "Use Gold + Terracotta",
     className: "border-[var(--accent-gold-border)] bg-[var(--accent-gold-soft)]",
     chipClass: "bg-[var(--accent-gold)] text-[var(--text-strong)]",
     body: "We still need one date before this can move forward cleanly.",
@@ -45,20 +42,19 @@ const semanticCards = [
   },
   {
     label: "Information",
-    tone: "Use Muted Sky + Steady Blue",
+    tone: "Use Slate",
     className: "border-[var(--accent-sky-border)] bg-[var(--accent-sky-soft)]",
-    chipClass: "bg-[var(--accent-sky)] text-[var(--text-strong)]",
+    chipClass: "bg-[var(--accent-sky)] text-white",
     body: "This request looks similar to last month's event. Want to reuse that structure?",
   },
 ];
 
 const accentExamples = [
-  { name: "Dusty Gold", className: "border-[var(--accent-gold-border)] bg-[var(--accent-gold-soft)]", title: "Encouragement", copy: "You are closer than it feels. Two approvals are already done." },
-  { name: "Soft Clay", className: "border-[var(--accent-clay-border)] bg-[var(--accent-clay-soft)]", title: "Onboarding Warmth", copy: "Start with the basics and we will shape the rest together." },
-  { name: "Muted Sky", className: "border-[var(--accent-sky-border)] bg-[var(--accent-sky-soft)]", title: "AI Suggestion", copy: "There is already a strong template for this. Want to pull it forward?" },
-  { name: "Deep Forest", className: "border-[var(--accent-forest-border)] bg-[var(--accent-forest-soft)]", title: "Grounded Progress", copy: "Everything needed for scheduling is now in place." },
-  { name: "Warm Plum", className: "border-[var(--accent-plum-border)] bg-[var(--accent-plum-soft)]", title: "Reflective Note", copy: "This is a good place to preserve what worked for next season." },
-  { name: "Soft Fog", className: "border-[var(--color-soft-fog)] bg-[var(--color-soft-fog)]/20", title: "Quiet Structure", copy: "Use this for panels, dividers, hover states, and gentle framing." },
+  { name: "Gold", className: "border-[var(--accent-gold-border)] bg-[var(--accent-gold-soft)]", title: "Encouragement", copy: "You're closer than it feels. Two approvals are already done." },
+  { name: "Terracotta", className: "border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)]", title: "Creative Warmth", copy: "Start with what you know and we'll shape the rest together." },
+  { name: "Olive", className: "border-[var(--accent-forest-border)] bg-[var(--accent-forest-soft)]", title: "Grounded Progress", copy: "Everything needed for scheduling is now in place." },
+  { name: "Mauve", className: "border-[var(--accent-plum-border)] bg-[var(--accent-plum-soft)]", title: "Reflective Note", copy: "This is a good place to preserve what worked for next season." },
+  { name: "Light Gray", className: "border-[var(--color-soft-fog)] bg-[var(--color-soft-fog)]/20", title: "Quiet Structure", copy: "Use this for panels, dividers, hover states, and gentle framing." },
 ];
 
 const spacing = [8, 12, 16, 24, 32, 48, 64];
@@ -90,7 +86,7 @@ const shadows = [
           Calm Editorial Workspace
         </h1>
         <p class="mt-5 text-lg leading-relaxed text-[var(--text-muted)]">
-          wegotthis should feel like a calm, capable teammate in visual form: clear, warm, steady, and ready to help without becoming loud, cold, or managerial.
+          ForWorship Creative inherits the ForWorship ecosystem brand fully. The system should feel like a calm, capable teammate in visual form: clear, warm, steady, and ready to help without becoming loud, cold, or managerial.
         </p>
         <div class="mt-6 rounded-[24px] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-6" style="box-shadow: var(--shadow-2);">
           <p class="text-sm leading-relaxed text-[var(--text-body)]" style="font-family: var(--font-serif);">
@@ -110,6 +106,44 @@ const shadows = [
         </div>
         <p class="max-w-xl text-sm leading-relaxed text-[var(--text-muted)]">
           The system should avoid dense enterprise dashboards, harsh admin UI, church clipart energy, productivity-bro aesthetics, overhyped startup styling, and gimmicky AI visuals.
+        </p>
+      </div>
+    </section>
+
+    <section class="docs-card p-6 md:p-8">
+      <p class="eyebrow">Logo and Mark</p>
+      <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
+        One mark, one brand
+      </h2>
+      <p class="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--text-muted)]">
+        ForWorship Creative fully inherits the ForWorship ecosystem brand. The mark is a speech bubble combined with a play button: communication and ministry production in one icon. No module-level visual differentiation — every ForWorship product shares this identity.
+      </p>
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-6" style="box-shadow: var(--shadow-1);">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">Mark — Light Background</p>
+          <div class="mt-4 flex items-center gap-4">
+            <svg class="h-10 w-auto shrink-0" fill="#1c1c1e" viewBox="0 0 155 159" xmlns="http://www.w3.org/2000/svg" aria-label="ForWorship mark">
+              <path d="M81.75,0c26.54,2.56,50,18.25,61.69,41.76,13.03,26.19,10.03,56.63-7.1,79.62l5.9,33.47c.35,1.99-1.31,3.09-2.45,4.15h-2.55l-33.92-12.5c-23.51,9.02-49.37,6.22-70.42-8.1C14.21,125.68,2.2,104.73,0,81.75v-12C3.78,32.19,32.19,3.73,69.75,0h12ZM138.28,75.7c0-34.34-27.84-62.18-62.18-62.18S13.93,41.36,13.93,75.7s27.84,62.18,62.18,62.18,62.18-27.84,62.18-62.18Z"/>
+              <path d="M112.18,79.73l-49.5,28.35c-1.35.77-3.02.64-4.38-.05-.99-.5-2.3-1.92-2.3-3.57v-57.32c0-1.54,1.18-2.9,2.07-3.43,1.4-.83,3.15-1.02,4.61-.19l49.5,28.35c1.53.88,2.28,2.42,2.28,3.93s-.75,3.05-2.28,3.93Z"/>
+            </svg>
+            <p class="text-sm leading-relaxed text-[var(--text-muted)]">Primary Text <span class="font-mono">#1c1c1e</span> on white or Warm Canvas</p>
+          </div>
+        </div>
+        <div class="rounded-[20px] border border-[#3a3a3e] bg-[#1c1c1e] p-6">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#a8a49b]">Mark — Dark Background</p>
+          <div class="mt-4 flex items-center gap-4">
+            <svg class="h-10 w-auto shrink-0" fill="#f7f4ee" viewBox="0 0 155 159" xmlns="http://www.w3.org/2000/svg" aria-label="ForWorship mark">
+              <path d="M81.75,0c26.54,2.56,50,18.25,61.69,41.76,13.03,26.19,10.03,56.63-7.1,79.62l5.9,33.47c.35,1.99-1.31,3.09-2.45,4.15h-2.55l-33.92-12.5c-23.51,9.02-49.37,6.22-70.42-8.1C14.21,125.68,2.2,104.73,0,81.75v-12C3.78,32.19,32.19,3.73,69.75,0h12ZM138.28,75.7c0-34.34-27.84-62.18-62.18-62.18S13.93,41.36,13.93,75.7s27.84,62.18,62.18,62.18,62.18-27.84,62.18-62.18Z"/>
+              <path d="M112.18,79.73l-49.5,28.35c-1.35.77-3.02.64-4.38-.05-.99-.5-2.3-1.92-2.3-3.57v-57.32c0-1.54,1.18-2.9,2.07-3.43,1.4-.83,3.15-1.02,4.61-.19l49.5,28.35c1.53.88,2.28,2.42,2.28,3.93s-.75,3.05-2.28,3.93Z"/>
+            </svg>
+            <p class="text-sm leading-relaxed text-[#a8a49b]">Warm Canvas <span class="font-mono">#f7f4ee</span> on dark backgrounds</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 rounded-[20px] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-5">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">Implementation Note</p>
+        <p class="mt-2 text-sm leading-relaxed text-[var(--text-body)]">
+          Logo assets are at <span class="font-mono">resources/fw_logo_horiz_dark.svg</span> (horizontal, primary) and <span class="font-mono">resources/fw_logo_vert_dark.svg</span> (vertical). In the application, both are inlined as SVG with <span class="font-mono">fill="currentColor"</span> — color adapts via CSS without separate light/dark files. The mark-only version for the collapsed sidebar is achieved by cropping the horizontal SVG to <span class="font-mono">viewBox="0 0 155 159"</span>.
         </p>
       </div>
     </section>
@@ -144,7 +178,7 @@ const shadows = [
         Additional accents, not additional primaries
       </h2>
       <p class="mt-3 max-w-3xl text-sm leading-relaxed text-[var(--text-muted)]">
-        These colors support hierarchy, emotion, and clarity. They should feel like worn brass, clay, sage, muted sky, soft stone, and quiet depth, not a rainbow interface.
+        These colors support hierarchy, emotion, and clarity. They should feel like worn brass, clay, and quiet depth — not a rainbow interface.
       </p>
       <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {supportingPalette.map((token) => (
@@ -198,11 +232,11 @@ const shadows = [
           <div class="rounded-[20px] border border-dashed border-[var(--accent-brick-border)] bg-white p-4">
             <p class="text-sm font-semibold text-[var(--text-strong)]">Avoid</p>
             <div class="mt-3 flex flex-wrap gap-2">
-              <span class="rounded-full bg-[var(--accent-blue)] px-3 py-1 text-xs font-semibold text-white">Blue</span>
-              <span class="rounded-full bg-[var(--accent-coral)] px-3 py-1 text-xs font-semibold text-white">Clay</span>
+              <span class="rounded-full bg-[var(--accent-blue)] px-3 py-1 text-xs font-semibold text-white">Slate</span>
+              <span class="rounded-full bg-[var(--accent-coral)] px-3 py-1 text-xs font-semibold text-white">Terracotta</span>
               <span class="rounded-full bg-[var(--accent-gold)] px-3 py-1 text-xs font-semibold text-[var(--text-strong)]">Gold</span>
-              <span class="rounded-full bg-[var(--accent-sage)] px-3 py-1 text-xs font-semibold text-white">Sage</span>
-              <span class="rounded-full bg-[var(--accent-plum)] px-3 py-1 text-xs font-semibold text-white">Plum</span>
+              <span class="rounded-full bg-[var(--accent-sage)] px-3 py-1 text-xs font-semibold text-white">Olive</span>
+              <span class="rounded-full bg-[var(--accent-plum)] px-3 py-1 text-xs font-semibold text-white">Mauve</span>
             </div>
             <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
               Do not turn dashboards into multicolor status walls. Use color to support meaning, not to decorate empty space.
@@ -215,7 +249,7 @@ const shadows = [
     <section class="docs-card p-6 md:p-8">
       <p class="eyebrow">Neutral Layering</p>
       <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
-        Warm Canvas, Soft Contrast, Soft Fog, and Surface working together
+        Warm Canvas, Light Gray, and Surface working together
       </h2>
       <div class="mt-6 rounded-[28px] border border-[var(--color-soft-fog)] bg-[var(--color-warm-canvas)] p-5">
         <div class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
@@ -223,14 +257,14 @@ const shadows = [
             <p class="text-sm font-semibold text-[var(--text-strong)]">Project Snapshot</p>
             <p class="mt-2 text-sm text-[var(--text-muted)]">Surface card on Warm Canvas</p>
             <div class="mt-4 rounded-[16px] bg-[var(--color-soft-contrast)] p-4">
-              <p class="text-sm text-[var(--text-body)]">Soft Contrast separates related information without feeling cold.</p>
+              <p class="text-sm text-[var(--text-body)]">Light Gray separates related information without feeling cold.</p>
             </div>
           </div>
-          <div class="rounded-[22px] border border-[var(--color-soft-fog)] p-5" style="background: rgba(195, 193, 187, 0.18);">
+          <div class="rounded-[22px] border border-[var(--color-soft-fog)] p-5" style="background: rgba(214, 210, 200, 0.18);">
             <div class="rounded-[18px] border border-[var(--color-soft-contrast)] bg-[var(--color-surface)] p-4">
               <div class="flex items-center justify-between gap-3">
                 <p class="text-sm font-semibold text-[var(--text-strong)]">Layered Panel</p>
-                <span class="rounded-full bg-[var(--color-soft-contrast)] px-3 py-1 text-xs font-semibold text-[var(--text-muted)]">Soft Fog frame</span>
+                <span class="rounded-full bg-[var(--color-soft-contrast)] px-3 py-1 text-xs font-semibold text-[var(--text-muted)]">Light Gray frame</span>
               </div>
               <div class="mt-4 space-y-3">
                 <div class="h-3 rounded-full bg-[var(--color-soft-contrast)]"></div>
@@ -266,43 +300,25 @@ const shadows = [
           Editorial warmth with operational clarity
         </h2>
         <div class="mt-6 space-y-4">
-          <div class="grid gap-4 xl:grid-cols-3">
+          <div class="grid gap-4 xl:grid-cols-2">
             <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">IBM Plex Serif</p>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Fraunces</p>
               <p class="mt-3 text-4xl leading-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
                 Let's get your team organized.
               </p>
               <p class="mt-3 text-sm text-[var(--text-muted)]">
-                Editorial brand voice for marketing headlines, page headlines, major section titles, onboarding headers, campaign titles, product storytelling, and important empty states.
+                Editorial brand voice for marketing headlines, page headlines, major section titles, onboarding headers, campaign titles, product storytelling, important empty states, and warmth moments.
               </p>
             </div>
             <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
               <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-sage)]">IBM Plex Sans</p>
-            <p class="mt-3 text-lg leading-tight text-[var(--text-body)]" style="font-family: var(--font-sans);">
-              We'll walk through the essentials together and help shape your workspace around the way your church actually works.
-            </p>
+              <p class="mt-3 text-lg leading-tight text-[var(--text-body)]" style="font-family: var(--font-sans);">
+                We'll walk through the essentials together and help shape your workspace around the way your church actually works.
+              </p>
               <p class="mt-3 text-sm text-[var(--text-muted)]">
                 Operational workhorse for navigation, body copy, buttons, labels, forms, menus, tables, metadata, settings, dashboards, notifications, tasks, and dense information areas.
               </p>
             </div>
-            <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
-              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">Caveat</p>
-              <p class="font-hand mt-3 text-[24px] leading-tight text-[var(--accent-coral)]">
-                We'll help you figure it out.
-              </p>
-              <p class="mt-3 text-sm text-[var(--text-muted)]">
-                Human accent layer for margin-note encouragement, onboarding reassurance, celebratory confirmations, subtle annotations, AI reassurance, and small "we got this" moments.
-              </p>
-            </div>
-          </div>
-          <div class="rounded-[20px] border border-[var(--accent-coral-border)] bg-[var(--accent-coral-soft)] p-5" style="box-shadow: var(--shadow-1);">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-coral)]">Guidance</p>
-            <p class="mt-3 text-sm leading-relaxed text-[var(--text-body)]">
-              Caveat should feel discovered, not designed. Use it like a margin note, not a headline system.
-            </p>
-            <p class="mt-3 text-sm leading-relaxed text-[var(--text-muted)]">
-              Keep it regular weight, usually 14px to 24px, with tighter tracking around `-0.02em`, and in muted colors rather than high-contrast treatment.
-            </p>
           </div>
           <div class="rounded-[20px] border border-[var(--border-soft)] bg-[var(--surface-soft)] p-5" style="box-shadow: var(--shadow-1);">
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Working Together</p>
@@ -313,22 +329,18 @@ const shadows = [
               <p class="text-base leading-relaxed text-[var(--text-body)]" style="font-family: var(--font-sans);">
                 We'll walk through the essentials together and help shape your workspace around the way your church actually works.
               </p>
-              <p class="font-hand text-[22px] leading-tight text-[var(--accent-sage)]">
+              <p class="text-2xl italic leading-snug text-[var(--accent-coral)]" style="font-family: var(--font-serif);">
                 We'll help you figure it out.
               </p>
             </div>
-            <div class="mt-4 grid gap-3 md:grid-cols-3">
+            <div class="mt-4 grid gap-3 md:grid-cols-2">
               <div class="rounded-[16px] border border-[var(--border-soft)] bg-white px-4 py-3 text-sm text-[var(--text-body)]">
-                <span class="font-semibold text-[var(--text-strong)]">IBM Plex Serif</span><br />
-                We understand.
+                <span class="font-semibold text-[var(--text-strong)]">Fraunces</span><br />
+                We understand. You're not alone.
               </div>
               <div class="rounded-[16px] border border-[var(--border-soft)] bg-white px-4 py-3 text-sm text-[var(--text-body)]">
                 <span class="font-semibold text-[var(--text-strong)]">IBM Plex Sans</span><br />
                 We can handle this.
-              </div>
-              <div class="rounded-[16px] border border-[var(--border-soft)] bg-white px-4 py-3 text-sm text-[var(--text-body)]">
-                <span class="font-semibold text-[var(--text-strong)]">Caveat</span><br />
-                You're not alone.
               </div>
             </div>
           </div>
@@ -347,7 +359,7 @@ const shadows = [
           {spacing.map((value) => (
             <div class="rounded-[18px] border border-[var(--border-soft)] bg-white px-4 py-3" style="box-shadow: var(--shadow-1);">
               <div class="flex items-center gap-4">
-                <div class="h-4 rounded-full" style={`width:${value * 4}px; background: rgba(79, 107, 122, 0.18);`}></div>
+                <div class="h-4 rounded-full" style={`width:${value * 4}px; background: rgba(107, 114, 128, 0.2);`}></div>
                 <div class="text-sm font-medium text-[var(--text-strong)]">{value}px</div>
               </div>
             </div>
@@ -409,7 +421,7 @@ const shadows = [
             <div class="mt-4 flex flex-wrap gap-3">
               <button class="rounded-[10px] bg-[var(--accent-blue)] px-4 py-2.5 text-sm font-medium text-white" style="box-shadow: var(--shadow-1);">Start a project</button>
               <button class="rounded-[10px] border border-[var(--border-soft)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--text-strong)]">Ask for approval</button>
-              <button class="rounded-[10px] px-4 py-2.5 text-sm font-medium text-[var(--accent-coral)]" style="background: rgba(217, 134, 91, 0.12);">Need a quick note?</button>
+              <button class="rounded-[10px] px-4 py-2.5 text-sm font-medium text-[var(--accent-coral)]" style="background: rgba(182, 94, 60, 0.10);">Need a quick note?</button>
             </div>
           </div>
 
@@ -435,9 +447,9 @@ const shadows = [
                 Sunday announcement details, event timing, audience, and any files that would help.
               </div>
               <div class="mt-3 flex flex-wrap gap-2 text-sm">
-                <span class="rounded-full px-3 py-1 text-[var(--accent-blue)]" style="background: rgba(79, 107, 122, 0.1);">Need a date</span>
-                <span class="rounded-full px-3 py-1 text-[var(--accent-sage)]" style="background: rgba(125, 155, 135, 0.12);">Who is helping?</span>
-                <span class="rounded-full px-3 py-1 text-[var(--accent-coral)]" style="background: rgba(217, 134, 91, 0.12);">Anything already drafted?</span>
+                <span class="rounded-full px-3 py-1 text-[var(--accent-blue)]" style="background: rgba(107, 114, 128, 0.1);">Need a date</span>
+                <span class="rounded-full px-3 py-1 text-[var(--accent-sage)]" style="background: rgba(132, 142, 108, 0.12);">Who is helping?</span>
+                <span class="rounded-full px-3 py-1 text-[var(--accent-coral)]" style="background: rgba(182, 94, 60, 0.10);">Anything already drafted?</span>
               </div>
             </div>
           </div>
@@ -455,7 +467,7 @@ const shadows = [
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent-blue)]">Empty State</p>
             <p class="mt-3 text-2xl text-[var(--text-strong)]" style="font-family: var(--font-serif);">Looks quiet in here. Want to plan something together?</p>
             <p class="mt-2 text-sm text-[var(--text-muted)]">Empty states should invite momentum without sounding synthetic or overly cheerful.</p>
-            <p class="font-hand mt-3 text-[20px] text-[var(--accent-sage)]">We've got room to start this together.</p>
+            <p class="mt-3 text-xl italic text-[var(--accent-sage)]" style="font-family: var(--font-serif);">We've got room to start this together.</p>
           </div>
 
           <div class="rounded-[20px] border border-[var(--border-soft)] bg-white p-5" style="box-shadow: var(--shadow-1);">
@@ -473,7 +485,7 @@ const shadows = [
               <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">
                 This request sounds similar to last month's event promotion. Want me to pull that structure forward so you can edit instead of starting from scratch?
               </p>
-              <p class="font-hand mt-3 text-[20px] text-[var(--accent-coral)]">You don't have to start from zero.</p>
+              <p class="mt-3 text-xl italic text-[var(--accent-coral)]" style="font-family: var(--font-serif);">You don't have to start from zero.</p>
             </div>
           </div>
         </div>
@@ -485,24 +497,24 @@ const shadows = [
       <h2 class="mt-3 text-3xl tracking-tight text-[var(--text-strong)]" style="font-family: var(--font-serif);">
         Warm late-night workspace
       </h2>
-      <div class="mt-6 rounded-[24px] border border-[#3A4348] bg-[#23282C] p-6 shadow-[0_12px_32px_rgba(10,14,18,0.26)]">
+      <div class="mt-6 rounded-[24px] border border-[#3A3A3E] bg-[#1c1c1e] p-6 shadow-[0_12px_32px_rgba(10,14,18,0.26)]">
         <div class="grid gap-4 md:grid-cols-[0.8fr_1.2fr]">
           <div class="rounded-[20px] border border-white/10 bg-white/5 p-5">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8C6CE]">Dark Mode Direction</p>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[#a0a8b0]">Dark Mode Direction</p>
             <p class="mt-3 text-2xl text-white" style="font-family: var(--font-serif);">
               Warm, calm, and readable.
             </p>
             <p class="mt-3 text-sm leading-relaxed text-slate-300">
-              Avoid pure black, neon accents, and cyberpunk contrast. The mood should feel like focused evening work, not a control room.
+              Base: <span class="font-mono">#1c1c1e</span>. Canvas: <span class="font-mono">#2a2a2d</span>. Avoid pure black, neon accents, and cyberpunk contrast. The mood should feel like focused evening work, not a control room.
             </p>
           </div>
-          <div class="rounded-[20px] border border-white/10 bg-[#2B3136] p-5">
+          <div class="rounded-[20px] border border-white/10 bg-[#2a2a2d] p-5">
             <div class="flex items-center justify-between gap-3">
               <div>
                 <p class="text-sm font-semibold text-white">Weekend service plan</p>
                 <p class="mt-1 text-sm text-slate-300">Two approvals complete, one note still open.</p>
               </div>
-              <span class="rounded-full px-3 py-1 text-xs font-semibold text-[#B9D1C0]" style="background: rgba(125, 155, 135, 0.2);">Steady</span>
+              <span class="rounded-full px-3 py-1 text-xs font-semibold text-[#96a082]" style="background: rgba(132, 142, 108, 0.2);">Steady</span>
             </div>
             <div class="mt-4 rounded-[16px] bg-white/5 p-4 text-sm leading-relaxed text-slate-300">
               Looks like the final social caption still needs review. Want me to bring the last approved version into view?

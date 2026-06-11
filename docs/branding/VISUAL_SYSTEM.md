@@ -6,6 +6,7 @@ Document the current visual system direction for ForWorship Creative so design, 
 
 ## Current Decisions
 
+- ForWorship Creative inherits the ForWorship ecosystem brand fully. There is no separate module-level visual identity.
 - The visual direction is a calm editorial workspace.
 - The interface should express calm, support, clarity, warmth, confidence, and collaboration.
 - The interface should feel like a thoughtfully designed creative workspace before the team arrives: morning light, calm order, quiet readiness, and the sense that someone capable is already helping.
@@ -39,21 +40,20 @@ Document the current visual system direction for ForWorship Creative so design, 
 
 ## Color Tokens
 
-- Steady Blue: `#4F6B7A` for intelligent, trustworthy, grounded, calm emphasis.
-- Terracotta: `#D9865B` for human warmth, conversation, and creativity.
-- Sage: `#7D9B87` for collaboration, stability, and ministry softness.
-- Dusty Gold: `#C6A56B` for hopeful highlights, encouragement, and warm callouts.
-- Soft Clay: `#C98D7A` for soft onboarding warmth, relational emphasis, and gentle warning-adjacent moments.
-- Muted Sky: `#8AA6B3` for information, planning, collaboration, and calm AI guidance.
-- Deep Forest: `#556B61` for success, progress, editorial grounding, and calm navigation depth.
-- Warm Plum: `#7A5C68` for reflective moments, storytelling, emotional depth, and occasional editorial accents.
-- Warm Canvas: `#F7F6F3` for the primary background.
-- Surface: `#FFFFFF` for cards, panels, and focus surfaces.
-- Soft Contrast: `#ECE9E2` for dividers, subtle panels, and quiet separation.
-- Soft Fog: `#C3C1BB` for panel separation, hover states, structural framing, table structure, and disabled states.
-- Primary Text: `#2F3437` for strong readable text.
-- Secondary Text: `#66707A` for supporting copy and metadata.
-- Muted Brick: `#B46A6A` for true error or destructive moments only.
+These are the ForWorship brand colors. All color tokens trace back to this palette.
+
+- **Slate:** `#6b7280` for structural elements, interactive states, calm emphasis, and secondary text.
+- **Terracotta:** `#b65e3c` for warmth, conversational energy, creative accents, and editorial highlights.
+- **Olive:** `#848e6c` for collaboration, growth, steady support, and ministry depth.
+- **Gold:** `#BFA052` for encouragement, highlights, celebratory moments, and warm callouts.
+- **Mauve:** `#7a5c63` for reflective moments, emotional depth, storytelling, and occasional editorial accents.
+- **Warm Canvas:** `#f7f4ee` for the primary page background and workspace atmosphere.
+- **Surface:** `#FFFFFF` for cards, panels, and readable focus surfaces.
+- **Light Gray:** `#d6d2c8` for dividers, borders, subtle panels, and quiet structural separation.
+- **Primary Text:** `#1c1c1e` for strong readable text and the ForWorship mark color.
+- **Secondary Text:** `#6b7280` for supporting copy and metadata.
+- **Dark Canvas:** `#2a2a2d` for the dark mode page background.
+- **Muted Brick:** `#a05252` for true error or destructive moments only (derived semantic token, not a ForWorship brand color).
 
 ## Color Restraint
 
@@ -65,26 +65,36 @@ Document the current visual system direction for ForWorship Creative so design, 
 
 ## Semantic Color Guidance
 
-- Success should prefer Deep Forest and Sage so progress feels grounded, not neon.
-- Warning should prefer Dusty Gold and Soft Clay so attention feels thoughtful rather than alarm-heavy.
+- Success should prefer Olive so progress feels grounded rather than neon.
+- Warning should prefer Gold so attention feels mature and hopeful rather than alarm-heavy.
 - Error should prefer Muted Brick and appear only when true destructive or failure states require clarity.
-- Information should prefer Muted Sky and Steady Blue so guidance feels clear and calm.
-- Neutral structure should rely on Warm Canvas, Soft Contrast, Soft Fog, Surface, Primary Text, and Secondary Text.
+- Information should prefer Slate so guidance feels calm and structural.
+- Neutral structure should rely on Warm Canvas, Surface, Light Gray, Primary Text, and Secondary Text.
+
+## Logo and Mark
+
+- The ForWorship mark is a speech bubble combined with a play button icon: a circle outline with a message bubble tail, containing a centered play triangle.
+- The mark represents ForWorship as a platform of communication and ministry production support.
+- **Logo assets (in `resources/`):**
+  - `fw_logo_horiz_dark.svg` — full horizontal wordmark (mark + "ForWorship" text), dark ink `#1c1c1c`, for light backgrounds. **Primary asset for app use.**
+  - `fw_logo_vert_dark.svg` — full vertical wordmark (mark above "ForWorship" text), dark ink, for light backgrounds. Available for alternate use.
+  - `forworship logo.svg` — mark only, original reference SVG.
+- The SVG ink color is `#1c1c1c`, visually identical to Primary Text `#1c1c1e`.
+- **Application implementation pattern:** Inline SVG with `fill="currentColor"`. Do not use `<img>` tags for the logo. Inline SVG allows the logo to adapt to light and dark sidebar/topbar themes via CSS color without separate file variants.
+  - Light backgrounds: `text-[#1c1c1e]` on the containing span
+  - Dark backgrounds: `text-[#f7f4ee]` on the containing span
+- **Collapsed sidebar (logo-sm):** The mark is isolated by using `viewBox="0 0 155 159"` on the same horizontal SVG paths — all wordmark paths start at x > 155 and fall outside the viewport automatically.
+- **Inspinia logo variants:** `logo-dark` (shown on light backgrounds by default) and `logo-light` (shown on dark backgrounds) both use the same inline SVG approach with different color classes.
 
 ## Typography System
 
-- IBM Plex Serif is the primary brand typography direction.
+- Fraunces is the primary brand typography direction for ForWorship Creative.
 - IBM Plex Sans is the primary operational UI font and should support dense UI, labels, metadata, tables, navigation, forms, dashboards, notifications, and task interfaces.
-- Caveat is the human accent layer and should only appear in small, sparing moments of reassurance or warmth.
-- IBM Plex Serif should be used for marketing headlines, page headlines, major section titles, onboarding headers, campaign or project titles, storytelling, and important empty states.
-- Caveat should be reserved for margin-note encouragement, onboarding reassurance, empty-state emotional notes, celebratory confirmations, subtle annotations, AI reassurance moments, and small "we got this" notes.
-- Caveat should not appear in body copy, navigation, buttons, labels, tables, forms, menus, dashboards, alerts, large paragraphs, or operational workflows.
-- Caveat should use regular weight only, usually between 14px and 24px, with tighter tracking around `-0.02em`.
+- Fraunces should be used for marketing headlines, page headlines, major section titles, onboarding headers, campaign or project titles, storytelling, important empty states, and small emotional warmth moments.
 - Typography should feel intelligent, thoughtful, human, calm, personal, and readable.
 - Typography emotional system:
-  - IBM Plex Serif says: "We understand."
+  - Fraunces says: "We understand. You're not alone."
   - IBM Plex Sans says: "We can handle this."
-  - Caveat says: "You're not alone."
 
 ## Motion Philosophy
 
@@ -114,21 +124,20 @@ Document the current visual system direction for ForWorship Creative so design, 
 ## Dark Mode
 
 - Dark mode should feel warm and usable.
+- Base surface: `#2a2a2d`. Page background: `#1c1c1e`.
 - Avoid pure black, cyberpunk contrast, and neon accents.
 - The target mood is a late-night creative workspace, not a futuristic control room.
 
 ## Open Questions
 
-- What semantic success, warning, and error colors best fit this system without breaking the calm tone?
-- What exact placement and frequency rules should govern Caveat so it stays rare and believable?
-- How much editorial typography can dense workspace screens carry before readability drops?
-- What dark mode surface values best preserve warmth and contrast?
+- What exact type scale and usage rules should govern Fraunces and IBM Plex Sans in dense workspace screens?
+- What dark mode surface values best preserve warmth and readability at every layer?
+- What exact placement and frequency rules should govern Fraunces warmth moments in the app UI?
 
 ## Notes
 
 - Treat these decisions as the current visual system baseline for both design and implementation.
 - Future UI tokens, Figma libraries, and code-level design tokens should trace back to this document.
-- The complete typography system should feel like thoughtful software with editorial warmth and human reassurance.
-- The palette should feel like materials in a thoughtfully designed creative studio: warm paper, soft stone, worn brass, clay, sage, muted sky, and quiet depth.
+- The palette should feel like materials in a thoughtfully designed creative studio: warm paper, soft stone, worn brass, clay, olive, and quiet depth.
 
-Last updated: 2026-05-24
+Last updated: 2026-06-10

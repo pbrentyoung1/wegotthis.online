@@ -9,20 +9,19 @@
             <div class="flex justify-center px-2.5">
                 <div class="2xl:w-4/10 md:w-1/2 sm:w-2/3 w-full">
                     <div class="mb-3 flex flex-col items-center justify-center text-center">
-                        <a class="auth-logo" href="{{ url("/") }}">
-                            <img alt="logo" class="flex dark:hidden" src="/images/logo-black.png" />
-                            <img alt="dark logo" class="hidden dark:flex" src="/images/logo.png" />
-                        </a>
-                        <h4 class="font-bold text-base text-dark mt-5 mb-2">Lock Screen!</h4>
-                        <p class="text-default-400 mx-auto w-full lg:w-3/4 mb-4">This screen is locked. Enter your password to continue</p>
+                        @include("auth.partials.logo")
+                        <h4 class="font-bold text-base text-dark mt-2 mb-2">Screen locked</h4>
+                        <p class="text-default-400 mx-auto w-full lg:w-3/4 mb-4">Enter your password to continue.</p>
                     </div>
                     <div class="card p-7.5 rounded-2xl">
-                        <form action="index.html">
+                        @include("auth.partials.messages")
+                        <form action="{{ route("password.confirm.store") }}" method="POST">
+                            @csrf
                             <div class="mb-9 text-center">
                                 <div class="border-default-300 mx-auto mb-3 size-20 rounded-full border-4">
                                     <img alt="thumbnail" class="size-18 rounded-full" src="/images/users/user-1.jpg" />
                                 </div>
-                                <h5 class="text-base mb-2 font-semibold">Damian D.</h5>
+                                <h5 class="text-base mb-2 font-semibold">{{ auth()->user()->name }}</h5>
                             </div>
                             <div class="mb-5">
                                 <label class="form-label" for="userPassword">
@@ -30,7 +29,7 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input class="form-input" id="userPassword" placeholder="••••••••" required="" type="password" />
+                                    <input autocomplete="current-password" autofocus class="form-input" id="userPassword" name="password" placeholder="••••••••" required type="password" />
                                 </div>
                             </div>
                             <div>
@@ -39,14 +38,11 @@
                         </form>
                         <p class="text-default-400 mt-7.5 text-center">
                             Not you? Return to
-                            <a class="text-primary font-semibol underline underline-offset-3" href="{{ url("/auth/sign-in") }}">Sign in</a>
+                            <a class="text-primary font-semibol underline underline-offset-3" href="{{ route("login") }}">Sign in</a>
                         </p>
                     </div>
                     <p class="text-default-400 mt-7.5 text-center">
-                        ©
-                        <span data-current-year=""></span>
-                        Inspinia - by
-                        <span>WebAppLayers</span>
+                        © <span data-current-year=""></span> ForWorship Creative
                     </p>
                 </div>
             </div>

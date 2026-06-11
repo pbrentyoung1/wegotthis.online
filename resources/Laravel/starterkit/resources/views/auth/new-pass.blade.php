@@ -9,36 +9,22 @@
             <div class="flex justify-center px-2.5">
                 <div class="2xl:w-4/10 md:w-1/2 sm:w-2/3 w-full">
                     <div class="mb-3 flex flex-col items-center justify-center text-center">
-                        <a class="auth-logo" href="{{ url("/") }}">
-                            <img alt="logo" class="flex dark:hidden" src="/images/logo-black.png" />
-                            <img alt="dark logo" class="hidden dark:flex" src="/images/logo.png" />
-                        </a>
-                        <h4 class="font-bold text-base text-dark mt-5 mb-2">Setup New Password!</h4>
-                        <p class="text-default-400 mx-auto w-full lg:w-3/4 mb-4">We've emailed you a 6-digit verification code. Please enter it below to confirm your email address</p>
+                        @include("auth.partials.logo")
+                        <h4 class="font-bold text-base text-dark mt-2 mb-2">Choose a new password</h4>
+                        <p class="text-default-400 mx-auto w-full lg:w-3/4 mb-4">Enter and confirm your new password to get back to your workspace.</p>
                     </div>
                     <div class="card p-7.5 rounded-2xl">
-                        <form action="index.html">
+                        @include("auth.partials.messages")
+                        <form action="{{ route("password.update") }}" method="POST">
+                            @csrf
+                            <input name="token" type="hidden" value="{{ $token }}" />
                             <div class="mb-5">
                                 <label class="form-label" for="userEmail">
                                     Email address
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input class="form-input cursor-not-allowed" id="userEmail" required="" type="email" value="your@email.com" />
-                                </div>
-                            </div>
-                            <div class="mb-5">
-                                <label class="form-label" for="userEmail">
-                                    Enter your 6-digit code
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <div class="two-factor flex gap-2">
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
+                                    <input autocomplete="email" class="form-input" id="userEmail" name="email" required type="email" value="{{ old("email", $email) }}" />
                                 </div>
                             </div>
                             <div class="mb-5" data-password="bar">
@@ -46,7 +32,7 @@
                                     Password
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input class="form-input" id="userPassword" placeholder="••••••••" type="password" />
+                                <input autocomplete="new-password" class="form-input" id="userPassword" name="password" placeholder="••••••••" required type="password" />
                                 <div class="password-bar my-3"></div>
                                 <p class="text-default-400 text-xs">Use 8+ characters with letters, numbers &amp; symbols.</p>
                             </div>
@@ -56,35 +42,20 @@
                                     <span class="text-danger">*</span>
                                 </label>
                                 <div class="input-group">
-                                    <input class="form-input" id="userNewPassword" placeholder="••••••••" required="" type="password" />
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <div class="flex items-center gap-2">
-                                    <input class="form-checkbox form-checkbox-light size-4.5" id="termAndPolicy" type="checkbox" />
-                                    <label class="form-check-label" for="termAndPolicy">Agree the Terms &amp; Policy</label>
+                                    <input autocomplete="new-password" class="form-input" id="userNewPassword" name="password_confirmation" placeholder="••••••••" required type="password" />
                                 </div>
                             </div>
                             <div>
                                 <button class="btn bg-primary w-full py-3 font-semibold text-white hover:bg-primary-hover" type="submit">Update Password</button>
                             </div>
                         </form>
-                        <p class="text-default-400 my-9 text-center">
-                            Don’t have a code?
-                            <a class="text-primary font-semibold underline underline-offset-3" href="#">Resend</a>
-                            or
-                            <a class="text-primary font-semibold underline underline-offset-3" href="#">Call Us</a>
-                        </p>
                         <p class="text-default-400 text-center">
                             Return to
-                            <a class="underline text-primary font-semibold" href="{{ url("/auth/sign-in") }}">Sign in</a>
+                            <a class="underline text-primary font-semibold" href="{{ route("login") }}">Sign in</a>
                         </p>
                     </div>
                     <p class="text-default-400 mt-7.5 text-center">
-                        ©
-                        <span data-current-year=""></span>
-                        Inspinia - by
-                        <span>WebAppLayers</span>
+                        © <span data-current-year=""></span> ForWorship Creative
                     </p>
                 </div>
             </div>

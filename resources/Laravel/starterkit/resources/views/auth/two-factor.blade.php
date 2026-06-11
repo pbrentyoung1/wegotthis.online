@@ -9,52 +9,32 @@
             <div class="flex justify-center px-2.5">
                 <div class="2xl:w-4/10 md:w-1/2 sm:w-2/3 w-full">
                     <div class="mb-3 flex flex-col items-center justify-center text-center">
-                        <a class="auth-logo" href="{{ url("/") }}">
-                            <img alt="logo" class="flex dark:hidden" src="/images/logo-black.png" />
-                            <img alt="dark logo" class="hidden dark:flex" src="/images/logo.png" />
-                        </a>
-                        <h4 class="font-bold text-base text-dark mt-5 mb-2">Two-Factor Verification!</h4>
-                        <p class="text-default-400 mx-auto w-full lg:w-3/4 mb-4">We've emailed you a 6-digit verification code we sent to</p>
+                        @include("auth.partials.logo")
+                        <h4 class="font-bold text-base text-dark mt-2 mb-2">Two-factor verification</h4>
+                        <p class="text-default-400 mx-auto w-full lg:w-3/4 mb-4">Enter the code from your authenticator app to continue.</p>
                     </div>
                     <div class="card p-7.5 rounded-2xl">
-                        <div class="mb-9">
-                            <div class="text-center text-2xl font-bold">******6789</div>
-                        </div>
-                        <form action="index.html">
+                        @include("auth.partials.messages")
+                        <form action="{{ route("two-factor.login.store") }}" method="POST">
+                            @csrf
                             <div class="mb-5">
-                                <label class="form-label" for="userEmail">
-                                    Enter your 6-digit code
+                                <label class="form-label" for="code">
+                                    Authentication code
                                     <span class="text-danger">*</span>
                                 </label>
-                                <div class="two-factor flex gap-2">
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                    <input class="form-input text-center" required="" type="text" />
-                                </div>
+                                <input autocomplete="one-time-code" autofocus class="form-input text-center" id="code" inputmode="numeric" name="code" required type="text" />
                             </div>
                             <div>
                                 <button class="btn bg-primary w-full py-3 font-semibold text-white hover:bg-primary-hover" type="submit">Confirm</button>
                             </div>
                         </form>
-                        <p class="text-default-400 my-9 text-center">
-                            Don’t have a code?
-                            <a class="text-primary font-semibold underline underline-offset-3" href="#">Resend</a>
-                            or
-                            <a class="text-primary font-semibold underline underline-offset-3" href="#">Call Us</a>
-                        </p>
                         <p class="text-default-400 text-center">
                             Return to
-                            <a class="text-primary font-semibol underline underline-offset-3" href="{{ url("/auth/sign-in") }}">Sign in</a>
+                            <a class="text-primary font-semibol underline underline-offset-3" href="{{ route("login") }}">Sign in</a>
                         </p>
                     </div>
                     <p class="text-default-400 mt-7.5 text-center">
-                        ©
-                        <span data-current-year=""></span>
-                        Inspinia - by
-                        <span>WebAppLayers</span>
+                        © <span data-current-year=""></span> ForWorship Creative
                     </p>
                 </div>
             </div>

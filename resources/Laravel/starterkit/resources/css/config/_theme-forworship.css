@@ -1,0 +1,186 @@
+/* ForWorship Creative Theme */
+
+@theme {
+    --font-display: "Fraunces", Georgia, serif;
+}
+
+html[data-skin="forworship"] {
+
+    /* Fonts */
+    --font-body: "IBM Plex Sans", sans-serif;
+    --font-secondary: "IBM Plex Sans", sans-serif;
+
+    /* Body */
+    --text-body: 0.875rem;
+    --color-body-bg: #f7f4ee;
+    --color-body-color: #3d3d42;
+    --color-card: #ffffff;
+
+    /* Brand colors */
+    --color-primary: #6b7280;
+    --color-primary-hover: #5a6170;
+    --color-secondary: #b65e3c;
+    --color-secondary-hover: #a05234;
+    --color-success: #848e6c;
+    --color-success-hover: #737d5e;
+    --color-info: #6b7280;
+    --color-info-hover: #5a6170;
+    --color-warning: #bfa052;
+    --color-warning-hover: #ab8e47;
+    --color-danger: #a05252;
+    --color-danger-hover: #8e4747;
+    --color-purple: #7a5c63;
+    --color-purple-hover: #6a4e54;
+    --color-light: #e4e0d8;
+    --color-light-hover: #d4d0c8;
+    --color-dark: #1c1c1e;
+    --color-dark-hover: #2a2a2d;
+
+    /* Neutral scale derived from Warm Canvas */
+    --color-default-50: #faf9f5;
+    --color-default-100: #f7f4ee;
+    --color-default-200: #eee9df;
+    --color-default-300: #e4e0d8;
+    --color-default-400: #8e8b84;  /* ~3.1:1 on body bg — muted but legible */
+    --color-default-500: #6c6963;  /* ~5.1:1 — readable body-weight muted text */
+    --color-default-600: #504e4a;  /* ~7:1 — high contrast secondary text */
+    --color-default-700: #3d3d42;
+    --color-default-800: #2a2a2d;
+    --color-default-900: #1c1c1e;
+    --color-default-950: #0e0e0f;
+
+    /* Shadows */
+    --shadow: 0px 1px 4px 0px rgba(28, 28, 30, 0.08);
+    --shadow-lg: 0 4px 16px rgba(28, 28, 30, 0.12);
+    --shadow-sm: 0 1px 2px rgba(28, 28, 30, 0.06);
+
+    /* Radius — 10px gives soft geometry across all components */
+    --radius: 10px;
+
+    /* Layout */
+    --spacing-base: 20px;
+
+    /* Sidenav items — slightly lighter weight than Inspinia default */
+    --sidenav-item-font-size: 0.875rem;
+    --sidenav-item-font-weight: 400;
+    --sidenav-sub-item-font-size: 0.825rem;
+    --sidenav-sub-item-font-weight: 400;
+
+    /* Light sidebar */
+    &[data-menu-color="light"] {
+        --sidenav-bg: #ffffff;
+        --sidenav-border-color: #e4e0d8;
+        --sidenav-item-color: #6b7280;
+        --sidenav-item-hover-color: #1c1c1e;
+        --sidenav-item-hover-bg: #f7f4ee;
+        --sidenav-item-active-color: #1c1c1e;
+        --sidenav-item-active-bg: #f0ede6;
+    }
+
+    /* Gray sidebar — Warm Canvas as base */
+    &[data-menu-color="gray"] {
+        --sidenav-bg: #f7f4ee;
+        --sidenav-border-color: #e4e0d8;
+        --sidenav-item-color: #6b7280;
+        --sidenav-item-hover-color: #1c1c1e;
+        --sidenav-item-hover-bg: #eee9df;
+        --sidenav-item-active-color: #1c1c1e;
+        --sidenav-item-active-bg: #eee9df;
+    }
+
+    /* Dark sidebar */
+    &[data-menu-color="dark"] {
+        --sidenav-bg: #2a2a2d;
+        --sidenav-border-color: #3a3a3e;
+        --sidenav-item-color: #a8a49b;
+        --sidenav-item-hover-color: #f2ede5;
+        --sidenav-item-hover-bg: #333337;
+        --sidenav-item-active-color: #f2ede5;
+        --sidenav-item-active-bg: #1c1c1e;
+    }
+
+    /* Light topbar */
+    &[data-topbar-color="light"] {
+        --topbar-bg: #ffffff;
+        --topbar-item-color: #6b7280;
+        --topbar-item-hover-color: #1c1c1e;
+        --topbar-search-bg: transparent;
+        --topbar-search-border: #e4e0d8;
+    }
+
+    /* Gray topbar */
+    &[data-topbar-color="gray"] {
+        --topbar-bg: #f7f4ee;
+        --topbar-item-color: #6b7280;
+        --topbar-item-hover-color: #1c1c1e;
+        --topbar-search-bg: #eee9df;
+        --topbar-search-border: #e4e0d8;
+    }
+
+    /* Heading font — h1–h3 use Fraunces, h4–h6 stay IBM Plex Sans */
+    h1, h2, h3 {
+        font-family: var(--font-display);
+        font-weight: 600;
+    }
+
+    /* Chart colors */
+    --color-chart-primary: #6b7280;
+    --color-chart-secondary: #b65e3c;
+    --color-chart-alpha: #848e6c;
+    --color-chart-beta: #a05252;
+    --color-chart-gamma: #7a5c63;
+    --color-chart-delta: #bfa052;
+    --color-chart-zeta: #d6d2c8;
+    --color-chart-gray: #e4e0d8;
+    --color-chart-dark: #1c1c1e;
+    --color-chart-border-color: #eee9df;
+    --color-chart-title-color: #6c6963;
+}
+
+/* Dark mode */
+html[data-theme="dark"][data-skin="forworship"] {
+    --color-body-bg: #1c1c1e;
+    --color-body-color: #d0ccc4;
+    --color-card: #2a2a2d;
+    --color-light: #333337;
+    --color-light-hover: #3a3a3e;
+    --color-dark: #d0ccc4;
+    --color-dark-hover: #f2ede5;
+    --shadow: 0px 0px 30px rgba(0, 0, 0, 0.4);
+
+    --color-default-50: #242428;
+    --color-default-100: #2a2a2d;
+    --color-default-200: #333337;
+    --color-default-300: #3a3a3e;
+    --color-default-400: #8e8b84;
+    --color-default-500: #a8a49b;
+    --color-default-600: #c8c4bb;
+    --color-default-700: #d8d4cc;
+    --color-default-800: #e4e0d8;
+    --color-default-900: #f7f4ee;
+    --color-default-950: #faf9f5;
+
+    --color-chart-gray: #3a3a3e;
+    --color-chart-border-color: #333337;
+
+    &[data-menu-color="dark"],
+    &[data-menu-color="gray"],
+    &[data-menu-color="light"] {
+        --sidenav-bg: #2a2a2d;
+        --sidenav-border-color: #3a3a3e;
+        --sidenav-item-color: #a8a49b;
+        --sidenav-item-hover-color: #f2ede5;
+        --sidenav-item-hover-bg: #333337;
+        --sidenav-item-active-color: #f2ede5;
+        --sidenav-item-active-bg: #1c1c1e;
+    }
+
+    &[data-topbar-color="light"],
+    &[data-topbar-color="gray"] {
+        --topbar-bg: #2a2a2d;
+        --topbar-item-color: #a8a49b;
+        --topbar-item-hover-color: #f2ede5;
+        --topbar-search-bg: #333337;
+        --topbar-search-border: #3a3a3e;
+    }
+}

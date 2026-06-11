@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html @yield("html_attribute")>
+<html lang="en" data-skin="forworship" data-menu-color="light" data-topbar-color="light" data-theme="light" @yield("html_attribute")>
 
 <head>
     @include("shared.partials/title-meta")

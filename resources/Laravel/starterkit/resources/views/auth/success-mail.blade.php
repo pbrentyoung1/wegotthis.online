@@ -9,30 +9,30 @@
             <div class="flex justify-center px-2.5">
                 <div class="2xl:w-4/10 md:w-1/2 sm:w-2/3 w-full">
                     <div class="mb-3 flex flex-col items-center justify-center text-center">
-                        <a class="auth-logo" href="{{ url("/") }}">
-                            <img alt="logo" class="flex dark:hidden" src="/images/logo-black.png" />
-                            <img alt="dark logo" class="hidden dark:flex" src="/images/logo.png" />
-                        </a>
-                        <p class="text-default-400 mx-auto mt-6 mb-4 w-full lg:w-3/4">Awesome! You’ve read the important message like a pro.</p>
+                        @include("auth.partials.logo")
+                        <p class="text-default-400 mx-auto mt-6 mb-4 w-full lg:w-3/4">Please verify your email address before continuing to your workspace.</p>
                     </div>
                     <div class="card p-7.5 rounded-2xl">
-                        <form action="index.html">
+                        @include("auth.partials.messages")
+                        <form action="{{ route("verification.send") }}" method="POST">
+                            @csrf
                             <div class="mt-3 mb-9">
                                 <div class="bg-default-50 border-light mx-auto flex size-20 items-center justify-center rounded-full border border-dashed">
                                     <img alt="checkmark" class="size-16" src="/images/checkmark.png" />
                                 </div>
                             </div>
-                            <h4 class="mb-9 text-center text-lg font-bold">Well Done! Email verified Successfully</h4>
+                            <h4 class="mb-9 text-center text-lg font-bold">Check your inbox for a verification link</h4>
                             <div>
-                                <button class="btn bg-primary w-full py-3 font-semibold text-white hover:bg-primary-hover" type="submit">Back to dashboard</button>
+                                <button class="btn bg-primary w-full py-3 font-semibold text-white hover:bg-primary-hover" type="submit">Send another verification email</button>
                             </div>
+                        </form>
+                        <form action="{{ route("logout") }}" class="mt-4 text-center" method="POST">
+                            @csrf
+                            <button class="text-default-400 underline underline-offset-4" type="submit">Sign out</button>
                         </form>
                     </div>
                     <p class="text-default-400 mt-7.5 text-center">
-                        ©
-                        <span data-current-year=""></span>
-                        Inspinia - by
-                        <span>WebAppLayers</span>
+                        © <span data-current-year=""></span> ForWorship Creative
                     </p>
                 </div>
             </div>

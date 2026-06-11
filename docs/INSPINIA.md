@@ -168,9 +168,8 @@ Only build custom when the existing pattern cannot reasonably support the produc
 1. Start from an existing INSPINIA structural pattern whenever practical.
 2. Strip back unnecessary widgets, visual noise, dense dashboards, excessive charts, aggressive color, hard borders, and generic admin copy.
 3. Apply the ForWorship Creative visual language:
-   - IBM Plex Serif
-   - IBM Plex Sans
-   - Caveat used very sparingly
+   - Fraunces for headlines, section titles, and warmth moments
+   - IBM Plex Sans for all operational UI
    - warm, restrained color palette
    - soft geometry
    - generous spacing
