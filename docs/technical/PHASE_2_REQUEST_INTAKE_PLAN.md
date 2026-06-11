@@ -62,7 +62,7 @@ Do not create:
 - Projects or project conversion logic
 - Campaigns
 - Deliverables or Tasks
-- conversations, messages, activity events, or audit logs
+- activity events or audit logs
 - attachments, assets, or file uploads
 - adaptive form builders or request templates
 - automatic triage recommendations
@@ -80,6 +80,7 @@ Do not create:
 - `request_id + question_key` is unique for this slice. Repeating question groups remain deferred.
 - Campaigns remain deferred.
 - No UI stack decision is required for this data-foundation slice.
+- A later approved request UX refinement promoted the canonical `conversations`, `conversation_participants`, and `messages` foundation for shared requester/triage discussion. Activity events and audit logs remain deferred.
 
 ## Request Lifecycle
 

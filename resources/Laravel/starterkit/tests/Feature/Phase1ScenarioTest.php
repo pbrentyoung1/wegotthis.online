@@ -125,7 +125,7 @@ class Phase1ScenarioTest extends TestCase
         $this->assertSame('Vendor Contact', $this->profile('Chris Morgan')->person_type);
         $this->assertSame('External Reviewer', $this->profile('Avery Brooks')->person_type);
 
-        foreach (['campaigns', 'projects', 'deliverables', 'tasks', 'work_participants', 'conversations', 'messages', 'assets', 'asset_links', 'review_rounds', 'change_requests', 'calendar_items', 'dashboard_widgets', 'skills', 'profile_skills'] as $table) {
+        foreach (['campaigns', 'projects', 'deliverables', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests', 'calendar_items', 'dashboard_widgets', 'skills', 'profile_skills'] as $table) {
             $this->assertFalse(Schema::hasTable($table), "Unexpected later-scope table exists: {$table}");
         }
     }

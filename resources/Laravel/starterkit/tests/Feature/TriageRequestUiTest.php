@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\RequestStatus;
+use App\Models\Message;
 use App\Models\MinistryRequest;
 use App\Models\Organization;
 use App\Models\Profile;
@@ -77,7 +78,7 @@ class TriageRequestUiTest extends TestCase
         $this->actingAs($jordan->user)
             ->get(route('triage.show', $this->scenarioRequest()))
             ->assertOk()
-            ->assertSee('Clarification conversation')
+            ->assertSee('Conversation')
             ->assertSee('Activity')
             ->assertSee('Convert to')
             ->assertSee('Project')
@@ -124,10 +125,15 @@ class TriageRequestUiTest extends TestCase
 
         $this->assertSame(RequestStatus::NeedsClarification, $request->refresh()->status);
         $this->assertSame($question, data_get($request->missing_information_json, 'message'));
+        $this->assertDatabaseHas('messages', [
+            'body' => $question,
+            'message_type' => 'Clarification Request',
+        ]);
 
         $this->actingAs($rachel->user)
             ->get(route('requests.show', $request))
             ->assertOk()
+            ->assertSee('Conversation')
             ->assertSee($question);
 
         $this->actingAs($rachel->user)->put(route('requests.update', $request), [
@@ -216,6 +222,55 @@ class TriageRequestUiTest extends TestCase
         $this->actingAs($jordan->user)
             ->get(route('triage.show', $request))
             ->assertOk();
+
+        $this->actingAs($jordan->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'Archived requests should not accept new messages.',
+                'intent' => 'message',
+            ])
+            ->assertForbidden();
+    }
+
+    public function test_triage_manager_can_post_a_message_without_changing_request_status(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+        $request = $this->scenarioRequest();
+
+        $this->actingAs($jordan->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'I am reviewing the dates with the communications calendar.',
+                'intent' => 'message',
+            ])
+            ->assertRedirect(route('triage.show', $request));
+
+        $this->assertSame(RequestStatus::Submitted, $request->refresh()->status);
+        $this->assertSame(
+            $jordan->id,
+            Message::query()->where('body', 'I am reviewing the dates with the communications calendar.')->value('author_profile_id'),
+        );
+    }
+
+    public function test_triage_manager_can_request_clarification_from_shared_conversation(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+        $request = $this->scenarioRequest();
+
+        $this->actingAs($jordan->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'Which registration link should families use?',
+                'intent' => 'clarification',
+            ])
+            ->assertRedirect(route('triage.show', $request));
+
+        $this->assertSame(RequestStatus::NeedsClarification, $request->refresh()->status);
+        $this->assertDatabaseHas('messages', [
+            'body' => 'Which registration link should families use?',
+            'message_type' => 'Clarification Request',
+        ]);
     }
 
     private function scenarioRequest(): MinistryRequest

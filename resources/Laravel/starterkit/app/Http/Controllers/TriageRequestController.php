@@ -6,6 +6,7 @@ use App\Enums\RequestStatus;
 use App\Http\Requests\TriageTransitionRequest;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
+use App\Services\RequestConversationService;
 use App\Services\RequestIntakeService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
@@ -15,7 +16,10 @@ use Illuminate\View\View;
 
 class TriageRequestController extends Controller
 {
-    public function __construct(private readonly RequestIntakeService $requestIntakeService) {}
+    public function __construct(
+        private readonly RequestIntakeService $requestIntakeService,
+        private readonly RequestConversationService $conversationService,
+    ) {}
 
     public function index(Request $request): View
     {
@@ -79,6 +83,8 @@ class TriageRequestController extends Controller
                 'decisionByProfile',
                 'answers',
                 'ideas',
+                'conversation.participants.profile',
+                'conversation.messages.authorProfile',
             ]),
         ]);
     }
@@ -101,6 +107,12 @@ class TriageRequestController extends Controller
             $updates = [];
 
             if ($status === RequestStatus::NeedsClarification) {
+                $this->conversationService->addMessage(
+                    $ministryRequest,
+                    $currentProfile,
+                    $validated['notes'],
+                    'Clarification Request',
+                );
                 $updates['missing_information_json'] = [
                     'message' => $validated['notes'],
                     'requested_at' => now()->toIso8601String(),

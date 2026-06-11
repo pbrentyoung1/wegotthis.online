@@ -16,7 +16,7 @@
                         </a>
                         @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Draft, \App\Enums\RequestStatus::NeedsClarification], true))
                             <div class="flex gap-2">
-                                <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ route("requests.edit", $ministryRequest) }}">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Edit draft" : "Respond" }}</a>
+                                <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ route("requests.edit", $ministryRequest) }}">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Edit draft" : "Update request details" }}</a>
                                 <form action="{{ route("requests.submit", $ministryRequest) }}" method="POST">
                                     @csrf
                                     <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Submit request" : "Resubmit request" }}</button>
@@ -35,7 +35,7 @@
                                             <h3 class="text-xl font-semibold">{{ $ministryRequest->title }}</h3>
                                             <p class="text-default-400 mt-1">{{ $ministryRequest->department?->name ?: "No department selected" }}</p>
                                         </div>
-                                        <span class="badge bg-primary/10 text-primary">{{ $ministryRequest->status->value }}</span>
+                                        <span class="badge {{ $ministryRequest->status->badgeClasses() }}">{{ $ministryRequest->status->value }}</span>
                                     </div>
 
                                     <div class="space-y-6">
@@ -70,6 +70,8 @@
                             </div>
 
                             @include("requests._brief-details")
+
+                            @include("shared.partials.request-conversation")
                         </div>
 
                         <div class="space-y-base">

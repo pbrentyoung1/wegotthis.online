@@ -38,8 +38,9 @@ Track the actual state of the project so planning, design, and development work 
 - The triage workspace now places Request details at the top of the sidebar, keeps Activity beneath it, places a compact Convert to pull-down at the bottom, and makes major workspace cards collapsible.
 - The intake queue now uses workflow-oriented views for Active, In conversation, Accepted, Deferred, Rejected, and Archived requests, and shows Last activity. Unread remains pending because it requires per-user read tracking.
 - Request lifecycle colors now carry consistent meaning across request lists, queue badges, and triage activity.
-- The approved next request UX work uses Inspinia `/apps/projects/list` and `/apps/projects/details` as structural references, adds shared multi-participant conversation, replaces unstructured reviewer and link fields, and explores a guided wizard intake flow.
-- Requesters can update and resubmit requests marked Needs Clarification. The latest clarification request is preserved on the request until contextual conversations are implemented.
+- The requester-scoped My Requests screen now uses an Inspinia `/apps/projects/list`-informed table with status, important date, Last activity, and contextual actions.
+- Requester and triage detail pages now use one shared multi-participant conversation component backed by organization-scoped conversations, participants, and messages.
+- Requesters can update and resubmit requests marked Needs Clarification. Clarification questions and requester-visible replies are preserved in the request conversation.
 - The requester intake form captures the documented ministry brief: need, purpose, audience, action, tone, success criteria, key message, event/action/support dates, existing branding/assets/examples/links, reviewers/approvals, sensitivities, constraints, and requester ideas.
 - Existing asset and branding references are stored as flexible request answers and shown in requester and triage views. Full Trello-style asset links and uploads remain part of the later asset-linking milestone.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
@@ -52,6 +53,9 @@ Track the actual state of the project so planning, design, and development work 
   - `requests`
   - `request_answers`
   - `request_ideas`
+  - `conversations`
+  - `conversation_participants`
+  - `messages`
   - request intake models and Phase 1 relationships
   - centralized request statuses
   - a request intake domain write service for organization scope and lifecycle transitions
@@ -130,9 +134,9 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Complete the approved triage layout refinement without adding conversion persistence.
+1. Complete the remaining requester intake UX corrections: structured reviewer and asset links, supportive prompts, and removal of requester-facing communication ideas.
 2. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus the Projects -> Deliverables -> Tasks execution foundation.
-3. Add contextual conversations and activity history, including full clarification history.
+3. Expand contextual conversations with unread state and add persisted activity history.
 4. Add deliverable-centered reviews, approvals, and change requests.
 5. Add basic file/external-link attachment support and simple dashboard/date visibility.
 6. Validate the complete request-to-approved-deliverable loop locally and in staging.
@@ -144,7 +148,7 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - The full Laravel test suite passes.
 - The starterkit Vite production build passes.
-- No Campaigns, Projects, Deliverables, Tasks, contextual conversations, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
+- No Campaigns, Projects, Deliverables, Tasks, persisted activity events, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
 - No deployment pipeline exists yet.
 
 Last updated: 2026-06-10 (consolidated handoff)

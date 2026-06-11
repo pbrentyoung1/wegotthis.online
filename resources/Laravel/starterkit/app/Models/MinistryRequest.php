@@ -7,12 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class MinistryRequest extends Model
 {
     use HasFactory;
 
     protected $table = 'requests';
+
+    protected static function booted(): void
+    {
+        static::deleting(fn (self $request) => $request->conversation()->delete());
+    }
 
     protected $fillable = [
         'organization_id',
@@ -82,5 +88,10 @@ class MinistryRequest extends Model
     public function ideas(): HasMany
     {
         return $this->hasMany(RequestIdea::class, 'request_id');
+    }
+
+    public function conversation(): MorphOne
+    {
+        return $this->morphOne(Conversation::class, 'subject');
     }
 }

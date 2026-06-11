@@ -50,58 +50,7 @@
 
                             @include("requests._brief-details")
 
-                            <div class="card">
-                                <div class="card-header">
-                                    <div>
-                                        <h4 class="card-title">Clarification conversation</h4>
-                                        <p class="text-default-400 mt-1 text-sm">Ask the requester questions while you decide what this request should become.</p>
-                                    </div>
-                                    <button aria-label="Collapse clarification conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
-                                        <i class="iconify tabler--chevron-up text-base"></i>
-                                    </button>
-                                </div>
-                                <div class="card-body">
-                                    <div class="space-y-5">
-                                        <div class="flex items-start gap-3">
-                                            <div class="bg-light text-default-600 flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">{{ str($ministryRequest->requesterProfile->display_name)->substr(0, 1) }}</div>
-                                            <div class="max-w-2xl rounded-lg bg-light p-4">
-                                                <div class="mb-1 flex items-center gap-2 text-xs text-default-400">
-                                                    <span class="font-semibold text-default-600">{{ $ministryRequest->requesterProfile->display_name }}</span>
-                                                    <span>{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: $ministryRequest->created_at->format("M j, Y g:i A") }}</span>
-                                                </div>
-                                                <p class="text-default-600 whitespace-pre-line">{{ $ministryRequest->ministry_need }}</p>
-                                            </div>
-                                        </div>
-
-                                        @if (data_get($ministryRequest->missing_information_json, "message"))
-                                            <div class="flex items-start justify-end gap-3">
-                                                <div class="max-w-2xl rounded-lg bg-primary/10 p-4">
-                                                    <div class="mb-1 flex items-center justify-end gap-2 text-xs text-default-400">
-                                                        <span>{{ \Illuminate\Support\Carbon::parse(data_get($ministryRequest->missing_information_json, "requested_at"))->format("M j, Y g:i A") }}</span>
-                                                        <span class="font-semibold text-primary">{{ $ministryRequest->assignedManagerProfile?->display_name ?: "Communications" }}</span>
-                                                    </div>
-                                                    <p class="text-default-600 whitespace-pre-line">{{ data_get($ministryRequest->missing_information_json, "message") }}</p>
-                                                </div>
-                                                <div class="bg-primary/10 text-primary flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">C</div>
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Submitted, \App\Enums\RequestStatus::InTriage], true))
-                                        <form action="{{ route("triage.transition", $ministryRequest) }}" class="mt-6 border-t border-default-200 pt-5" method="POST">
-                                            @csrf
-                                            <input name="status" type="hidden" value="{{ \App\Enums\RequestStatus::NeedsClarification->value }}" />
-                                            <label class="form-label" for="notes">Ask a question</label>
-                                            <textarea class="form-textarea mb-3" id="notes" name="notes" placeholder="A few details will help us shape the best communication plan..." required rows="4"></textarea>
-                                            <div class="text-end">
-                                                <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">Send question</button>
-                                            </div>
-                                        </form>
-                                    @elseif ($ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
-                                        <div class="mt-6 rounded-lg bg-warning/10 p-4 text-sm text-warning">Waiting for the requester to update and resubmit this request.</div>
-                                    @endif
-                                </div>
-                            </div>
+                            @include("shared.partials.request-conversation")
                         </div>
 
                         <div class="space-y-base">

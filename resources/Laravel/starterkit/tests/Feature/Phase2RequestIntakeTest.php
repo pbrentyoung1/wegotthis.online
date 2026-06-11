@@ -9,6 +9,7 @@ use App\Models\Organization;
 use App\Models\Profile;
 use App\Models\RequestAnswer;
 use App\Models\RequestIdea;
+use App\Services\RequestConversationService;
 use App\Services\RequestIntakeService;
 use Database\Seeders\Phase1ScenarioSeeder;
 use Database\Seeders\Phase2RequestIntakeScenarioSeeder;
@@ -220,28 +221,35 @@ class Phase2RequestIntakeTest extends TestCase
         $requester->delete();
     }
 
-    public function test_hard_deleting_request_cascades_answers_and_ideas_only(): void
+    public function test_hard_deleting_request_cascades_request_owned_records(): void
     {
         $this->seed(Phase2RequestIntakeScenarioSeeder::class);
 
         $request = $this->scenarioRequest();
         $requestId = $request->id;
+        $conversation = app(RequestConversationService::class)->addMessage(
+            $request,
+            $this->profile('Rachel Kim'),
+            'Conversation record to remove with the request.',
+        )->conversation;
 
         $request->delete();
 
         $this->assertSame(0, RequestAnswer::query()->where('request_id', $requestId)->count());
         $this->assertSame(0, RequestIdea::query()->where('request_id', $requestId)->count());
+        $this->assertDatabaseMissing('conversations', ['id' => $conversation->id]);
+        $this->assertDatabaseMissing('messages', ['conversation_id' => $conversation->id]);
         $this->assertSame(7, Profile::query()->where('organization_id', $this->graceOrganization()->id)->count());
         $this->assertSame(5, Department::query()->where('organization_id', $this->graceOrganization()->id)->count());
     }
 
     public function test_only_approved_phase_2_request_intake_tables_exist(): void
     {
-        foreach (['requests', 'request_answers', 'request_ideas'] as $table) {
+        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages'] as $table) {
             $this->assertTrue(Schema::hasTable($table));
         }
 
-        foreach (['campaigns', 'projects', 'deliverables', 'tasks', 'work_participants', 'conversations', 'messages', 'assets', 'asset_links', 'review_rounds', 'change_requests'] as $table) {
+        foreach (['campaigns', 'projects', 'deliverables', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests'] as $table) {
             $this->assertFalse(Schema::hasTable($table), "Unexpected later-scope table exists: {$table}");
         }
     }

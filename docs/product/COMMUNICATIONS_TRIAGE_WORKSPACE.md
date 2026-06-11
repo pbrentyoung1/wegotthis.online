@@ -103,6 +103,8 @@ Remove requester-facing questions that ask for communication ideas or channel st
 
 Replace vague prompts such as "Known constraints or important context" with specific, supportive questions that help the requester explain what Communications needs to know.
 
+The request conversation is one shared multi-participant conversation rendered on requester and triage pages. It preserves requester-visible messages and clarification requests in context. The same conversation component and persistence pattern should be extended to Projects and Deliverables when those work objects are implemented.
+
 ## Core Product Principle
 
 Department leaders define the need. Communications defines the plan. The system helps both sides understand each other.

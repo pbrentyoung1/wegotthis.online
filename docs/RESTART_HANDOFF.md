@@ -102,6 +102,9 @@ Committed on `main`:
 - `requests`
 - `request_answers`
 - `request_ideas`
+- `conversations`
+- `conversation_participants`
+- `messages`
 - `RequestStatus`
 - `RequestIntakeService`
 - Phase 2 scenario seeder and focused tests
@@ -123,11 +126,11 @@ Implemented behavior:
 - expanded ministry brief fields for success criteria, key message, audience-action deadline, existing branding/assets/examples/links, reviewers/approvals, sensitivities, and requester ideas
 - conversation-centered triage detail layout with a current-state activity sidebar and Project/Campaign/Initiative conversion choices
 
-Clarification currently preserves the latest requested-information message in `missing_information_json`. Full clarification history remains part of the future contextual conversations/activity slice.
+Clarification now preserves requester-visible questions and replies in a shared request conversation. `missing_information_json` remains as the current unresolved clarification summary.
 
 Existing branding, asset, example, and external/Drive link references currently use the flexible `request_answers` foundation and are visible in requester and triage detail screens. This is intake context, not the future `asset_links` table or an upload system.
 
-No Projects, Deliverables, Tasks, conversations, reviews, assets, or request-to-project conversion exists yet.
+No Projects, Deliverables, Tasks, persisted activity events, reviews, assets, or request-to-project conversion exists yet.
 
 ## Approved Request UX Sequence
 
@@ -142,9 +145,11 @@ Completed in the intake refinement:
 Next request UX work:
 
 - Add per-user read tracking before adding the Unread queue view.
-- Adapt Inspinia `/apps/projects/list` for the requester Requests list.
-- Adapt conversation threads from `/apps/projects/details` for requester and triage pages.
-- Support multi-participant conversation and in-context request updates.
+- Completed: Adapt Inspinia `/apps/projects/list` for the requester Requests list.
+- Completed: Use one shared multi-participant request conversation on requester and triage pages.
+- Add unread/read state and message inbox behavior.
+- Extend the shared conversation foundation to Projects and Deliverables when those modules are implemented.
+- Support in-context request detail updates without conflating them with messages.
 - Replace reviewer free text with a user picker.
 - Replace asset/link free text with structured, validated link rows.
 - Remove requester-facing communication-ideas input.
@@ -477,9 +482,9 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Complete the approved triage layout refinement.
+1. Complete the remaining requester intake UX corrections: structured reviewer and asset links, supportive prompts, and removal of requester-facing communication ideas.
 2. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus Projects -> Deliverables -> Tasks.
-3. Add contextual conversations and activity history, including full clarification history.
+3. Expand contextual conversations with unread state and add persisted activity history.
 4. Add deliverable-centered reviews, approvals, and change requests.
 5. Add basic file/external-link attachments and simple dashboard/date visibility.
 6. Validate the complete loop locally and in staging.

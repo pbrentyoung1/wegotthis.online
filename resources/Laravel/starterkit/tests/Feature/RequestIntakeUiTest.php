@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\RequestStatus;
+use App\Models\Message;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
 use Database\Seeders\Phase2RequestIntakeScenarioSeeder;
@@ -30,6 +31,8 @@ class RequestIntakeUiTest extends TestCase
         $response
             ->assertOk()
             ->assertSee('VBS Promotion Support')
+            ->assertSee('Important date')
+            ->assertSee('Last activity')
             ->assertDontSee($otherRequest->title);
     }
 
@@ -203,6 +206,58 @@ class RequestIntakeUiTest extends TestCase
 
         $this->actingAs($rachel->user)->get(route('requests.show', $jordanRequest))->assertForbidden();
         $this->actingAs($rachel->user)->get(route('requests.edit', $rachelRequest))->assertForbidden();
+    }
+
+    public function test_requester_can_post_to_the_shared_request_conversation(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $request = MinistryRequest::query()->where('title', 'VBS Promotion Support')->firstOrFail();
+
+        $this->actingAs($rachel->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'Registration will close on July 6.',
+                'intent' => 'message',
+            ])
+            ->assertRedirect(route('requests.show', $request));
+
+        $message = Message::query()->where('body', 'Registration will close on July 6.')->firstOrFail();
+
+        $this->assertSame($rachel->id, $message->author_profile_id);
+        $this->assertSame('Requester Visible', $message->visibility);
+        $this->assertCount(2, $message->conversation->participants);
+
+        $this->actingAs($rachel->user)
+            ->get(route('requests.show', $request))
+            ->assertOk()
+            ->assertSee('Conversation')
+            ->assertSee('Registration will close on July 6.');
+    }
+
+    public function test_requester_cannot_post_to_another_request_conversation(): void
+    {
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $rachel = $this->profile('Rachel Kim');
+        $jordan = $this->profile('Jordan Lee');
+        $request = MinistryRequest::query()->create([
+            'organization_id' => $jordan->organization_id,
+            'requester_profile_id' => $jordan->id,
+            'title' => 'Jordan submitted request',
+            'status' => RequestStatus::Submitted,
+            'ministry_need' => 'Keep this conversation scoped.',
+            'submitted_at' => now(),
+        ]);
+
+        $this->actingAs($rachel->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'I should not be able to post this.',
+                'intent' => 'message',
+            ])
+            ->assertForbidden();
+
+        $this->assertDatabaseMissing('messages', ['body' => 'I should not be able to post this.']);
     }
 
     private function profile(string $displayName): Profile

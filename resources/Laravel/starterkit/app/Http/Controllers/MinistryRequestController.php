@@ -74,7 +74,15 @@ class MinistryRequestController extends Controller
 
         return view('requests.show', [
             'currentProfile' => $currentProfile,
-            'ministryRequest' => $ministryRequest->load(['department', 'answers', 'ideas']),
+            'ministryRequest' => $ministryRequest->load([
+                'department',
+                'requesterProfile',
+                'assignedManagerProfile',
+                'answers',
+                'ideas',
+                'conversation.participants.profile',
+                'conversation.messages.authorProfile',
+            ]),
         ]);
     }
 
