@@ -25,28 +25,30 @@
             <h4 class="card-title">Conversation</h4>
             <p class="text-default-400 mt-1 text-sm">Reviewers and request participants can keep questions, answers, and decisions together here.</p>
         </div>
-        <div class="flex items-center gap-3">
-            <div class="flex" aria-label="{{ $participants->count() }} conversation participants">
-                @foreach ($participants->take(4) as $participant)
-                    <div class="{{ $loop->first ? "" : "-ms-2" }}" title="{{ $participant->display_name }}">
-                        @if ($participant->avatar_url)
-                            <img alt="{{ $participant->display_name }}" class="size-8 rounded-full border-2 border-white object-cover" src="{{ $participant->avatar_url }}" />
-                        @else
-                            <span class="bg-light text-default-600 flex size-8 items-center justify-center rounded-full border-2 border-white text-xs font-semibold">{{ str($participant->display_name)->substr(0, 1) }}</span>
-                        @endif
-                    </div>
-                @endforeach
-                @if ($participants->count() > 4)
-                    <span class="bg-light text-default-500 -ms-2 flex size-8 items-center justify-center rounded-full border-2 border-white text-xs font-semibold">+{{ $participants->count() - 4 }}</span>
-                @endif
-            </div>
-            <p class="text-default-400 hidden text-xs sm:block">{{ $participants->pluck("display_name")->implode(", ") }}</p>
-            <button aria-label="Collapse conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
-                <i class="iconify tabler--chevron-up text-base"></i>
-            </button>
-        </div>
+        <button aria-label="Collapse conversation" class="btn size-6 rounded-full bg-light text-default-600 hover:text-primary" data-action="card-toggle" type="button">
+            <i class="iconify tabler--chevron-up text-base"></i>
+        </button>
     </div>
     <div class="card-body">
+        @if ($participants->isNotEmpty())
+            <div class="mb-5 flex items-center gap-3" aria-label="{{ $participants->count() }} conversation participants">
+                <div class="flex">
+                    @foreach ($participants->take(4) as $participant)
+                        <div class="{{ $loop->first ? "" : "-ms-2" }}" title="{{ $participant->display_name }}">
+                            @if ($participant->avatar_url)
+                                <img alt="{{ $participant->display_name }}" class="size-8 rounded-full border-2 border-white object-cover" src="{{ $participant->avatar_url }}" />
+                            @else
+                                <span class="bg-light text-default-600 flex size-8 items-center justify-center rounded-full border-2 border-white text-xs font-semibold">{{ str($participant->display_name)->substr(0, 1) }}</span>
+                            @endif
+                        </div>
+                    @endforeach
+                    @if ($participants->count() > 4)
+                        <span class="bg-light text-default-500 -ms-2 flex size-8 items-center justify-center rounded-full border-2 border-white text-xs font-semibold">+{{ $participants->count() - 4 }}</span>
+                    @endif
+                </div>
+                <p class="text-default-400 text-xs">{{ $participants->pluck("display_name")->implode(", ") }}</p>
+            </div>
+        @endif
         <div class="space-y-5">
             <div class="border-default-300 rounded border border-dashed p-5">
                 <div class="flex gap-3">
@@ -79,6 +81,15 @@
                                 <span class="text-default-400 text-xs">{{ $message->created_at->format("M j, Y g:i A") }}</span>
                                 @if ($message->message_type === "Clarification Request")
                                     <span class="badge bg-warning/10 text-warning">Clarification requested</span>
+                                @endif
+                                @if (data_get($message->metadata_json, "future_task.create_when_tasks_launch"))
+                                    <span class="badge bg-primary/10 text-primary">
+                                        <i class="iconify tabler--checkbox me-1"></i>
+                                        Will become a requester task
+                                    </span>
+                                    @if (data_get($message->metadata_json, "future_task.due_at"))
+                                        <span class="text-default-400 text-xs">Target {{ \Illuminate\Support\Carbon::parse(data_get($message->metadata_json, "future_task.due_at"))->timezone($currentProfile->organization->timezone)->format("M j, Y") }}</span>
+                                    @endif
                                 @endif
                             </div>
                             <p class="text-default-600 whitespace-pre-line">{{ $message->body }}</p>

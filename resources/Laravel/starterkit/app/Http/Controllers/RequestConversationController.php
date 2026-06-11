@@ -6,6 +6,7 @@ use App\Enums\RequestStatus;
 use App\Http\Requests\StoreRequestMessageRequest;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
+use App\Services\ClarificationFollowUpService;
 use App\Services\RequestConversationService;
 use App\Services\RequestIntakeService;
 use Illuminate\Http\RedirectResponse;
@@ -16,6 +17,7 @@ class RequestConversationController extends Controller
     public function __construct(
         private readonly RequestConversationService $conversationService,
         private readonly RequestIntakeService $requestIntakeService,
+        private readonly ClarificationFollowUpService $clarificationFollowUpService,
     ) {}
 
     public function store(StoreRequestMessageRequest $request, MinistryRequest $ministryRequest): RedirectResponse
@@ -39,7 +41,7 @@ class RequestConversationController extends Controller
         abort_if($clarification && ! $canTriage, 403);
 
         DB::transaction(function () use ($ministryRequest, $profile, $validated, $clarification) {
-            $this->conversationService->addMessage(
+            $message = $this->conversationService->addMessage(
                 $ministryRequest,
                 $profile,
                 $validated['message'],
@@ -48,6 +50,11 @@ class RequestConversationController extends Controller
             );
 
             if ($clarification) {
+                $futureTask = $this->clarificationFollowUpService->markForFutureTask(
+                    $ministryRequest->loadMissing('organization'),
+                    $message,
+                );
+
                 if ($ministryRequest->status !== RequestStatus::NeedsClarification) {
                     $this->requestIntakeService->transition(
                         $ministryRequest->refresh(),
@@ -63,6 +70,7 @@ class RequestConversationController extends Controller
                         'message' => $validated['message'],
                         'requested_at' => now()->toIso8601String(),
                         'requested_by_profile_id' => $profile->id,
+                        'future_task' => $futureTask,
                     ],
                 ]);
             }

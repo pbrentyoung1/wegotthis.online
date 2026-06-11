@@ -807,7 +807,7 @@ Suggested fields:
 
 Execution steps under Deliverables.
 
-Tasks do not float directly under Projects in MVP.
+Tasks do not float directly under Projects in MVP. Before Tasks are implemented, clarification messages may store future Task intent in message metadata; that marker should become a Deliverable Task after conversion.
 
 Suggested fields:
 

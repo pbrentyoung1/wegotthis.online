@@ -29,5 +29,6 @@ Record major product, technical, branding, and workflow decisions with context.
 | 2026-06-10 | Scope | Use Projects -> Deliverables -> Tasks as the MVP operational spine. Keep optional Campaigns deferred until explicitly promoted. | Accepted | `/docs/MVP_SCOPE.md` |
 | 2026-06-10 | Frontend | Use the checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation directly for MVP. Do not add another frontend framework without a proven gap and explicit approval. | Accepted | `/docs/technical/FRONTEND_ARCHITECTURE.md` |
 | 2026-06-11 | Conversations | Continue the requester-visible Request conversation as the stakeholder-visible Project conversation. Adding a Project Stakeholder adds them to that conversation and displays their avatar/name. Keep Project, Deliverable, and Task execution conversations private to assigned insiders. | Accepted | `/docs/product/CONVERSATIONS_MESSAGES_ACTIVITY.md` |
+| 2026-06-11 | Tasks | Do not build Tasks before Projects and Deliverables. Clarification follow-up stores future Task intent, requester assignment, and a next-weekday target on the source Request/message for later conversion into a canonical Deliverable Task. | Accepted | `/docs/product/TASKS.md` |
 
 Last updated: 2026-06-11

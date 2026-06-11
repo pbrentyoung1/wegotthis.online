@@ -19,6 +19,7 @@ Define the primary product hierarchy and show how major operational objects rela
 - Projects may contain many deliverables.
 - Tasks may attach directly to a project or a deliverable.
 - Requests precede projects and may convert into them.
+- Clarification messages may record future Task intent before conversion, but Task records remain part of the Project -> Deliverable -> Task implementation.
 
 ## Open Questions
 

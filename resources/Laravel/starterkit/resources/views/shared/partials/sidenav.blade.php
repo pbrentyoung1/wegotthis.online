@@ -124,12 +124,28 @@
                         </a>
                     </li>
                     @php($navigationProfile = auth()->user()->profiles()->where("status", "Active")->orderBy("id")->first())
-                    @if ($navigationProfile?->hasPermission("requests.submit"))
-                        <li class="menu-item">
-                            <a class="menu-link" href="{{ route("requests.index") }}">
+                    @if ($navigationProfile)
+                        @php($requestsOpen = request()->routeIs("requests.*"))
+                        <li class="menu-item hs-accordion {{ $requestsOpen ? "active open" : "" }}">
+                            <a aria-controls="nav-requests" aria-expanded="{{ $requestsOpen ? "true" : "false" }}" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
                                 <span class="menu-icon"><i class="iconify tabler--clipboard-text"></i></span>
                                 <span class="menu-text">Requests</span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <ul class="sub-menu hs-accordion-content hs-accordion-group {{ $requestsOpen ? "" : "hidden" }}" id="nav-requests">
+                                @if ($navigationProfile->hasPermission("requests.submit"))
+                                    <li class="menu-item">
+                                        <a class="menu-link {{ request()->routeIs("requests.index", "requests.create", "requests.show", "requests.edit") ? "active" : "" }}" href="{{ route("requests.index") }}">
+                                            <span class="menu-text">My Requests</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                <li class="menu-item">
+                                    <a class="menu-link {{ request()->routeIs("requests.tagged") ? "active" : "" }}" href="{{ route("requests.tagged") }}">
+                                        <span class="menu-text">Tagged Requests</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     @endif
                     @if ($navigationProfile?->hasPermission("requests.triage"))

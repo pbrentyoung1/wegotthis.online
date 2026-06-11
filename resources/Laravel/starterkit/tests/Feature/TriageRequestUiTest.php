@@ -9,6 +9,7 @@ use App\Models\Organization;
 use App\Models\Profile;
 use Database\Seeders\Phase2RequestIntakeScenarioSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class TriageRequestUiTest extends TestCase
@@ -271,6 +272,42 @@ class TriageRequestUiTest extends TestCase
             'body' => 'Which registration link should families use?',
             'message_type' => 'Clarification Request',
         ]);
+        $message = Message::query()->where('body', 'Which registration link should families use?')->firstOrFail();
+        $this->assertTrue((bool) data_get($message->metadata_json, 'future_task.create_when_tasks_launch'));
+        $this->assertSame($request->requester_profile_id, data_get($message->metadata_json, 'future_task.assigned_to_profile_id'));
+    }
+
+    public function test_clarification_is_marked_for_a_future_task_due_next_workday(): void
+    {
+        Carbon::setTestNow('2026-06-12 12:00:00');
+        $this->seed(Phase2RequestIntakeScenarioSeeder::class);
+
+        $jordan = $this->profile('Jordan Lee');
+        $rachel = $this->profile('Rachel Kim');
+        $request = $this->scenarioRequest();
+
+        $this->actingAs($jordan->user)
+            ->post(route('requests.messages.store', $request), [
+                'message' => 'Please confirm the registration link.',
+                'intent' => 'clarification',
+            ])
+            ->assertRedirect(route('triage.show', $request));
+
+        $message = Message::query()->where('body', 'Please confirm the registration link.')->firstOrFail();
+        $dueAt = Carbon::parse(data_get($message->metadata_json, 'future_task.due_at'))
+            ->timezone($request->organization->timezone);
+
+        $this->assertSame($rachel->id, data_get($message->metadata_json, 'future_task.assigned_to_profile_id'));
+        $this->assertSame('2026-06-15', $dueAt->format('Y-m-d'));
+        $this->assertSame('Planned', data_get($message->metadata_json, 'future_task.status'));
+
+        $this->actingAs($rachel->user)
+            ->get(route('requests.show', $request))
+            ->assertOk()
+            ->assertSee('Will become a requester task')
+            ->assertSee('Target Jun 15, 2026');
+
+        Carbon::setTestNow();
     }
 
     private function scenarioRequest(): MinistryRequest

@@ -113,6 +113,8 @@ The request conversation is one shared multi-participant conversation rendered o
 
 Request conversation messages use the Inspinia project-details comment pattern. People can reply to a specific root question or comment, and replies render beneath that message rather than turning the page into an undifferentiated chat room. MVP keeps replies one level deep.
 
+Asking for clarification records that the follow-up should become a Task assigned to the requester when the Task system is implemented after Projects and Deliverables. For a normal request, the marker targets the end of the next weekday and appears in the conversation. It does not yet create a Task record or appear in My Tasks or Calendar. Rush-specific due-date handling remains pending until request rush classification exists.
+
 ## Core Product Principle
 
 Department leaders define the need. Communications defines the plan. The system helps both sides understand each other.

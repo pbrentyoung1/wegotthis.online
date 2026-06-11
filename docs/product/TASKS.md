@@ -6,6 +6,8 @@ Define how tasks support deliverable production and operational work in ForWorsh
 
 Tasks are execution steps that belong to Deliverables.
 
+Request clarification records future Task intent before the Task system exists. Asking for clarification stores the intended requester assignment and next-workday target on the source Request/message. It does not create a Task record yet; this marker should become a canonical Task after Projects and Deliverables are implemented.
+
 ## Current Decisions
 
 - Tasks belong to Deliverables.
@@ -252,6 +254,7 @@ MVP should defer:
 For MVP, include:
 
 - Tasks attached to Deliverables only.
+- Conversion of marked clarification follow-up into Tasks after Projects and Deliverables exist.
 - Simple task creation.
 - Assignment.
 - Due date.

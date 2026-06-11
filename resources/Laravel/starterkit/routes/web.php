@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\PeopleDirectoryController;
 use App\Http\Controllers\MinistryRequestController;
+use App\Http\Controllers\PeopleDirectoryController;
 use App\Http\Controllers\RequestConversationController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\TaggedRequestController;
 use App\Http\Controllers\TriageRequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,7 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/requests/tagged', [TaggedRequestController::class, 'index'])->name('requests.tagged');
     Route::resource('requests', MinistryRequestController::class)
         ->parameters(['requests' => 'ministryRequest'])
         ->except(['destroy']);

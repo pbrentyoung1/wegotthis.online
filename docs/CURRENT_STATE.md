@@ -47,6 +47,7 @@ Track the actual state of the project so planning, design, and development work 
 - Existing asset and branding references use validated label/URL rows and reviewers use an organization-scoped profile picker. Full uploads remain part of the later asset-linking milestone.
 - Selected request reviewers are synchronized into the shared requester-visible conversation, appear by avatar and name in its participant header, and can open and reply to the request conversation without receiving broader request permissions.
 - Additional ministry brief details render for structured reviewer-only answers, and requesters can update active requests after submission without resetting the request's workflow status.
+- Asking for clarification now records future Task intent assigned to the requester with a next-weekday target and shows that marker in the conversation. No Task record, My Tasks view, or Calendar task entry is created until Projects, Deliverables, and Tasks are implemented. Rush-specific deadlines remain pending until rush classification exists.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
@@ -61,6 +62,7 @@ Track the actual state of the project so planning, design, and development work 
   - `conversation_participants`
   - `messages`
   - request intake models and Phase 1 relationships
+  - future Task intent markers for clarification follow-up
   - centralized request statuses
   - a request intake domain write service for organization scope and lifecycle transitions
   - an opt-in Grace Community Church VBS request scenario seeder

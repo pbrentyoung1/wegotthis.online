@@ -6,6 +6,7 @@ use App\Enums\RequestStatus;
 use App\Http\Requests\TriageTransitionRequest;
 use App\Models\MinistryRequest;
 use App\Models\Profile;
+use App\Services\ClarificationFollowUpService;
 use App\Services\RequestConversationService;
 use App\Services\RequestIntakeService;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +20,7 @@ class TriageRequestController extends Controller
     public function __construct(
         private readonly RequestIntakeService $requestIntakeService,
         private readonly RequestConversationService $conversationService,
+        private readonly ClarificationFollowUpService $clarificationFollowUpService,
     ) {}
 
     public function index(Request $request): View
@@ -107,16 +109,21 @@ class TriageRequestController extends Controller
             $updates = [];
 
             if ($status === RequestStatus::NeedsClarification) {
-                $this->conversationService->addMessage(
+                $message = $this->conversationService->addMessage(
                     $ministryRequest,
                     $currentProfile,
                     $validated['notes'],
                     'Clarification Request',
                 );
+                $futureTask = $this->clarificationFollowUpService->markForFutureTask(
+                    $ministryRequest->loadMissing('organization'),
+                    $message,
+                );
                 $updates['missing_information_json'] = [
                     'message' => $validated['notes'],
                     'requested_at' => now()->toIso8601String(),
                     'requested_by_profile_id' => $currentProfile->id,
+                    'future_task' => $futureTask,
                 ];
                 $updates['assigned_manager_profile_id'] = $currentProfile->id;
             }
