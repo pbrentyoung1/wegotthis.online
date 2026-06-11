@@ -135,7 +135,7 @@ class MinistryRequestController extends Controller
     private function authorizeEditableRequest(MinistryRequest $request, Profile $profile): void
     {
         $this->authorizeOwnedRequest($request, $profile);
-        abort_unless($request->status === RequestStatus::Draft, 403);
+        abort_unless(in_array($request->status, [RequestStatus::Draft, RequestStatus::NeedsClarification], true), 403);
     }
 
     private function departmentsFor(Profile $profile)

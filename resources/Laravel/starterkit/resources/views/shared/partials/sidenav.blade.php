@@ -132,6 +132,14 @@
                             </a>
                         </li>
                     @endif
+                    @if ($navigationProfile?->hasPermission("requests.triage"))
+                        <li class="menu-item">
+                            <a class="menu-link" href="{{ route("triage.index") }}">
+                                <span class="menu-icon"><i class="iconify tabler--list-check"></i></span>
+                                <span class="menu-text">Intake Queue</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="menu-item">
                         <a class="menu-link" href="{{ route("people.index") }}">
                             <span class="menu-icon"><i class="iconify tabler--users"></i></span>

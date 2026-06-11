@@ -33,7 +33,9 @@ Track the actual state of the project so planning, design, and development work 
 - Verified internal users with an active organization profile can view and filter a read-only, organization-scoped People directory.
 - Profiles expose reusable organization-scoped permission checks based on active role assignments.
 - Users with `requests.submit` can create, save, edit, view, and submit their own ministry requests through the Inspinia Blade UI.
-- Request intake UI access and record visibility are permission-, organization-, and requester-scoped. Submitted requests are read-only to the requester.
+- Users with `requests.triage` can review an organization-scoped intake queue, start triage, request clarification, and accept, defer, or reject requests.
+- Requesters can update and resubmit requests marked Needs Clarification. The latest clarification request is preserved on the request until contextual conversations are implemented.
+- Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
 - The system still must avoid building future-scope objects until the next implementation plan is approved.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
 - Canonical implementation guidance now uses Laravel 13, `organization_id`, the implemented Phase 1 role vocabulary, and Projects -> Deliverables -> Tasks as the MVP operational spine.
@@ -50,6 +52,8 @@ Track the actual state of the project so planning, design, and development work 
   - focused request intake feature tests
   - requester-facing My Requests, draft intake form, and request detail screens
   - reusable permission-based request lifecycle authorization
+  - Communications intake queue and triage detail/action screens
+  - requester clarification update and resubmission flow
 
 ## ForWorship Theme and Branding Applied
 
@@ -110,7 +114,6 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 ## Open Questions
 
-- Which existing Inspinia patterns should be adapted for request submission, request queue, and triage screens?
 - When should Projects, Deliverables, and Tasks be promoted into implementation after request intake?
 - When should optional Campaigns be promoted from future scope?
 - What staging validation should be completed before treating Phase 1 as stable outside local development?
@@ -119,12 +122,11 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Build the Communications triage queue and request clarification/decision UI.
-2. Implement Projects -> Deliverables -> Tasks and request-to-project conversion.
-3. Add contextual conversations and activity history.
-4. Add deliverable-centered reviews, approvals, and change requests.
-5. Add basic file/external-link attachment support and simple dashboard/date visibility.
-6. Validate the complete request-to-approved-deliverable loop locally and in staging.
+1. Approve and implement the Projects -> Deliverables -> Tasks foundation and request-to-project conversion.
+2. Add contextual conversations and activity history, including full clarification history.
+3. Add deliverable-centered reviews, approvals, and change requests.
+4. Add basic file/external-link attachment support and simple dashboard/date visibility.
+5. Validate the complete request-to-approved-deliverable loop locally and in staging.
 
 Do not import the historical Inertia/Vue implementation or its duplicate `UserProfile`, role, or permission structures. Recover useful behavior by adapting it to the canonical organization-scoped models and Inspinia Blade frontend.
 
@@ -133,7 +135,7 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - The full Laravel test suite passes.
 - The starterkit Vite production build passes.
-- No Communications triage UI, Campaigns, Projects, Deliverables, Tasks, conversations, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
+- No Campaigns, Projects, Deliverables, Tasks, contextual conversations, assets, reviews, calendar workflow, skills, capacity model, or request-to-project conversion has been implemented yet.
 - No deployment pipeline exists yet.
 
 Last updated: 2026-06-10 (session 2)

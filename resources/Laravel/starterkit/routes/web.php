@@ -3,6 +3,7 @@
 use App\Http\Controllers\PeopleDirectoryController;
 use App\Http\Controllers\MinistryRequestController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\TriageRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -14,6 +15,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->parameters(['requests' => 'ministryRequest'])
         ->except(['destroy']);
     Route::post('/requests/{ministryRequest}/submit', [MinistryRequestController::class, 'submit'])->name('requests.submit');
+    Route::get('/triage/requests', [TriageRequestController::class, 'index'])->name('triage.index');
+    Route::get('/triage/requests/{ministryRequest}', [TriageRequestController::class, 'show'])->name('triage.show');
+    Route::post('/triage/requests/{ministryRequest}/transition', [TriageRequestController::class, 'transition'])->name('triage.transition');
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
     Route::redirect('/settings', '/settings/profile');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');

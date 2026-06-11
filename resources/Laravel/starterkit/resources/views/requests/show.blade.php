@@ -14,12 +14,12 @@
                             <i class="iconify tabler--arrow-left me-1"></i>
                             Back to my requests
                         </a>
-                        @if ($ministryRequest->status === \App\Enums\RequestStatus::Draft)
+                        @if (in_array($ministryRequest->status, [\App\Enums\RequestStatus::Draft, \App\Enums\RequestStatus::NeedsClarification], true))
                             <div class="flex gap-2">
-                                <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ route("requests.edit", $ministryRequest) }}">Edit draft</a>
+                                <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ route("requests.edit", $ministryRequest) }}">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Edit draft" : "Respond" }}</a>
                                 <form action="{{ route("requests.submit", $ministryRequest) }}" method="POST">
                                     @csrf
-                                    <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">Submit request</button>
+                                    <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">{{ $ministryRequest->status === \App\Enums\RequestStatus::Draft ? "Submit request" : "Resubmit request" }}</button>
                                 </form>
                             </div>
                         @endif
@@ -95,9 +95,25 @@
                                 </div>
                             </div>
 
+                            @if ($ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
+                                <div class="rounded-lg bg-warning/10 p-4 text-sm text-warning">
+                                    <p class="font-semibold">Communications needs more information:</p>
+                                    <p class="mt-1 whitespace-pre-line">{{ data_get($ministryRequest->missing_information_json, "message") }}</p>
+                                </div>
+                            @endif
+
+                            @if ($ministryRequest->decision_notes)
+                                <div class="rounded-lg bg-light p-4 text-sm text-default-600">
+                                    <p class="font-semibold">Decision notes</p>
+                                    <p class="mt-1 whitespace-pre-line">{{ $ministryRequest->decision_notes }}</p>
+                                </div>
+                            @endif
+
                             <div class="rounded-lg bg-info/10 p-4 text-sm text-info">
                                 @if ($ministryRequest->status === \App\Enums\RequestStatus::Draft)
                                     Your request is private until you submit it. Add the ministry need before submitting.
+                                @elseif ($ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
+                                    Update the request with the requested information, then resubmit it to Communications.
                                 @else
                                     The communications team can now review this request and follow up if clarification is needed.
                                 @endif

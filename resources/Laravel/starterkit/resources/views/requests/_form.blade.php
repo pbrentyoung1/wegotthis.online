@@ -4,9 +4,22 @@
 @include("auth.partials.messages")
 
 <div class="mb-7.5">
-    <h4 class="card-title mb-1.5">{{ $editing ? "Update your request" : "Tell us what your ministry needs" }}</h4>
+    <h4 class="card-title mb-1.5">
+        @if ($editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
+            Respond to the clarification request
+        @else
+            {{ $editing ? "Update your request" : "Tell us what your ministry needs" }}
+        @endif
+    </h4>
     <p class="text-default-400">Start with the outcome, audience, and timing. The communications team will help determine the right deliverables.</p>
 </div>
+
+@if ($editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification)
+    <div class="mb-5 rounded-lg bg-warning/10 p-4 text-sm text-warning">
+        <p class="font-semibold">Communications needs more information:</p>
+        <p class="mt-1 whitespace-pre-line">{{ data_get($ministryRequest->missing_information_json, "message") }}</p>
+    </div>
+@endif
 
 <div class="grid grid-cols-1 gap-x-base gap-y-5 lg:grid-cols-2">
     <div class="lg:col-span-2">
@@ -69,7 +82,7 @@
 <div class="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-default-200 pt-5">
     <a class="btn bg-light text-default-700 hover:bg-default-200" href="{{ $editing ? route("requests.show", $ministryRequest) : route("requests.index") }}">Cancel</a>
     <div class="flex flex-wrap gap-2">
-        <button class="btn bg-light text-default-700 hover:bg-default-200" name="intent" type="submit" value="draft">Save draft</button>
-        <button class="btn bg-primary text-white hover:bg-primary-hover" name="intent" type="submit" value="submit">Submit request</button>
+        <button class="btn bg-light text-default-700 hover:bg-default-200" name="intent" type="submit" value="draft">{{ $editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification ? "Save update" : "Save draft" }}</button>
+        <button class="btn bg-primary text-white hover:bg-primary-hover" name="intent" type="submit" value="submit">{{ $editing && $ministryRequest->status === \App\Enums\RequestStatus::NeedsClarification ? "Resubmit request" : "Submit request" }}</button>
     </div>
 </div>

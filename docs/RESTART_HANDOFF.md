@@ -116,6 +116,12 @@ Implemented behavior:
 - complete-request submission through `RequestIntakeService`
 - read-only submitted request detail
 - authorization tests for permission, ownership, organization scope, and draft status
+- Communications intake queue scoped by `requests.triage` and organization
+- triage start, clarification, accept, defer, and reject actions through `RequestIntakeService`
+- requester clarification update and resubmission
+- requester-visible terminal decision notes
+
+Clarification currently preserves the latest requested-information message in `missing_information_json`. Full clarification history remains part of the future contextual conversations/activity slice.
 
 No Projects, Deliverables, Tasks, conversations, reviews, assets, or request-to-project conversion exists yet.
 
@@ -283,6 +289,8 @@ Primary working application routes:
 /requests               requester-scoped My Requests list
 /requests/create        new ministry request
 /requests/{request}     requester-scoped request detail
+/triage/requests        organization-scoped Communications intake queue
+/triage/requests/{request} Communications triage detail and actions
 ```
 
 UI demo routes (reference only, not product features):
@@ -361,8 +369,8 @@ php artisan test
 Passed:
 
 ```text
-53 tests
-242 assertions
+60 tests
+284 assertions
 ```
 
 ```bash
@@ -442,25 +450,24 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Build the Communications triage queue and request clarification/decision UI.
-2. Implement Projects -> Deliverables -> Tasks and request-to-project conversion.
-3. Add contextual conversations and activity history.
-4. Add deliverable-centered reviews, approvals, and change requests.
-5. Add basic file/external-link attachments and simple dashboard/date visibility.
-6. Validate the complete loop locally and in staging.
+1. Approve and implement Projects -> Deliverables -> Tasks and request-to-project conversion.
+2. Add contextual conversations and activity history, including full clarification history.
+3. Add deliverable-centered reviews, approvals, and change requests.
+4. Add basic file/external-link attachments and simple dashboard/date visibility.
+5. Validate the complete loop locally and in staging.
 
 ## Recommended Next Slice
 
-The next coherent slice is the **Communications triage queue and request decision UI**.
+The next coherent slice is the **Projects -> Deliverables -> Tasks foundation and request-to-project conversion**.
 
 Requirements:
 
-- require `requests.triage`
-- remain organization-scoped
-- list submitted and active-triage requests without exposing drafts
-- support clarification, triage, defer, reject, and accept transitions through `RequestIntakeService`
-- record decision notes for terminal intake decisions
-- preserve requester-facing read-only visibility after submission
+- approve a focused implementation plan before adding the next schema
+- use the canonical organization-scoped models and permissions
+- create Projects only from accepted requests
+- preserve the original request and link it to the created Project
+- keep Campaigns deferred
+- establish the minimum Project -> Deliverable -> Task path needed for the MVP loop
 
 ## Do Not Do Next
 
