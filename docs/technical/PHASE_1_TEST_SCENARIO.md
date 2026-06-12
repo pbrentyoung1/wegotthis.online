@@ -122,8 +122,8 @@ Rachel is a Department Leader by role assignment, not by `person_type`.
 ### Chris Morgan
 
 - display_name: Chris Morgan
-- user/login: no
-- email/contact: `chris@example.test`
+- user/login: yes
+- email: `chris@example.test`
 - person_type: Vendor Contact
 - title: Print Vendor Contact
 - department: none
@@ -134,14 +134,14 @@ Rachel is a Department Leader by role assignment, not by `person_type`.
 ### Avery Brooks
 
 - display_name: Avery Brooks
-- user/login: no
-- email/contact: `avery@example.test`
+- user/login: yes
+- email: `avery@example.test`
 - person_type: External Reviewer
 - title: Parent Volunteer Reviewer
 - department: Kids Ministry
 - role assignment: none
 - future use:
-  - external reviewer/contact without login
+  - external reviewer/contact with demo login
   - future stakeholder/reviewer flow
 
 ## Role Expectations
@@ -172,11 +172,11 @@ The scenario should verify:
 1. Grace Community Church can have multiple departments.
 2. Departments belong to Grace Community Church.
 3. Staff profiles can be connected to login users.
-4. Vendor Contact and External Reviewer profiles can exist without login users.
+4. Vendor Contact and External Reviewer profiles may be login-backed without changing their person types.
 5. Multiple contact-only profiles with `user_id` null are allowed.
 6. Rachel Kim can be a Department Leader through role assignment while `person_type` remains Staff.
-7. Chris Morgan can exist as a vendor contact without system access.
-8. Avery Brooks can exist as an external reviewer/contact without system access.
+7. Chris Morgan can log in as a vendor contact without receiving an organization role.
+8. Avery Brooks can log in as an external reviewer/contact without receiving an organization role.
 9. Jordan Lee is ready to act as a future Communications Manager/owner/triage profile.
 10. Elena Torres is ready to act as a future delegated Admin profile.
 

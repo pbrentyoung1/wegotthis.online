@@ -57,6 +57,18 @@ class Project extends Model
 
     public function deliverables(): HasMany
     {
-        return $this->hasMany(Deliverable::class);
+        return $this->hasMany(Deliverable::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function activityEvents(): HasMany
+    {
+        return $this->hasMany(ProjectActivityEvent::class);
+    }
+
+    public function timeBudgetMinutes(): int
+    {
+        return (int) Task::query()
+            ->whereHas('deliverable', fn ($query) => $query->where('project_id', $this->id))
+            ->sum('time_budget_minutes');
     }
 }

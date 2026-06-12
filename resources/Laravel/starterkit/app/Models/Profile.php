@@ -103,4 +103,14 @@ class Profile extends Model
     {
         return $this->hasMany(ProjectMember::class);
     }
+
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_to_profile_id');
+    }
+
+    public function workNotifications(): HasMany
+    {
+        return $this->hasMany(WorkNotification::class, 'recipient_profile_id');
+    }
 }

@@ -55,4 +55,40 @@ class Phase3ProjectScenarioTest extends TestCase
             ->assertOk()
             ->assertSee('Convert to project');
     }
+
+    public function test_manager_can_update_project_lifecycle_status_and_records_activity(): void
+    {
+        $this->seed(Phase3ProjectScenarioSeeder::class);
+        $admin = Profile::query()->with('user')->where('display_name', 'Demo Admin')->firstOrFail();
+        $project = Project::query()->where('title', 'Christmas Eve Invitation Project')->firstOrFail();
+
+        $this->actingAs($admin->user)
+            ->get(route('projects.show', $project))
+            ->assertOk()
+            ->assertSee('Project status')
+            ->assertSee('Active');
+
+        $this->actingAs($admin->user)
+            ->patch(route('projects.status.update', $project), ['lifecycle_status' => 'Active'])
+            ->assertRedirect();
+
+        $this->assertSame('Active', $project->fresh()->lifecycle_status);
+        $this->assertDatabaseHas('project_activity_events', [
+            'project_id' => $project->id,
+            'event_type' => 'project_status_updated',
+        ]);
+    }
+
+    public function test_non_manager_cannot_update_project_lifecycle_status(): void
+    {
+        $this->seed(Phase3ProjectScenarioSeeder::class);
+        $rachel = Profile::query()->with('user')->where('display_name', 'Rachel Kim')->firstOrFail();
+        $project = Project::query()->where('title', 'Christmas Eve Invitation Project')->firstOrFail();
+
+        $this->actingAs($rachel->user)
+            ->patch(route('projects.status.update', $project), ['lifecycle_status' => 'Active'])
+            ->assertForbidden();
+
+        $this->assertSame('Planning', $project->fresh()->lifecycle_status);
+    }
 }

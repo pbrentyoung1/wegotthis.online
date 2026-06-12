@@ -30,8 +30,10 @@ Document outbound notification channels, notification types, and early provider 
 - Project update
 - Project status update
 - Overdue task
+- Task blocked or unblocked
 - Assignment notification
 - Deliverable ready for review
+- Task ready for review / needs approval
 - Approval requested
 - Approval completed
 - Comment or mention
@@ -40,6 +42,14 @@ Document outbound notification channels, notification types, and early provider 
 - External review link
 - Closeout required
 - Closeout reminder
+
+For MVP, a Task moving to `Blocked` should create an in-app alert for the Task assignee, Deliverable owner, Project owner/coordinator, and other explicitly authorized internal managers. The alert should link to the blocked Task and include its blocker type and reason. Do not notify every organization user.
+
+For MVP, a Task moving to `Ready for Review` should create an in-app Needs Approval alert for the Deliverable owner, falling back to the Project owner. The alert links to the original Task and remains active only while that Task is Ready for Review. Returning it to active work, completing it, deferring it, or canceling it resolves the alert. A later resubmission creates a fresh alert.
+
+For MVP, submitting a Deliverable for review creates a Needs Approval alert for each reviewer in the new review round. A reviewer decision resolves that reviewer's alert. Requested changes resolve all remaining alerts for the round and move the Deliverable to Revision. Resubmission creates a new round and fresh alerts.
+
+The My Tasks alert surface queries active Blocked and Needs Approval notifications. Resolved alerts use `read_at` and disappear from active alert surfaces while activity and review decisions preserve history.
 
 ## Future Channels
 

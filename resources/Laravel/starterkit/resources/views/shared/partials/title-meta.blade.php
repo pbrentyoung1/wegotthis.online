@@ -1,6 +1,7 @@
 <meta charset="utf-8" />
 <title>{{ $title }} | ForWorship Creative</title>
 <meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="{{ csrf_token() }}" name="csrf-token" />
 <meta content="ForWorship Creative — a calm, capable workspace for church communications teams." name="description" />
 <meta content="ForWorship, church communications, ministry workspace, creative requests, project management" name="keywords" />
 <meta content="ForWorship" name="author" />

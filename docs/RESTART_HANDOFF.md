@@ -1,6 +1,6 @@
 # Restart Handoff
 
-Last updated: 2026-06-10 (consolidated handoff)
+Last updated: 2026-06-12 (request-to-archived-project MVP foundation)
 
 ## Purpose
 
@@ -39,7 +39,7 @@ Current branch:
 main
 ```
 
-The authenticated Inspinia reconciliation, verified demo accounts, and demo profile headshots are committed on `main`. Review `git status` before starting work and do not stage known unrelated untracked residue.
+The authenticated Inspinia reconciliation, verified demo accounts, demo profile headshots, and request-to-archived-project MVP foundation are committed on `main`. Review `git status` before starting work.
 
 ## Why Reconciliation Was Required
 
@@ -130,7 +130,7 @@ Clarification now preserves requester-visible questions and replies in a shared 
 
 Existing branding, asset, example, and external/Drive link references currently use the flexible `request_answers` foundation and are visible in requester and triage detail screens. This is intake context, not the future `asset_links` table or an upload system.
 
-No Projects, Deliverables, Tasks, persisted activity events, reviews, assets, or request-to-project conversion exists yet.
+Projects, Deliverables, Tasks, persisted activity events, reviews, external links, scheduling, and request-to-project conversion now exist. Full uploads and lightweight Campaign/Initiative conversion targets remain deferred.
 
 ## Approved Request UX Sequence
 
@@ -142,20 +142,36 @@ Completed in the intake refinement:
 - Last activity is visible in the queue.
 - Request status and activity colors use consistent lifecycle meaning.
 
-Next request UX work:
+Remaining request UX work:
 
 - Add per-user read tracking before adding the Unread queue view.
 - Completed: Adapt Inspinia `/apps/projects/list` for the requester Requests list.
 - Completed: Use one shared multi-participant request conversation on requester and triage pages.
 - Add unread/read state and message inbox behavior.
-- Extend the shared conversation foundation to Projects and Deliverables when those modules are implemented.
+- Extend unread/read state across the shared Request and Deliverable conversation foundation.
 - Support in-context request detail updates without conflating them with messages.
 - Replace reviewer free text with a user picker.
 - Replace asset/link free text with structured, validated link rows.
 - Remove requester-facing communication-ideas input.
 - Replace vague constraint prompts with specific supportive questions.
-- Explore a guided wizard and Quill formatting for appropriate long-form fields without source-code editing.
-- Implement conversion persistence without losing the source request.
+- Explore a guided request wizard.
+- Connect clarification intent markers to real Tasks after the clarification-task workflow is designed.
+
+## Current Project Execution Foundation
+
+The following foundation is implemented and covered by focused tests:
+
+- Request-to-Project conversion preserves the source Request, requester-visible stakeholder conversation, selected request ideas, and Project Type default Deliverables.
+- Project Type templates define ordered default Deliverables without coupling created Deliverables back to the template.
+- Deliverables support ownership, dates, links, internal conversation, optional internal/stakeholder reviewers, numbered review rounds, revision loops, delivery, publishing/running, ending, and archive.
+- Tasks belong to Deliverables and support organization-wide assignment, priority, Kanban status, blockers, time budgets, links, and derived Project visibility for assigned specialists.
+- Task Ready for Review creates an actionable alert for the Deliverable manager instead of a duplicate approval Task.
+- Active blocker attention and review alerts resolve when their underlying condition clears while history remains in Project activity.
+- Deliverable Task time budgets roll up to Deliverables and Projects.
+- Shared Quill editors store restricted Delta JSON with legacy plain-text compatibility. Conversation editors include a lightweight Unicode emoji picker.
+- My Schedule uses FullCalendar with bounded, permission-aware feeds. Project Schedule supports explicit Deliverable/Task ordering and inline date adjustments.
+- Project closeout requires archived Deliverables and a completed closeout checklist before final archive.
+- Stakeholder-facing review and conversation views do not expose internal Tasks, team discussion, or internal activity.
 
 ## Current Reconciled Application Work
 
@@ -319,10 +335,20 @@ Primary working application routes:
 /settings/profile       account/profile settings
 /people                 organization-scoped People directory
 /requests               requester-scoped My Requests list
+/requests/tagged        requests involving the signed-in profile
 /requests/create        new ministry request
 /requests/{request}     requester-scoped request detail
 /triage/requests        organization-scoped Communications intake queue
 /triage/requests/{request} Communications triage detail and actions
+/projects               visible Projects list
+/projects/{project}     Project workspace
+/projects/{project}/schedule sortable Project Schedule
+/projects/{project}/closeout guarded Project closeout
+/projects/{project}/deliverables/{deliverable} Deliverable workspace and review
+/projects/{project}/deliverables/{deliverable}/tasks/{task} Task workspace
+/tasks                  My Tasks and actionable work alerts
+/calendar               My Schedule
+/project-types          Project Type template editor
 ```
 
 UI demo routes (reference only, not product features):
@@ -374,6 +400,8 @@ Demo profiles use the numbered portraits in `resources/headshots/`, served from 
 | `rachel@example.test` | Grace Community Church | Department Leader |
 | `marcus@example.test` | Grace Community Church | Contributor |
 | `elena@example.test` | Grace Community Church | Contributor |
+| `chris@example.test` | Grace Community Church | Vendor Contact, no organization role |
+| `avery@example.test` | Grace Community Church | External Reviewer, no organization role |
 
 Start local servers:
 
@@ -398,11 +426,11 @@ Latest completed verification:
 php artisan test
 ```
 
-Passed:
+Passed on 2026-06-12:
 
 ```text
-63 tests
-307 assertions
+156 tests
+754 assertions
 ```
 
 ```bash
@@ -447,22 +475,18 @@ Quill is retained because the checked-in Inspinia `form/text-editors` reference 
 
 Do not run `npm audit fix --force`; it downgrades Quill without resolving the absence of an upstream patched stable release.
 
-## Known Untracked Residue
+## Repository Hygiene
 
-The following predate or are unrelated to the current reconciliation and must not be staged blindly:
+Historical Wayfinder/Inertia generated residue is ignored in the root `.gitignore`:
 
 ```text
-docs/technical/PR3_SCHEMA_REVIEW.md
-docs/technical/PR4_MIGRATION_PLAN_REVIEW.md
 resources/Laravel/starterkit/components.d.ts
 resources/Laravel/starterkit/resources/js/actions/
 resources/Laravel/starterkit/resources/js/routes/
 resources/Laravel/starterkit/resources/js/wayfinder/
 ```
 
-The generated JavaScript directories are residue from the historical Wayfinder/Inertia implementation.
-
-Do not treat them as approved frontend architecture.
+Do not treat those generated files as approved frontend architecture or remove the ignore rules without an explicit architecture decision.
 
 ## MVP Critical Path
 
@@ -482,27 +506,24 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Complete the remaining requester intake UX corrections: structured reviewer and asset links, supportive prompts, and removal of requester-facing communication ideas.
-2. Approve and implement lightweight Project, Campaign, and Initiative conversion targets plus Projects -> Deliverables -> Tasks.
-3. Expand contextual conversations with unread state and add persisted activity history.
-4. Add deliverable-centered reviews, approvals, and change requests.
-5. Add basic file/external-link attachments and simple dashboard/date visibility.
-6. Validate the complete loop locally and in staging.
+1. Add unread/read state and inbox behavior to contextual conversations.
+2. Complete basic file/upload attachment handling while preserving the existing external-link foundation.
+3. Validate the complete request-to-archived-project loop across demo roles locally and in staging.
+4. Implement lightweight Campaign and Initiative conversion targets without building full planning modules.
+5. Connect clarification intent markers to Tasks and Calendar after the clarification-task workflow is designed.
+6. Add recurrence, external calendar sync, and broader capacity planning only after the core loop is stable.
 
 ## Recommended Next Slice
 
-The immediate next task is the approved triage layout refinement documented above.
-
-After that refinement, the next broad slice is the **conversion foundation: Project, Campaign, Initiative, and Projects -> Deliverables -> Tasks**.
+The immediate next task is **conversation unread/read state and inbox behavior**, followed by finishing basic file/upload attachments.
 
 Requirements:
 
-- approve a focused implementation plan before adding the next schema
 - use the canonical organization-scoped models and permissions
-- create Project, Campaign, or Initiative only through an authorized request conversion workflow
-- preserve the original request and link it to the created conversion target
-- keep full Campaign and Initiative planning modules deferred while supporting lightweight conversion targets
-- establish the minimum Project -> Deliverable -> Task path needed for the MVP loop
+- preserve the public stakeholder conversation boundary and private internal execution boundary
+- keep external links working while introducing uploads through storage abstractions
+- verify behavior from requester, Communications Manager, contributor, vendor, and external reviewer perspectives
+- keep full Campaign and Initiative planning modules deferred
 
 ## Do Not Do Next
 
@@ -512,8 +533,7 @@ Requirements:
 - Do not build a full CRM, HR profile system, vendor portal, or complex role builder.
 - Do not build full Campaign or Initiative planning modules before the Project -> Deliverable -> Task execution foundation.
 - Do not treat Inspinia demo screens/routes as finished product features.
-- Do not begin broad visual redesign work before the request-to-approved-deliverable loop exists.
-- Do not stage every untracked file with `git add .`.
+- Do not begin broad visual redesign work before validating the implemented request-to-archived-project loop.
 
 ## Resume Checklist
 

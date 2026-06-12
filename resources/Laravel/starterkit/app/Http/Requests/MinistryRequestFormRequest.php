@@ -18,17 +18,17 @@ class MinistryRequestFormRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'department_id' => ['nullable', 'integer'],
-            'ministry_need' => ['nullable', 'required_if:intent,submit', 'string', 'max:5000'],
-            'why_it_matters' => ['nullable', 'string', 'max:5000'],
+            'ministry_need' => ['nullable', 'required_if:intent,submit', 'string', 'max:20000'],
+            'why_it_matters' => ['nullable', 'string', 'max:20000'],
             'audience' => ['nullable', 'string', 'max:5000'],
-            'desired_action' => ['nullable', 'string', 'max:5000'],
-            'desired_tone' => ['nullable', 'string', 'max:2000'],
+            'desired_action' => ['nullable', 'string', 'max:20000'],
+            'desired_tone' => ['nullable', 'string', 'max:20000'],
             'event_date' => ['nullable', 'date'],
             'action_deadline' => ['nullable', 'date'],
             'needed_by' => ['nullable', 'date'],
-            'known_constraints' => ['nullable', 'string', 'max:5000'],
-            'success_looks_like' => ['nullable', 'string', 'max:5000'],
-            'key_message' => ['nullable', 'string', 'max:5000'],
+            'known_constraints' => ['nullable', 'string', 'max:20000'],
+            'success_looks_like' => ['nullable', 'string', 'max:20000'],
+            'key_message' => ['nullable', 'string', 'max:20000'],
             'asset_links' => ['nullable', 'array', 'max:20'],
             'asset_links.*.label' => ['nullable', 'string', 'max:255'],
             'asset_links.*.url' => ['nullable', 'required_with:asset_links.*.label', 'url:http,https', 'max:2048'],
@@ -40,7 +40,7 @@ class MinistryRequestFormRequest extends FormRequest
                     ->where('organization_id', $organizationId)
                     ->where('status', 'Active')),
             ],
-            'sensitivities' => ['nullable', 'string', 'max:5000'],
+            'sensitivities' => ['nullable', 'string', 'max:20000'],
             'intent' => ['required', 'in:draft,submit'],
         ];
     }

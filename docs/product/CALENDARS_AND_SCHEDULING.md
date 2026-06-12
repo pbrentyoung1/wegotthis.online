@@ -35,6 +35,16 @@ For MVP, use a unified calendar model that can show different views:
 
 These are views over shared date-based records, not separate engines.
 
+## Implemented MVP Foundation
+
+- My Schedule uses the INSPINIA FullCalendar pattern.
+- Calendar data is normalized from existing Project, Deliverable, Task, and Deliverable Review records.
+- The JSON endpoint requires a bounded date range and respects Project visibility.
+- Available filters are My Work, Projects, Production, Publishing, and Reviews.
+- Project Schedule provides a separate sortable production sequence for Deliverables and Tasks.
+- Project owners and managers can adjust Project, Deliverable, publish, and Task dates from Project Schedule.
+- A separate materialized calendar-items table, recurrence, drag-to-reschedule, and external calendar sync remain deferred.
+
 ## Calendar API Principle
 
 Calendar views should use bounded date-range queries.

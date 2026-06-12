@@ -42,5 +42,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Historical Wayfinder/Inertia generated residue; not part of the approved Blade MVP.
+/resources/Laravel/starterkit/components.d.ts
+/resources/Laravel/starterkit/resources/js/actions/
+/resources/Laravel/starterkit/resources/js/routes/
+/resources/Laravel/starterkit/resources/js/wayfinder/
+
 # Build and tooling caches
 /.vite/

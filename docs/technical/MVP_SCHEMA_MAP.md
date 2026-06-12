@@ -858,6 +858,7 @@ Suggested fields:
 | status | Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, Canceled. |
 | priority | Nullable. |
 | due_date | Nullable. |
+| time_budget_minutes | Nullable positive integer representing planned Task effort. Task budgets sum into Deliverable budgets, and Deliverable budgets sum into Project budgets. |
 | blocker_type | Nullable: Over Capacity, Waiting on Department, Waiting on Approval, Vendor Needed, Missing Information, Missing Asset, Budget, Technical, Scheduling, Scope Decision. |
 | blocker_reason | Nullable. |
 | blocker_reference_type | Nullable future hook. |
@@ -867,6 +868,10 @@ Suggested fields:
 | completed_at | Nullable. |
 | metadata_json | Flexible MVP extension point. |
 | created_at / updated_at | Standard timestamps. |
+
+Tasks need simple labeled external links in the first Task slice. The implementation may initially mirror the existing Deliverable link behavior, but the long-term canonical model remains polymorphic `asset_links` so Request, Project, Deliverable, Task, Message, Review Assignment, and Change Request links can share one model.
+
+Task `status` is also the Task Kanban status; do not add a duplicate Kanban-status field. Moving a Task to `Blocked` should require blocker details, create activity and internal alerts, and derive visible blocked attention on its Deliverable and Project without changing parent lifecycle statuses.
 
 ## Conversation, Message, Activity, and Audit Tables
 
@@ -969,6 +974,23 @@ Suggested fields:
 
 ## Review and Approval Tables
 
+### deliverable_reviews
+
+Implemented lightweight MVP review-round decisions for Deliverables.
+
+| Field | Notes |
+|---|---|
+| organization_id | Required organization scope. |
+| deliverable_id | Required parent Deliverable. |
+| reviewer_profile_id | Required assigned reviewer. |
+| round_number | Numbered review/resubmission round. |
+| reviewer_role | Internal reviewer, Stakeholder reviewer, or Owner reviewer fallback. |
+| decision | Pending, Approved, or Changes Requested. |
+| notes | Optional approval notes; required by the workflow for requested changes. |
+| decided_at | Decision timestamp. |
+
+The unique key on Deliverable, round number, and reviewer preserves one decision per reviewer per round. New submissions create new rows so prior-round decisions remain available for history.
+
 ### review_assignments
 
 Review responsibility for a Deliverable or reviewable element.
@@ -999,7 +1021,7 @@ Suggested fields:
 | waiver_reason | Nullable. |
 | created_at / updated_at | Standard timestamps. |
 
-Note: `decided_by_profile_id`, `decided_at`, and `decision_notes` represent the most recent decision only. A future `review_decisions` child table (`review_assignment_id`, `round`, `decision`, `notes`, `decided_by_profile_id`, `decided_at`) will be needed to preserve full per-round decision history. This is the planned expansion path.
+Note: richer typed, sequenced, optional, and waived review assignments remain a future expansion beyond the implemented lightweight `deliverable_reviews` round model.
 
 ### change_requests
 

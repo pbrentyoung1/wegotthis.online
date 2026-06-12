@@ -134,4 +134,4 @@
         config.sidenavUser ? html.setAttribute("data-sidenav-user", "true") : html.removeAttribute("data-sidenav-user")
     })()
 </script>
-@vite(["resources/css/app.css", "resources/js/vendor.js", "resources/js/app.js"])
+@vite(["resources/css/app.css", "resources/js/vendor.js", "resources/js/app.js", "resources/js/pages/rich-text.js"])

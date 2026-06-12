@@ -43,7 +43,7 @@ ForWorship Creative is a conversational ministry workspace that helps church tea
 
 ## Notes
 
-This repository has completed the Phase 1 identity foundation, implemented the Phase 2 request/intake workflow, and begun the Project/Deliverable conversion foundation. Authentication, profile editing, People, request intake/triage, stakeholder conversations, Tagged Requests, active Request-to-Project conversion, and proposed Deliverables exist under `resources/Laravel/starterkit`.
+This repository has completed the Phase 1 identity foundation and now implements the core request-to-archived-project MVP loop under `resources/Laravel/starterkit`. Authentication, profile editing, People, request intake/triage, stakeholder conversations, Tagged Requests, Request-to-Project conversion, Project Type deliverable templates, Deliverables, Tasks, approvals, alerts, scheduling, rich text, and guarded Project closeout are working.
 
 Current operational handoff:
 
@@ -76,4 +76,4 @@ Key documentation areas:
 - `/docs/branding/VOICE_AND_TONE.md`, `/docs/branding/TYPOGRAPHY.md`, and `/docs/branding/UI_PRINCIPLES.md` define the warm, conversational, human-centered product experience.
 - `/docs/technical/SEARCH_STRATEGY.md`, `/docs/technical/NOTIFICATIONS.md`, and `/docs/technical/BACKUPS_AND_RETENTION.md` document core platform planning concerns.
 
-Last Updated: 2026-06-10
+Last Updated: 2026-06-12

@@ -9,6 +9,10 @@ Document the structured closeout process that prepares completed communications 
 - Working direction: closing a project should be a workflow, not simply marking it done.
 - Working direction: projects should move from Published to Closeout before Archived.
 - Working direction: closeout should connect final assets to the Media Library where appropriate.
+- Implemented MVP: Project closeout can begin only after every Deliverable is Archived.
+- Implemented MVP: final links/delivery locations, preserved approvals, and reusable context are required checklist items.
+- Implemented MVP: closeout notes use the shared restricted Quill editor.
+- Implemented MVP: archiving records the Project archive timestamp and Project activity.
 
 ## Closeout Workflow
 

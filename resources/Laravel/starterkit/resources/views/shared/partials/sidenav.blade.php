@@ -123,6 +123,18 @@
                             <span class="menu-text" data-lang="dashboard-projects">Projects</span>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a class="menu-link {{ request()->routeIs("tasks.*") ? "active" : "" }}" href="{{ route("tasks.index") }}">
+                            <span class="menu-icon"><i class="iconify tabler--list-check"></i></span>
+                            <span class="menu-text">My Tasks</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link {{ request()->routeIs("calendar.*") ? "active" : "" }}" href="{{ route("calendar.index") }}">
+                            <span class="menu-icon"><i class="iconify tabler--calendar"></i></span>
+                            <span class="menu-text">My Schedule</span>
+                        </a>
+                    </li>
                     @php($navigationProfile = auth()->user()->profiles()->where("status", "Active")->orderBy("id")->first())
                     @if ($navigationProfile)
                         @php($requestsOpen = request()->routeIs("requests.*"))

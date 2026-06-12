@@ -110,10 +110,9 @@ class ProjectConversionTest extends TestCase
             ->assertOk()
             ->assertSee($project->title)
             ->assertSee('Deliverables')
-            ->assertSee('Tasks')
             ->assertSee('Activity')
             ->assertSee('Conversation')
-            ->assertSee('Tasks will live under Deliverables')
+            ->assertDontSee('Project time budget')
             ->assertSee('Project created')
             ->assertSee('Stakeholder');
 

@@ -6,6 +6,7 @@
     <meta charset="utf-8" />
     <title>{{ $title }}</title>
     <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="{{ csrf_token() }}" name="csrf-token" />
 
     @yield("styles")
 

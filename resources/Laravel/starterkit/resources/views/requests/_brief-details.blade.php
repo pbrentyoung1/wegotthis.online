@@ -18,7 +18,7 @@
                     @if ($briefAnswers->get($key)?->answer_value)
                         <div>
                             <h5 class="mb-2 font-semibold">{{ $label }}</h5>
-                            <p class="text-default-500 whitespace-pre-line">{{ $briefAnswers->get($key)->answer_value }}</p>
+                            <x-rich-text :value="$briefAnswers->get($key)->answer_value" />
                         </div>
                     @endif
                 @endforeach

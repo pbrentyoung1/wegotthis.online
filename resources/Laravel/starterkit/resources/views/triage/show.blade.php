@@ -32,17 +32,17 @@
                                     <div class="space-y-6">
                                         <div>
                                             <h5 class="mb-2 font-semibold">Ministry need</h5>
-                                            <p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->ministry_need }}</p>
+                                            <x-rich-text :value="$ministryRequest->ministry_need" />
                                         </div>
                                         <div>
                                             <h5 class="mb-2 font-semibold">Why it matters</h5>
-                                            <p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->why_it_matters ?: "Not provided." }}</p>
+                                            @if($ministryRequest->why_it_matters)<x-rich-text :value="$ministryRequest->why_it_matters" />@else<p class="text-default-500">Not provided.</p>@endif
                                         </div>
                                         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                                             <div><h5 class="mb-2 font-semibold">Audience</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->audience ?: "Not provided." }}</p></div>
-                                            <div><h5 class="mb-2 font-semibold">Desired action</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->desired_action ?: "Not provided." }}</p></div>
-                                            <div><h5 class="mb-2 font-semibold">Desired tone</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->desired_tone ?: "Not provided." }}</p></div>
-                                            <div><h5 class="mb-2 font-semibold">Planning considerations</h5><p class="text-default-500 whitespace-pre-line">{{ $ministryRequest->known_constraints ?: "Not provided." }}</p></div>
+                                            <div><h5 class="mb-2 font-semibold">Desired action</h5>@if($ministryRequest->desired_action)<x-rich-text :value="$ministryRequest->desired_action" />@else<p class="text-default-500">Not provided.</p>@endif</div>
+                                            <div><h5 class="mb-2 font-semibold">Desired tone</h5>@if($ministryRequest->desired_tone)<x-rich-text :value="$ministryRequest->desired_tone" />@else<p class="text-default-500">Not provided.</p>@endif</div>
+                                            <div><h5 class="mb-2 font-semibold">Planning considerations</h5>@if($ministryRequest->known_constraints)<x-rich-text :value="$ministryRequest->known_constraints" />@else<p class="text-default-500">Not provided.</p>@endif</div>
                                         </div>
                                     </div>
                                 </div>

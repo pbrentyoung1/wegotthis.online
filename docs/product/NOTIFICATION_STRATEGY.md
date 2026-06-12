@@ -113,6 +113,7 @@ These should generally send immediately because they require action.
 ### Approval-related
 
 * deliverable ready for review
+* task ready for review
 * approval requested
 * approval approved
 * approval rejected
@@ -130,6 +131,12 @@ These should generally send immediately because they require action.
 * overdue approval
 * blocked task
 * failed upload or processing issue
+
+A blocked Task should alert the people positioned to clear the obstacle: the Task assignee, Deliverable owner, Project owner/coordinator, and explicitly authorized internal managers. It should also surface as blocked attention on the parent Deliverable and Project. Avoid notifying unrelated organization users.
+
+A Task moving to Ready for Review should create an actionable Needs Approval alert linked to the original Task, not a second review Task. Leaving Ready for Review resolves the alert; resubmitting the Task creates a fresh alert.
+
+Blocked Task alerts are active-attention items, not permanent history. Clearing the blocker resolves and removes its alerts from active alert surfaces. The blocked and unblocked events remain available in Project and Deliverable activity.
 
 ---
 

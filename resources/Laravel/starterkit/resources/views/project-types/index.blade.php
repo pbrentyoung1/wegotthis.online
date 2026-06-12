@@ -26,7 +26,7 @@
                                         <tbody class="divide-default-300 divide-y">
                                             @foreach ($projectTypes as $projectType)
                                                 <tr>
-                                                    <td><p class="font-semibold">{{ $projectType->name }}</p><p class="text-default-400 text-xs">{{ $projectType->description ?: "No description yet." }}</p></td>
+                                                    <td><p class="font-semibold">{{ $projectType->name }}</p><p class="text-default-400 text-xs">{{ $projectType->description ? str(\App\Support\RichText::plainText($projectType->description))->limit(120) : "No description yet." }}</p></td>
                                                     <td>{{ $projectType->deliverable_templates_count }} Deliverables</td>
                                                     <td><span class="badge {{ $projectType->is_active ? "bg-success/10 text-success" : "bg-light text-default-500" }}">{{ $projectType->is_active ? "Active" : "Inactive" }}</span></td>
                                                     <td class="text-end"><a class="text-primary font-medium hover:underline" href="{{ route("project-types.edit", $projectType) }}">Edit</a></td>
@@ -46,8 +46,7 @@
                                         @csrf
                                         <label class="form-label" for="project-type-name">Name</label>
                                         <input class="form-input mb-4" id="project-type-name" name="name" placeholder="Sermon Series" required />
-                                        <label class="form-label" for="project-type-description">Description</label>
-                                        <textarea class="form-textarea mb-4" id="project-type-description" name="description" placeholder="When this template should be used..." rows="4"></textarea>
+                                        <x-rich-text-editor class="mb-4" label="Description" name="description" placeholder="When this template should be used..." />
                                         <button class="btn w-full bg-primary text-white hover:bg-primary-hover" type="submit">Create project type</button>
                                     </form>
                                 </div>

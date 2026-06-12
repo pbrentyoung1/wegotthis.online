@@ -40,7 +40,7 @@ Proposed
 - Approval logic primarily belongs to deliverables.
 - Proposed means the deliverable idea exists but has not yet been approved for planning.
 - Planning means the deliverable brief, timeline, tasks, approval route, budget/vendor needs, and readiness requirements are being shaped.
-- In Production means production work is underway.
+- In Production begins explicitly when the owner or manager selects Start Production after Planning.
 - Ready for Review means production work is complete enough to submit for review.
 - In Review means stakeholders are reviewing, asking questions, approving, or requesting changes.
 - Revision means changes were requested and the deliverable is being revised.
@@ -49,6 +49,10 @@ Proposed
 - Published / Running means the deliverable is live, active, visible, sent, installed, distributed, or in use.
 - Ended means the deliverable is no longer active and needs closeout.
 - Archived means the deliverable is complete, documented, preserved, and searchable for future reuse.
+- Approved moves explicitly to Delivery when release or handoff work begins.
+- Delivery can move to Published / Running only after a final link or delivery note records where the work went.
+- Published / Running moves explicitly to Ended when the deliverable is no longer active.
+- Ended moves explicitly to Archived after final links, notes, and reusable context are verified.
 - Deliverables should not force the whole project backward unless a Project Owner or Communications Lead chooses to move the project state.
 
 ## Status vs Readiness
@@ -170,7 +174,13 @@ Type-specific fields may include:
 - Approval status applies to a specific deliverable or element version where versioning matters.
 - Deliverable approval requests, approval notes, reviewer feedback, requested changes, and approval completion should be captured in project or deliverable communication history.
 - Approval notifications should link back to the relevant deliverable context.
-- External Reviewer access to deliverables should use narrow, time-bound magic links rather than general workspace accounts.
+- Submitting for review creates a numbered review round and a Needs Approval alert for each assigned internal and stakeholder reviewer.
+- A Deliverable must be In Production before its first review submission. Planning cannot skip directly to Ready for Review.
+- Each required reviewer decides independently. The Deliverable becomes Approved only after every reviewer in the current round approves.
+- Any reviewer may request changes with required notes. This moves the Deliverable to Revision, resolves the current alerts, and preserves the round's decisions.
+- Resubmitting from Revision creates a new review round and fresh alerts.
+- Stakeholder reviewers may see the review brief, review links, current-round decisions, and review controls, but not internal Tasks, team discussion, or internal activity.
+- Production external-review access should use narrow, time-bound magic links rather than general workspace accounts. Login-backed external-reviewer profiles are allowed in the local demo scenario for workflow testing.
 
 ## Closeout Notes
 

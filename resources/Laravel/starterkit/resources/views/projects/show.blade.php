@@ -25,10 +25,28 @@
                                     <div class="min-w-0 flex-1">
                                         <h3 class="mb-1 text-lg font-semibold">{{ $project->title }}</h3>
                                         <p class="text-default-400 mb-2 text-xs">Updated {{ $project->updated_at->diffForHumans() }}</p>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span class="badge badge-label bg-primary/15 text-primary">{{ $project->lifecycle_status }}</span>
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            @if ($currentProfile->hasPermission("projects.manage") && ! in_array($project->lifecycle_status, [\App\Enums\ProjectStatus::Closeout->value, \App\Enums\ProjectStatus::Archived->value], true))
+                                                <form action="{{ route("projects.status.update", $project) }}" class="flex items-center gap-2" method="POST">
+                                                    @csrf
+                                                    @method("PATCH")
+                                                    <select aria-label="Project status" class="form-select py-1 text-xs" name="lifecycle_status" onchange="this.form.submit()">
+                                                        @foreach ($projectStatuses as $status)
+                                                            <option value="{{ $status->value }}" @selected($project->lifecycle_status === $status->value)>{{ $status->value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </form>
+                                            @else
+                                                <span class="badge badge-label bg-primary/15 text-primary">{{ $project->lifecycle_status }}</span>
+                                            @endif
                                             <span class="badge badge-label bg-success/15 text-success">{{ $project->attention_state }}</span>
                                             <span class="badge badge-label bg-light text-default-500">{{ $project->project_type }}</span>
+                                            @if ($canViewInternalTasks)
+                                                <a class="btn btn-sm bg-light text-default-600 hover:text-primary" href="{{ route("projects.schedule", $project) }}"><i class="iconify tabler--calendar-time me-1"></i>Project schedule</a>
+                                            @endif
+                                            @if ($currentProfile->hasPermission("projects.manage") || $project->owner_profile_id === $currentProfile->id)
+                                                <a class="btn btn-sm bg-light text-default-600 hover:text-primary" href="{{ route("projects.closeout", $project) }}"><i class="iconify tabler--archive me-1"></i>Closeout</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -36,9 +54,9 @@
                                 <div class="card-body px-7.5">
                                     <div class="mb-7.5">
                                         <h5 class="mb-2 font-semibold">Objective</h5>
-                                        <p class="text-default-500 whitespace-pre-line">{{ $project->objective ?: "Not provided." }}</p>
+                                        @if($project->objective)<x-rich-text :value="$project->objective" />@else<p class="text-default-500">Not provided.</p>@endif
                                         @if ($project->scope_summary)
-                                            <p class="text-default-400 mt-3 whitespace-pre-line">{{ $project->scope_summary }}</p>
+                                            <x-rich-text class="mt-3 text-default-400" :value="$project->scope_summary" />
                                         @endif
                                     </div>
 
@@ -67,10 +85,12 @@
                                                 <i class="iconify tabler--package text-base"></i>
                                                 Deliverables <span class="badge bg-light text-default-500">{{ $project->deliverables->count() }}</span>
                                             </button>
-                                            <button aria-controls="tasks-tab" aria-selected="false" class="hs-tab-active:font-semibold hs-tab-active:border-primary hs-tab-active:text-primary hover:text-primary inline-flex items-center gap-2 border-b border-transparent px-4 py-2 text-sm whitespace-nowrap focus:outline-hidden" data-hs-tab="#tasks-tab" id="tasks" role="tab" type="button">
-                                                <i class="iconify tabler--list-check text-base"></i>
-                                                Tasks
-                                            </button>
+                                            @if ($canViewInternalTasks)
+                                                <button aria-controls="tasks-tab" aria-selected="false" class="hs-tab-active:font-semibold hs-tab-active:border-primary hs-tab-active:text-primary hover:text-primary inline-flex items-center gap-2 border-b border-transparent px-4 py-2 text-sm whitespace-nowrap focus:outline-hidden" data-hs-tab="#tasks-tab" id="tasks" role="tab" type="button">
+                                                    <i class="iconify tabler--list-check text-base"></i>
+                                                    Tasks <span class="badge bg-light text-default-500">{{ $project->deliverables->sum(fn ($deliverable) => $deliverable->tasks->count()) }}</span>
+                                                </button>
+                                            @endif
                                             <button aria-controls="activity-tab" aria-selected="false" class="hs-tab-active:font-semibold hs-tab-active:border-primary hs-tab-active:text-primary hover:text-primary inline-flex items-center gap-2 border-b border-transparent px-4 py-2 text-sm whitespace-nowrap focus:outline-hidden" data-hs-tab="#activity-tab" id="activity" role="tab" type="button">
                                                 <i class="iconify tabler--activity text-base"></i>
                                                 Activity
@@ -86,20 +106,27 @@
 
                                     <div class="mt-5">
                                         <div aria-labelledby="deliverables" id="deliverables-tab" role="tabpanel">
+                                            @if ($currentProfile->hasPermission("projects.manage"))
+                                                <div class="mb-4 flex justify-end">
+                                                    <a class="btn btn-sm bg-primary text-white hover:bg-primary-hover" href="{{ route("deliverables.create", $project) }}">
+                                                        <i class="iconify tabler--plus me-1"></i>Add deliverable
+                                                    </a>
+                                                </div>
+                                            @endif
                                             <div class="space-y-2">
                                                 @forelse ($project->deliverables as $deliverable)
-                                                    <div class="border-default-300 rounded border border-dashed p-4">
+                                                    <a class="border-default-300 hover:border-primary/40 hover:bg-primary/5 block rounded border border-dashed p-4 transition-colors" href="{{ route("deliverables.show", [$project, $deliverable]) }}">
                                                         <div class="flex flex-wrap items-center justify-between gap-3">
                                                             <div class="min-w-0">
                                                                 <p class="font-semibold">{{ $deliverable->title }}</p>
-                                                                <p class="text-default-400 mt-1 text-xs">{{ $deliverable->deliverableType?->name ?: "Other" }} · {{ $deliverable->description ?: "Created from the source request." }}</p>
+                                                                <p class="text-default-400 mt-1 text-xs">{{ $deliverable->deliverableType?->name ?: "Other" }} · {{ $deliverable->description ? str(\App\Support\RichText::plainText($deliverable->description))->limit(80) : "Created from the source request." }}</p>
                                                             </div>
                                                             <div class="flex items-center gap-3 text-sm">
-                                                                <span class="badge badge-label bg-warning/15 text-warning">{{ $deliverable->lifecycle_status }}</span>
+                                                                <span class="badge badge-label {{ $deliverable->lifecycle_status->badgeClasses() }}">{{ $deliverable->lifecycle_status->value }}</span>
                                                                 <span class="text-default-500"><i class="iconify tabler--calendar me-1"></i>{{ $deliverable->due_date?->format("M j, Y") ?: "Not planned" }}</span>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </a>
                                                 @empty
                                                     <div class="py-10 text-center">
                                                         <i class="iconify tabler--package-off text-default-300 mb-3 size-10"></i>
@@ -110,13 +137,24 @@
                                             </div>
                                         </div>
 
+                                        @if ($canViewInternalTasks)
                                         <div aria-labelledby="tasks" class="hidden" id="tasks-tab" role="tabpanel">
-                                            <div class="bg-light rounded p-7 text-center">
-                                                <i class="iconify tabler--list-check text-primary mb-3 size-10"></i>
-                                                <h4 class="font-semibold">Tasks will live under Deliverables</h4>
-                                                <p class="text-default-400 mx-auto mt-2 max-w-xl text-sm">The Communications Manager will assign Tasks to complete each Deliverable. Task management will be connected after Deliverable ownership, review, and approval routing are in place.</p>
+                                            <div class="mb-4 flex items-center justify-between"><p class="text-default-400 text-sm">Project time budget: <span class="font-semibold text-default-600">{{ $project->timeBudgetMinutes() }} minutes</span></p></div>
+                                            <div class="space-y-5">
+                                                @forelse ($project->deliverables as $deliverable)
+                                                    @if ($deliverable->tasks->isNotEmpty())
+                                                        <div><h5 class="mb-2 font-semibold">{{ $deliverable->title }}</h5><div class="space-y-2">
+                                                            @foreach ($deliverable->tasks as $task)
+                                                                <a class="{{ $task->taskType()->cardClasses() }} flex flex-wrap items-center justify-between gap-3 rounded border border-dashed p-3" href="{{ route('tasks.show', [$project, $deliverable, $task]) }}"><span><span class="block font-medium"><i class="iconify {{ $task->taskType()->icon() }} me-1"></i>{{ $task->title }}</span><span class="text-default-400 text-xs">{{ $task->priority ?: 'Normal' }} priority · {{ $task->taskType()->label() }}</span></span><span class="badge {{ $task->status->badgeClasses() }}">{{ $task->status->value }}</span></a>
+                                                            @endforeach
+                                                        </div></div>
+                                                    @endif
+                                                @empty
+                                                    <p class="text-default-400 py-8 text-center text-sm">No Tasks yet.</p>
+                                                @endforelse
                                             </div>
                                         </div>
+                                        @endif
 
                                         <div aria-labelledby="activity" class="hidden" id="activity-tab" role="tabpanel">
                                             <div>
@@ -180,7 +218,7 @@
                                     <div class="border-default-200 border-t pt-5">
                                         <dl class="space-y-4 text-sm">
                                             <div><dt class="text-default-400">Audience</dt><dd class="mt-1 font-medium">{{ $project->audience ?: "Not provided" }}</dd></div>
-                                            <div><dt class="text-default-400">Desired action</dt><dd class="mt-1 font-medium">{{ $project->desired_action ?: "Not provided" }}</dd></div>
+                                            <div><dt class="text-default-400">Desired action</dt><dd class="mt-1 font-medium">@if($project->desired_action)<x-rich-text :value="$project->desired_action" />@else Not provided @endif</dd></div>
                                             <div><dt class="text-default-400">Source request</dt><dd class="mt-1 font-medium">@if ($project->sourceRequest)<a class="text-primary hover:underline" href="{{ route("requests.show", $project->sourceRequest) }}">{{ $project->sourceRequest->title }}</a>@else Not linked @endif</dd></div>
                                         </dl>
                                     </div>

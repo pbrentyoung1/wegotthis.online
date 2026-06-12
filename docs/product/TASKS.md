@@ -20,6 +20,21 @@ Request clarification records future Task intent before the Task system exists. 
 - Deliverable lifecycle status and Task completion state should remain separate.
 - Canonical MVP task statuses are Not Started, In Progress, Blocked, Ready for Review, Done, Deferred, and Canceled.
 - Tasks are the execution layer below project briefs and deliverable briefs.
+- Tasks may have simple labeled external links so instructions, source material, working files, and references stay attached to the work.
+- Task assignment is organization-wide, not limited to the Project team. Specialists may receive Tasks across many Projects without becoming full Project members.
+- Task assignment grants internal visibility into the full Project, its Deliverables, Tasks, internal activity, and Deliverable discussions so specialists can understand surrounding work and coordinate effectively.
+- Task assignment does not automatically create a permanent Project Member record; internal Project visibility is derived from the active assignment.
+- Selecting `Blocked` should open a focused blocker-details modal instead of permanently occupying space in the Task form.
+- Tasks should carry a lightweight time budget so planned effort can roll up through the Deliverable and Project.
+- Time budgets are for planning capacity and stewardship, not time reporting, surveillance, or mandatory timesheets.
+- Task status is also the Task's Kanban status. Moving a Task to `Blocked` must make the blocker visible up the Deliverable and Project chain.
+- Outside of dependency constraints, Tasks are ordered by priority: Urgent, High, then Normal. Due date breaks ties.
+- Numeric or user-managed manual Task order is not part of the MVP interface.
+- Task type is separate from Task status. MVP Task types are Work task and Needs clarification.
+- My Tasks separates Needs clarification and regular Work tasks into visually distinct sections.
+- My Tasks shows open assignments. Done and Canceled Tasks leave My Tasks after their status changes, while remaining available in their Project and Deliverable history.
+- Needs clarification tasks may be created intentionally or generated from clarification workflows.
+- Approval is an alert on the original Task, not a second Task.
 - Earlier planning allowed optional project-level tasks. The current MVP model preserves that coordination need by using coordination/admin Deliverables instead of direct Project tasks.
 
 ## Canonical Hierarchy
@@ -93,7 +108,9 @@ Tasks:
   - Schedule send
 ```
 
-## Task Status Model
+## Task Kanban Status Model
+
+Task status is the canonical Kanban column/state. MVP does not need a separate Kanban-status field.
 
 ## Not Started
 
@@ -107,6 +124,9 @@ Tasks:
 
 - Work cannot continue until something else happens.
 - Blocked tasks should require a blocker type or short blocked reason.
+- Moving a Task to Blocked should create an activity event and alert the Task assignee, Deliverable owner, Project owner/coordinator, and other explicitly authorized internal managers.
+- A blocked Task should roll a visible attention signal up to its Deliverable and Project.
+- The upward signal should not automatically change the Deliverable or Project lifecycle status.
 - See `docs/product/DEPENDENCIES_AND_READINESS.md` for blocker types.
 
 ### MVP Blocker / Attention States
@@ -125,6 +145,9 @@ These should remain blocker types, attention states, or blocker reasons. They sh
 
 - The task output is complete enough for review.
 - This does not necessarily mean the Deliverable is ready for review unless required Deliverable readiness checks are complete.
+- Moving a Task to Ready for Review creates a Needs Approval alert for the Deliverable owner, falling back to the Project owner when needed.
+- The alert links directly to the original Task so the reviewer can move it to Done or return it to active work for corrections.
+- Leaving Ready for Review resolves the alert. Returning the Task to Ready for Review creates a fresh alert.
 
 ## Done
 
@@ -187,9 +210,11 @@ Core fields:
 - Assigned user.
 - Due date.
 - Status.
-- Priority.
+- Priority: Normal, High, or Urgent.
+- Time budget minutes.
 - Blocker type, if Blocked.
 - Blocked reason, if Blocked.
+- Labeled external links.
 - Comments.
 - Sort order.
 - Completed by.
@@ -223,6 +248,7 @@ MVP should support this direction lightly by preserving relevant fields and rela
 
 Examples of future-aware task context:
 
+- Task time budget minutes sum into the Deliverable time budget, and Deliverable time budgets sum into the Project time budget
 - a Deliverable Type may imply preferred skills
 - a task may inherit capacity pressure from the Deliverable
 - a task may be blocked because the team is over capacity
@@ -258,8 +284,12 @@ For MVP, include:
 - Simple task creation.
 - Assignment.
 - Due date.
+- Lightweight Task time budget stored as `time_budget_minutes`.
+- Derived Deliverable and Project time-budget rollups.
 - Status.
 - Blocked status with blocker reason/type.
+- Upward blocked attention signals, activity, and internal alerts.
+- Simple labeled external links using the same behavior as Deliverable links.
 - Comments.
 - Completion tracking.
 - Sort order or manual ordering within Deliverable.
@@ -273,6 +303,7 @@ Defer:
 - Recurring task engine.
 - Vendor task assignment as a full account workflow.
 - Time tracking/timesheets.
+- Actual-time timers or mandatory actual-hours entry.
 - Watchers and task reviewers.
 - Rich task discussion threads.
 

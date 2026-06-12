@@ -300,9 +300,13 @@ Task status changes should:
 - Preserve completed, deferred, and canceled work for history.
 - Avoid forcing project or deliverable status changes automatically.
 
-Blocked tasks should require a short reason.
+Task status is the Task's Kanban status. Blocked tasks should require a short reason and send an attention signal up the work hierarchy so the Deliverable owner, Project owner/coordinator, and authorized internal managers can help clear the obstacle.
 
-Ready for Review should notify the relevant reviewer, Project Owner, or Communications Lead according to assignment.
+The blocked signal should appear on the parent Deliverable and Project without automatically changing either parent's lifecycle status.
+
+Planning Deliverables move explicitly to In Production when active execution begins. A Deliverable must be In Production before its first review submission.
+
+Ready for Review should create an actionable alert for the relevant reviewer, Project Owner, or Communications Lead according to assignment. The alert should link to the original Task rather than create a separate review Task, and it should resolve when the Task leaves Ready for Review.
 
 Done should record completed_by and completed_at.
 
@@ -388,6 +392,13 @@ Minimum task creation should require only:
 
 Additional details should be added only when useful.
 
+Task planning details should include:
+
+- Optional planned time budget.
+- Optional labeled external links for instructions, source material, and working files.
+
+Task time budgets should sum into the Deliverable time budget, and Deliverable time budgets should sum into the Project time budget. This is planning data, not time reporting, required time tracking, or a productivity score.
+
 Recommended task views:
 
 - My Tasks.
@@ -458,13 +469,21 @@ MVP should include:
 - Convert request to project.
 - Create approved deliverables.
 - Create suggested or manual tasks.
+- Add lightweight Task time budgets and roll them up through Deliverables into Projects.
+- Use Task status as the Kanban status and surface blocked work up the Deliverable and Project chain.
+- Attach simple labeled external links to Tasks.
 - Project workspace.
 - Deliverable detail screen.
 - Simple task list views.
 - Deliverable-centered approvals.
+- Numbered Deliverable review rounds with independent reviewer decisions, requested-change notes, and fresh alerts on resubmission.
+- Explicit post-approval Deliverable transitions through Delivery, Published / Running, Ended, and Archived, with a final link or delivery note required before publication/delivery completion.
 - Scoped external review links.
 - Comments, activity feed, and basic files.
 - Closeout checklist.
+- Unified personal and filtered calendar views.
+- Sortable Project Schedule with inline date adjustments.
+- Restricted Quill rich-text editing for narrative descriptions and responses.
 
 Post-MVP may include:
 

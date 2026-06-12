@@ -1,12 +1,21 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\DeliverableController;
+use App\Http\Controllers\DeliverableConversationController;
+use App\Http\Controllers\DeliverableLinkController;
 use App\Http\Controllers\MinistryRequestController;
+use App\Http\Controllers\MyTaskController;
 use App\Http\Controllers\PeopleDirectoryController;
+use App\Http\Controllers\ProjectCloseoutController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectScheduleController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\RequestConversationController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\TaggedRequestController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskLinkController;
 use App\Http\Controllers\TriageRequestController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +26,41 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/requests/tagged', [TaggedRequestController::class, 'index'])->name('requests.tagged');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/tasks', [MyTaskController::class, 'index'])->name('tasks.index');
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+    Route::get('/calendar/events', [CalendarController::class, 'events'])->name('calendar.events');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/projects/{project}/schedule', [ProjectScheduleController::class, 'show'])->name('projects.schedule');
+    Route::patch('/projects/{project}/schedule/order', [ProjectScheduleController::class, 'reorder'])->name('projects.schedule.reorder');
+    Route::patch('/projects/{project}/schedule/dates', [ProjectScheduleController::class, 'updateDates'])->name('projects.schedule.dates');
+    Route::get('/projects/{project}/closeout', [ProjectCloseoutController::class, 'show'])->name('projects.closeout');
+    Route::post('/projects/{project}/closeout/start', [ProjectCloseoutController::class, 'start'])->name('projects.closeout.start');
+    Route::patch('/projects/{project}/closeout', [ProjectCloseoutController::class, 'update'])->name('projects.closeout.update');
+    Route::post('/projects/{project}/closeout/archive', [ProjectCloseoutController::class, 'archive'])->name('projects.closeout.archive');
+    Route::patch('/projects/{project}/status', [ProjectController::class, 'updateStatus'])->name('projects.status.update');
+    Route::get('/projects/{project}/deliverables/create', [DeliverableController::class, 'create'])->name('deliverables.create');
+    Route::post('/projects/{project}/deliverables', [DeliverableController::class, 'store'])->name('deliverables.store');
+    Route::get('/projects/{project}/deliverables/{deliverable}', [DeliverableController::class, 'show'])->name('deliverables.show');
+    Route::get('/projects/{project}/deliverables/{deliverable}/edit', [DeliverableController::class, 'edit'])->name('deliverables.edit');
+    Route::patch('/projects/{project}/deliverables/{deliverable}', [DeliverableController::class, 'update'])->name('deliverables.update');
+    Route::post('/projects/{project}/deliverables/{deliverable}/plan', [DeliverableController::class, 'plan'])->name('deliverables.plan');
+    Route::post('/projects/{project}/deliverables/{deliverable}/start-production', [DeliverableController::class, 'startProduction'])->name('deliverables.production.start');
+    Route::post('/projects/{project}/deliverables/{deliverable}/submit-review', [DeliverableController::class, 'submitForReview'])->name('deliverables.review.submit');
+    Route::post('/projects/{project}/deliverables/{deliverable}/review-decision', [DeliverableController::class, 'reviewDecision'])->name('deliverables.review.decision');
+    Route::post('/projects/{project}/deliverables/{deliverable}/start-delivery', [DeliverableController::class, 'startDelivery'])->name('deliverables.delivery.start');
+    Route::post('/projects/{project}/deliverables/{deliverable}/mark-published', [DeliverableController::class, 'markPublished'])->name('deliverables.published.mark');
+    Route::post('/projects/{project}/deliverables/{deliverable}/end', [DeliverableController::class, 'end'])->name('deliverables.end');
+    Route::post('/projects/{project}/deliverables/{deliverable}/archive', [DeliverableController::class, 'archive'])->name('deliverables.archive');
+    Route::post('/projects/{project}/deliverables/{deliverable}/messages', [DeliverableConversationController::class, 'store'])->name('deliverables.messages.store');
+    Route::post('/projects/{project}/deliverables/{deliverable}/links', [DeliverableLinkController::class, 'store'])->name('deliverables.links.store');
+    Route::delete('/projects/{project}/deliverables/{deliverable}/links/{deliverableLink}', [DeliverableLinkController::class, 'destroy'])->name('deliverables.links.destroy');
+    Route::get('/projects/{project}/deliverables/{deliverable}/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/projects/{project}/deliverables/{deliverable}/tasks', [TaskController::class, 'store'])->name('tasks.store');
+    Route::get('/projects/{project}/deliverables/{deliverable}/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
+    Route::get('/projects/{project}/deliverables/{deliverable}/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::patch('/projects/{project}/deliverables/{deliverable}/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::post('/projects/{project}/deliverables/{deliverable}/tasks/{task}/links', [TaskLinkController::class, 'store'])->name('tasks.links.store');
+    Route::delete('/projects/{project}/deliverables/{deliverable}/tasks/{task}/links/{taskLink}', [TaskLinkController::class, 'destroy'])->name('tasks.links.destroy');
     Route::resource('project-types', ProjectTypeController::class)->only(['index', 'store', 'edit', 'update']);
     Route::resource('requests', MinistryRequestController::class)
         ->parameters(['requests' => 'ministryRequest'])

@@ -13,6 +13,9 @@ export default defineConfig({
                 'resources/js/pages/dashboard-projects.js',
                 'resources/js/pages/form-choice.js',
                 'resources/js/pages/form-quilljs.js',
+                'resources/js/pages/rich-text.js',
+                'resources/js/pages/calendar.js',
+                'resources/js/pages/project-schedule.js',
                 'resources/js/vendor.js'
             ],
             refresh: true,

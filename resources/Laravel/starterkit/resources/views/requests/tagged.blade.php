@@ -39,7 +39,7 @@
                                                     </h5>
                                                     <div class="flex items-center gap-2 text-2xs text-default-400">
                                                         <i class="iconify tabler--message-circle shrink-0 text-sm"></i>
-                                                        <span class="max-w-md truncate">{{ $ministryRequest->ministry_need ?: "No description provided." }}</span>
+                                                        <span class="max-w-md truncate">{{ $ministryRequest->ministry_need ? \App\Support\RichText::plainText($ministryRequest->ministry_need) : "No description provided." }}</span>
                                                     </div>
                                                 </div>
                                             </td>

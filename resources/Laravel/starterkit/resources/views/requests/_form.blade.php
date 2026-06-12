@@ -35,8 +35,7 @@
     </div>
 
     <div class="lg:col-span-2">
-        <label class="form-label" for="ministry_need">What does your ministry need?</label>
-        <textarea class="form-textarea" id="ministry_need" name="ministry_need" rows="5">{{ old("ministry_need", $ministryRequest->ministry_need ?? "") }}</textarea>
+        <x-rich-text-editor label="What does your ministry need?" name="ministry_need" :value="$ministryRequest->ministry_need ?? ''" placeholder="Describe the ministry outcome, not a specific design or deliverable." />
         <p class="text-default-400 mt-1 text-xs">Required when you submit. Describe the ministry outcome, not a specific design or deliverable.</p>
     </div>
 
@@ -55,30 +54,15 @@
         <input class="form-input" id="audience" name="audience" type="text" value="{{ old("audience", $ministryRequest->audience ?? "") }}" />
     </div>
 
-    <div class="lg:col-span-2">
-        <label class="form-label" for="why_it_matters">Why does this matter?</label>
-        <textarea class="form-textarea" id="why_it_matters" name="why_it_matters" rows="3">{{ old("why_it_matters", $ministryRequest->why_it_matters ?? "") }}</textarea>
-    </div>
+    <x-rich-text-editor class="lg:col-span-2" label="Why does this matter?" name="why_it_matters" :value="$ministryRequest->why_it_matters ?? ''" />
 
-    <div>
-        <label class="form-label" for="desired_action">What should people do?</label>
-        <textarea class="form-textarea" id="desired_action" name="desired_action" rows="3">{{ old("desired_action", $ministryRequest->desired_action ?? "") }}</textarea>
-    </div>
+    <x-rich-text-editor label="What should people do?" name="desired_action" :value="$ministryRequest->desired_action ?? ''" />
 
-    <div>
-        <label class="form-label" for="desired_tone">What should it feel like?</label>
-        <textarea class="form-textarea" id="desired_tone" name="desired_tone" rows="3">{{ old("desired_tone", $ministryRequest->desired_tone ?? "") }}</textarea>
-    </div>
+    <x-rich-text-editor label="What should it feel like?" name="desired_tone" :value="$ministryRequest->desired_tone ?? ''" />
 
-    <div class="lg:col-span-2">
-        <label class="form-label" for="success_looks_like">What would success look like?</label>
-        <textarea class="form-textarea" id="success_looks_like" name="success_looks_like" rows="3">{{ old("success_looks_like", $requestAnswers->get("success_looks_like")?->answer_value) }}</textarea>
-    </div>
+    <x-rich-text-editor class="lg:col-span-2" label="What would success look like?" name="success_looks_like" :value="$requestAnswers->get('success_looks_like')?->answer_value ?? ''" />
 
-    <div class="lg:col-span-2">
-        <label class="form-label" for="key_message">What key message must people understand?</label>
-        <textarea class="form-textarea" id="key_message" name="key_message" rows="3">{{ old("key_message", $requestAnswers->get("key_message")?->answer_value) }}</textarea>
-    </div>
+    <x-rich-text-editor class="lg:col-span-2" label="What key message must people understand?" name="key_message" :value="$requestAnswers->get('key_message')?->answer_value ?? ''" />
 
     <div>
         <label class="form-label" for="event_date">Event or launch date</label>
@@ -127,14 +111,10 @@
         @endif
     </div>
 
-    <div>
-        <label class="form-label" for="sensitivities">Are there sensitivities or pastoral concerns?</label>
-        <textarea class="form-textarea" id="sensitivities" name="sensitivities" rows="4">{{ old("sensitivities", $requestAnswers->get("sensitivities")?->answer_value) }}</textarea>
-    </div>
+    <x-rich-text-editor label="Are there sensitivities or pastoral concerns?" name="sensitivities" :value="$requestAnswers->get('sensitivities')?->answer_value ?? ''" />
 
     <div class="lg:col-span-2">
-        <label class="form-label" for="known_constraints">Is there anything Communications should plan around?</label>
-        <textarea class="form-textarea" id="known_constraints" name="known_constraints" rows="4">{{ old("known_constraints", $ministryRequest->known_constraints ?? "") }}</textarea>
+        <x-rich-text-editor label="Is there anything Communications should plan around?" name="known_constraints" :value="$ministryRequest->known_constraints ?? ''" />
         <p class="text-default-400 mt-1 text-xs">For example: dates that cannot move, information still being confirmed, budget limits, accessibility needs, or people who should be consulted.</p>
     </div>
 </div>

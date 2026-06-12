@@ -71,7 +71,7 @@
                             {{ $ministryRequest->requesterProfile->display_name }}
                             <span class="text-default-400 ms-1 text-xs font-normal">{{ $ministryRequest->submitted_at?->format("M j, Y g:i A") ?: $ministryRequest->created_at->format("M j, Y g:i A") }}</span>
                         </h5>
-                        <p class="text-default-600 whitespace-pre-line">{{ $ministryRequest->ministry_need ?: "Request draft created." }}</p>
+                        @if($ministryRequest->ministry_need)<x-rich-text :value="$ministryRequest->ministry_need" />@else<p class="text-default-600">Request draft created.</p>@endif
                     </div>
                 </div>
             </div>
@@ -101,9 +101,9 @@
                                     @endif
                                 @endif
                             </div>
-                            <p class="text-default-600 whitespace-pre-line">{{ $message->body }}</p>
+                            <x-rich-text :value="$message->body" />
                             @if ($canPost)
-                                <button class="badge bg-light text-default-500 mt-3 inline-flex items-center gap-1 hover:text-primary" data-reply-author="{{ $message->authorProfile?->display_name ?: "System" }}" data-reply-button data-reply-id="{{ $message->id }}" data-reply-preview="{{ str($message->body)->squish()->limit(120) }}" type="button">
+                                <button class="badge bg-light text-default-500 mt-3 inline-flex items-center gap-1 hover:text-primary" data-reply-author="{{ $message->authorProfile?->display_name ?: "System" }}" data-reply-button data-reply-id="{{ $message->id }}" data-reply-preview="{{ str(\App\Support\RichText::plainText($message->body))->squish()->limit(120) }}" type="button">
                                     <i class="iconify tabler--corner-up-left text-base"></i>
                                     Reply
                                 </button>
@@ -121,9 +121,9 @@
                                             <h5 class="font-semibold">{{ $reply->authorProfile?->display_name ?: "System" }}</h5>
                                             <span class="text-default-400 text-xs">{{ $reply->created_at->format("M j, Y g:i A") }}</span>
                                         </div>
-                                        <p class="text-default-600 whitespace-pre-line">{{ $reply->body }}</p>
+                                        <x-rich-text :value="$reply->body" />
                                         @if ($canPost)
-                                            <button class="badge bg-light text-default-500 mt-3 inline-flex items-center gap-1 hover:text-primary" data-reply-author="{{ $message->authorProfile?->display_name ?: "System" }}" data-reply-button data-reply-id="{{ $message->id }}" data-reply-preview="{{ str($message->body)->squish()->limit(120) }}" type="button">
+                                            <button class="badge bg-light text-default-500 mt-3 inline-flex items-center gap-1 hover:text-primary" data-reply-author="{{ $message->authorProfile?->display_name ?: "System" }}" data-reply-button data-reply-id="{{ $message->id }}" data-reply-preview="{{ str(\App\Support\RichText::plainText($message->body))->squish()->limit(120) }}" type="button">
                                                 <i class="iconify tabler--corner-up-left text-base"></i>
                                                 Reply
                                             </button>
@@ -154,8 +154,7 @@
                         <i class="iconify tabler--x text-base"></i>
                     </button>
                 </div>
-                <label class="form-label" for="conversation-message-{{ $ministryRequest->id }}">Add to the conversation</label>
-                <textarea class="form-textarea mb-3" id="conversation-message-{{ $ministryRequest->id }}" name="message" placeholder="Write a helpful update or question..." required rows="4">{{ old("message") }}</textarea>
+                <x-rich-text-editor class="mb-3" emoji label="Add to the conversation" name="message" placeholder="Write a helpful update or question..." required />
                 <div class="flex flex-wrap justify-end gap-2">
                     <button class="btn bg-primary text-white hover:bg-primary-hover" name="intent" type="submit" value="message">
                         Send message
@@ -176,7 +175,7 @@
         const replyContext = document.getElementById("conversation-reply-context-{{ $ministryRequest->id }}")
         const replyAuthor = document.getElementById("conversation-reply-author-{{ $ministryRequest->id }}")
         const replyPreview = document.getElementById("conversation-reply-preview-{{ $ministryRequest->id }}")
-        const messageInput = document.getElementById("conversation-message-{{ $ministryRequest->id }}")
+        const messageInput = parentInput?.closest("form")?.querySelector('[name="message"]')
 
         if (!parentInput || !replyContext || !replyAuthor || !replyPreview || !messageInput) return
 

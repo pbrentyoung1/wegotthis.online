@@ -246,11 +246,11 @@ class Phase2RequestIntakeTest extends TestCase
 
     public function test_only_approved_request_and_conversion_foundation_tables_exist(): void
     {
-        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages', 'projects', 'project_members', 'project_types', 'project_type_deliverable_templates', 'deliverable_types', 'deliverables'] as $table) {
+        foreach (['requests', 'request_answers', 'request_ideas', 'conversations', 'conversation_participants', 'messages', 'projects', 'project_members', 'project_types', 'project_type_deliverable_templates', 'deliverable_types', 'deliverables', 'tasks', 'task_links', 'work_notifications'] as $table) {
             $this->assertTrue(Schema::hasTable($table));
         }
 
-        foreach (['campaigns', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests'] as $table) {
+        foreach (['campaigns', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests'] as $table) {
             $this->assertFalse(Schema::hasTable($table), "Unexpected later-scope table exists: {$table}");
         }
     }

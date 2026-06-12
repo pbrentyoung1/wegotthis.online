@@ -33,7 +33,7 @@ class ProjectTypeController extends Controller
         $currentProfile = $this->currentProfile($request);
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:2000'],
+            'description' => ['nullable', 'string', 'max:20000'],
         ]);
 
         $projectType = ProjectType::query()->create([
@@ -68,7 +68,7 @@ class ProjectTypeController extends Controller
         $this->authorizeProjectType($projectType, $currentProfile);
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:2000'],
+            'description' => ['nullable', 'string', 'max:20000'],
             'is_active' => ['nullable', 'boolean'],
             'deliverables' => ['nullable', 'array'],
             'deliverables.*.title' => ['nullable', 'string', 'max:255'],

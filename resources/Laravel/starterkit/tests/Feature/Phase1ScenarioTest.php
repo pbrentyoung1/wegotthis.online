@@ -36,7 +36,7 @@ class Phase1ScenarioTest extends TestCase
             );
         }
 
-        foreach (['jordan@example.test', 'rachel@example.test', 'marcus@example.test', 'elena@example.test'] as $email) {
+        foreach (['jordan@example.test', 'rachel@example.test', 'marcus@example.test', 'elena@example.test', 'chris@example.test', 'avery@example.test'] as $email) {
             $this->assertSame(1, User::query()->where('email', $email)->count());
         }
 
@@ -64,7 +64,7 @@ class Phase1ScenarioTest extends TestCase
     {
         $this->seed(Phase1ScenarioSeeder::class);
 
-        foreach (['demo@user.com', 'jordan@example.test', 'rachel@example.test', 'marcus@example.test', 'elena@example.test'] as $email) {
+        foreach (['demo@user.com', 'jordan@example.test', 'rachel@example.test', 'marcus@example.test', 'elena@example.test', 'chris@example.test', 'avery@example.test'] as $email) {
             $user = User::query()->where('email', $email)->firstOrFail();
 
             $this->assertNotNull($user->email_verified_at);
@@ -72,22 +72,22 @@ class Phase1ScenarioTest extends TestCase
         }
     }
 
-    public function test_contact_only_profiles_do_not_require_users(): void
+    public function test_demo_contacts_have_logins_without_changing_person_type(): void
     {
         $this->seed(Phase1ScenarioSeeder::class);
 
         $chris = $this->profile('Chris Morgan');
         $avery = $this->profile('Avery Brooks');
 
-        $this->assertNull($chris->user_id);
+        $this->assertNotNull($chris->user_id);
         $this->assertSame('Vendor Contact', $chris->person_type);
         $this->assertNull($chris->department_id);
-        $this->assertSame('chris@example.test', $chris->metadata_json['contact_email']);
+        $this->assertSame('chris@example.test', $chris->user->email);
 
-        $this->assertNull($avery->user_id);
+        $this->assertNotNull($avery->user_id);
         $this->assertSame('External Reviewer', $avery->person_type);
         $this->assertSame('Kids Ministry', $avery->department->name);
-        $this->assertSame('avery@example.test', $avery->metadata_json['contact_email']);
+        $this->assertSame('avery@example.test', $avery->user->email);
     }
 
     public function test_department_leader_is_a_role_assignment_not_person_type(): void
@@ -125,7 +125,7 @@ class Phase1ScenarioTest extends TestCase
         $this->assertSame('Vendor Contact', $this->profile('Chris Morgan')->person_type);
         $this->assertSame('External Reviewer', $this->profile('Avery Brooks')->person_type);
 
-        foreach (['campaigns', 'tasks', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests', 'calendar_items', 'dashboard_widgets', 'skills', 'profile_skills'] as $table) {
+        foreach (['campaigns', 'work_participants', 'assets', 'asset_links', 'review_rounds', 'change_requests', 'calendar_items', 'dashboard_widgets', 'skills', 'profile_skills'] as $table) {
             $this->assertFalse(Schema::hasTable($table), "Unexpected later-scope table exists: {$table}");
         }
     }

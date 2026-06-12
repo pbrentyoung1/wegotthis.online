@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ProjectStatus;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\ProjectActivityEvent;
+use App\Support\RichText;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
@@ -20,7 +26,8 @@ class ProjectController extends Controller
             ->when(! $currentProfile->hasPermission('projects.manage'), fn (Builder $query) => $query
                 ->where(fn (Builder $visible) => $visible
                     ->where('owner_profile_id', $currentProfile->id)
-                    ->orWhereHas('members', fn (Builder $members) => $members->where('profile_id', $currentProfile->id))))
+                    ->orWhereHas('members', fn (Builder $members) => $members->where('profile_id', $currentProfile->id))
+                    ->orWhereHas('deliverables.tasks', fn (Builder $tasks) => $tasks->where('assigned_to_profile_id', $currentProfile->id))))
             ->with(['department', 'ownerProfile', 'members.profile'])
             ->withCount('deliverables')
             ->latest('updated_at')
@@ -38,20 +45,67 @@ class ProjectController extends Controller
             'ownerProfile',
             'members.profile',
             'deliverables.deliverableType',
+            'deliverables.tasks.assigneeProfile',
+            'activityEvents.actorProfile',
             'sourceRequest.requesterProfile',
             'sourceRequest.assignedManagerProfile',
             'sourceRequest.conversation.participants.profile',
             'sourceRequest.conversation.messages.authorProfile',
         ]);
+        $canViewInternalTasks = $currentProfile->hasPermission('projects.manage')
+            || $project->owner_profile_id === $currentProfile->id
+            || $project->members()
+                ->where('profile_id', $currentProfile->id)
+                ->whereNotIn('project_role', ['Stakeholder', 'Reviewer'])
+                ->exists()
+            || $this->isAssignedToProject($project, $currentProfile);
 
         return view('projects.show', [
             'currentProfile' => $currentProfile,
             'project' => $project,
-            'activity' => $this->projectActivity($project),
+            'activity' => $this->projectActivity($project, $canViewInternalTasks),
+            'canViewInternalTasks' => $canViewInternalTasks,
+            'projectStatuses' => collect(ProjectStatus::cases())
+                ->reject(fn (ProjectStatus $status) => in_array($status, [ProjectStatus::Closeout, ProjectStatus::Archived], true))
+                ->when(in_array($project->lifecycle_status, [ProjectStatus::Closeout->value, ProjectStatus::Archived->value], true), fn (Collection $statuses) => $statuses->push(ProjectStatus::from($project->lifecycle_status))),
         ]);
     }
 
-    private function projectActivity(Project $project): Collection
+    public function updateStatus(Request $request, Project $project): RedirectResponse
+    {
+        $currentProfile = $this->currentProfile($request);
+        $this->authorizeVisibleProject($project, $currentProfile);
+        abort_unless($currentProfile->hasPermission('projects.manage'), 403);
+        if (in_array($project->lifecycle_status, [ProjectStatus::Closeout->value, ProjectStatus::Archived->value], true)) {
+            throw ValidationException::withMessages(['lifecycle_status' => 'Use the project closeout workflow after closeout begins.']);
+        }
+
+        $validated = $request->validate([
+            'lifecycle_status' => ['required', Rule::enum(ProjectStatus::class)],
+        ]);
+        if (in_array($validated['lifecycle_status'], [ProjectStatus::Closeout->value, ProjectStatus::Archived->value], true)) {
+            throw ValidationException::withMessages(['lifecycle_status' => 'Use the project closeout workflow for Closeout and Archived statuses.']);
+        }
+
+        $oldStatus = $project->lifecycle_status;
+        $project->update(['lifecycle_status' => $validated['lifecycle_status']]);
+
+        if ($oldStatus !== $project->lifecycle_status) {
+            ProjectActivityEvent::create([
+                'organization_id' => $project->organization_id,
+                'project_id' => $project->id,
+                'actor_profile_id' => $currentProfile->id,
+                'event_type' => 'project_status_updated',
+                'description' => "Moved project from {$oldStatus} to {$project->lifecycle_status}.",
+                'metadata_json' => ['from' => $oldStatus, 'to' => $project->lifecycle_status],
+                'occurred_at' => now(),
+            ]);
+        }
+
+        return back()->with('success', 'Project status updated.');
+    }
+
+    private function projectActivity(Project $project, bool $includeInternalTaskActivity): Collection
     {
         $activity = collect([[
             'occurred_at' => $project->created_at,
@@ -64,14 +118,18 @@ class ProjectController extends Controller
             'actor' => $project->ownerProfile,
         ]]);
 
-        foreach ($project->deliverables as $deliverable) {
+        foreach ($project->activityEvents as $event) {
+            if ($event->task_id && ! $includeInternalTaskActivity) {
+                continue;
+            }
+
             $activity->push([
-                'occurred_at' => $deliverable->created_at,
-                'icon' => 'tabler--package',
-                'color' => 'text-warning',
-                'title' => 'Deliverable added',
-                'description' => $deliverable->title,
-                'actor' => $project->ownerProfile,
+                'occurred_at' => $event->occurred_at,
+                'icon' => $event->icon(),
+                'color' => $event->color(),
+                'title' => $event->title(),
+                'description' => $event->description,
+                'actor' => $event->actorProfile,
             ]);
         }
 
@@ -81,7 +139,7 @@ class ProjectController extends Controller
                 'icon' => 'tabler--message-circle',
                 'color' => 'text-success',
                 'title' => $message->message_type === 'Clarification Request' ? 'Clarification requested' : 'Conversation updated',
-                'description' => str($message->body)->squish()->limit(120)->toString(),
+                'description' => str(RichText::plainText($message->body))->squish()->limit(120)->toString(),
                 'actor' => $message->authorProfile,
             ]);
         }
@@ -98,7 +156,7 @@ class ProjectController extends Controller
             ->orderBy('id')
             ->first();
 
-        abort_unless($profile?->hasPermission('projects.view'), 403);
+        abort_unless($profile, 403);
 
         return $profile;
     }
@@ -106,11 +164,19 @@ class ProjectController extends Controller
     private function authorizeVisibleProject(Project $project, Profile $profile): void
     {
         $isMember = $project->members()->where('profile_id', $profile->id)->exists();
+        $isAssigned = $this->isAssignedToProject($project, $profile);
 
         abort_unless(
             $project->organization_id === $profile->organization_id
-                && ($profile->hasPermission('projects.manage') || $project->owner_profile_id === $profile->id || $isMember),
+                && ($profile->hasPermission('projects.manage') || $project->owner_profile_id === $profile->id || $isMember || $isAssigned),
             403,
         );
+    }
+
+    private function isAssignedToProject(Project $project, Profile $profile): bool
+    {
+        return $project->deliverables()
+            ->whereHas('tasks', fn (Builder $tasks) => $tasks->where('assigned_to_profile_id', $profile->id))
+            ->exists();
     }
 }

@@ -125,6 +125,24 @@ Result: Over capacity by 6 hours
 
 The system should surface this as guidance, not punishment.
 
+### Time-budget rollups
+
+Tasks should store a lightweight planned time budget in minutes.
+
+```text
+Task time budgets
+  -> sum into the Deliverable time budget
+    -> Deliverable time budgets sum into the Project time budget
+```
+
+Time budgets should support planning questions such as:
+
+- How much work is expected for this Deliverable?
+- How much assigned work is planned for a person during a window?
+- Does the current Project scope fit the available capacity?
+
+Time budgeting is distinct from time reporting. MVP should not require contributors to run timers, submit timesheets, or report actual time. Actual time may remain an optional future closeout input if real usage proves it valuable.
+
 Example language:
 
 > This project may need a later window, smaller scope, or outside support because design capacity is tight that week.
@@ -317,6 +335,7 @@ For MVP, include:
 - Budget notes.
 - Optional budget line items.
 - Project estimated hours.
+- Task time-budget minutes with Deliverable and Project time-budget rollups.
 - Optional estimated hours by role/person.
 - Capacity reviewed flag.
 - Capacity notes.

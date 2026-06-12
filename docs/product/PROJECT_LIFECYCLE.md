@@ -25,6 +25,7 @@ Document the canonical lifecycle statuses for communications projects.
 - Most approvals attach to deliverables, not directly to the project.
 - Waiting for Approval is not a canonical project status; it belongs to deliverables or other reviewable elements.
 - Project status changes, review events, requested changes, closeout reminders, and system-generated events should appear in the project communication/activity feed where useful.
+- Project managers can explicitly update the Project lifecycle status from the Project workspace. Assigned Deliverables or Tasks do not automatically move the Project out of Planning.
 
 ## Intake
 

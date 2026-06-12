@@ -64,6 +64,16 @@ Specific causes such as Over Capacity, Waiting on Department, Waiting on Approva
 
 This keeps dashboards simple while preserving operational detail.
 
+When a Task moves to the Kanban status `Blocked`:
+
+- Require a blocker type and short reason.
+- Record the status change in activity.
+- Alert the Task assignee, Deliverable owner, Project owner/coordinator, and other explicitly authorized internal managers.
+- Surface blocked attention on the parent Deliverable and Project so the obstacle is visible and can be cleared.
+- Do not automatically change the Deliverable or Project lifecycle status.
+
+Parent blocked attention may be derived from open blocked child Tasks. Clearing or resolving the final blocking Task should remove the derived blocked signal unless another blocker remains.
+
 Example:
 
 ```text

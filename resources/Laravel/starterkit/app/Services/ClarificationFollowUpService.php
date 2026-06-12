@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\TaskType;
 use App\Models\Message;
 use App\Models\MinistryRequest;
 use Carbon\CarbonImmutable;
@@ -15,7 +16,7 @@ class ClarificationFollowUpService
     {
         $dueAt = $this->nextWorkdayDueAt($request);
         $futureTask = [
-            'task_type' => 'Clarification Response',
+            'task_type' => TaskType::Clarification->value,
             'assigned_to_profile_id' => $request->requester_profile_id,
             'due_at' => $dueAt->toIso8601String(),
             'status' => 'Planned',

@@ -21,7 +21,7 @@
                                 <div class="grid grid-cols-1 gap-base md:grid-cols-2">
                                     <div><label class="form-label" for="name">Name</label><input class="form-input" id="name" name="name" required value="{{ old("name", $projectType->name) }}" /></div>
                                     <div class="flex items-end"><label class="flex items-center gap-2"><input @checked(old("is_active", $projectType->is_active)) class="form-checkbox" name="is_active" type="checkbox" value="1" /> Active and available during conversion</label></div>
-                                    <div class="md:col-span-2"><label class="form-label" for="description">Description</label><textarea class="form-textarea" id="description" name="description" rows="3">{{ old("description", $projectType->description) }}</textarea></div>
+                                    <x-rich-text-editor class="md:col-span-2" label="Description" name="description" :value="$projectType->description" />
                                 </div>
                             </div>
                         </div>

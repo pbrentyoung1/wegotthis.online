@@ -105,7 +105,7 @@ class Phase1ScenarioSeeder extends Seeder
             ],
         );
 
-        $this->seedContactProfile(
+        $this->seedLoginBackedContactProfile(
             organization: $organization,
             department: null,
             name: 'Chris Morgan',
@@ -118,7 +118,7 @@ class Phase1ScenarioSeeder extends Seeder
             ],
         );
 
-        $this->seedContactProfile(
+        $this->seedLoginBackedContactProfile(
             organization: $organization,
             department: $departments['kids-ministry'],
             name: 'Avery Brooks',
@@ -127,7 +127,7 @@ class Phase1ScenarioSeeder extends Seeder
             title: 'Parent Volunteer Reviewer',
             avatarUrl: '/images/users/user-7.jpg',
             futureUse: [
-                'external reviewer/contact without login',
+                'external reviewer/contact with demo login',
                 'future stakeholder/reviewer flow',
             ],
         );
@@ -250,7 +250,7 @@ class Phase1ScenarioSeeder extends Seeder
         $this->assignRole($organization, $profile, $role);
     }
 
-    private function seedContactProfile(
+    private function seedLoginBackedContactProfile(
         Organization $organization,
         ?Department $department,
         string $name,
@@ -260,20 +260,29 @@ class Phase1ScenarioSeeder extends Seeder
         string $avatarUrl,
         array $futureUse,
     ): Profile {
+        $user = User::query()->updateOrCreate(
+            ['email' => $email],
+            [
+                'name' => $name,
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ],
+        );
+
         return Profile::query()->updateOrCreate(
             [
                 'organization_id' => $organization->id,
-                'user_id' => null,
                 'display_name' => $name,
             ],
             [
+                'user_id' => $user->id,
                 'department_id' => $department?->id,
                 'title' => $title,
                 'person_type' => $personType,
                 'avatar_url' => $avatarUrl,
                 'status' => 'Active',
                 'metadata_json' => [
-                    'contact_email' => $email,
+                    'scenario_contact_email' => $email,
                     'future_use' => $futureUse,
                 ],
             ],

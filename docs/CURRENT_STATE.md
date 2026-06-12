@@ -6,7 +6,7 @@ Track the actual state of the project so planning, design, and development work 
 
 ## Current Decisions
 
-- This repository has moved from planning-only into Phase 1 foundation completion and early Phase 2 implementation.
+- This repository has moved from planning-only into an implemented request-to-archived-project MVP foundation.
 - The Laravel starterkit exists at `resources/Laravel/starterkit`.
 - Phase 1 foundation migrations have been merged into `main`.
 - The opt-in Grace Community Church Phase 1 scenario seeder and matching feature tests have been merged into `main`.
@@ -26,7 +26,7 @@ Track the actual state of the project so planning, design, and development work 
   - `role_permissions`
   - `profile_role_assignments`
 - Phase 1 seed data exists for the demo organization, system roles, MVP permission keys, role-permission mappings, and a demo admin profile.
-- The opt-in Grace scenario provides verified demo accounts for Communications Manager, Department Leader, and Contributor perspectives; all local demo accounts use password `password`.
+- The opt-in Grace scenario provides verified demo accounts for Organization Admin, Communications Manager, Department Leader, Contributor, Vendor Contact, and External Reviewer perspectives; all local demo accounts use password `password`.
 - Phase 1 focused tests cover idempotent seed data, profile uniqueness behavior, circular profile/department foreign keys, active role assignment uniqueness, and documented FK delete behavior.
 - Fortify authentication is connected to the ForWorship-branded Blade views. Login, logout, password reset, email verification, password confirmation, and two-factor challenge flows are implemented. **Registration is disabled — user accounts are created by invitation only.** The `sign-up.blade.php` view is retained for the future invitation-acceptance flow.
 - Authenticated users can edit their login name, email, and canonical organization profile fields through the Inspinia account-settings screen.
@@ -47,13 +47,13 @@ Track the actual state of the project so planning, design, and development work 
 - Existing asset and branding references use validated label/URL rows and reviewers use an organization-scoped profile picker. Full uploads remain part of the later asset-linking milestone.
 - Selected request reviewers are synchronized into the shared requester-visible conversation, appear by avatar and name in its participant header, and can open and reply to the request conversation without receiving broader request permissions.
 - Additional ministry brief details render for structured reviewer-only answers, and requesters can update active requests after submission without resetting the request's workflow status.
-- Asking for clarification now records future Task intent assigned to the requester with a next-weekday target and shows that marker in the conversation. No Task record, My Tasks view, or Calendar task entry is created until Projects, Deliverables, and Tasks are implemented. Rush-specific deadlines remain pending until rush classification exists.
+- Asking for clarification records future Task intent assigned to the requester with a next-weekday target and shows that marker in the conversation. It intentionally does not create a Task record yet; clarification intent will connect to the implemented Task and Calendar foundations after the full clarification-task workflow is designed. Rush-specific deadlines remain pending until rush classification exists.
 - Active Submitted, In Triage, or Accepted requests can now convert into Planning Projects. Conversion records acceptance, preserves and links the source Request, assigns the Communications converter as Project owner/coordinator, adds the requester as Stakeholder, carries request conversation participants into Project membership, and creates selected request ideas as Proposed Deliverables.
 - Project details now follow the concise Inspinia project-details pattern: a compact summary and team panel with Deliverables, future Tasks, real Activity, and stakeholder Conversation tabs.
 - Communications Managers and Organization Admins can manage simple Project Type templates with ordered default Deliverables. Conversion previews those defaults alongside request ideas, and selected defaults become independent Proposed Deliverable copies.
 - The Projects list and Inspinia project-details-informed Project workspace are implemented. The requester-visible Request conversation continues on the Project workspace as the stakeholder-visible conversation.
 - Request intake UI access and record visibility are permission-, organization-, and requester-scoped.
-- The system still must avoid building future-scope objects until the next implementation plan is approved.
+- The system still must avoid building future-scope objects outside the documented MVP critical path.
 - The approved Phase 2 request/intake foundation is defined in `/docs/technical/PHASE_2_REQUEST_INTAKE_PLAN.md`.
 - Canonical implementation guidance now uses Laravel 13, `organization_id`, the implemented Phase 1 role vocabulary, and Projects -> Deliverables -> Tasks as the MVP operational spine.
 - The approved MVP frontend architecture is the checked-in Inspinia Blade, Tailwind 4, Preline, and JavaScript implementation. No additional frontend framework is approved for MVP.
@@ -81,6 +81,37 @@ Track the actual state of the project so planning, design, and development work 
   - Communications intake queue and triage detail/action screens
   - requester clarification update and resubmission flow
   - expanded documented ministry brief fields using request answers, key dates, and request ideas
+  - Deliverable create, view, and edit screens
+  - Proposed → Planning lifecycle transition (requires owner + due date)
+  - Planning → In Production transition through an explicit Start Production action; first review submission cannot skip active production
+  - Explicit Approved → Delivery → Published / Running → Ended → Archived transitions; Published / Running requires a final link or delivery note and Archive records `archived_at`
+  - Internal deliverable team conversation (Project Team visibility)
+  - `DeliverableStatus` backed enum with `badgeClasses()` and `dotClass()`
+  - `ProjectActivityEvent` model with persistent activity event storage
+  - `DeliverableManagementService` with create/update/moveToPlanningStatus/addConversationMessage
+  - Deliverables on project detail are now clickable links
+  - Project activity tab now reads from stored `project_activity_events`
+  - Optional internal reviewer + stakeholder reviewer assignments
+  - Numbered Deliverable review rounds with independent internal/stakeholder decisions, Needs Approval alerts, approve/request-changes actions, Revision/resubmission loops, and preserved review notes
+  - Stakeholder reviewer workspace exposes the review brief, links, and decision controls without exposing internal Tasks, team discussion, or internal activity
+  - `publish_date` date column on deliverables
+  - Tasks attached to Deliverables with create, view, edit, assignment, Kanban status, priority, due date, and completion; lists order by Urgent, High, then Normal priority
+  - Task time budgets that calculate Deliverable and Project time-budget rollups
+  - Files & links on Tasks for external files, folders, working assets, and references
+  - Organization-wide Task assignment with derived internal Project visibility for assigned specialists outside the permanent Project team
+  - Focused blocker-details modal when a Task moves to Blocked
+  - Ready for Review creates a Needs Approval alert linked to the original Task; leaving that status resolves the alert and resubmission creates a fresh alert
+  - Active blocked alerts disappear when the blocker clears while blocked/unblocked history remains in activity
+  - Project managers can explicitly update Project lifecycle status from the Project workspace
+  - My Tasks separates Needs clarification and regular Work Tasks; Needs Approval appears as an actionable alert rather than a duplicate Task
+  - My Tasks view with open assigned work and actionable blocked/unblocked alerts; Done and Canceled Tasks leave the view while remaining in Project and Deliverable history
+  - Blocked Task attention rolls up to the parent Deliverable and Project without changing lifecycle status, and prior attention state is restored when the final blocker clears
+  - Task creation, updates, blockers, unblock events, and completion roll into Project/Deliverable activity
+  - Shared Quill rich-text editing for request narrative responses, Deliverable and Task descriptions, conversations, review notes, and closeout notes; content is stored as structured Delta JSON, rendered through a restricted safe renderer, and remains compatible with legacy plain text
+  - Request and Deliverable conversation editors include a lightweight emoji picker that inserts Unicode emoji at the active Quill cursor without adding source-code editing or another editor dependency
+  - Unified FullCalendar My Schedule with bounded date-range JSON feeds and focused My Work, Projects, Production, Publishing, and Reviews views
+  - Sortable Project Schedule with explicit Deliverable and Task sequence plus inline Project, Deliverable, publish, and Task date adjustments
+  - Guarded Project closeout workflow that requires archived Deliverables, verifies final links/approvals/reusable context, preserves formatted closeout notes, and records the final archive timestamp
 
 ## ForWorship Theme and Branding Applied
 
@@ -149,11 +180,11 @@ Logo implementation: inline SVG with `fill="currentColor"` — adapts to light/d
 
 The active critical path is:
 
-1. Add Project and Deliverable editing/lifecycle management, then implement Tasks under Deliverables.
-2. Implement lightweight Campaign and Initiative conversion targets without building full planning modules.
-3. Expand contextual conversations with unread state and add persisted activity history.
-4. Add deliverable-centered reviews, approvals, and change requests.
-5. Add basic file/external-link attachment support and validate the complete request-to-approved-deliverable loop.
+1. ~~Add Project and Deliverable editing/lifecycle management~~ Done — Deliverable Management Foundation implemented.
+2. ~~Implement Tasks beneath Deliverables with time budgets, links, Kanban status, blocked rollups, and alerts~~ Done — Task Management Foundation implemented.
+3. ~~Add deliverable-centered reviews, approvals, and change requests~~ Done — Deliverable Review Foundation implemented.
+4. Expand contextual conversations with unread state and complete basic file/external-link attachment support.
+5. Validate the complete request-to-archived-project loop, then implement lightweight Campaign and Initiative conversion targets without building full planning modules.
 
 Do not import the historical Inertia/Vue implementation or its duplicate `UserProfile`, role, or permission structures. Recover useful behavior by adapting it to the canonical organization-scoped models and Inspinia Blade frontend.
 
@@ -162,7 +193,8 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - The full Laravel test suite passes.
 - The starterkit Vite production build passes.
-- No Campaigns, Initiatives, Tasks, persisted activity events, assets, reviews, calendar workflow, skills, capacity model, or Project/Deliverable editing lifecycle has been implemented yet.
+- No Campaigns, Initiatives, skills model, recurrence, external calendar sync, uploads, unread inbox, or full capacity model has been implemented yet.
+- Persisted project activity events are implemented via the `project_activity_events` table.
 - No deployment pipeline exists yet.
 
-Last updated: 2026-06-10 (consolidated handoff)
+Last updated: 2026-06-12 (request-to-archived-project MVP foundation)
