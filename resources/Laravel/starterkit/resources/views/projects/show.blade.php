@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => "Projects", "title" => $project->title])
+                @include("shared.partials.page-title", ["subtitle" => "Projects", "subtitleUrl" => route("projects.index"), "title" => $project->title])
                 <div class="container-fluid">
                     <div class="mb-5">
                         <a class="text-primary text-sm hover:underline" href="{{ route("projects.index") }}"><i class="iconify tabler--arrow-left me-1"></i>Back to projects</a>
@@ -71,7 +71,11 @@
                                         </div>
                                         <div>
                                             <h6 class="text-default-400 mb-1 text-xs uppercase">Owner</h6>
-                                            <p class="font-medium">{{ $project->ownerProfile?->display_name ?: "Unassigned" }}</p>
+                                            @if ($project->ownerProfile)
+                                                <a class="font-medium hover:text-primary" href="{{ route('people.show', $project->ownerProfile) }}">{{ $project->ownerProfile->display_name }}</a>
+                                            @else
+                                                <p class="font-medium">Unassigned</p>
+                                            @endif
                                         </div>
                                         <div>
                                             <h6 class="text-default-400 mb-1 text-xs uppercase">Department</h6>
@@ -201,17 +205,17 @@
                                 <div class="card-body">
                                     <div class="mb-6 space-y-4">
                                         @foreach ($project->members as $member)
-                                            <div class="flex items-center gap-3">
+                                            <a class="flex items-center gap-3 hover:text-primary" href="{{ route('people.show', $member->profile) }}">
                                                 @if ($member->profile->avatar_url)
-                                                    <img alt="{{ $member->profile->display_name }}" class="size-9 rounded-full object-cover" src="{{ $member->profile->avatar_url }}" />
+                                                    <img alt="{{ $member->profile->display_name }}" class="size-9 rounded-full object-cover shrink-0" src="{{ $member->profile->avatar_url }}" />
                                                 @else
-                                                    <span class="bg-light flex size-9 items-center justify-center rounded-full font-semibold">{{ str($member->profile->display_name)->substr(0, 1) }}</span>
+                                                    <span class="bg-light flex size-9 shrink-0 items-center justify-center rounded-full font-semibold">{{ str($member->profile->display_name)->substr(0, 1) }}</span>
                                                 @endif
                                                 <div class="min-w-0">
                                                     <p class="truncate font-semibold">{{ $member->profile->display_name }}</p>
                                                     <p class="text-default-400 text-xs">{{ $member->project_role }}</p>
                                                 </div>
-                                            </div>
+                                            </a>
                                         @endforeach
                                     </div>
 

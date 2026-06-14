@@ -67,7 +67,7 @@
             <div class="sidenav-user p-5 bg-[url(/images/user-bg-pattern.svg)]" id="user-profile-settings">
                 <div class="flex items-center justify-between">
                     <div>
-                        <a class="link-reset" href="{{ route("profile.edit") }}">
+                        <a class="link-reset" href="{{ route("profile.show") }}">
                             <img alt="{{ auth()->user()->name }}" class="mb-3 size-9 rounded-full object-cover" src="{{ $currentAvatarUrl }}" />
                             <span class="sidenav-user-name block font-bold text-nowrap">{{ auth()->user()->name }}</span>
                             <span class="text-xs font-semibold" data-lang="user-role">Your workspace</span>
@@ -85,9 +85,9 @@
                                     <h6 class="text-xs">Welcome back 👋!</h6>
                                 </div>
                                 <!-- My Profile -->
-                                <a class="dropdown-item" href="{{ route("profile.edit") }}">
+                                <a class="dropdown-item" href="{{ route("profile.show") }}">
                                     <i class="iconify tabler--user-circle me-1 align-middle text-lg"></i>
-                                    <span class="align-middle">Profile</span>
+                                    <span class="align-middle">My Profile</span>
                                 </a>
                                 <!-- Settings -->
                                 <a class="dropdown-item" href="{{ route("profile.edit") }}">
@@ -118,13 +118,19 @@
                         <span>Main</span>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link {{ request()->routeIs("projects.*") ? "active" : "" }}" href="{{ route("projects.index") }}">
-                            <span class="menu-icon"><i class="iconify tabler--dashboard"></i></span>
-                            <span class="menu-text" data-lang="dashboard-projects">Projects</span>
+                        <a class="menu-link {{ request()->routeIs("profile.show") ? "active" : "" }}" href="{{ route("profile.show") }}">
+                            <span class="menu-icon"><i class="iconify tabler--user-circle"></i></span>
+                            <span class="menu-text">My Profile</span>
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a class="menu-link {{ request()->routeIs("tasks.*") ? "active" : "" }}" href="{{ route("tasks.index") }}">
+                        <a class="menu-link {{ request()->routeIs("projects.*", "deliverables.*", "tasks.show", "tasks.create", "tasks.edit", "tasks.store", "tasks.update", "tasks.links.*") ? "active" : "" }}" href="{{ route("projects.index") }}">
+                            <span class="menu-icon"><i class="iconify tabler--briefcase"></i></span>
+                            <span class="menu-text">Projects</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link {{ request()->routeIs("tasks.index") ? "active" : "" }}" href="{{ route("tasks.index") }}">
                             <span class="menu-icon"><i class="iconify tabler--list-check"></i></span>
                             <span class="menu-text">My Tasks</span>
                         </a>
@@ -160,30 +166,47 @@
                             </ul>
                         </li>
                     @endif
-                    @if ($navigationProfile?->hasPermission("requests.triage"))
-                        <li class="menu-item">
-                            <a class="menu-link" href="{{ route("triage.index") }}">
-                                <span class="menu-icon"><i class="iconify tabler--list-check"></i></span>
-                                <span class="menu-text">Intake Queue</span>
+                    @if ($navigationProfile?->hasPermission("requests.triage") || $navigationProfile?->hasPermission("projects.manage") || $navigationProfile?->hasPermission("users.invite"))
+                        @php($adminOpen = request()->routeIs("triage.*", "project-types.*", "users.*"))
+                        <li class="menu-item hs-accordion {{ $adminOpen ? "active open" : "" }}">
+                            <a aria-controls="nav-admin" aria-expanded="{{ $adminOpen ? "true" : "false" }}" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
+                                <span class="menu-icon"><i class="iconify tabler--settings-2"></i></span>
+                                <span class="menu-text">Admin</span>
+                                <span class="menu-arrow"></span>
                             </a>
-                        </li>
-                    @endif
-                    @if ($navigationProfile?->hasPermission("projects.manage"))
-                        <li class="menu-item">
-                            <a class="menu-link {{ request()->routeIs("project-types.*") ? "active" : "" }}" href="{{ route("project-types.index") }}">
-                                <span class="menu-icon"><i class="iconify tabler--template"></i></span>
-                                <span class="menu-text">Project Types</span>
-                            </a>
+                            <ul class="sub-menu hs-accordion-content hs-accordion-group {{ $adminOpen ? "" : "hidden" }}" id="nav-admin">
+                                @if ($navigationProfile->hasPermission("requests.triage"))
+                                    <li class="menu-item">
+                                        <a class="menu-link {{ request()->routeIs("triage.*") ? "active" : "" }}" href="{{ route("triage.index") }}">
+                                            <span class="menu-text">Intake Queue</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if ($navigationProfile->hasPermission("projects.manage"))
+                                    <li class="menu-item">
+                                        <a class="menu-link {{ request()->routeIs("project-types.*") ? "active" : "" }}" href="{{ route("project-types.index") }}">
+                                            <span class="menu-text">Project Types</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if ($navigationProfile->hasPermission("users.invite"))
+                                    <li class="menu-item">
+                                        <a class="menu-link {{ request()->routeIs("users.*") ? "active" : "" }}" href="{{ route("users.create") }}">
+                                            <span class="menu-text">New User</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
                         </li>
                     @endif
                     <li class="menu-item">
-                        <a class="menu-link" href="{{ route("people.index") }}">
+                        <a class="menu-link {{ request()->routeIs("people.*") ? "active" : "" }}" href="{{ route("people.index") }}">
                             <span class="menu-icon"><i class="iconify tabler--users"></i></span>
                             <span class="menu-text">People</span>
                         </a>
                     </li>
                     <li class="menu-title">
-                        <span>Base UI</span>
+                        <span>Design Reference</span>
                     </li>
                     <li class="menu-item hs-accordion">
                         <a aria-controls="base-ui" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
@@ -218,429 +241,6 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="menu-title" data-lang="custom-pages">
-                        <span>Custom Pages</span>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="{{ url("/pages/empty") }}">
-                            <span class="menu-icon"><i class="iconify tabler--files"></i></span>
-                            <span class="menu-text" data-lang="pages-empty">Empty Page</span>
-                        </a>
-                    </li>
-                    <li class="menu-item hs-accordion">
-                        <a aria-controls="authentication" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                            <span class="menu-icon"><i class="iconify tabler--password-user"></i></span>
-                            <span class="menu-text" data-lang="authentication">Authentication</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                            <li class="menu-item hs-accordion">
-                                <a aria-controls="auth-basic" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                                    <span class="menu-text" data-lang="auth-basic">Basic</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/sign-in") }}">
-                                            <span class="menu-text" data-lang="auth-sign-in">Sign In</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/sign-up") }}">
-                                            <span class="menu-text" data-lang="auth-sign-up">Sign Up</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/reset-pass") }}">
-                                            <span class="menu-text" data-lang="auth-reset-pass">Reset Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/new-pass") }}">
-                                            <span class="menu-text" data-lang="auth-new-pass">New Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/two-factor") }}">
-                                            <span class="menu-text" data-lang="auth-two-factor">Two Factor</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/lock-screen") }}">
-                                            <span class="menu-text" data-lang="auth-lock-screen">Lock Screen</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/success-mail") }}">
-                                            <span class="menu-text" data-lang="auth-success-mail">Success Mail</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/login-pin") }}">
-                                            <span class="menu-text" data-lang="auth-login-pin">Login with PIN</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth/delete-account") }}">
-                                            <span class="menu-text" data-lang="auth-delete-account">Delete Account</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item hs-accordion">
-                                <a aria-controls="auth-card" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                                    <span class="menu-text" data-lang="auth-card">Card</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/sign-in") }}">
-                                            <span class="menu-text" data-lang="auth-card-sign-in">Sign In</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/sign-up") }}">
-                                            <span class="menu-text" data-lang="auth-card-sign-up">Sign Up</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/reset-pass") }}">
-                                            <span class="menu-text" data-lang="auth-card-reset-pass">Reset Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/new-pass") }}">
-                                            <span class="menu-text" data-lang="auth-card-new-pass">New Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/two-factor") }}">
-                                            <span class="menu-text" data-lang="auth-card-two-factor">Two Factor</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/lock-screen") }}">
-                                            <span class="menu-text" data-lang="auth-card-lock-screen">Lock Screen</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/success-mail") }}">
-                                            <span class="menu-text" data-lang="auth-card-success-mail">Success Mail</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/login-pin") }}">
-                                            <span class="menu-text" data-lang="auth-card-login-pin">Login with PIN</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-card/delete-account") }}">
-                                            <span class="menu-text" data-lang="auth-card-delete-account">Delete Account</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item hs-accordion">
-                                <a aria-controls="auth-split" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                                    <span class="menu-text" data-lang="auth-split">Split</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/sign-in") }}">
-                                            <span class="menu-text" data-lang="auth-split-sign-in">Sign In</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/sign-up") }}">
-                                            <span class="menu-text" data-lang="auth-split-sign-up">Sign Up</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/reset-pass") }}">
-                                            <span class="menu-text" data-lang="auth-split-reset-pass">Reset Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/new-pass") }}">
-                                            <span class="menu-text" data-lang="auth-split-new-pass">New Password</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/two-factor") }}">
-                                            <span class="menu-text" data-lang="auth-split-two-factor">Two Factor</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/lock-screen") }}">
-                                            <span class="menu-text" data-lang="auth-split-lock-screen">Lock Screen</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/success-mail") }}">
-                                            <span class="menu-text" data-lang="auth-split-success-mail">Success Mail</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/login-pin") }}">
-                                            <span class="menu-text" data-lang="auth-split-login-pin">Login with PIN</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="{{ url("/auth-split/delete-account") }}">
-                                            <span class="menu-text" data-lang="auth-split-delete-account">Delete Account</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item hs-accordion">
-                        <a aria-controls="error-pages" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                            <span class="menu-icon"><i class="iconify tabler--alert-triangle"></i></span>
-                            <span class="menu-text" data-lang="error-pages">Error Pages</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/400") }}">
-                                    <span class="menu-text" data-lang="error-400">400 Bad Request</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/401") }}">
-                                    <span class="menu-text" data-lang="error-401">401 Unauthorized</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/403") }}">
-                                    <span class="menu-text" data-lang="error-403">403 Forbidden</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/404") }}">
-                                    <span class="menu-text" data-lang="error-404">404 Not Found</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/408") }}">
-                                    <span class="menu-text" data-lang="error-408">408 Request Timeout</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/500") }}">
-                                    <span class="menu-text" data-lang="error-500">500 Internal Server</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/error/maintenance") }}">
-                                    <span class="menu-text" data-lang="error-maintenance">Maintenance</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-title" data-lang="layouts">
-                        <span>Layouts</span>
-                    </li>
-                    <li class="menu-item hs-accordion">
-                        <a aria-controls="layout-options" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                            <span class="menu-icon"><i class="iconify tabler--layout"></i></span>
-                            <span class="menu-text" data-lang="layout-options">Layout Options</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/scrollable") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-scrollable">Scrollable</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/compact") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-compact">Compact</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/boxed") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-boxed">Boxed</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/horizontal") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-horizontal">Horizontal</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/preloader") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-preloader">Preloader</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item hs-accordion">
-                        <a aria-controls="sidebars" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                            <span class="menu-icon"><i class="iconify tabler--layout-sidebar-inactive"></i></span>
-                            <span class="menu-text" data-lang="sidebars">Sidebars</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/light") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-light">Light Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/gradient") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-gradient">Gradient Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/gray") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-gray">Gray Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/image") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-image">Image Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/compact") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-compact">Compact Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/on-hover") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-on-hover">On Hover Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/on-hover-active") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-on-hover-active">On Hover Active</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/offcanvas") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-offcanvas">Offcanvas Menu</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="layouts-sidebar-no-icons.html" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-no-icons">No Icons with Lines</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/sidebar/with-lines") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-sidebar-with-lines">Sidebar with Lines</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item hs-accordion">
-                        <a aria-controls="topbar" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                            <span class="menu-icon"><i class="iconify tabler--layout-bottombar"></i></span>
-                            <span class="menu-text" data-lang="topbar">Topbar</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/topbar/dark") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-topbar-dark">Dark Topbar</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/topbar/gray") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-topbar-gray">Gray Topbar</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="menu-link" href="{{ url("/layouts/topbar/gradient") }}" target="_blank">
-                                    <span class="menu-text" data-lang="layouts-topbar-gradient">Gradient Topbar</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-title" data-lang="components">
-                        <span>Components</span>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link" href="{{ url("/icons/tabler") }}">
-                            <span class="menu-icon"><i class="iconify tabler--icons"></i></span>
-                            <span class="menu-text" data-lang="icons-tabler">Tabler</span>
-                        </a>
-                    </li>
-                    <li class="menu-title" data-lang="menu-items">
-                        <span>Menu Items</span>
-                    </li>
-                    <li class="menu-item hs-accordion">
-                        <a aria-controls="menu-levels" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                            <span class="menu-icon"><i class="iconify tabler--sitemap"></i></span>
-                            <span class="menu-text" data-lang="menu-levels">Menu Levels</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                            <li class="menu-item hs-accordion">
-                                <a aria-controls="second-level" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                                    <span class="menu-text" data-lang="second-level">Second Level</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-text" data-lang="menu-item-1">Item 2.1</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-text" data-lang="menu-item-2">Item 2.2</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item hs-accordion">
-                                <a aria-controls="second-level-2" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                                    <span class="menu-text" data-lang="second-level-2">Second Level</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                                    <li class="menu-item">
-                                        <a class="menu-link" href="#">
-                                            <span class="menu-text" data-lang="menu-item-3">Item 2.1</span>
-                                        </a>
-                                    </li>
-                                    <li class="menu-item hs-accordion">
-                                        <a aria-controls="menu-item-4" aria-expanded="false" class="hs-accordion-toggle menu-link" href="javascript:void(0)">
-                                            <span class="menu-text" data-lang="menu-item-4">Item 2.2</span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        <ul class="sub-menu hs-accordion-content hs-accordion-group hidden">
-                                            <li class="menu-item">
-                                                <a class="menu-link" href="#">
-                                                    <span class="menu-text" data-lang="menu-item-5">Item 3.1</span>
-                                                </a>
-                                            </li>
-                                            <li class="menu-item">
-                                                <a class="menu-link" href="#">
-                                                    <span class="menu-text" data-lang="menu-item-6">Item 3.2</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link pointer-events-none opacity-50" href="#">
-                            <span class="menu-icon"><i class="iconify tabler--ban"></i></span>
-                            <span class="menu-text" data-lang="disabled-menu">Disabled Menu</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="menu-link !bg-primary !text-white" href="#">
-                            <span class="menu-icon"><i class="iconify tabler--star"></i></span>
-                            <span class="menu-text !bg-inherit" data-lang="special-menu">Special Menu</span>
-                        </a>
                     </li>
                 </ul>
             </div>

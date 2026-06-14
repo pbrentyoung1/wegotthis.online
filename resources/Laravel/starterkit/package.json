@@ -34,6 +34,7 @@
     "apexcharts": "^5.3.5",
     "chart.js": "^4.5.1",
     "choices.js": "^11.2.1",
+    "cropperjs": "^1.6.2",
     "echarts": "^6.0.0",
     "flatpickr": "^4.6.13",
     "fullcalendar": "^6.1.20",

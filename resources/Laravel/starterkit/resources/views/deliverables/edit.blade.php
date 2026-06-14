@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => $deliverable->title, "title" => "Edit Deliverable"])
+                @include("shared.partials.page-title", ["subtitle" => $deliverable->title, "subtitleUrl" => route("deliverables.show", [$project, $deliverable]), "title" => "Edit Deliverable"])
                 <div class="container-fluid">
                     <div class="mb-5">
                         <a class="text-primary text-sm hover:underline" href="{{ route("deliverables.show", [$project, $deliverable]) }}"><i class="iconify tabler--arrow-left me-1"></i>Back to {{ $deliverable->title }}</a>

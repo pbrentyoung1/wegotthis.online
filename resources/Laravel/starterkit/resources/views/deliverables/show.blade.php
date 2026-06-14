@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => $project->title, "title" => $deliverable->title])
+                @include("shared.partials.page-title", ["subtitle" => $project->title, "subtitleUrl" => route("projects.show", $project), "title" => $deliverable->title])
                 <div class="container-fluid">
                     <div class="mb-5">
                         @if ($canViewInternal)
@@ -231,14 +231,14 @@
                                             <dt class="text-default-400">Owner</dt>
                                             <dd class="mt-1 font-medium">
                                                 @if ($deliverable->ownerProfile)
-                                                    <div class="flex items-center gap-2">
+                                                    <a class="flex items-center gap-2 hover:text-primary" href="{{ route('people.show', $deliverable->ownerProfile) }}">
                                                         @if ($deliverable->ownerProfile->avatar_url)
                                                             <img alt="{{ $deliverable->ownerProfile->display_name }}" class="size-6 rounded-full object-cover" src="{{ $deliverable->ownerProfile->avatar_url }}" />
                                                         @else
                                                             <span class="bg-light flex size-6 items-center justify-center rounded-full text-xs font-semibold">{{ str($deliverable->ownerProfile->display_name)->substr(0, 1) }}</span>
                                                         @endif
                                                         {{ $deliverable->ownerProfile->display_name }}
-                                                    </div>
+                                                    </a>
                                                 @else
                                                     <span class="text-default-400">Unassigned</span>
                                                 @endif
@@ -247,13 +247,13 @@
                                         @if ($deliverable->internalReviewerProfile)
                                             <div>
                                                 <dt class="text-default-400">Internal reviewer</dt>
-                                                <dd class="mt-1 font-medium">{{ $deliverable->internalReviewerProfile->display_name }}</dd>
+                                                <dd class="mt-1 font-medium"><a class="hover:text-primary" href="{{ route('people.show', $deliverable->internalReviewerProfile) }}">{{ $deliverable->internalReviewerProfile->display_name }}</a></dd>
                                             </div>
                                         @endif
                                         @if ($deliverable->stakeholderReviewerProfile)
                                             <div>
                                                 <dt class="text-default-400">Stakeholder reviewer</dt>
-                                                <dd class="mt-1 font-medium">{{ $deliverable->stakeholderReviewerProfile->display_name }}</dd>
+                                                <dd class="mt-1 font-medium"><a class="hover:text-primary" href="{{ route('people.show', $deliverable->stakeholderReviewerProfile) }}">{{ $deliverable->stakeholderReviewerProfile->display_name }}</a></dd>
                                             </div>
                                         @endif
                                         <div>

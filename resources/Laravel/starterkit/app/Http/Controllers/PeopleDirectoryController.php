@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -50,6 +51,7 @@ class PeopleDirectoryController extends Controller
 
         return view('people.index', [
             'currentProfile' => $currentProfile,
+            'canInviteUsers' => $currentProfile->hasPermission('users.invite'),
             'filters' => $filters,
             'profiles' => $profiles,
             'departments' => $currentProfile->organization->departments()->orderBy('name')->get(),
@@ -59,5 +61,26 @@ class PeopleDirectoryController extends Controller
                 ->orderBy('person_type')
                 ->pluck('person_type'),
         ]);
+    }
+
+    public function show(Request $request, Profile $profile): View|RedirectResponse
+    {
+        $currentProfile = $request->user()
+            ->profiles()
+            ->where('status', 'Active')
+            ->orderBy('id')
+            ->first();
+
+        abort_unless($currentProfile, 403);
+        abort_if($profile->organization_id !== $currentProfile->organization_id, 403);
+
+        // Own profile → redirect to personal dashboard
+        if ($profile->user_id === $request->user()->id) {
+            return redirect()->route('profile.show');
+        }
+
+        $profile->load(['department', 'organization', 'user', 'roleAssignments.role']);
+
+        return view('people.show', compact('profile', 'currentProfile'));
     }
 }

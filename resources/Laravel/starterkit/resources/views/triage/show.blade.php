@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => "Intake Queue", "title" => $ministryRequest->title])
+                @include("shared.partials.page-title", ["subtitle" => "Intake Queue", "subtitleUrl" => route("triage.index"), "title" => $ministryRequest->title])
                 <div class="container-fluid">
                     <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <a class="text-primary text-sm hover:underline" href="{{ route("triage.index") }}"><i class="iconify tabler--arrow-left me-1"></i>Back to intake queue</a>

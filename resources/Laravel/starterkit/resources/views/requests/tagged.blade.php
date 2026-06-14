@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => "Requests", "title" => "Tagged Requests"])
+                @include("shared.partials.page-title", ["subtitle" => "Requests", "subtitleUrl" => route("requests.index"), "title" => "Tagged Requests"])
                 <div class="container-fluid">
                     <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <div>

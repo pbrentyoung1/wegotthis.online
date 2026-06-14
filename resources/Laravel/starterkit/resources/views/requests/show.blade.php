@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => "Requests", "title" => $ministryRequest->title])
+                @include("shared.partials.page-title", ["subtitle" => "Requests", "subtitleUrl" => route("requests.index"), "title" => $ministryRequest->title])
                 <div class="container-fluid">
                     <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <a class="text-primary text-sm hover:underline" href="{{ route("requests.index") }}">

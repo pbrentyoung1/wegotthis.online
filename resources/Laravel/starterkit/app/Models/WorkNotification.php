@@ -21,4 +21,24 @@ class WorkNotification extends Model
     {
         return $this->belongsTo(Profile::class, 'recipient_profile_id');
     }
+
+    public function iconClass(): string
+    {
+        return match ($this->notification_type) {
+            'Blocked' => 'tabler--alert-triangle',
+            'Needs Approval' => 'tabler--clipboard-check',
+            'Unblocked' => 'tabler--circle-check',
+            default => 'tabler--bell',
+        };
+    }
+
+    public function colorClass(): string
+    {
+        return match ($this->notification_type) {
+            'Blocked' => 'bg-danger/15 text-danger',
+            'Needs Approval' => 'bg-secondary/15 text-secondary',
+            'Unblocked' => 'bg-success/15 text-success',
+            default => 'bg-primary/15 text-primary',
+        };
+    }
 }

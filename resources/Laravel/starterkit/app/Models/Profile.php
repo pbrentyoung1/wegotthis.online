@@ -21,6 +21,7 @@ class Profile extends Model
         'person_type',
         'phone',
         'avatar_url',
+        'banner_url',
         'bio',
         'status',
         'metadata_json',

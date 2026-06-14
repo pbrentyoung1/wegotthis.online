@@ -1,18 +1,18 @@
-@extends("shared.base", ["title" => "Profile & Settings"])
+@extends("shared.base", ["title" => "Account Settings"])
 
 @section("content")
     <div class="wrapper">
-        @include("shared.partials.topbar", ["subtitle" => "Settings", "title" => "Profile & Settings"])
+        @include("shared.partials.topbar", ["subtitle" => "Settings", "title" => "Account Settings"])
         @include("shared.partials.sidenav")
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => "Settings", "title" => "Profile & Settings"])
+                @include("shared.partials.page-title", ["subtitle" => "Settings", "title" => "Account Settings"])
 
                 <div class="container-fluid">
                     @include("auth.partials.messages")
 
-                    {{-- Hero card --}}
+                    {{-- Hero card with upload capability --}}
                     <div class="card mb-base overflow-hidden">
 
                         {{-- Banner --}}
@@ -67,22 +67,16 @@
                                         @if ($profile?->title)
                                             <p class="text-default-400 text-sm">{{ $profile->title }}</p>
                                         @endif
-                                        <div class="mt-2 flex flex-wrap gap-1.5">
-                                            @if ($profile)
-                                                <span class="badge bg-light text-default-600">{{ $profile->person_type }}</span>
-                                                @foreach ($profile->roleAssignments->whereNull("ended_at") as $assignment)
-                                                    <span class="badge bg-primary/10 text-primary">{{ $assignment->role->name }}</span>
-                                                @endforeach
-                                            @endif
-                                        </div>
                                     </div>
                                 </div>
+                                <a class="btn btn-sm bg-light text-default-700 mb-1" href="{{ route('profile.show') }}">
+                                    <i class="iconify tabler--user-circle me-1.5 size-4"></i>View profile
+                                </a>
                             </div>
                         </div>
                     </div>
 
                     @if ($profile)
-                        {{-- Sidebar + form --}}
                         <div class="grid grid-cols-1 gap-base lg:grid-cols-3">
                             {{-- Left sidebar: read-only info --}}
                             <div>
@@ -196,88 +190,7 @@
                             </div>
                         </div>
 
-                        {{-- My Tasks + Messages --}}
-                        <div class="mt-base grid grid-cols-1 gap-base lg:grid-cols-2">
-
-                            {{-- My Tasks --}}
-                            <div class="card flex flex-col">
-                                <div class="card-header flex items-center justify-between">
-                                    <h4 class="card-title">
-                                        <i class="iconify tabler--list-check text-primary me-1.5"></i>My tasks
-                                    </h4>
-                                    <a class="text-primary text-xs hover:underline" href="{{ route('tasks.index') }}">View all</a>
-                                </div>
-                                <div class="card-body grow">
-                                    @if ($myTasks->isEmpty())
-                                        <div class="flex flex-col items-center justify-center py-10 text-center">
-                                            <i class="iconify tabler--circle-check text-default-300 mb-2 size-8"></i>
-                                            <p class="text-default-400 text-sm">No open tasks assigned to you.</p>
-                                        </div>
-                                    @else
-                                        <ul class="divide-y divide-default-100">
-                                            @foreach ($myTasks as $task)
-                                                <li class="py-3 first:pt-0 last:pb-0">
-                                                    <a class="group flex items-start gap-3" href="{{ route('tasks.show', [$task->deliverable->project, $task->deliverable, $task]) }}">
-                                                        <span class="badge {{ $task->status->badgeClasses() }} mt-0.5 shrink-0 text-[11px]">{{ $task->status->value }}</span>
-                                                        <div class="min-w-0">
-                                                            <p class="truncate text-sm font-medium group-hover:text-primary">{{ $task->title }}</p>
-                                                            <p class="text-default-400 mt-0.5 truncate text-xs">{{ $task->deliverable->project->title }} · {{ $task->deliverable->title }}</p>
-                                                        </div>
-                                                        @if ($task->due_date)
-                                                            <span class="text-default-400 ms-auto shrink-0 text-xs">{{ $task->due_date->format('M j') }}</span>
-                                                        @endif
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </div>
-                            </div>
-
-                            {{-- Messages --}}
-                            <div class="card flex flex-col">
-                                <div class="card-header">
-                                    <h4 class="card-title">
-                                        <i class="iconify tabler--message-circle text-primary me-1.5"></i>Messages
-                                    </h4>
-                                </div>
-                                <div class="card-body grow">
-                                    @if ($myConversations->isEmpty())
-                                        <div class="flex flex-col items-center justify-center py-10 text-center">
-                                            <i class="iconify tabler--message-off text-default-300 mb-2 size-8"></i>
-                                            <p class="text-default-400 text-sm">No conversations yet.</p>
-                                        </div>
-                                    @else
-                                        <ul class="divide-y divide-default-100">
-                                            @foreach ($myConversations as $convo)
-                                                <li class="py-3 first:pt-0 last:pb-0">
-                                                    <a class="group flex items-start gap-3" href="{{ $convo['url'] }}">
-                                                        <div class="mt-1 shrink-0">
-                                                            @if ($convo['unread'])
-                                                                <span class="block size-2 rounded-full bg-primary"></span>
-                                                            @else
-                                                                <span class="block size-2 rounded-full bg-default-200"></span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="min-w-0 grow">
-                                                            <p class="truncate text-sm font-medium group-hover:text-primary @if(!$convo['unread']) text-default-600 @endif">{{ $convo['title'] }}</p>
-                                                            @if ($convo['preview'])
-                                                                <p class="text-default-400 mt-0.5 truncate text-xs">{{ $convo['preview'] }}</p>
-                                                            @endif
-                                                        </div>
-                                                        <span class="text-default-400 ms-auto shrink-0 text-xs">{{ $convo['updated_at']->diffForHumans(null, true, true) }}</span>
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </div>
-                            </div>
-
-                        </div>
-
                     @else
-                        {{-- No profile: full-width form --}}
                         <form action="{{ route("profile.update") }}" class="card" method="POST">
                             @csrf
                             @method("PATCH")
@@ -315,28 +228,23 @@
 
     @include("shared.partials.customizer")
 
-    {{-- Crop modal (avatar + banner) --}}
+    {{-- Crop modal --}}
     @if ($profile)
         <div id="crop-modal" class="fixed inset-0 z-[100] hidden">
             <div id="crop-modal-backdrop" class="absolute inset-0 bg-black/60"></div>
             <div class="relative z-10 flex h-full items-center justify-center p-4">
                 <div class="flex w-full max-w-xl flex-col rounded-lg bg-white shadow-xl dark:bg-default-800">
-                    {{-- Header --}}
                     <div class="flex items-center justify-between border-b border-default-200 px-5 py-4">
                         <h5 class="font-semibold" id="crop-modal-title">Crop image</h5>
                         <button class="crop-cancel btn btn-icon btn-sm bg-light" type="button">
                             <i class="iconify tabler--x size-4"></i>
                         </button>
                     </div>
-
-                    {{-- Crop canvas --}}
                     <div class="p-5">
                         <div class="overflow-hidden rounded-md bg-default-100" style="max-height: 380px;">
                             <img id="crop-source" src="" class="block max-w-full" alt="" />
                         </div>
                     </div>
-
-                    {{-- Controls + actions --}}
                     <div class="flex items-center justify-between gap-3 border-t border-default-200 px-5 py-4">
                         <div class="flex gap-2">
                             <button id="crop-zoom-in" class="btn btn-sm bg-light" type="button" title="Zoom in">

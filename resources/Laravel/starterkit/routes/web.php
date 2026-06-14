@@ -17,6 +17,9 @@ use App\Http\Controllers\TaggedRequestController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskLinkController;
 use App\Http\Controllers\TriageRequestController;
+use App\Http\Controllers\UserInviteController;
+use App\Models\ConversationParticipant;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +27,15 @@ Route::get('/', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::patch('/topbar/conversations/read', function (Request $request) {
+        $profile = $request->user()->profiles()->where('status', 'Active')->first();
+        if ($profile) {
+            ConversationParticipant::where('profile_id', $profile->id)
+                ->update(['last_read_at' => now()]);
+        }
+        return response()->noContent();
+    })->name('topbar.conversations.read');
+
     Route::get('/requests/tagged', [TaggedRequestController::class, 'index'])->name('requests.tagged');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/tasks', [MyTaskController::class, 'index'])->name('tasks.index');
@@ -72,9 +84,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/triage/requests/{ministryRequest}/transition', [TriageRequestController::class, 'transition'])->name('triage.transition');
     Route::post('/triage/requests/{ministryRequest}/convert', [TriageRequestController::class, 'convert'])->name('triage.convert');
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
-    Route::redirect('/settings', '/settings/profile');
-    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/people/{profile}', [PeopleDirectoryController::class, 'show'])->name('people.show');
+    Route::get('/users/create', [UserInviteController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserInviteController::class, 'store'])->name('users.store');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::redirect('/settings', '/settings/account');
+    Route::redirect('/settings/profile', '/settings/account');
+    Route::get('/settings/account', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings/account', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/settings/account/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
+    Route::post('/settings/account/banner', [ProfileController::class, 'updateBanner'])->name('profile.banner');
 
     Route::get('/ui/typography', fn () => view('ui.typography'));
     Route::get('/ui/colors', fn () => view('ui.colors'));

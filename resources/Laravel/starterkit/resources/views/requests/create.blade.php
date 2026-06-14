@@ -7,7 +7,7 @@
 
         <div class="page-content">
             <main>
-                @include("shared.partials.page-title", ["subtitle" => "Requests", "title" => "New Request"])
+                @include("shared.partials.page-title", ["subtitle" => "Requests", "subtitleUrl" => route("requests.index"), "title" => "New Request"])
                 <div class="container-fluid">
                     <div class="mx-auto max-w-5xl">
                         <form action="{{ route("requests.store") }}" class="card my-5" method="POST">
