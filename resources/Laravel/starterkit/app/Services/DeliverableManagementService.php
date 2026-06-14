@@ -6,23 +6,36 @@ use App\Enums\DeliverableStatus;
 use App\Models\Conversation;
 use App\Models\Deliverable;
 use App\Models\DeliverableReview;
+use App\Models\DeliverableType;
 use App\Models\Message;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectActivityEvent;
 use App\Models\WorkNotification;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class DeliverableManagementService
 {
     public function createDeliverable(Project $project, array $attributes, Profile $actor): Deliverable
     {
-        $deliverable = $project->deliverables()->create(array_merge($attributes, [
+        $extra = [
             'organization_id' => $project->organization_id,
             'lifecycle_status' => DeliverableStatus::Proposed->value,
             'attention_state' => 'On Track',
-        ]));
+        ];
+
+        // Generate upload slug for Photo Collection deliverables
+        if (isset($attributes['deliverable_type_id'])) {
+            $type = DeliverableType::find($attributes['deliverable_type_id']);
+            if ($type && $type->slug === 'photo-collection') {
+                $extra['upload_slug'] = $this->generateUploadSlug($attributes['title'] ?? 'upload');
+                $extra['upload_open'] = true;
+            }
+        }
+
+        $deliverable = $project->deliverables()->create(array_merge($attributes, $extra));
 
         ProjectActivityEvent::create([
             'organization_id' => $project->organization_id,
@@ -440,5 +453,17 @@ class DeliverableManagementService
         $this->recordActivity($deliverable, $actor, $eventType, $description);
 
         return $deliverable->refresh();
+    }
+
+    private function generateUploadSlug(string $title): string
+    {
+        $base = Str::slug($title);
+        $base = $base ?: 'upload';
+
+        do {
+            $slug = $base.'-'.Str::lower(Str::random(4));
+        } while (Deliverable::where('upload_slug', $slug)->exists());
+
+        return $slug;
     }
 }

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DeliverableController;
+use App\Http\Controllers\DeliverableMediaController;
+use App\Http\Controllers\MediaCropController;
+use App\Http\Controllers\PhotoUploadController;
 use App\Http\Controllers\DirectMessageController;
 use App\Http\Controllers\DeliverableConversationController;
 use App\Http\Controllers\DeliverableLinkController;
@@ -84,6 +87,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/triage/requests/{ministryRequest}', [TriageRequestController::class, 'show'])->name('triage.show');
     Route::post('/triage/requests/{ministryRequest}/transition', [TriageRequestController::class, 'transition'])->name('triage.transition');
     Route::post('/triage/requests/{ministryRequest}/convert', [TriageRequestController::class, 'convert'])->name('triage.convert');
+    // Photo collection media management (authenticated)
+    Route::get('/projects/{project}/deliverables/{deliverable}/media', [DeliverableMediaController::class, 'index'])->name('deliverables.media');
+    Route::patch('/projects/{project}/deliverables/{deliverable}/media/toggle-open', [DeliverableMediaController::class, 'toggleOpen'])->name('deliverables.media.toggle-open');
+    Route::patch('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}', [DeliverableMediaController::class, 'update'])->name('deliverables.media.update');
+    Route::patch('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/favorite', [DeliverableMediaController::class, 'toggleFavorite'])->name('deliverables.media.favorite');
+    Route::delete('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}', [DeliverableMediaController::class, 'destroy'])->name('deliverables.media.destroy');
+    Route::get('/projects/{project}/deliverables/{deliverable}/media/download', [DeliverableMediaController::class, 'download'])->name('deliverables.media.download');
+    Route::post('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops', [MediaCropController::class, 'store'])->name('deliverables.media.crops.store');
+    Route::get('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops/{crop}/download', [MediaCropController::class, 'download'])->name('deliverables.media.crops.download');
+    Route::delete('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops/{crop}', [MediaCropController::class, 'destroy'])->name('deliverables.media.crops.destroy');
+    Route::get('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops/download-all', [MediaCropController::class, 'downloadAll'])->name('deliverables.media.crops.download-all');
+
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
     Route::get('/people/{profile}', [PeopleDirectoryController::class, 'show'])->name('people.show');
     Route::post('/messages/{profile}', [DirectMessageController::class, 'store'])->name('messages.store');
@@ -105,6 +120,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/ui/forms', fn () => view('ui.forms'));
     Route::get('/ui/cards', fn () => view('ui.cards'));
 });
+
+// Public photo upload — no auth required
+Route::get('/upload/{slug}', [PhotoUploadController::class, 'show'])->name('upload.show');
+Route::post('/upload/{slug}', [PhotoUploadController::class, 'store'])->name('upload.store');
 
 Route::get('/auth/lock-screen', function () {
     return redirect()->route('password.confirm');

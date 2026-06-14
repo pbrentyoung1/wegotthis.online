@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Support\Carbon;
 
 class Deliverable extends Model
 {
@@ -16,6 +17,7 @@ class Deliverable extends Model
         'title', 'description', 'lifecycle_status', 'attention_state', 'sort_order',
         'purpose', 'audience', 'desired_action', 'due_date', 'publish_date',
         'metadata_json', 'archived_at',
+        'upload_slug', 'upload_open', 'upload_closes_at',
     ];
 
     protected function casts(): array
@@ -24,8 +26,10 @@ class Deliverable extends Model
             'lifecycle_status' => DeliverableStatus::class,
             'due_date' => 'date',
             'publish_date' => 'date',
-            'metadata_json' => 'array',
-            'archived_at' => 'datetime',
+            'metadata_json'      => 'array',
+            'archived_at'        => 'datetime',
+            'upload_open'        => 'boolean',
+            'upload_closes_at'   => 'datetime',
         ];
     }
 
@@ -93,5 +97,30 @@ class Deliverable extends Model
     public function timeBudgetMinutes(): int
     {
         return (int) $this->tasks()->sum('time_budget_minutes');
+    }
+
+    public function mediaFiles(): HasMany
+    {
+        return $this->hasMany(MediaFile::class)->orderByTaken();
+    }
+
+    public function isPhotoCollection(): bool
+    {
+        return $this->deliverableType?->slug === 'photo-collection';
+    }
+
+    public function uploadUrl(): ?string
+    {
+        if (! $this->upload_slug) {
+            return null;
+        }
+
+        return route('upload.show', $this->upload_slug);
+    }
+
+    public function uploadIsOpen(): bool
+    {
+        return $this->upload_open &&
+            (! $this->upload_closes_at || $this->upload_closes_at->isFuture());
     }
 }

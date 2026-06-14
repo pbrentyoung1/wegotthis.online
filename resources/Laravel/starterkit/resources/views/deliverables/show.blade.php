@@ -123,6 +123,12 @@
                                                     <i class="iconify tabler--activity text-base"></i>
                                                     Activity
                                                 </button>
+                                                @if ($deliverable->isPhotoCollection())
+                                                    <a class="inline-flex items-center gap-2 border-b border-transparent px-4 py-2 text-sm whitespace-nowrap hover:text-primary hover:border-primary" href="{{ route('deliverables.media', [$project, $deliverable]) }}">
+                                                        <i class="iconify tabler--photo text-base"></i>
+                                                        Photos <span class="badge bg-light text-default-500">{{ $deliverable->mediaFiles()->count() }}</span>
+                                                    </a>
+                                                @endif
                                             @endif
                                         </nav>
                                     </div>
@@ -223,6 +229,42 @@
                         </div>
 
                         <div class="lg:col-span-1">
+                            @if ($deliverable->isPhotoCollection() && $deliverable->upload_slug)
+                                <div class="card mb-base">
+                                    <div class="card-header">
+                                        <h4 class="card-title"><i class="iconify tabler--link text-primary me-1.5"></i>Upload link</h4>
+                                    </div>
+                                    <div class="card-body space-y-3">
+                                        <div class="flex items-center gap-2">
+                                            <input class="form-input form-input-sm flex-1 font-mono text-xs" readonly type="text" value="{{ $deliverable->uploadUrl() }}" />
+                                            <button
+                                                class="btn btn-sm bg-light text-default-700 shrink-0"
+                                                onclick="navigator.clipboard.writeText('{{ $deliverable->uploadUrl() }}').then(()=>this.textContent='Copied!')"
+                                            >Copy</button>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span class="text-default-500">Submissions</span>
+                                            <span class="{{ $deliverable->uploadIsOpen() ? 'text-success' : 'text-danger' }} font-medium">
+                                                {{ $deliverable->uploadIsOpen() ? 'Open' : 'Closed' }}
+                                            </span>
+                                        </div>
+                                        @if ($currentProfile->hasPermission('projects.manage'))
+                                            <form action="{{ route('deliverables.media.toggle-open', [$project, $deliverable]) }}" method="POST">
+                                                @csrf @method('PATCH')
+                                                <button class="btn btn-sm w-full {{ $deliverable->uploadIsOpen() ? 'bg-warning/10 text-warning' : 'bg-success/10 text-success' }}">
+                                                    {{ $deliverable->uploadIsOpen() ? 'Close submissions' : 'Open submissions' }}
+                                                </button>
+                                            </form>
+                                        @endif
+                                        <div class="text-sm text-default-500">
+                                            <a class="text-primary hover:underline" href="{{ route('deliverables.media', [$project, $deliverable]) }}">
+                                                <i class="iconify tabler--photo me-1 size-4"></i>View all photos
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="card lg:rounded-s-none">
                                 <div class="card-header"><h4 class="card-title">Deliverable details</h4></div>
                                 <div class="card-body">
