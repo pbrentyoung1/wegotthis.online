@@ -68,6 +68,32 @@ accessing data). Mitigations:
 - File type validation: images only (JPEG, PNG, HEIC, WebP), max 20MB per file
 - Virus/malware scanning deferred — acceptable for MVP with file type checks
 
+### HEIC handling
+
+iPhones shoot HEIC by default. HEIC has no browser support outside Safari and
+is not supported by PHP's built-in image functions without ImageMagick + libheif.
+
+Strategy: **convert HEIC to JPEG on upload before storage.** All downstream
+processing (EXIF extraction, thumbnails, crops, display) then works on JPEG.
+
+Upload flow for HEIC files:
+1. File arrives, MIME type detected as `image/heic` or `image/heif`
+2. `ImageConversionService` converts to JPEG via ImageMagick
+3. Converted JPEG replaces the original in memory before storage
+4. EXIF extracted from converted JPEG (EXIF is preserved through conversion)
+5. Stored as `.jpg` regardless of original extension
+
+If ImageMagick with libheif is unavailable, reject the file with a helpful
+message: "HEIC files aren't supported on this server. On iPhone, go to
+Settings → Camera → Formats → Most Compatible to upload as JPEG."
+
+**Hosting requirement:** ImageMagick compiled with `libheif` support. Confirm
+this is available on the target hosting environment before deploying.
+
+iOS note: Safari on iOS sometimes auto-converts HEIC to JPEG during the file
+picker upload flow depending on iOS version. Do not depend on this — always
+run the server-side conversion check regardless.
+
 ### Metadata strategy
 
 Two distinct layers:
@@ -261,6 +287,17 @@ calls `MediaFileMetadataWriter` on each file before zipping; streams zip
 - Scopes: `favorite()`, `approvedForUse()`, `withTag(string $tag)`,
   `byUploader(string $name)`, `orderByTaken()`, `orderByUploaded()`
 - Cast: `tags` → `array` via Laravel cast
+
+### `app/Services/ImageConversionService.php`
+
+Handles format normalization before storage. Called by `PhotoUploadController`
+on every upload before EXIF extraction.
+
+- Detects MIME type from file content (not extension — extensions lie)
+- HEIC/HEIF → converts to JPEG via ImageMagick, preserving EXIF
+- JPEG/PNG/WebP → passed through as-is
+- Returns path to normalized file (temp file if converted, original if not)
+- Throws `ImageConversionException` if ImageMagick unavailable for HEIC
 
 ### `app/Services/ExifExtractor.php`
 
@@ -676,6 +713,103 @@ No new dependencies required.
 34. Download all crops produces a zip with one file per saved crop
 35. Staff can delete a crop
 36. Invalid platform name rejected (not in config)
+
+**HEIC conversion**
+37. HEIC file uploads successfully and is stored as JPEG
+38. EXIF data preserved through HEIC → JPEG conversion
+39. HEIC file rejected with helpful message if ImageMagick unavailable
+
+---
+
+## Known Minefields
+
+### File format issues
+- **HEIC** — covered above. Convert on upload. Confirm libheif on server.
+- **HEIF** — same as HEIC, different extension. Same treatment.
+- **PNG with transparency** — if a PNG with an alpha channel gets cropped and
+  saved as JPEG, transparency becomes black. Always flatten to white background
+  before JPEG conversion.
+- **Very large images** — a 48MP RAW-equivalent JPEG from a modern iPhone can
+  be 25–40MB and 8000×6000px. Processing these synchronously in a web request
+  will hit PHP memory limits. Set `memory_limit` generously (256MB+) or cap
+  input resolution by downsampling on upload to a max of 4000px on the longest
+  edge before storage.
+- **Corrupted or truncated files** — `exif_read_data()` can throw warnings or
+  fatal errors on malformed files. Always wrap in a try/catch and suppress PHP
+  warnings with `@exif_read_data()`.
+- **Files with wrong extensions** — detect MIME type from file content using
+  `finfo_file()`, not the file extension. Never trust the extension alone.
+
+### EXIF issues
+- **EXIF orientation** — iPhones store photos in native sensor orientation and
+  rely on EXIF orientation tag to tell software how to rotate for display. If
+  you ignore this tag, portrait photos display sideways. Intervention Image's
+  `orientate()` method fixes this automatically — call it on every image.
+- **Timezone-naive EXIF timestamps** — EXIF DateTime has no timezone. A photo
+  taken at "2026-06-15 10:30:00" could be any timezone. Store as-is, display
+  as-is. Do not attempt timezone conversion unless the GPS coordinates are
+  present and you reverse-geocode the timezone — that's post-MVP complexity.
+- **Missing EXIF entirely** — screenshots, images edited in third-party apps,
+  and images shared via WhatsApp/iMessage before uploading often have all EXIF
+  stripped. The `exif_taken_at` column must be nullable. Always fall back to
+  `created_at` for display purposes.
+- **GPS coordinates in DMS format** — EXIF stores GPS as degrees/minutes/seconds
+  in a nested array, not decimal degrees. `ExifExtractor` must convert:
+  `DD + (MM/60) + (SS/3600)`, with sign flipped for S/W hemispheres.
+
+### Upload experience issues
+- **Multiple file selection on iOS Safari** — older iOS versions only allow
+  selecting one file at a time from the file picker even with `multiple`
+  attribute. Workaround: allow repeated single uploads, show a clear "Add more
+  photos" button after each upload. iOS 15+ handles multiple selection properly.
+- **Large file upload timeouts** — mobile uploads on slow event WiFi can time
+  out on large files. Set generous PHP `max_execution_time` and `upload_max_filesize`
+  limits. Consider chunked upload for files over 10MB (more complex, post-MVP).
+- **Background tab throttling** — if the user switches apps while uploading,
+  the browser may throttle or pause the JS fetch requests. Show a "keep this
+  page open" notice during active uploads.
+- **Duplicate uploads** — same photo uploaded twice (by same or different
+  person). No deduplication in MVP. Consider a file hash (`md5` or `sha256`)
+  stored on `media_files` for future duplicate detection.
+
+### Storage and serving issues
+- **Signed URL expiry** — if you use signed S3/R2 URLs for display, they expire.
+  Don't store signed URLs in the database — generate them at display time with
+  a TTL (e.g. 1 hour). Cache them briefly in the session if needed.
+- **Storage costs at scale** — a busy church event with 50 photographers uploading
+  10 photos each is 500 files, manageable. A large conference could be 5000+
+  files at 5–10MB each = 25–50GB in a single event. Plan R2 costs accordingly.
+  Consider storing at reduced resolution (max 4000px) rather than original size.
+- **Public vs signed URLs** — if you use public R2 URLs (no signing), anyone
+  with the URL can access the file forever. Signed URLs expire but add latency.
+  For event photos this is probably fine with public URLs, but confirm with the
+  organization's privacy expectations.
+
+### Crop-specific issues
+- **Crop coordinates drift** — Cropper.js returns coordinates relative to the
+  image as displayed in the browser, not the original file dimensions. Must
+  scale: `actual_x = display_x * (original_width / display_width)`. Easy to
+  get wrong, worth a careful test.
+- **Upscaling small photos** — if someone uploads a 800×600px photo and requests
+  a 1080×1080 Instagram crop, Intervention Image will upscale, producing a
+  blurry result. Warn the user if the source resolution is too low for the
+  requested output dimensions.
+- **JPEG compression artifacts on re-crop** — if a crop is saved as JPEG at
+  low quality and then re-cropped, artifacts compound. Always crop from the
+  original stored file, never from a previously saved crop. The stored
+  `crop_x/y/w/h` coordinates reference the original.
+
+### Security issues
+- **File content spoofing** — a malicious actor could rename a PHP file as
+  `.jpg` and upload it. Always validate MIME type from file content with
+  `finfo_file()` AND check the file can be opened as an image with Intervention
+  Image before storing. Reject anything that fails either check.
+- **Path traversal** — generate your own filename on the server (UUID + .jpg),
+  never use the original filename as the storage path. The original filename
+  can be stored in the `file_name` column for display purposes only.
+- **Zip bombs** — a crafted ZIP-within-JPEG (polyglot file) could be uploaded.
+  The Intervention Image open check catches most of these since they can't be
+  parsed as a valid image.
 
 ---
 
