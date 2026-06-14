@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,8 +42,17 @@ class Conversation extends Model
         return $this->hasOne(Message::class)->latestOfMany();
     }
 
+    public function scopeDirect(Builder $query): Builder
+    {
+        return $query->where('conversation_type', 'Direct');
+    }
+
     public function url(): string
     {
+        if ($this->conversation_type === 'Direct') {
+            return route('conversations.show', $this);
+        }
+
         $subject = $this->subject;
 
         if (! $subject) {

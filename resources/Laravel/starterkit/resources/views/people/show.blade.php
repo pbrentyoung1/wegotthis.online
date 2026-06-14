@@ -54,11 +54,21 @@
                                     </div>
                                 </div>
                                 {{-- Quick actions --}}
-                                @if ($profile->user?->email)
-                                    <a class="btn btn-sm bg-light text-default-700 mb-1" href="mailto:{{ $profile->user->email }}">
-                                        <i class="iconify tabler--mail me-1.5 size-4"></i>Send email
-                                    </a>
-                                @endif
+                                <div class="mb-1 flex flex-wrap gap-2">
+                                    @if ($profile->id !== $currentProfile->id)
+                                        <form action="{{ route('messages.store', $profile) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-sm bg-primary text-white hover:bg-primary-hover" type="submit">
+                                                <i class="iconify tabler--message me-1.5 size-4"></i>Send message
+                                            </button>
+                                        </form>
+                                    @endif
+                                    @if ($profile->user?->email)
+                                        <a class="btn btn-sm bg-light text-default-700" href="mailto:{{ $profile->user->email }}">
+                                            <i class="iconify tabler--mail me-1.5 size-4"></i>Send email
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DeliverableController;
+use App\Http\Controllers\DirectMessageController;
 use App\Http\Controllers\DeliverableConversationController;
 use App\Http\Controllers\DeliverableLinkController;
 use App\Http\Controllers\MinistryRequestController;
@@ -85,6 +86,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/triage/requests/{ministryRequest}/convert', [TriageRequestController::class, 'convert'])->name('triage.convert');
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
     Route::get('/people/{profile}', [PeopleDirectoryController::class, 'show'])->name('people.show');
+    Route::post('/messages/{profile}', [DirectMessageController::class, 'store'])->name('messages.store');
+    Route::get('/conversations/{conversation}', [DirectMessageController::class, 'show'])->name('conversations.show');
+    Route::post('/conversations/{conversation}/reply', [DirectMessageController::class, 'reply'])->name('conversations.reply');
     Route::get('/users/create', [UserInviteController::class, 'create'])->name('users.create');
     Route::post('/users', [UserInviteController::class, 'store'])->name('users.store');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
