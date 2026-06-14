@@ -440,12 +440,254 @@ Added to `vite.config.js` input array.
 
 ---
 
+---
+
+## Social Media Crops
+
+### Overview
+
+Staff click a photo in the grid, open the detail panel, and crop it to exact
+platform dimensions without leaving ForWorship. The original file is never
+modified — each crop is saved as a separate derived file linked to the original.
+Cropper.js (already installed for avatar/banner upload) handles the browser-side
+crop UI. Intervention Image handles server-side resize to exact pixel dimensions.
+
+### User flow
+
+1. Click photo in grid → detail panel opens
+2. Click "Crop for social" → crop tool opens with platform preset selector
+3. Select platform (e.g. "Instagram Square") → aspect ratio locks automatically
+4. Drag/zoom the crop box to frame the shot
+5. Click "Save crop" → server crops and resizes, saves derived file
+6. Crop appears in the "Crops for social" section of the detail panel
+7. Download individual crop or all crops as a zip
+
+Staff can re-open and adjust any crop at any time. Previously saved crop
+coordinates are restored so they can fine-tune rather than start over.
+
+### Platform presets
+
+| Platform | Format | Aspect ratio | Output dimensions |
+|---|---|---|---|
+| Instagram square | Post | 1:1 | 1080×1080 |
+| Instagram portrait | Post | 4:5 | 1080×1350 |
+| Instagram story / Reel | Story | 9:16 | 1080×1920 |
+| Facebook post | Feed | 1.91:1 | 1200×630 |
+| Facebook banner | Cover | 205:78 | 820×312 |
+| Facebook story | Story | 9:16 | 1080×1920 |
+| Twitter/X post | Feed | 16:9 | 1200×675 |
+| YouTube thumbnail | Thumbnail | 16:9 | 1280×720 |
+| LinkedIn post | Feed | 1.91:1 | 1200×627 |
+| Website hero | Custom | 16:5 | 1600×500 |
+
+Presets stored as a config array (`config/media_crops.php`) so new platforms
+can be added without code changes.
+
+### Database: `media_file_crops`
+
+```sql
+id                BIGINT PK
+media_file_id     FK → media_files
+organization_id   FK → organizations
+platform          VARCHAR(50)       -- "instagram_square", "facebook_banner", etc.
+label             VARCHAR(100)      -- "Instagram Square (1:1)"
+file_path         VARCHAR(500)      -- S3/R2 path to the cropped/resized file
+width             INTEGER           -- final output width in px
+height            INTEGER           -- final output height in px
+crop_x            INTEGER           -- crop origin x on original image
+crop_y            INTEGER           -- crop origin y on original image
+crop_w            INTEGER           -- crop width on original image
+crop_h            INTEGER           -- crop height on original image
+created_at / updated_at
+```
+
+Storing `crop_x/y/w/h` against the original image dimensions means the crop
+can be re-opened and adjusted at any time. If the original is ever re-uploaded
+or re-processed, crops can be regenerated.
+
+### New routes
+
+```php
+Route::post('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops', [MediaCropController::class, 'store'])->name('deliverables.media.crops.store');
+Route::get('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops/{crop}/download', [MediaCropController::class, 'download'])->name('deliverables.media.crops.download');
+Route::delete('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops/{crop}', [MediaCropController::class, 'destroy'])->name('deliverables.media.crops.destroy');
+Route::get('/projects/{project}/deliverables/{deliverable}/media/{mediaFile}/crops/download-all', [MediaCropController::class, 'downloadAll'])->name('deliverables.media.crops.download-all');
+```
+
+### `app/Http/Controllers/MediaCropController.php`
+
+**`store(Request $request, ..., MediaFile $mediaFile): JsonResponse`**
+- Validates: `platform` (must exist in config), `crop_x`, `crop_y`, `crop_w`,
+  `crop_h` (all integers), `original_width`, `original_height`
+- Verifies org scope
+- Scales crop coordinates to actual image dimensions (Cropper.js sends
+  coordinates relative to the displayed size, not the original pixel size)
+- Uses Intervention Image to crop then resize to platform output dimensions
+- Stores derived file to S3/R2 under
+  `media/{org_id}/{deliverable_id}/crops/{media_file_id}/{platform}.jpg`
+- Creates or updates `MediaFileCrop` record (upsert by media_file_id + platform)
+- Returns JSON with crop URL for immediate preview update
+
+**`download`** — streams single crop file
+
+**`destroy`** — deletes crop from storage and DB
+
+**`downloadAll`** — streams zip of all crops for this media file using
+ZipStream-PHP
+
+### `app/Models/MediaFileCrop.php`
+
+- Belongs to `MediaFile`, belongs to `Organization`
+- `url()` — signed S3/R2 URL
+- `platformLabel(): string` — human-readable label from config
+- `aspectRatio(): string` — e.g. "1:1", "16:9"
+
+### `app/Services/ImageCropService.php`
+
+Handles the server-side crop + resize operation:
+
+```php
+public function cropAndResize(
+    string $sourcePath,
+    int $cropX, int $cropY, int $cropW, int $cropH,
+    int $outputWidth, int $outputHeight
+): string  // returns path to temp output file
+```
+
+- Uses Intervention Image
+- Crops from source at given coordinates
+- Resizes to exact output dimensions (no letterboxing — fill)
+- Returns path to temp file for upload to S3/R2
+- Cleans up temp file after upload
+
+### `config/media_crops.php`
+
+```php
+return [
+    'instagram_square' => [
+        'label'  => 'Instagram Square',
+        'format' => 'Post',
+        'width'  => 1080,
+        'height' => 1080,
+    ],
+    'instagram_portrait' => [
+        'label'  => 'Instagram Portrait',
+        'format' => 'Post',
+        'width'  => 1080,
+        'height' => 1350,
+    ],
+    'instagram_story' => [
+        'label'  => 'Instagram Story / Reel',
+        'format' => 'Story',
+        'width'  => 1080,
+        'height' => 1920,
+    ],
+    'facebook_post' => [
+        'label'  => 'Facebook Post',
+        'format' => 'Feed',
+        'width'  => 1200,
+        'height' => 630,
+    ],
+    'facebook_banner' => [
+        'label'  => 'Facebook Banner',
+        'format' => 'Cover',
+        'width'  => 820,
+        'height' => 312,
+    ],
+    'facebook_story' => [
+        'label'  => 'Facebook Story',
+        'format' => 'Story',
+        'width'  => 1080,
+        'height' => 1920,
+    ],
+    'twitter_post' => [
+        'label'  => 'Twitter / X Post',
+        'format' => 'Feed',
+        'width'  => 1200,
+        'height' => 675,
+    ],
+    'youtube_thumbnail' => [
+        'label'  => 'YouTube Thumbnail',
+        'format' => 'Thumbnail',
+        'width'  => 1280,
+        'height' => 720,
+    ],
+    'linkedin_post' => [
+        'label'  => 'LinkedIn Post',
+        'format' => 'Feed',
+        'width'  => 1200,
+        'height' => 627,
+    ],
+    'website_hero' => [
+        'label'  => 'Website Hero',
+        'format' => 'Custom',
+        'width'  => 1600,
+        'height' => 500,
+    ],
+];
+```
+
+### JavaScript (`resources/js/pages/photo-crop.js`)
+
+- Loads Cropper.js (already installed)
+- On platform select: sets `aspectRatio` on the Cropper instance to match
+  the selected preset
+- On "Save crop": reads `getData()` from Cropper (returns x, y, width, height,
+  scaleX, scaleY relative to original), POSTs to `crops.store` endpoint
+- On success: updates the crop list in the detail panel without page reload
+- On "Re-crop": loads existing crop coordinates via `setData()` to restore
+  the previous crop position
+
+### Detail panel UI (crops section)
+
+```
+Crops for social
+────────────────────────────────────────
+Instagram Square (1:1)    [✓ Saved]  [Re-crop]  [↓]
+Facebook Post (1.91:1)    [Crop now]
+Facebook Banner           [Crop now]
+Instagram Story (9:16)    [✓ Saved]  [Re-crop]  [↓]
++ All other presets collapsed by default
+
+[↓ Download all crops]
+```
+
+Saved crops show a small thumbnail preview inline. Unsaved presets show a
+"Crop now" button. Clicking expands the crop tool inline (or in a modal) with
+that preset's aspect ratio locked.
+
+### Libraries required (all already planned)
+
+| Need | Library |
+|---|---|
+| Browser crop UI | Cropper.js (already installed) |
+| Server-side crop + resize | `intervention/image` (already planned) |
+| Streaming zip of all crops | `maennchen/zipstream-php` (already planned) |
+
+No new dependencies required.
+
+### Test cases (additions to `PhotoCollectionTest.php`)
+
+29. Staff can save a crop for a valid platform preset
+30. Crop coordinates are scaled correctly from display size to original pixel size
+31. Output file matches expected dimensions for each platform
+32. Re-cropping updates the existing record (upsert, not duplicate)
+33. Staff can download a single crop
+34. Download all crops produces a zip with one file per saved crop
+35. Staff can delete a crop
+36. Invalid platform name rejected (not in config)
+
+---
+
 ## Deferred
 
 - Thumbnail generation (store originals for MVP, generate thumbs later with
   a queue job or on-demand via image transformation service)
+- Text overlay / caption burn onto cropped image (event name, church branding)
+- Saved crop templates per platform with brand-consistent positioning
 - AI tagging / auto-labeling of photo content
-- Direct posting to social platforms from the media grid
+- Direct publish to social platform APIs (Facebook Graph, Instagram Basic
+  Display) — significant scope, well post-MVP
 - Face detection / people tagging
 - Duplicate detection (same image uploaded twice)
 - Watermarking
