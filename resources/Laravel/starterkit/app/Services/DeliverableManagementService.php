@@ -203,7 +203,7 @@ class DeliverableManagementService
                     'subject_id' => $deliverable->id,
                     'title' => "Needs approval: {$deliverable->title}",
                     'body' => 'Review the deliverable and approve it or request changes.',
-                    'action_url' => route('deliverables.show', [$deliverable->project, $deliverable]),
+                    'action_url' => route('deliverables.show', [$deliverable->project, $deliverable], false),
                     'metadata_json' => ['round_number' => $roundNumber],
                 ]);
             }

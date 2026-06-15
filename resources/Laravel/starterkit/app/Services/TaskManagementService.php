@@ -123,7 +123,7 @@ class TaskManagementService
             'subject_id' => $task->id,
             'title' => "Needs approval: {$task->title}",
             'body' => 'Review the submitted work, then move the task to Done or return it to active work.',
-            'action_url' => route('tasks.show', [$deliverable->project, $deliverable, $task]),
+            'action_url' => route('tasks.show', [$deliverable->project, $deliverable, $task], false),
         ]);
     }
 
@@ -196,7 +196,7 @@ class TaskManagementService
                 'subject_id' => $task->id,
                 'title' => "{$state}: {$task->title}",
                 'body' => $body,
-                'action_url' => route('tasks.show', [$project, $deliverable, $task]),
+                'action_url' => route('tasks.show', [$project, $deliverable, $task], false),
                 'metadata_json' => ['blocker_type' => $task->blocker_type],
             ]);
         }
