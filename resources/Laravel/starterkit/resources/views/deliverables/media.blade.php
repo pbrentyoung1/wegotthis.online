@@ -22,13 +22,20 @@
                         </a>
 
                         @if ($deliverable->upload_slug)
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm text-default-500">Upload link:</span>
-                                <code class="text-sm bg-light px-2 py-1 rounded">{{ $deliverable->uploadUrl() }}</code>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <a
+                                    class="btn btn-sm bg-light text-default-700 hover:bg-default-200 inline-flex items-center gap-1.5"
+                                    href="{{ $deliverable->uploadUrl() }}"
+                                    target="_blank"
+                                >
+                                    <i class="iconify tabler--external-link size-4"></i>Upload page
+                                </a>
                                 <button
-                                    class="btn btn-sm bg-light text-default-700"
-                                    onclick="navigator.clipboard.writeText('{{ $deliverable->uploadUrl() }}').then(() => this.textContent = 'Copied!')"
-                                >Copy</button>
+                                    class="btn btn-sm bg-light text-default-700 hover:bg-default-200 inline-flex items-center gap-1.5"
+                                    onclick="navigator.clipboard.writeText('{{ $deliverable->uploadUrl() }}').then(() => { this.querySelector('span').textContent = 'Copied!'; setTimeout(() => this.querySelector('span').textContent = 'Copy link', 2000) })"
+                                >
+                                    <i class="iconify tabler--link size-4"></i><span>Copy link</span>
+                                </button>
                                 @if ($canManage)
                                     <form action="{{ route('deliverables.media.toggle-open', [$project, $deliverable]) }}" method="POST" class="inline">
                                         @csrf @method('PATCH')
