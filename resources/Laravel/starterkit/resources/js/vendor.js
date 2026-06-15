@@ -11,6 +11,7 @@
 */
 
 import "preline"
+import "cropperjs/dist/cropper.css"
 
 import "simplebar"
 

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\ImageManager;
 
 class ImageCropService
@@ -35,7 +36,7 @@ class ImageCropService
         int $outputWidth,
         int $outputHeight
     ): string {
-        $image = $this->manager->read($sourcePath);
+        $image = $this->manager->decodePath($sourcePath);
 
         // Apply EXIF orientation before cropping
         $image->orient();
@@ -44,7 +45,23 @@ class ImageCropService
         $image->resize($outputWidth, $outputHeight);
 
         $tempPath = sys_get_temp_dir().'/fw_crop_'.uniqid().'.jpg';
-        $image->toJpeg(92)->save($tempPath);
+        $image->encode(new JpegEncoder(92))->save($tempPath);
+
+        return $tempPath;
+    }
+
+    /**
+     * Generate a thumbnail fitting within maxWidth × maxHeight, preserving aspect ratio.
+     * Returns path to temp output file (caller must delete after use).
+     */
+    public function generateThumbnail(string $sourcePath, int $maxWidth = 600, int $maxHeight = 600): string
+    {
+        $image = $this->manager->decodePath($sourcePath);
+        $image->orient();
+        $image->scaleDown($maxWidth, $maxHeight);
+
+        $tempPath = sys_get_temp_dir().'/fw_thumb_'.uniqid().'.jpg';
+        $image->encode(new JpegEncoder(80))->save($tempPath);
 
         return $tempPath;
     }
@@ -55,11 +72,11 @@ class ImageCropService
      */
     public function orientate(string $sourcePath): string
     {
-        $image = $this->manager->read($sourcePath);
+        $image = $this->manager->decodePath($sourcePath);
         $image->orient();
 
         $tempPath = sys_get_temp_dir().'/fw_orient_'.uniqid().'.jpg';
-        $image->toJpeg(92)->save($tempPath);
+        $image->encode(new JpegEncoder(92))->save($tempPath);
 
         return $tempPath;
     }

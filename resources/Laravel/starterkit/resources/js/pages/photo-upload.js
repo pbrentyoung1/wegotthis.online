@@ -59,7 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(window.uploadUrl, {
                 method: 'POST',
-                headers: token ? { 'X-XSRF-TOKEN': token } : {},
+                headers: {
+                    'Accept': 'application/json',
+                    ...(token ? { 'X-XSRF-TOKEN': token } : {}),
+                },
                 body: formData,
             })
 

@@ -6,6 +6,7 @@ use App\Models\Deliverable;
 use App\Models\MediaFile;
 use App\Services\ExifExtractor;
 use App\Services\ImageConversionService;
+use App\Services\ImageCropService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -18,6 +19,7 @@ class PhotoUploadController extends Controller
     public function __construct(
         private readonly ImageConversionService $converter,
         private readonly ExifExtractor $exifExtractor,
+        private readonly ImageCropService $cropService,
     ) {}
 
     public function show(string $slug): View
@@ -47,7 +49,7 @@ class PhotoUploadController extends Controller
         RateLimiter::hit($key, 3600);
 
         $request->validate([
-            'file' => ['required', 'file', 'mimes:jpeg,jpg,png,webp,heic,heif', 'max:20480'],
+            'file' => ['required', 'file', 'mimetypes:image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif', 'max:20480'],
         ]);
 
         $uploadedFile = $request->file('file');
@@ -57,7 +59,11 @@ class PhotoUploadController extends Controller
 
         $convertedTempPath = null;
         try {
-            $normalized = $this->converter->normalize($tempPath, $originalMime);
+            try {
+                $normalized = $this->converter->normalize($tempPath, $originalMime);
+            } catch (\RuntimeException $e) {
+                return response()->json(['error' => $e->getMessage()], 422);
+            }
 
             if ($normalized['temp']) {
                 $convertedTempPath = $normalized['path'];
@@ -82,12 +88,28 @@ class PhotoUploadController extends Controller
             $disk = config('filesystems.media_disk', 'public');
             Storage::disk($disk)->put($storagePath, file_get_contents($normalizedPath));
 
+            // Generate thumbnail
+            $thumbnailPath = null;
+            $thumbTempPath = null;
+            try {
+                $thumbTempPath = $this->cropService->generateThumbnail($normalizedPath, 600, 600);
+                $thumbnailPath = 'media/'.$deliverable->organization_id.'/'.$deliverable->id.'/thumbs/'.basename($storagePath);
+                Storage::disk($disk)->put($thumbnailPath, file_get_contents($thumbTempPath));
+            } catch (\Throwable) {
+                $thumbnailPath = null; // fall back to full-res if thumbnail fails
+            } finally {
+                if ($thumbTempPath && file_exists($thumbTempPath)) {
+                    @unlink($thumbTempPath);
+                }
+            }
+
             MediaFile::create(array_merge($exif, [
                 'organization_id' => $deliverable->organization_id,
                 'deliverable_id'  => $deliverable->id,
                 'uploader_name'   => $request->input('uploader_name'),
                 'uploader_ip'     => $request->ip(),
                 'file_path'       => $storagePath,
+                'thumbnail_path'  => $thumbnailPath,
                 'file_name'       => $originalName,
                 'file_size'       => filesize($normalizedPath),
                 'mime_type'       => $normalizedMime,

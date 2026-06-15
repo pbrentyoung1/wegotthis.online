@@ -13,7 +13,7 @@ class MediaFile extends Model
     protected $fillable = [
         'organization_id', 'deliverable_id',
         'uploader_name', 'uploader_ip',
-        'file_path', 'file_name', 'file_size', 'mime_type',
+        'file_path', 'thumbnail_path', 'file_name', 'file_size', 'mime_type',
         'exif_taken_at', 'exif_gps_lat', 'exif_gps_lng',
         'exif_device_make', 'exif_device_model',
         'exif_width', 'exif_height', 'exif_orientation',
@@ -51,6 +51,12 @@ class MediaFile extends Model
     public function url(): string
     {
         return Storage::disk(config('filesystems.media_disk', 'public'))->url($this->file_path);
+    }
+
+    public function thumbnailUrl(): string
+    {
+        $path = $this->thumbnail_path ?? $this->file_path;
+        return Storage::disk(config('filesystems.media_disk', 'public'))->url($path);
     }
 
     public function displayTakenAt(): \Carbon\Carbon

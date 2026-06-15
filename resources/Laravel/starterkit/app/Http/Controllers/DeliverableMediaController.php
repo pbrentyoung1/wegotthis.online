@@ -89,8 +89,8 @@ class DeliverableMediaController extends Controller
         }
 
         $mediaFiles = $query->get();
-        $uploaders = $deliverable->mediaFiles()->distinct()->pluck('uploader_name')->filter()->sort()->values();
-        $allTags = $deliverable->mediaFiles()->pluck('tags')->flatten()->unique()->sort()->values();
+        $uploaders = $deliverable->mediaFiles()->reorder()->distinct()->pluck('uploader_name')->filter()->sort()->values();
+        $allTags = $deliverable->mediaFiles()->reorder()->pluck('tags')->flatten()->unique()->sort()->values();
         $canManage = $currentProfile->hasPermission('projects.manage') || $deliverable->owner_profile_id === $currentProfile->id;
 
         // Pre-build the JS data structure in PHP to avoid Blade parser issues with nested closures in @json()
@@ -98,6 +98,7 @@ class DeliverableMediaController extends Controller
             return [
                 'id'                => $f->id,
                 'url'               => $f->url(),
+                'thumbnail_url'     => $f->thumbnailUrl(),
                 'file_name'         => $f->file_name,
                 'uploader_name'     => $f->uploader_name,
                 'is_favorite'       => $f->is_favorite,
@@ -211,30 +212,48 @@ class DeliverableMediaController extends Controller
             $query->whereIn('id', $ids);
         }
 
-        $files = $query->get();
+        $files = $query->with('crops')->get();
         $disk = config('filesystems.media_disk', 'public');
         $safeName = str($deliverable->title)->slug()->value();
+        $include = $request->input('include', 'originals'); // originals | crops | both
 
-        $response = response()->stream(function () use ($files, $disk, $safeName) {
+        $response = response()->stream(function () use ($files, $disk, $safeName, $include) {
             $zip = new ZipStream(outputName: "{$safeName}-photos.zip");
 
             foreach ($files as $mediaFile) {
-                $path = Storage::disk($disk)->path($mediaFile->file_path);
+                $originalName = $mediaFile->file_name ?: basename($mediaFile->file_path);
 
-                if (! file_exists($path)) {
-                    continue;
+                // Add the original photo
+                if ($include !== 'crops') {
+                    $path = Storage::disk($disk)->path($mediaFile->file_path);
+
+                    if (file_exists($path)) {
+                        $annotatedPath = $this->metadataWriter->write($mediaFile, $path);
+                        $isTemp = $annotatedPath !== $path;
+
+                        $zip->addFileFromPath(fileName: $originalName, path: $annotatedPath);
+
+                        if ($isTemp && file_exists($annotatedPath)) {
+                            @unlink($annotatedPath);
+                        }
+                    }
                 }
 
-                $annotatedPath = $this->metadataWriter->write($mediaFile, $path);
-                $isTemp = $annotatedPath !== $path;
+                // Add crop files with platform prefix
+                if ($include !== 'originals') {
+                    foreach ($mediaFile->crops as $crop) {
+                        $cropPath = Storage::disk($disk)->path($crop->file_path);
 
-                $zip->addFileFromPath(
-                    fileName: $mediaFile->file_name ?: basename($mediaFile->file_path),
-                    path: $annotatedPath,
-                );
+                        if (! file_exists($cropPath)) {
+                            continue;
+                        }
 
-                if ($isTemp && file_exists($annotatedPath)) {
-                    @unlink($annotatedPath);
+                        $ext = pathinfo($originalName, PATHINFO_EXTENSION) ?: 'jpg';
+                        $base = pathinfo($originalName, PATHINFO_FILENAME);
+                        $cropName = $crop->platform.'-'.$base.'.'.$ext;
+
+                        $zip->addFileFromPath(fileName: $cropName, path: $cropPath);
+                    }
                 }
             }
 

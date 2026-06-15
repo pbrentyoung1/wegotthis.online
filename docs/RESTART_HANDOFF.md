@@ -1,6 +1,6 @@
 # Restart Handoff
 
-Last updated: 2026-06-12 (request-to-archived-project MVP foundation)
+Last updated: 2026-06-14 (Photo Collection + mobile device testing)
 
 ## Purpose
 
@@ -130,7 +130,7 @@ Clarification now preserves requester-visible questions and replies in a shared 
 
 Existing branding, asset, example, and external/Drive link references currently use the flexible `request_answers` foundation and are visible in requester and triage detail screens. This is intake context, not the future `asset_links` table or an upload system.
 
-Projects, Deliverables, Tasks, persisted activity events, reviews, external links, scheduling, and request-to-project conversion now exist. Full uploads and lightweight Campaign/Initiative conversion targets remain deferred.
+Projects, Deliverables, Tasks, persisted activity events, reviews, external links, scheduling, request-to-project conversion, and Photo Collection deliverable type now exist. Full Campaign/Initiative conversion targets remain deferred.
 
 ## Approved Request UX Sequence
 
@@ -303,6 +303,52 @@ The forms page loads `resources/js/pages/form-quilljs.js` via `@vite` in its `@s
 | Quill.js | Per-page `@vite(["resources/js/pages/form-quilljs.js"])` | Explicit element IDs |
 | Choices.js | Bundled in `app.js` | `data-choices` attribute |
 
+### Photo Collection Deliverable Type
+
+A Photo Collection deliverable type is implemented end-to-end.
+
+**Public upload** (`/upload/{slug}`):
+- No authentication required; accepts JPEG, PNG, WebP, GIF, HEIC/HEIF
+- EXIF extraction on ingest (taken-at, device, dimensions, aperture, shutter, ISO)
+- Rate-limited to 10 uploads per hour per IP
+- Upload open/close controlled by project team via `deliverable.upload_open` flag
+
+**Internal photo grid** (`/projects/{project}/deliverables/{deliverable}/media`):
+- Lazy-loaded thumbnail grid (currently serving full-resolution — thumbnail generation is the next improvement)
+- Sort by time taken, upload time, uploader, or favorites first
+- Filter by uploader, tag, favorites only, approved only (auto-submit `card mb-base` toolbar)
+- Download All dropdown: Originals / Crops only / Originals + Crops; crops named `{platform}-{filename}`; originals include IPTC metadata; ZIP streaming via `ZipStream`
+
+**Photo detail panel** (slide-in, JS-driven):
+- EXIF metadata display
+- Favorite and Approved for use toggles (grid thumbnail syncs without page refresh)
+- Caption and internal notes
+- Tags: add via Enter or comma-separated input, delete individually with × button
+- Delete photo (with confirmation)
+
+**Social crop tool** (full-screen modal):
+- 10 platform presets: Facebook Cover, Instagram Square, Twitter/X Header, LinkedIn Banner, YouTube Thumbnail, Pinterest Pin, TikTok Video, Story (9:16), Thumbnail (16:9), Web Banner
+- Cropper.js with zoom in/out; `getData(true)` returns natural-pixel coordinates (no server-side scaling)
+- `ImageCropService` using Intervention Image v4.1 (`decodePath`, `JpegEncoder`, `orient()` before crop)
+- Saved crops: scissors badge on grid thumbnail, auto-tag with platform label
+- Crop download and bulk crop zip via `MediaCropController`
+
+**Primary files:**
+- `app/Http/Controllers/PhotoUploadController.php`
+- `app/Http/Controllers/DeliverableMediaController.php`
+- `app/Http/Controllers/MediaCropController.php`
+- `app/Services/ImageCropService.php`
+- `app/Services/IptcMetadataWriter.php`
+- `app/Models/MediaFile.php`, `app/Models/MediaFileCrop.php`
+- `config/media_crops.php`
+- `resources/js/pages/photo-upload.js`
+- `resources/js/pages/photo-crop.js`
+- `resources/views/deliverables/media.blade.php`
+- `resources/views/upload/show.blade.php`
+- `tests/Feature/PhotoCollectionTest.php`, `tests/Feature/MediaCropTest.php`
+
+**Known limitation:** Cropper.js CSS must be imported in `vendor.js` (`import "cropperjs/dist/cropper.css"`) — without it, `.cropper-hidden` never hides the original `<img>`, causing double-image display in the crop tool.
+
 ### Inspinia CSS Loading Fix
 
 The starterkit previously imported all CSS through `resources/js/vendor.js`.
@@ -346,6 +392,13 @@ Primary working application routes:
 /projects/{project}/closeout guarded Project closeout
 /projects/{project}/deliverables/{deliverable} Deliverable workspace and review
 /projects/{project}/deliverables/{deliverable}/tasks/{task} Task workspace
+/projects/{project}/deliverables/{deliverable}/media Photo Collection grid (internal)
+/projects/{project}/deliverables/{deliverable}/media/download Zip download (originals/crops/both)
+/projects/{project}/deliverables/{deliverable}/media/{file}/update PATCH media file metadata
+/projects/{project}/deliverables/{deliverable}/media/{file}/favorite PATCH favorite toggle
+/projects/{project}/deliverables/{deliverable}/media/{file}/crop POST save social crop
+/projects/{project}/deliverables/{deliverable}/toggle-open PATCH upload open/close
+/upload/{slug}          Public photo upload page (no authentication required)
 /tasks                  My Tasks and actionable work alerts
 /calendar               My Schedule
 /project-types          Project Type template editor
@@ -418,6 +471,27 @@ http://127.0.0.1:8000/login
 
 Current servers may already be running in active terminal sessions. Check before starting duplicates.
 
+### Mobile / Device Testing
+
+To test from a phone or another device on the same network:
+
+1. Update `.env`:
+   ```
+   APP_URL=http://10.10.10.46:8000
+   VITE_HMR_HOST=10.10.10.46
+   ```
+2. Run `npm run build` (avoids needing Vite's port 5173 accessible on the network)
+3. Start the server with multiple workers (required for parallel asset serving):
+   ```bash
+   PHP_CLI_SERVER_WORKERS=8 php artisan serve --host=0.0.0.0 --port=8000 --no-reload
+   ```
+   The `--no-reload` flag is required for `PHP_CLI_SERVER_WORKERS` to take effect.
+4. Access from phone at `http://10.10.10.46:8000`
+
+When done, revert `.env` to `APP_URL=http://localhost:8000`, remove `VITE_HMR_HOST`, and restart the standard server.
+
+`vite.config.js` already reads `VITE_HMR_HOST` via `loadEnv` and sets `server.origin` so the Vite hot file uses the correct IP. This config is committed and safe — it falls back to `localhost` when the env var is absent.
+
 ## Verification Status
 
 Latest completed verification:
@@ -426,11 +500,11 @@ Latest completed verification:
 php artisan test
 ```
 
-Passed on 2026-06-12:
+Passed on 2026-06-14:
 
 ```text
-156 tests
-754 assertions
+179 tests (1 skipped — HEIC Imagick conversion)
+794 assertions
 ```
 
 ```bash
@@ -506,16 +580,17 @@ Department Leader submits a request
 
 Active sequence:
 
-1. Add unread/read state and inbox behavior to contextual conversations.
-2. Complete basic file/upload attachment handling while preserving the existing external-link foundation.
-3. Validate the complete request-to-archived-project loop across demo roles locally and in staging.
-4. Implement lightweight Campaign and Initiative conversion targets without building full planning modules.
-5. Connect clarification intent markers to Tasks and Calendar after the clarification-task workflow is designed.
-6. Add recurrence, external calendar sync, and broader capacity planning only after the core loop is stable.
+1. Add thumbnail generation for Photo Collection grid (currently serving full-resolution images — slow with large collections).
+2. Add unread/read state and inbox behavior to contextual conversations.
+3. Complete basic file/upload attachment handling while preserving the existing external-link foundation.
+4. Validate the complete request-to-archived-project loop across demo roles locally and in staging.
+5. Implement lightweight Campaign and Initiative conversion targets without building full planning modules.
+6. Connect clarification intent markers to Tasks and Calendar after the clarification-task workflow is designed.
+7. Add recurrence, external calendar sync, and broader capacity planning only after the core loop is stable.
 
 ## Recommended Next Slice
 
-The immediate next task is **conversation unread/read state and inbox behavior**, followed by finishing basic file/upload attachments.
+The immediate next task is **Photo Collection thumbnail generation** — the grid currently serves full-resolution images which is slow with 30+ photos. Generate resized thumbnails on upload (or on-demand) and serve those in the grid, reserving full-res for the detail panel and download.
 
 Requirements:
 

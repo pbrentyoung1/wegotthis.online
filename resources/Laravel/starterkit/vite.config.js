@@ -1,8 +1,17 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
+    const hmrHost = env.VITE_HMR_HOST || 'localhost';
+
+    return {
+    server: {
+        host: '0.0.0.0',
+        origin: `http://${hmrHost}:5173`,
+        hmr: { host: hmrHost },
+    },
     plugins: [
         laravel({
             input: [
@@ -25,4 +34,5 @@ export default defineConfig({
         }),
         tailwindcss()
     ],
+    };
 });

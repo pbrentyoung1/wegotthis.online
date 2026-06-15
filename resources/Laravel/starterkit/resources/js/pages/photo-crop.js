@@ -10,12 +10,16 @@ function openMediaDetail(id) {
 
     document.getElementById('modal-filename').textContent = file.file_name || 'Photo'
     renderModalBody(file)
-    document.getElementById('media-modal').classList.remove('hidden')
+    const modal = document.getElementById('media-modal')
+    modal.classList.remove('hidden')
+    modal.classList.add('flex')
     document.body.style.overflow = 'hidden'
 }
 
 function closeMediaDetail() {
-    document.getElementById('media-modal').classList.add('hidden')
+    const modal = document.getElementById('media-modal')
+    modal.classList.add('hidden')
+    modal.classList.remove('flex')
     document.body.style.overflow = ''
     currentId = null
 }
@@ -34,17 +38,28 @@ function renderModalBody(file) {
     if (file.exif_iso) exifLines.push(['ISO', file.exif_iso])
 
     const exifHtml = exifLines.length
-        ? `<div class="rounded-xl bg-default-50 p-3 space-y-1">
-            ${exifLines.map(([k, v]) => `
-                <div class="flex justify-between text-sm">
-                    <span class="text-default-400">${esc(k)}</span>
-                    <span class="text-default-700 font-medium">${esc(String(v))}</span>
-                </div>`).join('')}
+        ? `<div class="rounded-xl border border-default-200 overflow-hidden">
+                <button type="button"
+                    class="w-full flex items-center justify-between px-3 py-2 text-sm text-default-500 hover:bg-default-50 transition-colors"
+                    onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('i').classList.toggle('rotate-180')">
+                    <span class="font-medium">Photo details</span>
+                    <i class="iconify tabler--chevron-down size-4 transition-transform"></i>
+                </button>
+                <div class="hidden divide-y divide-default-100">
+                    ${exifLines.map(([k, v]) => `
+                        <div class="flex justify-between text-sm px-3 py-1.5">
+                            <span class="text-default-400">${esc(k)}</span>
+                            <span class="text-default-700 font-medium">${esc(String(v))}</span>
+                        </div>`).join('')}
+                </div>
             </div>`
         : ''
 
     const tagsHtml = file.tags.length
-        ? file.tags.map(t => `<span class="badge bg-primary/10 text-primary text-xs">${esc(t)}</span>`).join('')
+        ? file.tags.map(t => `<span class="inline-flex items-center gap-1 rounded-full bg-primary/10 text-primary text-xs px-2 py-0.5">
+            ${esc(t)}
+            <button type="button" class="hover:text-danger leading-none" onclick="removeTag(${file.id},'${esc(t)}')">&times;</button>
+          </span>`).join('')
         : '<span class="text-default-400 text-sm">No tags</span>'
 
     const cropsHtml = renderCropsSection(file)
@@ -55,7 +70,14 @@ function renderModalBody(file) {
         : ''
 
     body.innerHTML = `
-        <img alt="${esc(file.file_name)}" class="w-full rounded-xl object-contain max-h-64 bg-default-100" src="${esc(file.url)}" id="modal-image" />
+        <div class="relative group/thumb cursor-zoom-in" onclick="openLightbox('${esc(file.url)}','${esc(file.file_name)}')">
+            <img alt="${esc(file.file_name)}" class="w-full rounded-xl object-contain max-h-64 bg-default-100" src="${esc(file.url)}" id="modal-image" />
+            <div class="absolute inset-0 rounded-xl flex items-center justify-center bg-black/0 group-hover/thumb:bg-black/30 transition-colors">
+                <span class="opacity-0 group-hover/thumb:opacity-100 transition-opacity bg-black/60 text-white text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                    <i class="iconify tabler--zoom-in size-4"></i>View original
+                </span>
+            </div>
+        </div>
 
         ${exifHtml}
 
@@ -99,41 +121,36 @@ function renderCropsSection(file) {
     const savedCrops = {}
     file.crops.forEach(c => { savedCrops[c.platform] = c })
 
-    const presetRows = Object.entries(cropPresets).map(([key, preset]) => {
+    const options = Object.entries(cropPresets).map(([key, preset]) => {
         const saved = savedCrops[key]
-        const savedHtml = saved
-            ? `<img src="${esc(saved.url)}" class="size-10 rounded object-cover" alt="" />
-               <span class="text-xs text-success">Saved</span>
-               <button class="btn btn-xs bg-light text-default-600" onclick="openCropTool('${key}')">Re-crop</button>
-               <a class="btn btn-xs bg-light text-default-600" href="${esc(saved.url)}" download="${key}.jpg">↓</a>`
-            : `<button class="btn btn-xs bg-primary/10 text-primary" onclick="openCropTool('${key}')">Crop now</button>`
-
-        return `<div class="flex items-center gap-2 py-1.5 border-b border-default-100 last:border-0">
-            <span class="flex-1 text-sm">${esc(preset.label)} <span class="text-default-400 text-xs">${preset.width}×${preset.height}</span></span>
-            ${savedHtml}
-        </div>`
+        const label = `${preset.label} (${preset.width}×${preset.height})${saved ? ' ✓' : ''}`
+        return `<option value="${key}">${label}</option>`
     }).join('')
+
+    const savedRows = file.crops.length
+        ? file.crops.map(c => `
+            <div class="flex items-center gap-2 py-1.5 border-b border-default-100 last:border-0">
+                <img src="${esc(c.url)}" class="size-10 rounded object-cover shrink-0" alt="" />
+                <span class="flex-1 text-sm text-default-700">${esc(c.label)}</span>
+                <a class="btn btn-xs bg-light text-default-600" href="${esc(c.url)}" download="${c.platform}.jpg">
+                    <i class="iconify tabler--download size-3"></i>
+                </a>
+            </div>`).join('')
+        : ''
 
     return `
         <div>
             <h5 class="font-semibold text-sm mb-2">Crops for social</h5>
-            <div class="rounded-xl border border-default-200 px-3">${presetRows}</div>
-            <div class="hidden mt-4" id="crop-tool-wrapper">
-                <p class="text-sm font-medium mb-2" id="crop-tool-label"></p>
-                <div class="relative bg-default-900 rounded-xl overflow-hidden">
-                    <img id="crop-image-el" src="" class="max-h-80 w-full object-contain" />
-                </div>
-                <div class="flex gap-2 mt-3">
-                    <button class="btn btn-sm bg-primary text-white hover:bg-primary-hover" onclick="saveCrop()">Save crop</button>
-                    <button class="btn btn-sm bg-light text-default-600" onclick="cancelCrop()">Cancel</button>
-                </div>
-            </div>
+            <select class="form-select form-select-sm w-full" id="crop-platform-select" onchange="if(this.value) openCropTool(this.value)">
+                <option value="">Choose a format to crop…</option>
+                ${options}
+            </select>
+            ${savedRows ? `<div class="mt-3 rounded-xl border border-default-200 px-3">${savedRows}</div>` : ''}
         </div>
     `
 }
 
 async function openCropTool(platform) {
-    // Lazily load Cropper.js
     if (!window.Cropper) {
         const { default: CropperModule } = await import('cropperjs')
         window.Cropper = CropperModule
@@ -143,25 +160,40 @@ async function openCropTool(platform) {
     if (!file) return
 
     const preset = cropPresets[platform]
-    document.getElementById('crop-tool-label').textContent = `Cropping for ${preset.label} (${preset.width}×${preset.height})`
-    document.getElementById('crop-tool-wrapper').classList.remove('hidden')
 
-    const imgEl = document.getElementById('crop-image-el')
-    imgEl.src = file.url
-
-    // Destroy previous Cropper instance
     if (window._activeCropper) {
         window._activeCropper.destroy()
+        window._activeCropper = null
     }
 
-    imgEl.onload = () => {
-        window._activeCropper = new Cropper(imgEl, {
-            aspectRatio: preset.width / preset.height,
-            viewMode: 1,
-            autoCropArea: 0.8,
+    const cropModal = document.getElementById('crop-modal')
+    document.getElementById('crop-modal-label').textContent = `${preset.label} — ${preset.width}×${preset.height}px`
+    cropModal.style.display = 'flex'
+
+    const imgEl = document.getElementById('crop-image-el')
+
+    const initCropper = () => {
+        requestAnimationFrame(() => {
+            window._activeCropper = new window.Cropper(imgEl, {
+                aspectRatio: preset.width / preset.height,
+                viewMode: 1,
+                autoCropArea: 0.8,
+                checkCrossOrigin: false,
+            })
+            window._activeCropPlatform = platform
         })
-        window._activeCropPlatform = platform
     }
+
+    if (imgEl.src === file.url && imgEl.complete && imgEl.naturalWidth > 0) {
+        initCropper()
+    } else {
+        imgEl.addEventListener('load', initCropper, { once: true })
+        imgEl.src = file.url
+    }
+}
+
+function zoomCrop(ratio) {
+    window._activeCropper?.zoom(ratio)
 }
 
 function cancelCrop() {
@@ -169,7 +201,9 @@ function cancelCrop() {
         window._activeCropper.destroy()
         window._activeCropper = null
     }
-    document.getElementById('crop-tool-wrapper').classList.add('hidden')
+    document.getElementById('crop-modal').style.display = 'none'
+    const sel = document.getElementById('crop-platform-select')
+    if (sel) sel.value = ''
 }
 
 async function saveCrop() {
@@ -178,9 +212,7 @@ async function saveCrop() {
 
     const file = mediaData[currentId]
     const platform = window._activeCropPlatform
-    const cropData = cropper.getData(true) // rounded integers
-    const imageData = cropper.getImageData()
-    const canvasData = cropper.getCanvasData()
+    const cropData = cropper.getData(true) // coordinates in original image pixels
 
     const body = new URLSearchParams({
         _token: csrfToken,
@@ -189,10 +221,6 @@ async function saveCrop() {
         crop_y: cropData.y,
         crop_w: cropData.width,
         crop_h: cropData.height,
-        original_width: Math.round(imageData.naturalWidth),
-        original_height: Math.round(imageData.naturalHeight),
-        display_width: Math.round(imageData.width),
-        display_height: Math.round(imageData.height),
     })
 
     const resp = await fetch(file.crop_url, {
@@ -202,14 +230,29 @@ async function saveCrop() {
     })
 
     if (resp.ok) {
-        const crop = await resp.json()
-        // Update local data and re-render
+        const data = await resp.json()
         const existing = file.crops.findIndex(c => c.platform === platform)
-        if (existing >= 0) file.crops[existing] = crop
-        else file.crops.push(crop)
+        if (existing >= 0) file.crops[existing] = data
+        else file.crops.push(data)
+
+        if (data.tags) file.tags = data.tags
+
+        // Sync thumbnail crop badge
+        const card = document.querySelector(`[data-media-id="${file.id}"]`)
+        if (card) {
+            let badge = card.querySelector('.crop-badge')
+            if (!badge) {
+                badge = document.createElement('span')
+                badge.className = 'crop-badge absolute bottom-2 right-2 rounded-full bg-black/60 px-1.5 py-0.5 text-[10px] font-semibold text-white flex items-center gap-1'
+                card.appendChild(badge)
+            }
+            badge.innerHTML = `<i class="iconify tabler--scissors size-3"></i>${file.crops.length}`
+        }
 
         cancelCrop()
         renderModalBody(file)
+    } else {
+        alert('Crop failed. Please try again.')
     }
 }
 
@@ -235,22 +278,63 @@ async function patchField(id, field, value) {
     const file = mediaData[id]
     if (!file) return
 
-    const body = new URLSearchParams({ _token: csrfToken, _method: 'PATCH', [field]: value })
+    const serialized = typeof value === 'boolean' ? (value ? 1 : 0) : value
+    const body = new URLSearchParams({ _token: csrfToken, _method: 'PATCH', [field]: serialized })
     await fetch(file.update_url, { method: 'POST', body })
     file[field] = value
+
+    // Sync grid thumbnail DOM
+    if (field === 'is_favorite') {
+        const btn = document.querySelector(`[data-media-id="${id}"] button[onclick*="toggleFavorite"]`)
+        if (btn) {
+            btn.querySelector('i').className = `iconify ${value ? 'tabler--star-filled text-warning' : 'tabler--star text-default-400'} size-4`
+        }
+    }
+    if (field === 'approved_for_use') {
+        const card = document.querySelector(`[data-media-id="${id}"]`)
+        if (card) {
+            const badge = card.querySelector('.bg-success\\/90')
+            if (value && !badge) {
+                const span = document.createElement('span')
+                span.className = 'absolute top-2 left-2 rounded-full bg-success/90 px-1.5 py-0.5 text-[10px] font-semibold text-white'
+                span.textContent = 'Approved'
+                card.appendChild(span)
+            } else if (!value && badge) {
+                badge.remove()
+            }
+        }
+    }
+}
+
+async function removeTag(id, tag) {
+    const file = mediaData[id]
+    if (!file) return
+
+    file.tags = file.tags.filter(t => t !== tag)
+    await saveTags(id)
+    renderModalBody(file)
+}
+
+async function saveTags(id) {
+    const file = mediaData[id]
+    if (!file) return
+
+    const body = new URLSearchParams({ _token: csrfToken, _method: 'PATCH' })
+    file.tags.forEach(t => body.append('tags[]', t))
+    await fetch(file.update_url, { method: 'POST', body })
 }
 
 async function addTag(event, id) {
     if (event.key !== 'Enter') return
     const input = event.target
-    const tag = input.value.trim()
-    if (!tag) return
-
     const file = mediaData[id]
-    if (!file || file.tags.includes(tag)) return
+    if (!file) return
 
-    file.tags = [...file.tags, tag]
-    await patchField(id, 'tags[]', file.tags.join(','))
+    const newTags = input.value.split(',').map(t => t.trim()).filter(t => t && !file.tags.includes(t))
+    if (!newTags.length) return
+
+    file.tags = [...file.tags, ...newTags]
+    await saveTags(id)
     input.value = ''
     renderModalBody(file)
 }
@@ -278,7 +362,49 @@ function esc(str) {
     return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
 
+// Expose functions called from inline onclick attributes
+window.openMediaDetail = openMediaDetail
+window.closeMediaDetail = closeMediaDetail
+window.toggleFavorite = toggleFavorite
+window.openCropTool = openCropTool
+window.cancelCrop = cancelCrop
+window.saveCrop = saveCrop
+window.zoomCrop = zoomCrop
+window.patchField = patchField
+window.addTag = addTag
+window.removeTag = removeTag
+window.deleteMedia = deleteMedia
+
+function openLightbox(url, alt) {
+    const modal = document.getElementById('lightbox-modal')
+    const img = document.getElementById('lightbox-img')
+    img.src = url
+    img.alt = alt || ''
+    modal.classList.remove('hidden')
+    modal.classList.add('flex')
+    document.body.style.overflow = 'hidden'
+}
+
+function closeLightbox() {
+    const modal = document.getElementById('lightbox-modal')
+    modal.classList.add('hidden')
+    modal.classList.remove('flex')
+    // Restore scroll only if detail panel is also closed
+    if (document.getElementById('media-modal').classList.contains('hidden')) {
+        document.body.style.overflow = ''
+    }
+}
+
+window.openLightbox = openLightbox
+window.closeLightbox = closeLightbox
+
 // Close on Escape
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMediaDetail()
+    if (e.key === 'Escape') {
+        if (!document.getElementById('lightbox-modal').classList.contains('hidden')) {
+            closeLightbox()
+        } else {
+            closeMediaDetail()
+        }
+    }
 })

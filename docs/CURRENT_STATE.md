@@ -112,6 +112,22 @@ Track the actual state of the project so planning, design, and development work 
   - Unified FullCalendar My Schedule with bounded date-range JSON feeds and focused My Work, Projects, Production, Publishing, and Reviews views
   - Sortable Project Schedule with explicit Deliverable and Task sequence plus inline Project, Deliverable, publish, and Task date adjustments
   - Guarded Project closeout workflow that requires archived Deliverables, verifies final links/approvals/reusable context, preserves formatted closeout notes, and records the final archive timestamp
+- **Photo Collection** deliverable type (`869ead6` + subsequent session work):
+  - `media_files` and `media_file_crops` tables with organization scoping
+  - Public upload page at `/upload/{slug}` — no authentication required; accepts JPEG, PNG, WebP, GIF, HEIC/HEIF
+  - EXIF extraction on upload (taken-at, device make/model, dimensions, aperture, shutter, ISO)
+  - IPTC metadata written into zip downloads via `IptcMetadataWriter`
+  - Photo grid at `/projects/{project}/deliverables/{deliverable}/media` with lazy-loaded thumbnails
+  - Photo detail panel (slide-in): EXIF display, favorite/approved-for-use toggles, caption, internal notes, tags (add via Enter or comma-separated, delete individually), delete
+  - DOM-sync after panel changes: star icon and Approved badge on grid thumbnail update without page refresh
+  - Social crop tool: 10 platform presets (Facebook, Instagram, Twitter/X, LinkedIn, YouTube, Pinterest, TikTok, Story, Thumbnail, Banner) via Cropper.js; full-screen crop modal with zoom in/out
+  - `ImageCropService` using Intervention Image v4.1 (`decodePath`, `JpegEncoder`) with EXIF orientation correction before crop
+  - Saved crops show scissors badge (count) on grid thumbnails; auto-tag added with platform label on crop save
+  - Filter toolbar: compact `card mb-base` with inline sort, uploader, and tag `form-select-sm` controls (wrapped in `w-36` containers to override form-select width:100%), plus Favorites and Approved checkboxes — all auto-submit on change
+  - Download All dropdown (Preline `hs-dropdown`): Originals / Crops only / Originals + Crops; crops named `{platform}-{filename}`; originals include IPTC metadata; zip streaming via `ZipStream`
+  - Rate-limited public uploads (10 per hour per IP)
+  - Upload open/close toggle on deliverable (manages `upload_open` flag and `upload_slug`)
+  - 16 feature tests (15 pass, 1 skipped — HEIC conversion requires Imagick)
 
 ## ForWorship Theme and Branding Applied
 
@@ -193,8 +209,10 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - `php artisan migrate:fresh --seed` passes in `resources/Laravel/starterkit`.
 - The full Laravel test suite passes.
 - The starterkit Vite production build passes.
-- No Campaigns, Initiatives, skills model, recurrence, external calendar sync, uploads, unread inbox, or full capacity model has been implemented yet.
+- No Campaigns, Initiatives, skills model, recurrence, external calendar sync, unread inbox, or full capacity model has been implemented yet.
 - Persisted project activity events are implemented via the `project_activity_events` table.
 - No deployment pipeline exists yet.
+- Photo Collection file uploads use local/public disk storage; S3/R2 abstraction is deferred.
+- The Vite build works for both desktop dev and mobile device testing (see Local Testing section in RESTART_HANDOFF.md).
 
-Last updated: 2026-06-12 (request-to-archived-project MVP foundation)
+Last updated: 2026-06-14 (Photo Collection + mobile testing)

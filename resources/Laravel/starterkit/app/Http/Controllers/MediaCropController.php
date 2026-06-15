@@ -57,29 +57,22 @@ class MediaCropController extends Controller
         abort_unless($mediaFile->deliverable_id === $deliverable->id, 404);
 
         $data = $request->validate([
-            'platform'       => ['required', 'string', 'in:'.implode(',', array_keys(config('media_crops')))],
-            'crop_x'         => ['required', 'integer', 'min:0'],
-            'crop_y'         => ['required', 'integer', 'min:0'],
-            'crop_w'         => ['required', 'integer', 'min:1'],
-            'crop_h'         => ['required', 'integer', 'min:1'],
-            'original_width' => ['required', 'integer', 'min:1'],
-            'original_height'=> ['required', 'integer', 'min:1'],
-            'display_width'  => ['required', 'integer', 'min:1'],
-            'display_height' => ['required', 'integer', 'min:1'],
+            'platform' => ['required', 'string', 'in:'.implode(',', array_keys(config('media_crops')))],
+            'crop_x'   => ['required', 'integer', 'min:0'],
+            'crop_y'   => ['required', 'integer', 'min:0'],
+            'crop_w'   => ['required', 'integer', 'min:1'],
+            'crop_h'   => ['required', 'integer', 'min:1'],
         ]);
 
         $preset = config("media_crops.{$data['platform']}");
         $disk = config('filesystems.media_disk', 'public');
         $sourcePath = Storage::disk($disk)->path($mediaFile->file_path);
 
-        // Scale crop coordinates from display size to original pixel size
-        $scaleX = $data['original_width'] / $data['display_width'];
-        $scaleY = $data['original_height'] / $data['display_height'];
-
-        $cropX = (int) round($data['crop_x'] * $scaleX);
-        $cropY = (int) round($data['crop_y'] * $scaleY);
-        $cropW = (int) round($data['crop_w'] * $scaleX);
-        $cropH = (int) round($data['crop_h'] * $scaleY);
+        // Cropper.js getData() already returns coordinates in original image pixels — use directly
+        $cropX = $data['crop_x'];
+        $cropY = $data['crop_y'];
+        $cropW = $data['crop_w'];
+        $cropH = $data['crop_h'];
 
         $tempPath = $this->cropService->cropAndResize(
             $sourcePath,
@@ -112,6 +105,13 @@ class MediaCropController extends Controller
             ]
         );
 
+        // Auto-tag with the crop label
+        $tags = $mediaFile->tags ?? [];
+        if (! in_array($preset['label'], $tags, true)) {
+            $tags[] = $preset['label'];
+            $mediaFile->update(['tags' => $tags]);
+        }
+
         return response()->json([
             'id'       => $crop->id,
             'platform' => $crop->platform,
@@ -119,6 +119,7 @@ class MediaCropController extends Controller
             'url'      => $crop->url(),
             'width'    => $crop->width,
             'height'   => $crop->height,
+            'tags'     => $tags,
         ]);
     }
 
