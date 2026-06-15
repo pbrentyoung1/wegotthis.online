@@ -6,6 +6,7 @@ use App\Models\Profile;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 
 class PeopleDirectoryController extends Controller
@@ -81,6 +82,31 @@ class PeopleDirectoryController extends Controller
 
         $profile->load(['department', 'organization', 'user', 'roleAssignments.role']);
 
-        return view('people.show', compact('profile', 'currentProfile'));
+        return view('people.show', [
+            'profile' => $profile,
+            'currentProfile' => $currentProfile,
+            'canManageProfiles' => $currentProfile->hasPermission('profiles.manage'),
+        ]);
+    }
+
+    public function resetPassword(Request $request, Profile $profile): RedirectResponse
+    {
+        $currentProfile = $request->user()
+            ->profiles()
+            ->where('status', 'Active')
+            ->orderBy('id')
+            ->first();
+
+        abort_unless($currentProfile && $currentProfile->hasPermission('profiles.manage'), 403);
+        abort_if($profile->organization_id !== $currentProfile->organization_id, 403);
+        abort_unless($profile->user?->email, 422);
+
+        $status = Password::sendResetLink(['email' => $profile->user->email]);
+
+        if ($status === Password::RESET_LINK_SENT) {
+            return back()->with('status', "Password reset email sent to {$profile->user->email}.");
+        }
+
+        return back()->withErrors(['reset' => __($status)]);
     }
 }

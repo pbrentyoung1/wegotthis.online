@@ -101,6 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/people', [PeopleDirectoryController::class, 'index'])->name('people.index');
     Route::get('/people/{profile}', [PeopleDirectoryController::class, 'show'])->name('people.show');
+    Route::post('/people/{profile}/reset-password', [PeopleDirectoryController::class, 'resetPassword'])->name('people.reset-password');
     Route::post('/messages/{profile}', [DirectMessageController::class, 'store'])->name('messages.store');
     Route::get('/conversations/{conversation}', [DirectMessageController::class, 'show'])->name('conversations.show');
     Route::post('/conversations/{conversation}/reply', [DirectMessageController::class, 'reply'])->name('conversations.reply');
@@ -113,6 +114,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/settings/account', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/settings/account/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
     Route::post('/settings/account/banner', [ProfileController::class, 'updateBanner'])->name('profile.banner');
+    Route::post('/settings/account/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
     Route::get('/ui/typography', fn () => view('ui.typography'));
     Route::get('/ui/colors', fn () => view('ui.colors'));

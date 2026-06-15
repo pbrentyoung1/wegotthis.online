@@ -16,7 +16,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -110,6 +112,24 @@ class ProfileController extends Controller
         }
 
         return to_route('profile.edit')->with('status', 'Your profile has been updated.');
+    }
+
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', Password::min(8), 'confirmed'],
+        ]);
+
+        $user = $request->user();
+
+        if (! Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.'])->withInput();
+        }
+
+        $user->update(['password' => Hash::make($request->password)]);
+
+        return to_route('profile.edit')->with('status', 'Your password has been updated.');
     }
 
     public function updateAvatar(Request $request): JsonResponse

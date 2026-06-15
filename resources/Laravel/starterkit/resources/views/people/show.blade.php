@@ -127,6 +127,30 @@
                                     <p class="text-default-400 text-sm">Skills coming soon.</p>
                                 </div>
                             </div>
+
+                            @if ($canManageProfiles && $profile->user?->email)
+                                <div class="card border border-default-200">
+                                    <div class="card-header">
+                                        <h4 class="card-title text-default-600">Admin</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        @if (session('status'))
+                                            <div class="mb-3 rounded-lg bg-success/10 px-3 py-2 text-sm text-success">{{ session('status') }}</div>
+                                        @endif
+                                        @error('reset')
+                                            <div class="mb-3 rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{{ $message }}</div>
+                                        @enderror
+                                        <p class="text-sm text-default-500 mb-3">Send a password reset link to <strong>{{ $profile->user->email }}</strong>. They will receive an email with a link to set a new password.</p>
+                                        <form action="{{ route('people.reset-password', $profile) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-sm bg-warning/10 text-warning hover:bg-warning/20" type="submit"
+                                                onclick="return confirm('Send a password reset email to {{ $profile->user->email }}?')">
+                                                <i class="iconify tabler--key me-1.5 size-4"></i>Send password reset email
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Right: future widgets --}}

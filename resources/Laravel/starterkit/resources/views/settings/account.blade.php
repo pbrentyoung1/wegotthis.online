@@ -219,6 +219,39 @@
                             </div>
                         </form>
                     @endif
+
+                    {{-- Change password --}}
+                    <form action="{{ route('profile.password') }}" class="card mt-base" method="POST">
+                        @csrf
+                        <div class="card-header">
+                            <h4 class="card-title">Change password</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="grid grid-cols-1 gap-x-base gap-y-5 lg:grid-cols-3">
+                                <div>
+                                    <label class="form-label" for="current_password">Current password</label>
+                                    <input class="form-input @error('current_password') is-invalid @enderror" id="current_password" name="current_password" type="password" autocomplete="current-password" />
+                                    @error('current_password')
+                                        <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label class="form-label" for="password">New password</label>
+                                    <input class="form-input @error('password') is-invalid @enderror" id="password" name="password" type="password" autocomplete="new-password" />
+                                    @error('password')
+                                        <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label class="form-label" for="password_confirmation">Confirm new password</label>
+                                    <input class="form-input" id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer flex justify-end">
+                            <button class="btn bg-primary text-white hover:bg-primary-hover" type="submit">Update password</button>
+                        </div>
+                    </form>
                 </div>
             </main>
 
