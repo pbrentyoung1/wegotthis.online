@@ -32,7 +32,12 @@
                                 </a>
                                 <button
                                     class="btn btn-sm bg-light text-default-700 hover:bg-default-200 inline-flex items-center gap-1.5"
-                                    onclick="navigator.clipboard.writeText('{{ $deliverable->uploadUrl() }}').then(() => { this.querySelector('span').textContent = 'Copied!'; setTimeout(() => this.querySelector('span').textContent = 'Copy link', 2000) })"
+                                    onclick="
+                                        const url = '{{ $deliverable->uploadUrl() }}';
+                                        const btn = this;
+                                        const done = () => { btn.querySelector('span').textContent = 'Copied!'; setTimeout(() => btn.querySelector('span').textContent = 'Copy link', 2000); };
+                                        if (navigator.clipboard) { navigator.clipboard.writeText(url).then(done); }
+                                        else { const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); done(); }"
                                 >
                                     <i class="iconify tabler--link size-4"></i><span>Copy link</span>
                                 </button>
