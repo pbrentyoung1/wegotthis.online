@@ -46,6 +46,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
     Route::get('/calendar/events', [CalendarController::class, 'events'])->name('calendar.events');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/projects/{project}/board', [ProjectController::class, 'board'])->name('projects.board');
+    Route::patch('/projects/{project}/board/deliverables/{deliverable}', [ProjectController::class, 'boardMove'])->name('projects.board.move');
     Route::get('/projects/{project}/schedule', [ProjectScheduleController::class, 'show'])->name('projects.schedule');
     Route::patch('/projects/{project}/schedule/order', [ProjectScheduleController::class, 'reorder'])->name('projects.schedule.reorder');
     Route::patch('/projects/{project}/schedule/dates', [ProjectScheduleController::class, 'updateDates'])->name('projects.schedule.dates');

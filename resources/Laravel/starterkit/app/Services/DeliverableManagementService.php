@@ -328,6 +328,45 @@ class DeliverableManagementService
         return $deliverable->refresh();
     }
 
+    /**
+     * Free-form status move from the project board (drag and drop).
+     *
+     * This intentionally bypasses the strict lifecycle transition methods so a
+     * manager can re-organize the board quickly. Side effects tied to specific
+     * transitions (review rounds, delivery timestamps) are NOT applied here —
+     * those are driven from the deliverable detail screen. The change is still
+     * recorded as an activity event for the project history.
+     *
+     * @param  array<int, int>|null  $orderedIds  Deliverable ids in their new order within the target column.
+     */
+    public function updateBoardStatus(Deliverable $deliverable, DeliverableStatus $status, Profile $actor, ?array $orderedIds = null): Deliverable
+    {
+        return DB::transaction(function () use ($deliverable, $status, $actor, $orderedIds) {
+            $from = $deliverable->lifecycle_status;
+
+            if ($from !== $status) {
+                $deliverable->update(['lifecycle_status' => $status->value]);
+                $this->recordActivity(
+                    $deliverable,
+                    $actor,
+                    'deliverable_status_moved',
+                    "Moved \"{$deliverable->title}\" from {$from->value} to {$status->value} on the board.",
+                );
+            }
+
+            if ($orderedIds) {
+                foreach (array_values($orderedIds) as $index => $id) {
+                    Deliverable::query()
+                        ->where('project_id', $deliverable->project_id)
+                        ->where('id', $id)
+                        ->update(['sort_order' => $index]);
+                }
+            }
+
+            return $deliverable->refresh();
+        });
+    }
+
     public function addConversationMessage(Deliverable $deliverable, Profile $actor, array $data): Message
     {
         $conversation = $this->ensureConversation($deliverable, $actor);

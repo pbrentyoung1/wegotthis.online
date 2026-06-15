@@ -28,6 +28,7 @@ export default defineConfig(({ mode }) => {
                 'resources/js/pages/project-schedule.js',
                 'resources/js/pages/photo-upload.js',
                 'resources/js/pages/photo-crop.js',
+                'resources/js/pages/board.js',
                 'resources/js/vendor.js'
             ],
             refresh: true,

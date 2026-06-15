@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\DeliverableStatus;
 use App\Enums\ProjectStatus;
+use App\Models\Deliverable;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectActivityEvent;
+use App\Services\DeliverableManagementService;
 use App\Support\RichText;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -69,6 +73,62 @@ class ProjectController extends Controller
                 ->reject(fn (ProjectStatus $status) => in_array($status, [ProjectStatus::Closeout, ProjectStatus::Archived], true))
                 ->when(in_array($project->lifecycle_status, [ProjectStatus::Closeout->value, ProjectStatus::Archived->value], true), fn (Collection $statuses) => $statuses->push(ProjectStatus::from($project->lifecycle_status))),
         ]);
+    }
+
+    public function board(Request $request, Project $project): View
+    {
+        $currentProfile = $this->currentProfile($request);
+        $this->authorizeVisibleProject($project, $currentProfile);
+
+        $project->load([
+            'deliverables.deliverableType',
+            'deliverables.tasks',
+            'deliverables.ownerProfile',
+        ]);
+
+        $columns = collect(DeliverableStatus::cases())
+            ->reject(fn (DeliverableStatus $s) => $s === DeliverableStatus::Archived)
+            ->mapWithKeys(fn (DeliverableStatus $s) => [
+                $s->value => [
+                    'status' => $s,
+                    'deliverables' => $project->deliverables
+                        ->filter(fn ($d) => $d->lifecycle_status === $s)
+                        ->values(),
+                ],
+            ]);
+
+        return view('projects.board', [
+            'currentProfile' => $currentProfile,
+            'project' => $project,
+            'columns' => $columns,
+            'canManage' => $currentProfile->hasPermission('projects.manage')
+                || $project->owner_profile_id === $currentProfile->id,
+        ]);
+    }
+
+    public function boardMove(Request $request, Project $project, Deliverable $deliverable, DeliverableManagementService $service): JsonResponse
+    {
+        $currentProfile = $this->currentProfile($request);
+        $this->authorizeVisibleProject($project, $currentProfile);
+
+        abort_unless(
+            $currentProfile->hasPermission('projects.manage') || $project->owner_profile_id === $currentProfile->id,
+            403,
+        );
+        abort_unless($deliverable->project_id === $project->id, 404);
+
+        $validated = $request->validate([
+            'lifecycle_status' => ['required', Rule::enum(DeliverableStatus::class)],
+            'ordered_ids' => ['nullable', 'array'],
+            'ordered_ids.*' => ['integer'],
+        ]);
+
+        $status = DeliverableStatus::from($validated['lifecycle_status']);
+        abort_if($status === DeliverableStatus::Archived, 422, 'Deliverables cannot be archived from the board.');
+
+        $service->updateBoardStatus($deliverable, $status, $currentProfile, $validated['ordered_ids'] ?? null);
+
+        return response()->json(['status' => 'ok', 'lifecycle_status' => $status->value]);
     }
 
     public function updateStatus(Request $request, Project $project): RedirectResponse
