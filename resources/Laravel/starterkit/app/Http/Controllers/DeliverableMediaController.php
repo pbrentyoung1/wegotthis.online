@@ -122,10 +122,10 @@ class DeliverableMediaController extends Controller
                     'width'    => $c->width,
                     'height'   => $c->height,
                 ])->values()->all(),
-                'update_url'   => route('deliverables.media.update', [$project, $deliverable, $f]),
-                'favorite_url' => route('deliverables.media.favorite', [$project, $deliverable, $f]),
-                'delete_url'   => $canManage ? route('deliverables.media.destroy', [$project, $deliverable, $f]) : null,
-                'crop_url'     => $canManage ? route('deliverables.media.crops.store', [$project, $deliverable, $f]) : null,
+                'update_url'   => route('deliverables.media.update', [$project, $deliverable, $f], false),
+                'favorite_url' => route('deliverables.media.favorite', [$project, $deliverable, $f], false),
+                'delete_url'   => $canManage ? route('deliverables.media.destroy', [$project, $deliverable, $f], false) : null,
+                'crop_url'     => $canManage ? route('deliverables.media.crops.store', [$project, $deliverable, $f], false) : null,
             ];
         })->all();
 
