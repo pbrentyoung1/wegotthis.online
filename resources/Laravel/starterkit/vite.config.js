@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
                 'resources/js/pages/form-choice.js',
                 'resources/js/pages/form-quilljs.js',
                 'resources/js/pages/profile-image.js',
+                'resources/js/pages/project-view-switcher.js',
                 'resources/js/pages/rich-text.js',
                 'resources/js/pages/calendar.js',
                 'resources/js/pages/photo-upload.js',

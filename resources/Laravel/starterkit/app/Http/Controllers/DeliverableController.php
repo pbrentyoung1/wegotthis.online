@@ -10,6 +10,7 @@ use App\Models\Profile;
 use App\Models\Project;
 use App\Services\DeliverableManagementService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -121,7 +122,7 @@ class DeliverableController extends Controller
         return view('deliverables.edit', compact('currentProfile', 'project', 'deliverable', 'deliverableTypes', 'teamProfiles'));
     }
 
-    public function update(DeliverableFormRequest $request, Project $project, Deliverable $deliverable): RedirectResponse
+    public function update(DeliverableFormRequest $request, Project $project, Deliverable $deliverable): JsonResponse|RedirectResponse
     {
         $currentProfile = $this->currentProfile($request, $project);
         $this->authorizeManage($currentProfile);
@@ -129,7 +130,30 @@ class DeliverableController extends Controller
 
         $this->validateProfilesInOrg($request->validated(), $currentProfile);
 
-        $this->service->updateDeliverable($deliverable, $request->validated(), $currentProfile);
+        $deliverable = $this->service->updateDeliverable($deliverable, $request->validated(), $currentProfile)
+            ->load(['deliverableType', 'ownerProfile']);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Deliverable updated.',
+                'deliverable' => [
+                    'id' => $deliverable->id,
+                    'title' => $deliverable->title,
+                    'deliverable_type_id' => $deliverable->deliverable_type_id,
+                    'type' => $deliverable->deliverableType?->name ?: 'Deliverable',
+                    'owner_profile_id' => $deliverable->owner_profile_id,
+                    'owner' => $deliverable->ownerProfile?->display_name ?: 'Unassigned',
+                    'due_date_value' => $deliverable->due_date?->format('Y-m-d'),
+                    'due_date' => $deliverable->due_date?->format('M j, Y') ?: 'Not planned',
+                    'due_date_short' => $deliverable->due_date?->format('M j'),
+                    'publish_date_value' => $deliverable->publish_date?->format('Y-m-d'),
+                    'publish_date' => $deliverable->publish_date?->format('M j, Y') ?: 'Not planned',
+                    'attention_state' => $deliverable->attention_state,
+                    'audience' => $deliverable->audience,
+                    'desired_action' => $deliverable->desired_action,
+                ],
+            ]);
+        }
 
         return redirect()
             ->route('deliverables.show', [$project, $deliverable])

@@ -64,7 +64,7 @@ class CalendarScheduleTest extends TestCase
         $this->actingAs($jordan->user)
             ->get(route('projects.show', $project))
             ->assertOk()
-            ->assertSee('List')
+            ->assertSee('Overview')
             ->assertSee('Board')
             ->assertSee('Calendar');
 
@@ -72,7 +72,13 @@ class CalendarScheduleTest extends TestCase
             ->get(route('projects.board', $project))
             ->assertOk()
             ->assertSee('Swipe columns and use each card’s move action')
-            ->assertSee('Move to Planning');
+            ->assertSee('Move to Planning')
+            ->assertSee('board-deliverable-dialog')
+            ->assertSee('data-detail-trigger', false)
+            ->assertSee('data-task-trigger', false)
+            ->assertSee('Deliverable details')
+            ->assertSee('Edit')
+            ->assertDontSee('Open deliverable');
 
         $this->actingAs($jordan->user)
             ->get(route('projects.calendar', $project))
@@ -129,6 +135,29 @@ class CalendarScheduleTest extends TestCase
         $this->assertDatabaseHas('project_activity_events', [
             'deliverable_id' => $deliverable->id,
             'event_type' => 'deliverable_moved_to_planning',
+        ]);
+    }
+
+    public function test_manager_can_edit_deliverable_from_board_without_navigation(): void
+    {
+        [$project, $deliverable, $jordan] = $this->scenario();
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('deliverables.update', [$project, $deliverable]), [
+                'title' => 'Updated from board modal',
+                'owner_profile_id' => $jordan->id,
+                'due_date' => '2026-09-10',
+                'attention_state' => 'Needs Attention',
+            ])
+            ->assertOk()
+            ->assertJsonPath('message', 'Deliverable updated.')
+            ->assertJsonPath('deliverable.title', 'Updated from board modal')
+            ->assertJsonPath('deliverable.due_date_value', '2026-09-10');
+
+        $this->assertDatabaseHas('deliverables', [
+            'id' => $deliverable->id,
+            'title' => 'Updated from board modal',
+            'attention_state' => 'Needs Attention',
         ]);
     }
 

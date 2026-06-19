@@ -9,10 +9,6 @@
             <main>
                 @include("shared.partials.page-title", ["subtitle" => "Projects", "subtitleUrl" => route("projects.index"), "title" => $project->title])
                 <div class="container-fluid">
-                    <div class="mb-5">
-                        <a class="text-primary text-sm hover:underline" href="{{ route("projects.index") }}"><i class="iconify tabler--arrow-left me-1"></i>Back to projects</a>
-                    </div>
-
                     @include("auth.partials.messages")
                     @include("projects.partials.view-switcher", [
                         "activeView" => "list",
@@ -236,4 +232,8 @@
         </div>
     </div>
     @include("shared.partials.customizer")
+@endsection
+
+@section("scripts")
+    @vite(["resources/js/pages/project-view-switcher.js"])
 @endsection

@@ -1,6 +1,6 @@
 # Restart Handoff
 
-Last updated: 2026-06-14 (Photo Collection + mobile device testing)
+Last updated: 2026-06-19 (Board modal workflow + project view consolidation)
 
 ## Purpose
 
@@ -169,8 +169,11 @@ The following foundation is implemented and covered by focused tests:
 - Active blocker attention and review alerts resolve when their underlying condition clears while history remains in Project activity.
 - Deliverable Task time budgets roll up to Deliverables and Projects.
 - Shared Quill editors store restricted Delta JSON with legacy plain-text compatibility. Conversation editors include a lightweight Unicode emoji picker.
-- My Schedule uses FullCalendar with bounded, permission-aware feeds. Projects expose coordinated List, Board, and Calendar views over the same Deliverables and Tasks.
+- My Schedule uses FullCalendar with bounded, permission-aware feeds. Projects expose coordinated Overview, Board, and Calendar views over the same Deliverables and Tasks.
+- Project view switching uses one shared animated pill selector so the current workspace feels like one surface with multiple views.
 - The Project Board uses canonical lifecycle actions, desktop drag-and-drop, and explicit mobile move controls.
+- Board cards open an in-place deliverable modal instead of switching to a separate deliverable page.
+- Managers can edit core deliverable fields from that Board modal, and task rows drill into task details without leaving the Board.
 - Manual production sequence ordering has been removed from the UI; future dependencies/readiness modeling should replace it.
 - Project closeout requires archived Deliverables and a completed closeout checklist before final archive.
 - Stakeholder-facing review and conversation views do not expose internal Tasks, team discussion, or internal activity.

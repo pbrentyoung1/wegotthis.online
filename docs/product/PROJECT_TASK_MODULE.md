@@ -482,8 +482,9 @@ MVP should include:
 - Comments, activity feed, and basic files.
 - Closeout checklist.
 - Unified personal and filtered calendar views.
-- Coordinated Project List, Board, and Calendar views over the same Deliverables and Tasks.
+- Coordinated Project Overview, Board, and Calendar views over the same Deliverables and Tasks.
 - Lifecycle-safe Board actions with touch-friendly controls; drag-and-drop is an enhancement for pointer-based devices.
+- Board cards should open in-place detail workspaces so users can inspect deliverables, update core fields, and drill into tasks without losing board context.
 - Restricted Quill rich-text editing for narrative descriptions and responses.
 
 Post-MVP may include:

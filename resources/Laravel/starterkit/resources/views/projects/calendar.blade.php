@@ -68,5 +68,5 @@
 @endsection
 
 @section("scripts")
-    @vite(["resources/js/pages/calendar.js"])
+    @vite(["resources/js/pages/calendar.js", "resources/js/pages/project-view-switcher.js"])
 @endsection

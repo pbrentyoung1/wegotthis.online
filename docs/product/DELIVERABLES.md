@@ -13,6 +13,7 @@ Deliverables are the primary production and approval units in ForWorship Creativ
 - Deliverables must belong to a Project and should not stand alone.
 - Deliverables may have their own due dates, lifecycle stages, approvals, files/assets, briefs, readiness checks, budgets, and tasks.
 - Most approvals should attach to deliverables in MVP.
+- When deliverables are opened from the Project Board, details, core-field editing, and task drill-down should happen in place so users can stay in board context.
 - The canonical deliverable lifecycle is documented in `docs/product/DELIVERABLE_LIFECYCLE.md`.
 
 ## Canonical Deliverable Lifecycle

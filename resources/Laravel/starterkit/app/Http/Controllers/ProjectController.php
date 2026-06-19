@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\DeliverableStatus;
 use App\Enums\ProjectStatus;
 use App\Models\Deliverable;
+use App\Models\DeliverableType;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectActivityEvent;
@@ -87,7 +88,7 @@ class ProjectController extends Controller
 
         $project->load([
             'deliverables.deliverableType',
-            'deliverables.tasks',
+            'deliverables.tasks.assigneeProfile',
             'deliverables.ownerProfile',
         ]);
 
@@ -106,6 +107,16 @@ class ProjectController extends Controller
             'currentProfile' => $currentProfile,
             'project' => $project,
             'columns' => $columns,
+            'deliverableTypes' => DeliverableType::query()
+                ->where('organization_id', $project->organization_id)
+                ->where('is_active', true)
+                ->orderBy('name')
+                ->get(),
+            'teamProfiles' => Profile::query()
+                ->where('organization_id', $project->organization_id)
+                ->where('status', 'Active')
+                ->orderBy('display_name')
+                ->get(),
             'canManage' => $currentProfile->hasPermission('projects.manage')
                 || $project->owner_profile_id === $currentProfile->id,
         ]);
