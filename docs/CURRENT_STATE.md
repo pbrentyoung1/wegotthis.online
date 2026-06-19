@@ -110,7 +110,9 @@ Track the actual state of the project so planning, design, and development work 
   - Shared Quill rich-text editing for request narrative responses, Deliverable and Task descriptions, conversations, review notes, and closeout notes; content is stored as structured Delta JSON, rendered through a restricted safe renderer, and remains compatible with legacy plain text
   - Request and Deliverable conversation editors include a lightweight emoji picker that inserts Unicode emoji at the active Quill cursor without adding source-code editing or another editor dependency
   - Unified FullCalendar My Schedule with bounded date-range JSON feeds and focused My Work, Projects, Production, Publishing, and Reviews views
-  - Sortable Project Schedule with explicit Deliverable and Task sequence plus inline Project, Deliverable, publish, and Task date adjustments
+  - Coordinated Project List, Board, and Calendar views over the same Deliverables and Tasks
+  - Project Board uses lifecycle-safe forward actions, desktop drag-and-drop, and explicit touch/mobile move controls
+  - Project Calendar shows Project dates, Deliverable due/publish dates, and Task due dates; manual production sequence ordering has been removed from the UI pending dependency modeling
   - Guarded Project closeout workflow that requires archived Deliverables, verifies final links/approvals/reusable context, preserves formatted closeout notes, and records the final archive timestamp
 - **Photo Collection** deliverable type (`869ead6` + subsequent session work):
   - `media_files` and `media_file_crops` tables with organization scoping
@@ -215,4 +217,4 @@ Do not import the historical Inertia/Vue implementation or its duplicate `UserPr
 - Photo Collection file uploads use local/public disk storage; S3/R2 abstraction is deferred.
 - The Vite build works for both desktop dev and mobile device testing (see Local Testing section in RESTART_HANDOFF.md).
 
-Last updated: 2026-06-14 (Photo Collection + mobile testing)
+Last updated: 2026-06-19 (Project List / Board / Calendar consolidation)

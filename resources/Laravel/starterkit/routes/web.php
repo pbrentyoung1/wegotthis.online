@@ -2,18 +2,18 @@
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DeliverableController;
-use App\Http\Controllers\DeliverableMediaController;
-use App\Http\Controllers\MediaCropController;
-use App\Http\Controllers\PhotoUploadController;
-use App\Http\Controllers\DirectMessageController;
 use App\Http\Controllers\DeliverableConversationController;
 use App\Http\Controllers\DeliverableLinkController;
+use App\Http\Controllers\DeliverableMediaController;
+use App\Http\Controllers\DirectMessageController;
+use App\Http\Controllers\MediaCropController;
 use App\Http\Controllers\MinistryRequestController;
 use App\Http\Controllers\MyTaskController;
 use App\Http\Controllers\PeopleDirectoryController;
+use App\Http\Controllers\PhotoUploadController;
+use App\Http\Controllers\ProjectCalendarController;
 use App\Http\Controllers\ProjectCloseoutController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectScheduleController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\RequestConversationController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -23,6 +23,7 @@ use App\Http\Controllers\TaskLinkController;
 use App\Http\Controllers\TriageRequestController;
 use App\Http\Controllers\UserInviteController;
 use App\Models\ConversationParticipant;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ConversationParticipant::where('profile_id', $profile->id)
                 ->update(['last_read_at' => now()]);
         }
+
         return response()->noContent();
     })->name('topbar.conversations.read');
 
@@ -48,9 +50,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
     Route::get('/projects/{project}/board', [ProjectController::class, 'board'])->name('projects.board');
     Route::patch('/projects/{project}/board/deliverables/{deliverable}', [ProjectController::class, 'boardMove'])->name('projects.board.move');
-    Route::get('/projects/{project}/schedule', [ProjectScheduleController::class, 'show'])->name('projects.schedule');
-    Route::patch('/projects/{project}/schedule/order', [ProjectScheduleController::class, 'reorder'])->name('projects.schedule.reorder');
-    Route::patch('/projects/{project}/schedule/dates', [ProjectScheduleController::class, 'updateDates'])->name('projects.schedule.dates');
+    Route::get('/projects/{project}/calendar', [ProjectCalendarController::class, 'show'])->name('projects.calendar');
+    Route::get('/projects/{project}/calendar/events', [ProjectCalendarController::class, 'events'])->name('projects.calendar.events');
+    Route::patch('/projects/{project}/calendar/dates', [ProjectCalendarController::class, 'updateDates'])->name('projects.calendar.dates');
+    Route::get('/projects/{project}/schedule', fn (Project $project) => redirect()->route('projects.calendar', $project));
     Route::get('/projects/{project}/closeout', [ProjectCloseoutController::class, 'show'])->name('projects.closeout');
     Route::post('/projects/{project}/closeout/start', [ProjectCloseoutController::class, 'start'])->name('projects.closeout.start');
     Route::patch('/projects/{project}/closeout', [ProjectCloseoutController::class, 'update'])->name('projects.closeout.update');

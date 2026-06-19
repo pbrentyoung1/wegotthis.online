@@ -30,6 +30,11 @@
                                 </thead>
                                 <tbody class="divide-default-300 divide-y whitespace-nowrap">
                                     @forelse ($projects as $project)
+                                        @php($canUseProjectBoard = $currentProfile->hasPermission("projects.manage")
+                                            || $project->owner_profile_id === $currentProfile->id
+                                            || $project->members->contains(fn ($member) => $member->profile_id === $currentProfile->id && ! in_array($member->project_role, ["Stakeholder", "Reviewer"], true))
+                                            || $project->has_assigned_tasks)
+                                        @php($projectUrl = $canUseProjectBoard ? route("projects.board", $project) : route("projects.show", $project))
                                         <tr>
                                             <td>
                                                 <div class="flex items-center gap-3">
@@ -37,7 +42,7 @@
                                                         <i class="iconify tabler--briefcase text-xl"></i>
                                                     </div>
                                                     <div>
-                                                        <h5 class="hover:text-primary font-semibold"><a href="{{ route("projects.show", $project) }}">{{ $project->title }}</a></h5>
+                                                        <h5 class="hover:text-primary font-semibold"><a href="{{ $projectUrl }}">{{ $project->title }}</a></h5>
                                                         <p class="text-default-400 text-xs">{{ $project->project_type }} · owned by {{ $project->ownerProfile?->display_name ?: "Unassigned" }}</p>
                                                     </div>
                                                 </div>
@@ -57,7 +62,7 @@
                                             <td>{{ $project->deliverables_count }}</td>
                                             <td>{{ $project->department?->name ?: "Not selected" }}</td>
                                             <td>{{ $project->updated_at->diffForHumans() }}</td>
-                                            <td class="text-end"><a class="text-primary font-medium hover:underline" href="{{ route("projects.show", $project) }}">Open</a></td>
+                                            <td class="text-end"><a class="text-primary font-medium hover:underline" href="{{ $projectUrl }}">Open</a></td>
                                         </tr>
                                     @empty
                                         <tr>

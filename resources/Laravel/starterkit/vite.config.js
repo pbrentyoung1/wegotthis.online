@@ -25,7 +25,6 @@ export default defineConfig(({ mode }) => {
                 'resources/js/pages/profile-image.js',
                 'resources/js/pages/rich-text.js',
                 'resources/js/pages/calendar.js',
-                'resources/js/pages/project-schedule.js',
                 'resources/js/pages/photo-upload.js',
                 'resources/js/pages/photo-crop.js',
                 'resources/js/pages/board.js',

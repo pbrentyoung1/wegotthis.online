@@ -14,6 +14,12 @@
                     </div>
 
                     @include("auth.partials.messages")
+                    @include("projects.partials.view-switcher", [
+                        "activeView" => "list",
+                        "canViewInternalProject" => $canViewInternalTasks,
+                        "canManageProject" => $currentProfile->hasPermission("projects.manage"),
+                        "canCloseoutProject" => $currentProfile->hasPermission("projects.manage") || $project->owner_profile_id === $currentProfile->id,
+                    ])
 
                     <div class="grid grid-cols-1 gap-base lg:grid-cols-4 lg:gap-0">
                         <div class="lg:col-span-3">
@@ -41,13 +47,6 @@
                                             @endif
                                             <span class="badge badge-label bg-success/15 text-success">{{ $project->attention_state }}</span>
                                             <span class="badge badge-label bg-light text-default-500">{{ $project->project_type }}</span>
-                                            <a class="btn btn-sm bg-light text-default-600 hover:text-primary" href="{{ route("projects.board", $project) }}"><i class="iconify tabler--layout-kanban me-1"></i>Board</a>
-                                            @if ($canViewInternalTasks)
-                                                <a class="btn btn-sm bg-light text-default-600 hover:text-primary" href="{{ route("projects.schedule", $project) }}"><i class="iconify tabler--calendar-time me-1"></i>Project schedule</a>
-                                            @endif
-                                            @if ($currentProfile->hasPermission("projects.manage") || $project->owner_profile_id === $currentProfile->id)
-                                                <a class="btn btn-sm bg-light text-default-600 hover:text-primary" href="{{ route("projects.closeout", $project) }}"><i class="iconify tabler--archive me-1"></i>Closeout</a>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>

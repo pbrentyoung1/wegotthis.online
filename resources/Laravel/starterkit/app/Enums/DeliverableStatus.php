@@ -42,4 +42,26 @@ enum DeliverableStatus: string
             self::Approved => 'bg-success',
         };
     }
+
+    /**
+     * Statuses a manager may move to directly from the project board.
+     *
+     * The board follows the same forward lifecycle as the deliverable detail
+     * screen. Review decisions and archiving remain deliberate detail-screen
+     * actions because they require notes, reviewer identity, or closeout checks.
+     *
+     * @return array<int, self>
+     */
+    public function boardTargets(): array
+    {
+        return match ($this) {
+            self::Proposed => [self::Planning],
+            self::Planning => [self::InProduction],
+            self::InProduction, self::Revision => [self::ReadyForReview],
+            self::Approved => [self::Delivery],
+            self::Delivery => [self::PublishedRunning],
+            self::PublishedRunning => [self::Ended],
+            default => [],
+        };
+    }
 }

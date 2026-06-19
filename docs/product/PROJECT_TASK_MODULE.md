@@ -482,7 +482,8 @@ MVP should include:
 - Comments, activity feed, and basic files.
 - Closeout checklist.
 - Unified personal and filtered calendar views.
-- Sortable Project Schedule with inline date adjustments.
+- Coordinated Project List, Board, and Calendar views over the same Deliverables and Tasks.
+- Lifecycle-safe Board actions with touch-friendly controls; drag-and-drop is an enhancement for pointer-based devices.
 - Restricted Quill rich-text editing for narrative descriptions and responses.
 
 Post-MVP may include:

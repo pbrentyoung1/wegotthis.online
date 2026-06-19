@@ -34,6 +34,10 @@ class ProjectController extends Controller
                     ->orWhereHas('deliverables.tasks', fn (Builder $tasks) => $tasks->where('assigned_to_profile_id', $currentProfile->id))))
             ->with(['department', 'ownerProfile', 'members.profile'])
             ->withCount('deliverables')
+            ->withExists([
+                'deliverables as has_assigned_tasks' => fn (Builder $deliverables) => $deliverables
+                    ->whereHas('tasks', fn (Builder $tasks) => $tasks->where('assigned_to_profile_id', $currentProfile->id)),
+            ])
             ->latest('updated_at')
             ->paginate(15);
 
@@ -79,6 +83,7 @@ class ProjectController extends Controller
     {
         $currentProfile = $this->currentProfile($request);
         $this->authorizeVisibleProject($project, $currentProfile);
+        abort_unless($this->canViewInternalProject($project, $currentProfile), 403);
 
         $project->load([
             'deliverables.deliverableType',
@@ -87,7 +92,7 @@ class ProjectController extends Controller
         ]);
 
         $columns = collect(DeliverableStatus::cases())
-            ->reject(fn (DeliverableStatus $s) => $s === DeliverableStatus::Archived)
+            ->reject(fn (DeliverableStatus $s) => in_array($s, [DeliverableStatus::InReview, DeliverableStatus::Archived], true))
             ->mapWithKeys(fn (DeliverableStatus $s) => [
                 $s->value => [
                     'status' => $s,
@@ -106,7 +111,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function boardMove(Request $request, Project $project, Deliverable $deliverable, DeliverableManagementService $service): JsonResponse
+    public function boardMove(Request $request, Project $project, Deliverable $deliverable, DeliverableManagementService $service): JsonResponse|RedirectResponse
     {
         $currentProfile = $this->currentProfile($request);
         $this->authorizeVisibleProject($project, $currentProfile);
@@ -128,7 +133,15 @@ class ProjectController extends Controller
 
         $service->updateBoardStatus($deliverable, $status, $currentProfile, $validated['ordered_ids'] ?? null);
 
-        return response()->json(['status' => 'ok', 'lifecycle_status' => $status->value]);
+        if (! $request->expectsJson()) {
+            return back()->with('success', "Moved {$deliverable->title} to {$status->value}.");
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'lifecycle_status' => $status->value,
+            'allowed_targets' => collect($status->boardTargets())->map->value->all(),
+        ]);
     }
 
     public function updateStatus(Request $request, Project $project): RedirectResponse
@@ -238,5 +251,16 @@ class ProjectController extends Controller
         return $project->deliverables()
             ->whereHas('tasks', fn (Builder $tasks) => $tasks->where('assigned_to_profile_id', $profile->id))
             ->exists();
+    }
+
+    private function canViewInternalProject(Project $project, Profile $profile): bool
+    {
+        return $profile->hasPermission('projects.manage')
+            || $project->owner_profile_id === $profile->id
+            || $project->members()
+                ->where('profile_id', $profile->id)
+                ->whereNotIn('project_role', ['Stakeholder', 'Reviewer'])
+                ->exists()
+            || $this->isAssignedToProject($project, $profile);
     }
 }

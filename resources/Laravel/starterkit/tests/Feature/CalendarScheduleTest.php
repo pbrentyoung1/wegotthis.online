@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Enums\DeliverableStatus;
 use App\Enums\ProjectStatus;
 use App\Enums\TaskStatus;
-use App\Models\Deliverable;
 use App\Models\Organization;
 use App\Models\Profile;
 use App\Models\Project;
@@ -46,59 +45,91 @@ class CalendarScheduleTest extends TestCase
             ->assertJsonFragment(['id' => "project:{$project->id}:start"]);
     }
 
-    public function test_manager_can_reorder_project_deliverables_and_tasks(): void
+    public function test_project_list_board_and_calendar_are_connected_views(): void
     {
         [$project, $deliverable, $jordan] = $this->scenario();
-        $second = Deliverable::create([
-            'organization_id' => $project->organization_id,
-            'project_id' => $project->id,
-            'title' => 'Second deliverable',
-            'lifecycle_status' => 'Proposed',
-            'attention_state' => 'On Track',
-            'sort_order' => 1,
+        $project->update(['start_date' => '2026-08-01', 'stop_date' => '2026-08-31']);
+        $deliverable->update([
+            'owner_profile_id' => $jordan->id,
+            'due_date' => '2026-08-12',
+            'publish_date' => '2026-08-20',
         ]);
-        $firstTask = app(TaskManagementService::class)->create($deliverable, [
-            'title' => 'First task',
+        $task = app(TaskManagementService::class)->create($deliverable, [
+            'title' => 'Prepare project calendar artwork',
             'status' => TaskStatus::NotStarted->value,
             'priority' => 'Normal',
-        ], $jordan);
-        $secondTask = app(TaskManagementService::class)->create($deliverable, [
-            'title' => 'Second task',
-            'status' => TaskStatus::NotStarted->value,
-            'priority' => 'Normal',
+            'due_date' => '2026-08-10',
         ], $jordan);
 
         $this->actingAs($jordan->user)
-            ->get(route('projects.schedule', $project))
+            ->get(route('projects.show', $project))
             ->assertOk()
-            ->assertSee('Production sequence');
-
-        $deliverableIds = $project->deliverables()->pluck('id')->reject(fn (int $id) => $id === $second->id)->prepend($second->id)->values()->all();
-        $taskOrders = $project->deliverables()->get()->mapWithKeys(fn (Deliverable $item) => [
-            $item->id => $item->id === $deliverable->id
-                ? [$secondTask->id, $firstTask->id]
-                : $item->tasks()->pluck('id')->all(),
-        ])->all();
+            ->assertSee('List')
+            ->assertSee('Board')
+            ->assertSee('Calendar');
 
         $this->actingAs($jordan->user)
-            ->patchJson(route('projects.schedule.reorder', $project), [
-                'deliverable_ids' => $deliverableIds,
-                'task_orders' => $taskOrders,
-            ])
-            ->assertOk();
-
-        $this->assertSame($deliverableIds, $project->deliverables()->pluck('id')->all());
-        $this->assertSame([$secondTask->id, $firstTask->id], $deliverable->tasks()->pluck('id')->all());
+            ->get(route('projects.board', $project))
+            ->assertOk()
+            ->assertSee('Swipe columns and use each card’s move action')
+            ->assertSee('Move to Planning');
 
         $this->actingAs($jordan->user)
-            ->patch(route('projects.schedule.dates', $project), [
+            ->get(route('projects.calendar', $project))
+            ->assertOk()
+            ->assertSee('Project calendar')
+            ->assertDontSee('Production sequence');
+
+        $this->actingAs($jordan->user)
+            ->getJson(route('projects.calendar.events', [
+                'project' => $project,
+                'start' => '2026-08-01',
+                'end' => '2026-09-01',
+            ]))
+            ->assertOk()
+            ->assertJsonFragment(['id' => "project:{$project->id}:start"])
+            ->assertJsonFragment(['id' => "deliverable:{$deliverable->id}:due"])
+            ->assertJsonFragment(['id' => "task:{$task->id}:due"]);
+
+        $this->actingAs($jordan->user)
+            ->patch(route('projects.calendar.dates', $project), [
                 'source_type' => 'task',
-                'source_id' => $firstTask->id,
+                'source_id' => $task->id,
                 'due_date' => '2026-08-15',
             ])
             ->assertRedirect();
 
-        $this->assertSame('2026-08-15', $firstTask->fresh()->due_date->format('Y-m-d'));
+        $this->assertSame('2026-08-15', $task->fresh()->due_date->format('Y-m-d'));
+    }
+
+    public function test_board_uses_canonical_deliverable_lifecycle_actions(): void
+    {
+        [$project, $deliverable, $jordan] = $this->scenario();
+        $deliverable->update([
+            'owner_profile_id' => $jordan->id,
+            'due_date' => '2026-08-12',
+        ]);
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('projects.board.move', [$project, $deliverable]), [
+                'lifecycle_status' => DeliverableStatus::Approved->value,
+            ])
+            ->assertUnprocessable();
+
+        $this->assertSame(DeliverableStatus::Proposed, $deliverable->fresh()->lifecycle_status);
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('projects.board.move', [$project, $deliverable]), [
+                'lifecycle_status' => DeliverableStatus::Planning->value,
+            ])
+            ->assertOk()
+            ->assertJsonFragment(['lifecycle_status' => DeliverableStatus::Planning->value]);
+
+        $this->assertSame(DeliverableStatus::Planning, $deliverable->fresh()->lifecycle_status);
+        $this->assertDatabaseHas('project_activity_events', [
+            'deliverable_id' => $deliverable->id,
+            'event_type' => 'deliverable_moved_to_planning',
+        ]);
     }
 
     public function test_project_closeout_requires_archived_deliverables_and_complete_checklist(): void

@@ -169,7 +169,9 @@ The following foundation is implemented and covered by focused tests:
 - Active blocker attention and review alerts resolve when their underlying condition clears while history remains in Project activity.
 - Deliverable Task time budgets roll up to Deliverables and Projects.
 - Shared Quill editors store restricted Delta JSON with legacy plain-text compatibility. Conversation editors include a lightweight Unicode emoji picker.
-- My Schedule uses FullCalendar with bounded, permission-aware feeds. Project Schedule supports explicit Deliverable/Task ordering and inline date adjustments.
+- My Schedule uses FullCalendar with bounded, permission-aware feeds. Projects expose coordinated List, Board, and Calendar views over the same Deliverables and Tasks.
+- The Project Board uses canonical lifecycle actions, desktop drag-and-drop, and explicit mobile move controls.
+- Manual production sequence ordering has been removed from the UI; future dependencies/readiness modeling should replace it.
 - Project closeout requires archived Deliverables and a completed closeout checklist before final archive.
 - Stakeholder-facing review and conversation views do not expose internal Tasks, team discussion, or internal activity.
 
@@ -387,8 +389,9 @@ Primary working application routes:
 /triage/requests        organization-scoped Communications intake queue
 /triage/requests/{request} Communications triage detail and actions
 /projects               visible Projects list
-/projects/{project}     Project workspace
-/projects/{project}/schedule sortable Project Schedule
+/projects/{project}     Project List workspace
+/projects/{project}/board Project Deliverable board
+/projects/{project}/calendar Project-scoped calendar
 /projects/{project}/closeout guarded Project closeout
 /projects/{project}/deliverables/{deliverable} Deliverable workspace and review
 /projects/{project}/deliverables/{deliverable}/tasks/{task} Task workspace

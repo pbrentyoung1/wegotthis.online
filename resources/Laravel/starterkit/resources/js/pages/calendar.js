@@ -6,18 +6,24 @@ import timeGridPlugin from "@fullcalendar/timegrid"
 const element = document.getElementById("schedule-calendar")
 
 if (element) {
+    const mobile = window.matchMedia("(max-width: 767px)").matches
+    const filters = document.querySelectorAll("[data-calendar-filter]")
     const calendar = new Calendar(element, {
         plugins: [dayGridPlugin, listPlugin, timeGridPlugin],
-        initialView: "dayGridMonth",
+        initialView: mobile ? "listMonth" : "dayGridMonth",
         height: "auto",
         headerToolbar: {
-            left: "prev,next today",
+            left: mobile ? "prev,next" : "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,listMonth",
+            right: mobile ? "today" : "dayGridMonth,timeGridWeek,listMonth",
         },
         events: {
             url: element.dataset.eventsUrl,
-            extraParams: () => ({ view: document.querySelector("[data-calendar-filter].active")?.dataset.calendarFilter || "my" }),
+            extraParams: () => {
+                const activeFilter = document.querySelector("[data-calendar-filter].active")
+
+                return activeFilter ? { view: activeFilter.dataset.calendarFilter } : {}
+            },
         },
         eventClick: (info) => {
             if (info.event.url) {
@@ -28,9 +34,9 @@ if (element) {
     })
     calendar.render()
 
-    document.querySelectorAll("[data-calendar-filter]").forEach((button) => {
+    filters.forEach((button) => {
         button.addEventListener("click", () => {
-            document.querySelectorAll("[data-calendar-filter]").forEach((item) => item.classList.remove("active", "bg-primary", "text-white"))
+            filters.forEach((item) => item.classList.remove("active", "bg-primary", "text-white"))
             button.classList.add("active", "bg-primary", "text-white")
             calendar.refetchEvents()
         })

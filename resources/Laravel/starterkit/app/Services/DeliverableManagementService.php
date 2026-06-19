@@ -329,29 +329,31 @@ class DeliverableManagementService
     }
 
     /**
-     * Free-form status move from the project board (drag and drop).
-     *
-     * This intentionally bypasses the strict lifecycle transition methods so a
-     * manager can re-organize the board quickly. Side effects tied to specific
-     * transitions (review rounds, delivery timestamps) are NOT applied here —
-     * those are driven from the deliverable detail screen. The change is still
-     * recorded as an activity event for the project history.
+     * Move a deliverable from the board using the canonical lifecycle actions.
      *
      * @param  array<int, int>|null  $orderedIds  Deliverable ids in their new order within the target column.
      */
     public function updateBoardStatus(Deliverable $deliverable, DeliverableStatus $status, Profile $actor, ?array $orderedIds = null): Deliverable
     {
         return DB::transaction(function () use ($deliverable, $status, $actor, $orderedIds) {
-            $from = $deliverable->lifecycle_status;
+            if ($deliverable->lifecycle_status !== $status) {
+                if (! in_array($status, $deliverable->lifecycle_status->boardTargets(), true)) {
+                    throw ValidationException::withMessages([
+                        'lifecycle_status' => "Move this deliverable forward from {$deliverable->lifecycle_status->value} using an available board action.",
+                    ]);
+                }
 
-            if ($from !== $status) {
-                $deliverable->update(['lifecycle_status' => $status->value]);
-                $this->recordActivity(
-                    $deliverable,
-                    $actor,
-                    'deliverable_status_moved',
-                    "Moved \"{$deliverable->title}\" from {$from->value} to {$status->value} on the board.",
-                );
+                $deliverable = match ($status) {
+                    DeliverableStatus::Planning => $this->moveToPlanningStatus($deliverable, $actor),
+                    DeliverableStatus::InProduction => $this->startProduction($deliverable, $actor),
+                    DeliverableStatus::ReadyForReview => $this->submitForReview($deliverable, $actor),
+                    DeliverableStatus::Delivery => $this->startDelivery($deliverable, $actor),
+                    DeliverableStatus::PublishedRunning => $this->markPublished($deliverable, $actor, null),
+                    DeliverableStatus::Ended => $this->endDeliverable($deliverable, $actor),
+                    default => throw ValidationException::withMessages([
+                        'lifecycle_status' => 'This lifecycle action must be completed from the deliverable workspace.',
+                    ]),
+                };
             }
 
             if ($orderedIds) {

@@ -41,8 +41,10 @@ These are views over shared date-based records, not separate engines.
 - Calendar data is normalized from existing Project, Deliverable, Task, and Deliverable Review records.
 - The JSON endpoint requires a bounded date range and respects Project visibility.
 - Available filters are My Work, Projects, Production, Publishing, and Reviews.
-- Project Schedule provides a separate sortable production sequence for Deliverables and Tasks.
-- Project owners and managers can adjust Project, Deliverable, publish, and Task dates from Project Schedule.
+- Each Project exposes List, Board, and Calendar as coordinated views over the same Deliverables and Tasks.
+- The Project Calendar shows the Project window, Deliverable due/publish dates, and Task due dates.
+- Project owners and managers can adjust the Project window from the Project Calendar. Deliverable and Task dates remain editable in their own workspaces.
+- Manual production sequence ordering is no longer a primary planning surface. Future dependency and readiness modeling should express work order more accurately.
 - A separate materialized calendar-items table, recurrence, drag-to-reschedule, and external calendar sync remain deferred.
 
 ## Calendar API Principle

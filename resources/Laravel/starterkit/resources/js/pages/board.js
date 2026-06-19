@@ -10,7 +10,8 @@ import Sortable from "sortablejs"
  */
 function initBoard() {
     const board = document.querySelector("[data-board]")
-    if (!board) {
+    const supportsDrag = window.matchMedia("(min-width: 768px) and (pointer: fine)").matches
+    if (!board || !supportsDrag) {
         return
     }
 
@@ -28,6 +29,14 @@ function initBoard() {
             dragClass: "board-card-drag",
             forceFallback: true,
             fallbackOnBody: true,
+            onMove: (evt) => {
+                const card = evt.dragged
+                const targetStatus = evt.to.getAttribute("data-status")
+                const currentStatus = card.getAttribute("data-current-status")
+                const allowedTargets = (card.getAttribute("data-allowed-targets") || "").split("|").filter(Boolean)
+
+                return targetStatus === currentStatus || allowedTargets.includes(targetStatus)
+            },
             onStart: () => board.classList.add("is-dragging"),
             onEnd: (evt) => {
                 board.classList.remove("is-dragging")
@@ -69,8 +78,13 @@ async function handleDrop(board, evt, token) {
         })
 
         if (!response.ok) {
-            throw new Error(`Board update failed (${response.status})`)
+            const payload = await response.json().catch(() => null)
+            throw new Error(payload?.message || `Board update failed (${response.status})`)
         }
+
+        const payload = await response.json()
+        card.setAttribute("data-current-status", payload.lifecycle_status)
+        card.setAttribute("data-allowed-targets", (payload.allowed_targets || []).join("|"))
     } catch (error) {
         console.error(error)
         // Reload to restore a server-consistent state if the save failed.
