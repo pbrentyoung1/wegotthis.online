@@ -1,7 +1,7 @@
 <a class="auth-logo mb-6" href="{{ url("/") }}">
-    {{-- Light mode --}}
-    <span class="flex dark:hidden overflow-hidden text-[#1c1c1e]">
-        <svg class="h-20 max-w-full" fill="currentColor" viewBox="0 0 410.77 239.43" xmlns="http://www.w3.org/2000/svg" aria-label="ForWorship Creative">
+    {{-- Light mode (pass $invert=true to show cream logo on dark backgrounds) --}}
+    <span class="flex dark:hidden overflow-hidden {{ ($invert ?? false) ? 'text-[#f7f4ee]' : 'text-[#1c1c1e]' }}">
+        <svg class="{{ $logoClass ?? 'h-20' }} max-w-full" fill="currentColor" viewBox="0 0 410.77 239.43" xmlns="http://www.w3.org/2000/svg" aria-label="ForWorship Creative">
             <rect x="349.38" y="160.94" width="9.05" height="11.71"/>
             <path d="M410.77,196.66v5.41c-.92,6.34-4.15,12.06-9.22,15.45-5.88,3.93-12.83,4.59-19.19,2.18-2.52-.96-4.43-2.4-6.37-4.47l-.02,24.22-8.88-.02v-60.97s8.87-.02,8.87-.02l.11,5.56c2.68-2.88,5.6-4.94,9.23-5.79,12.76-2.99,23.98,5.84,25.48,18.46ZM402.11,199.29c0-7.42-6.01-13.43-13.43-13.43s-13.43,6.01-13.43,13.43,6.01,13.43,13.43,13.43,13.43-6.01,13.43-13.43Z"/>
             <path d="M0,182.64v-4.18l7.21-.08c.17-6.83-.93-16.09,7.09-18.32,2.78-.77,5.57-.91,8.43-.83v4.36c-4.21.23-9.43-.19-10.3,5.26-.5,3.15-.41,6.3-.36,9.57l10.69.03-.03,4.25-10.69.05v37.5s-4.8-.02-4.8-.02v-37.49s-7.23-.08-7.23-.08Z"/>
