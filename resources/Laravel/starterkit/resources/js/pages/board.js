@@ -1,4 +1,5 @@
 import Sortable from "sortablejs"
+import Swal from "sweetalert2"
 
 /**
  * Project board drag-and-drop.
@@ -40,12 +41,97 @@ function initBoard() {
             onStart: () => board.classList.add("is-dragging"),
             onEnd: (evt) => {
                 board.classList.remove("is-dragging")
+                if (shouldBlockProductionMove(evt)) {
+                    revertMove(evt)
+                    syncEmptyStates(board)
+                    updateCounts(board)
+                    window.setTimeout(() => {
+                        dispatchProductionReadiness(evt.item)
+                    }, 0)
+                    return
+                }
                 handleDrop(board, evt, token)
             },
         })
     })
 
     syncEmptyStates(board)
+}
+
+function showBoardAlert(board, message) {
+    const alert = board.closest(".card")?.querySelector("[data-board-alert]")
+    if (!alert) {
+        return
+    }
+
+    alert.textContent = message
+    alert.classList.remove("hidden")
+}
+
+function hideBoardAlert(board) {
+    const alert = board.closest(".card")?.querySelector("[data-board-alert]")
+    if (!alert) {
+        return
+    }
+
+    alert.textContent = ""
+    alert.classList.add("hidden")
+}
+
+function isCardReadyForProduction(card) {
+    return card.getAttribute("data-owner-ready") === "true" && card.getAttribute("data-due-ready") === "true"
+}
+
+function productionReadinessMessage(card) {
+    const hasOwner = card.getAttribute("data-owner-ready") === "true"
+    const hasDueDate = card.getAttribute("data-due-ready") === "true"
+
+    if (!hasOwner && !hasDueDate) {
+        return "Set an owner and due date before moving this deliverable to In Production."
+    }
+
+    if (!hasOwner) {
+        return "Set an owner before moving this deliverable to In Production."
+    }
+
+    return "Set a due date before moving this deliverable to In Production."
+}
+
+function shouldBlockProductionMove(evt) {
+    const card = evt.item
+    const currentStatus = card.getAttribute("data-current-status")
+    const targetStatus = evt.to.getAttribute("data-status")
+
+    if (evt.to === evt.from || currentStatus !== "Planning" || targetStatus !== "In Production") {
+        return false
+    }
+
+    return !isCardReadyForProduction(card)
+}
+
+function dispatchProductionReadiness(card) {
+    const editUrl = card.getAttribute("data-edit-url")
+    const title = "More information needed"
+    const text = "Deliverables need an owner and due date to be considered In Production."
+
+    Swal.fire({
+        title,
+        text,
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "Add information",
+        cancelButtonText: "Cancel",
+        buttonsStyling: false,
+        customClass: {
+            popup: "rounded-3xl",
+            confirmButton: "btn bg-primary text-white hover:bg-primary-hover me-2",
+            cancelButton: "btn bg-light text-default-700",
+        },
+    }).then((result) => {
+        if (result.isConfirmed && editUrl) {
+            window.location.href = editUrl
+        }
+    })
 }
 
 function initDeliverableDetails() {
@@ -68,9 +154,13 @@ function initDeliverableDetails() {
         content.replaceChildren(template.content.cloneNode(true))
     }
 
-    const openDetails = (trigger) => {
+    const openDetails = (trigger, options = {}) => {
         returnFocus = trigger
-        renderDeliverable(trigger.dataset.detailTrigger)
+        renderDeliverable(options.deliverableId || trigger.dataset.detailTrigger)
+        const workspace = content.querySelector("[data-deliverable-workspace]")
+        if (workspace && options.panel) {
+            switchPanel(workspace, options.panel)
+        }
         dialog.showModal()
     }
 
@@ -99,11 +189,40 @@ function initDeliverableDetails() {
             : ""
     }
 
+    const showTaskErrors = (form, errors) => {
+        if (!form) {
+            return
+        }
+
+        const container = form.querySelector("[data-task-form-errors]")
+        if (!container) {
+            return
+        }
+
+        const messages = Object.values(errors || {}).flat()
+        container.innerHTML = messages.length
+            ? `<div class="rounded-xl bg-danger/10 p-4 text-sm text-danger">${messages.map((message) => `<p>${escapeHtml(message)}</p>`).join("")}</div>`
+            : ""
+    }
+
+    const toggleTaskForm = (container, expanded) => {
+        const panel = container?.querySelector("[data-task-form-panel]")
+        if (!panel) {
+            return
+        }
+
+        panel.classList.toggle("hidden", !expanded)
+    }
+
     const updateDeliverableUi = (deliverable) => {
         const card = document.querySelector(`[data-card][data-deliverable-id="${deliverable.id}"]`)
         card?.querySelector("[data-card-title]")?.replaceChildren(deliverable.title)
         card?.querySelector("[data-card-type]")?.replaceChildren(deliverable.type)
         card?.querySelector("[data-card-due]")?.replaceChildren(deliverable.due_date_short || "")
+        if (card) {
+            card.setAttribute("data-owner-ready", deliverable.owner_profile_id ? "true" : "false")
+            card.setAttribute("data-due-ready", deliverable.due_date_value ? "true" : "false")
+        }
 
         const updateWorkspace = (workspace) => {
             if (!workspace) {
@@ -123,17 +242,29 @@ function initDeliverableDetails() {
                 attention.classList.toggle("hidden", deliverable.attention_state === "On Track")
             }
 
-            const form = workspace.querySelector("[data-deliverable-edit-form]")
-            if (form) {
+            workspace.querySelectorAll("[data-deliverable-edit-form]").forEach((form) => {
                 form.elements.title.value = deliverable.title
                 form.elements.deliverable_type_id.value = deliverable.deliverable_type_id || ""
                 form.elements.owner_profile_id.value = deliverable.owner_profile_id || ""
+                if (form.elements.internal_reviewer_profile_id) {
+                    form.elements.internal_reviewer_profile_id.value = deliverable.internal_reviewer_profile_id || ""
+                }
+                if (form.elements.stakeholder_reviewer_profile_id) {
+                    form.elements.stakeholder_reviewer_profile_id.value = deliverable.stakeholder_reviewer_profile_id || ""
+                }
                 form.elements.due_date.value = deliverable.due_date_value || ""
                 form.elements.publish_date.value = deliverable.publish_date_value || ""
                 form.elements.audience.value = deliverable.audience || ""
                 form.elements.desired_action.value = deliverable.desired_action || ""
+                if (form.elements.description) {
+                    form.elements.description.value = deliverable.description_value || ""
+                }
+                if (form.elements.purpose) {
+                    form.elements.purpose.value = deliverable.purpose_value || ""
+                }
                 form.elements.attention_state.value = deliverable.attention_state
-            }
+            })
+
         }
 
         updateWorkspace(content.querySelector("[data-deliverable-workspace]"))
@@ -166,6 +297,23 @@ function initDeliverableDetails() {
         if (panelButton) {
             const workspace = panelButton.closest("[data-deliverable-workspace]")
             switchPanel(workspace, panelButton.dataset.workspacePanelButton)
+            return
+        }
+
+        const taskFormToggle = event.target.closest("[data-task-form-toggle]")
+        if (taskFormToggle) {
+            const section = taskFormToggle.closest("[data-task-form-container]")
+            toggleTaskForm(section, true)
+            section?.querySelector("[data-task-create-form] input[name='title']")?.focus()
+            return
+        }
+
+        const taskFormCancel = event.target.closest("[data-task-form-cancel]")
+        if (taskFormCancel) {
+            const section = taskFormCancel.closest("[data-task-form-container]")
+            section?.querySelector("[data-task-create-form]")?.reset()
+            showTaskErrors(section?.querySelector("[data-task-create-form]"), {})
+            toggleTaskForm(section, false)
             return
         }
 
@@ -215,10 +363,94 @@ function initDeliverableDetails() {
             const success = workspace.querySelector("[data-save-success]")
             success.textContent = payload.message
             success.classList.remove("hidden")
-            switchPanel(workspace, "overview")
+            switchPanel(workspace, form.dataset.savePanel || "overview")
             window.setTimeout(() => success.classList.add("hidden"), 2200)
         } catch (error) {
             showErrors(form, { save: ["The deliverable could not be saved. Please try again."] })
+        } finally {
+            button.disabled = false
+        }
+    })
+
+    dialog.addEventListener("submit", async (event) => {
+        const form = event.target.closest("[data-task-create-form]")
+        if (!form) {
+            return
+        }
+
+        event.preventDefault()
+        const button = form.querySelector("[data-save-task]")
+        button.disabled = true
+        showTaskErrors(form, {})
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                body: new FormData(form),
+            })
+            const payload = await response.json()
+
+            if (!response.ok) {
+                showTaskErrors(form, payload.errors)
+                return
+            }
+
+            const workspace = form.closest("[data-deliverable-workspace]")
+            const target = form.dataset.taskTarget || "advanced"
+            const listSelector = {
+                overview: "[data-overview-task-list]",
+                edit: "[data-edit-task-list]",
+                advanced: "[data-advanced-task-list]",
+            }[target]
+            const emptySelector = {
+                overview: "[data-overview-task-empty]",
+                edit: "[data-edit-task-empty]",
+                advanced: "[data-advanced-task-empty]",
+            }[target]
+            const countSelector = {
+                overview: "[data-overview-task-count]",
+                edit: "[data-edit-task-count]",
+                advanced: "[data-advanced-task-count]",
+            }[target]
+
+            const list = workspace.querySelector(listSelector)
+            workspace.querySelector(emptySelector)?.remove()
+
+            const row = document.createElement("div")
+            row.className = "border-default-200 flex items-start justify-between gap-3 rounded-xl border p-3"
+            row.innerHTML = `
+                <div class="min-w-0">
+                    <p class="truncate font-medium">${escapeHtml(payload.task.title)}</p>
+                    <p class="text-default-400 mt-1 text-xs">
+                        ${escapeHtml(payload.task.assignee)}${payload.task.due_date ? ` · due ${escapeHtml(payload.task.due_date)}` : ""}${payload.task.time_budget ? ` · ${escapeHtml(payload.task.time_budget)}` : ""}
+                    </p>
+                </div>
+                <span class="badge ${escapeHtml(payload.task.status_badge_classes)} shrink-0">${escapeHtml(payload.task.status)}</span>
+            `
+            list?.prepend(row)
+
+            const count = workspace.querySelector(countSelector)
+            if (count) {
+                const currentCount = Number.parseInt(count.textContent, 10) || 0
+                count.textContent = `${currentCount + 1} total`
+            }
+
+            form.reset()
+            form.elements.task_type.value = "work"
+            form.elements.status.value = "Not Started"
+            toggleTaskForm(form.closest("[data-task-form-container]"), false)
+
+            const success = workspace.querySelector("[data-save-success]")
+            success.textContent = payload.message
+            success.classList.remove("hidden")
+            switchPanel(workspace, target)
+            window.setTimeout(() => success.classList.add("hidden"), 2200)
+        } catch (error) {
+            showTaskErrors(form, { save: ["The task could not be saved. Please try again."] })
         } finally {
             button.disabled = false
         }
@@ -231,6 +463,26 @@ function initDeliverableDetails() {
             event.preventDefault()
             openDetails(trigger)
         }
+    })
+
+    document.addEventListener("submit", (event) => {
+        const form = event.target.closest("[data-board-move-form]")
+        if (!form) {
+            return
+        }
+
+        const statusInput = form.querySelector('input[name="lifecycle_status"]')
+        if (!statusInput || statusInput.value !== "In Production") {
+            return
+        }
+
+        const card = form.closest("[data-card]")
+        if (!card || isCardReadyForProduction(card)) {
+            return
+        }
+
+        event.preventDefault()
+        dispatchProductionReadiness(card)
     })
 
     dialog.querySelectorAll("[data-dialog-close]").forEach((button) => {
@@ -266,6 +518,7 @@ async function handleDrop(board, evt, token) {
 
     syncEmptyStates(board)
     updateCounts(board)
+    hideBoardAlert(board)
 
     try {
         const response = await fetch(url, {
@@ -281,7 +534,8 @@ async function handleDrop(board, evt, token) {
 
         if (!response.ok) {
             const payload = await response.json().catch(() => null)
-            throw new Error(payload?.message || `Board update failed (${response.status})`)
+            const message = firstErrorMessage(payload) || payload?.message || `Board update failed (${response.status})`
+            throw new Error(message)
         }
 
         const payload = await response.json()
@@ -289,9 +543,25 @@ async function handleDrop(board, evt, token) {
         card.setAttribute("data-allowed-targets", (payload.allowed_targets || []).join("|"))
     } catch (error) {
         console.error(error)
-        // Reload to restore a server-consistent state if the save failed.
-        window.location.reload()
+        revertMove(evt)
+        syncEmptyStates(board)
+        updateCounts(board)
+        showBoardAlert(board, error.message || "The deliverable could not be moved.")
     }
+}
+
+function revertMove(evt) {
+    const sourceList = evt.from
+    const movedCard = evt.item
+    const sourceCards = Array.from(sourceList.querySelectorAll("[data-card]"))
+    const beforeCard = sourceCards[evt.oldIndex] || null
+
+    sourceList.insertBefore(movedCard, beforeCard)
+}
+
+function firstErrorMessage(payload) {
+    const errors = Object.values(payload?.errors || {}).flat()
+    return errors[0] || null
 }
 
 /** Show the "No deliverables" placeholder only when a column list is empty. */

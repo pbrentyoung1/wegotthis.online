@@ -127,7 +127,7 @@ class DeliverableManagementTest extends TestCase
         ]);
     }
 
-    public function test_move_to_planning_requires_owner(): void
+    public function test_move_to_planning_allows_missing_owner(): void
     {
         $this->seed(Phase3ProjectScenarioSeeder::class);
         [$project, $deliverable, $jordan] = $this->scenario();
@@ -136,15 +136,15 @@ class DeliverableManagementTest extends TestCase
 
         $this->actingAs($jordan->user)
             ->post(route('deliverables.plan', [$project, $deliverable]))
-            ->assertSessionHasErrors('plan');
+            ->assertRedirect(route('deliverables.show', [$project, $deliverable]));
 
         $this->assertDatabaseHas('deliverables', [
             'id' => $deliverable->id,
-            'lifecycle_status' => DeliverableStatus::Proposed->value,
+            'lifecycle_status' => DeliverableStatus::Planning->value,
         ]);
     }
 
-    public function test_move_to_planning_requires_due_date(): void
+    public function test_move_to_planning_allows_missing_due_date(): void
     {
         $this->seed(Phase3ProjectScenarioSeeder::class);
         [$project, $deliverable, $jordan] = $this->scenario();
@@ -154,11 +154,11 @@ class DeliverableManagementTest extends TestCase
 
         $this->actingAs($jordan->user)
             ->post(route('deliverables.plan', [$project, $deliverable]))
-            ->assertSessionHasErrors('plan');
+            ->assertRedirect(route('deliverables.show', [$project, $deliverable]));
 
         $this->assertDatabaseHas('deliverables', [
             'id' => $deliverable->id,
-            'lifecycle_status' => DeliverableStatus::Proposed->value,
+            'lifecycle_status' => DeliverableStatus::Planning->value,
         ]);
     }
 

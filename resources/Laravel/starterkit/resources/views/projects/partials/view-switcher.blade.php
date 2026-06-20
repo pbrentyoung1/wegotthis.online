@@ -8,7 +8,7 @@
         "calendar" => ["route" => route("projects.calendar", $project), "icon" => "tabler--calendar", "label" => "Calendar"],
     ])
 @endif
-<div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+<div class="mb-5">
     <nav
         class="relative inline-grid w-full isolate overflow-hidden rounded-full border border-default-200 bg-light/80 p-1 shadow-sm sm:w-auto"
         style="grid-template-columns: repeat({{ count($projectViews) }}, minmax(0, 1fr)); --project-view-index: {{ array_search($activeView, array_keys($projectViews), true) }}; --project-view-count: {{ count($projectViews) }};"
@@ -33,17 +33,4 @@
             </a>
         @endforeach
     </nav>
-
-    <div class="flex w-full flex-wrap gap-2 sm:w-auto sm:justify-end">
-        @if (($canManageProject ?? false))
-            <a class="btn bg-primary text-white hover:bg-primary-hover" href="{{ route("deliverables.create", $project) }}">
-                <i class="iconify tabler--plus me-1"></i>Add deliverable
-            </a>
-        @endif
-        @if (($canCloseoutProject ?? false))
-            <a class="btn bg-light text-default-600 hover:text-primary" href="{{ route("projects.closeout", $project) }}">
-                <i class="iconify tabler--archive me-1"></i>Closeout
-            </a>
-        @endif
-    </div>
 </div>

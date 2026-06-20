@@ -149,8 +149,12 @@ class DeliverableController extends Controller
                     'publish_date_value' => $deliverable->publish_date?->format('Y-m-d'),
                     'publish_date' => $deliverable->publish_date?->format('M j, Y') ?: 'Not planned',
                     'attention_state' => $deliverable->attention_state,
+                    'description_value' => $deliverable->description ? \App\Support\RichText::plainText($deliverable->description) : '',
+                    'purpose_value' => $deliverable->purpose ? \App\Support\RichText::plainText($deliverable->purpose) : '',
                     'audience' => $deliverable->audience,
                     'desired_action' => $deliverable->desired_action,
+                    'internal_reviewer_profile_id' => $deliverable->internal_reviewer_profile_id,
+                    'stakeholder_reviewer_profile_id' => $deliverable->stakeholder_reviewer_profile_id,
                 ],
             ]);
         }

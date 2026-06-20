@@ -168,6 +168,11 @@ The following foundation is implemented and covered by focused tests:
 - Task Ready for Review creates an actionable alert for the Deliverable manager instead of a duplicate approval Task.
 - Active blocker attention and review alerts resolve when their underlying condition clears while history remains in Project activity.
 - Deliverable Task time budgets roll up to Deliverables and Projects.
+- Project work now uses one shared Deliverables dataset across Overview, Board, and Calendar views with a common animated view switcher.
+- Board cards open an in-place modal that preserves board context and supports Overview, Edit, and Advanced management without returning the user to the project overview screen.
+- The board modal supports inline task creation from Overview, Edit, and Advanced panels plus task-detail drill-down that includes attached files and links.
+- Board movement is intentionally fluid in both directions where allowed, but Planning is now the explicit owner/due-date assignment stage and In Production requires both fields.
+- When a Deliverable is dragged or otherwise moved from Planning to In Production without an owner and due date, the UI now blocks the transition with a SweetAlert prompt that offers Add information or Cancel.
 - Shared Quill editors store restricted Delta JSON with legacy plain-text compatibility. Conversation editors include a lightweight Unicode emoji picker.
 - My Schedule uses FullCalendar with bounded, permission-aware feeds. Projects expose coordinated Overview, Board, and Calendar views over the same Deliverables and Tasks.
 - Project view switching uses one shared animated pill selector so the current workspace feels like one surface with multiple views.

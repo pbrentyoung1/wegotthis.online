@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Task;
 use App\Services\TaskManagementService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -34,13 +35,31 @@ class TaskController extends Controller
         ]);
     }
 
-    public function store(TaskFormRequest $request, Project $project, Deliverable $deliverable): RedirectResponse
+    public function store(TaskFormRequest $request, Project $project, Deliverable $deliverable): JsonResponse|RedirectResponse
     {
         $profile = $this->profile($request, $project);
         $this->authorizeDeliverable($profile, $project, $deliverable);
         $this->authorizeCreate($profile, $deliverable);
 
         $task = $this->service->create($deliverable, $request->validated(), $profile);
+
+        if ($request->expectsJson()) {
+            $task->load('assigneeProfile');
+
+            return response()->json([
+                'message' => 'Task added.',
+                'task' => [
+                    'id' => $task->id,
+                    'title' => $task->title,
+                    'status' => $task->status->value,
+                    'status_badge_classes' => $task->status->badgeClasses(),
+                    'priority' => $task->priority ?: 'Normal',
+                    'assignee' => $task->assigneeProfile?->display_name ?: 'Unassigned',
+                    'due_date' => $task->due_date?->format('M j') ?: null,
+                    'time_budget' => $task->formattedTimeBudget(),
+                ],
+            ]);
+        }
 
         return redirect()->route('tasks.show', [$project, $deliverable, $task])->with('success', 'Task added.');
     }

@@ -114,7 +114,11 @@ Track the actual state of the project so planning, design, and development work 
   - Project view switching uses a shared animated pill selector across Overview, Board, and Calendar
   - Project Board uses lifecycle-safe forward actions, desktop drag-and-drop, and explicit touch/mobile move controls
   - Board cards open an in-place deliverable modal instead of navigating away, so the active project view is preserved
-  - The Board modal supports in-place deliverable editing for managers and task-detail drill-down without leaving the Board
+  - The Board modal supports in-place deliverable editing for managers, a full advanced edit mode in-modal, task-detail drill-down, and in-modal task creation from Overview, Edit, and Advanced panels
+  - Board task detail screens now show attached files and links without leaving the modal
+  - Board drag/drop remains fluid in both directions where lifecycle rules allow it, with guardrails only at true workflow gates
+  - Planning is the assignment and scheduling stage; Deliverables may move Proposed → Planning freely, but Planning → In Production now requires both an owner and a due date
+  - Attempting to move a Deliverable into In Production without that information triggers a SweetAlert prompt offering Add information or Cancel instead of silently failing
   - Project Calendar shows Project dates, Deliverable due/publish dates, and Task due dates; manual production sequence ordering has been removed from the UI pending dependency modeling
   - Guarded Project closeout workflow that requires archived Deliverables, verifies final links/approvals/reusable context, preserves formatted closeout notes, and records the final archive timestamp
 - **Photo Collection** deliverable type (`869ead6` + subsequent session work):

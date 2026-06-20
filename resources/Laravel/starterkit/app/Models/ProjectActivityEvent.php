@@ -50,6 +50,8 @@ class ProjectActivityEvent extends Model
     {
         return match ($this->event_type) {
             'deliverable_moved_to_planning' => 'tabler--clipboard-check',
+            'deliverable_returned_to_proposed' => 'tabler--arrow-back-up',
+            'deliverable_returned_to_planning' => 'tabler--arrow-back-up',
             'deliverable_started_production' => 'tabler--tools',
             'deliverable_updated' => 'tabler--pencil',
             'deliverable_owner_assigned' => 'tabler--user-check',
@@ -79,6 +81,8 @@ class ProjectActivityEvent extends Model
     {
         return match ($this->event_type) {
             'deliverable_moved_to_planning' => 'text-primary',
+            'deliverable_returned_to_proposed' => 'text-default-500',
+            'deliverable_returned_to_planning' => 'text-warning',
             'deliverable_started_production' => 'text-warning',
             'deliverable_updated' => 'text-default-500',
             'deliverable_owner_assigned', 'deliverable_reviewer_assigned' => 'text-success',
@@ -103,6 +107,8 @@ class ProjectActivityEvent extends Model
     {
         return match ($this->event_type) {
             'deliverable_moved_to_planning' => 'Moved to Planning',
+            'deliverable_returned_to_proposed' => 'Returned to Proposed',
+            'deliverable_returned_to_planning' => 'Returned to Planning',
             'deliverable_started_production' => 'Production started',
             'deliverable_updated' => 'Deliverable updated',
             'deliverable_owner_assigned' => 'Owner assigned',

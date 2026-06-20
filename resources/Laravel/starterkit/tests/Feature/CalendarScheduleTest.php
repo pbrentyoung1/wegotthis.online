@@ -77,6 +77,7 @@ class CalendarScheduleTest extends TestCase
             ->assertSee('data-detail-trigger', false)
             ->assertSee('data-task-trigger', false)
             ->assertSee('Deliverable details')
+            ->assertSee('Advanced')
             ->assertSee('Edit')
             ->assertDontSee('Open deliverable');
 
@@ -111,10 +112,6 @@ class CalendarScheduleTest extends TestCase
     public function test_board_uses_canonical_deliverable_lifecycle_actions(): void
     {
         [$project, $deliverable, $jordan] = $this->scenario();
-        $deliverable->update([
-            'owner_profile_id' => $jordan->id,
-            'due_date' => '2026-08-12',
-        ]);
 
         $this->actingAs($jordan->user)
             ->patchJson(route('projects.board.move', [$project, $deliverable]), [
@@ -135,6 +132,77 @@ class CalendarScheduleTest extends TestCase
         $this->assertDatabaseHas('project_activity_events', [
             'deliverable_id' => $deliverable->id,
             'event_type' => 'deliverable_moved_to_planning',
+        ]);
+    }
+
+    public function test_board_move_to_in_production_requires_owner_and_due_date(): void
+    {
+        [$project, $deliverable, $jordan] = $this->scenario();
+        $deliverable->update(['lifecycle_status' => DeliverableStatus::Planning->value]);
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('projects.board.move', [$project, $deliverable]), [
+                'lifecycle_status' => DeliverableStatus::InProduction->value,
+            ])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('production')
+            ->assertJsonPath('errors.production.0', 'Assign an owner before moving this deliverable to In Production.');
+
+        $deliverable->update([
+            'owner_profile_id' => $jordan->id,
+            'due_date' => null,
+        ]);
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('projects.board.move', [$project, $deliverable]), [
+                'lifecycle_status' => DeliverableStatus::InProduction->value,
+            ])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('production')
+            ->assertJsonPath('errors.production.0', 'Set a due date before moving this deliverable to In Production.');
+    }
+
+    public function test_board_can_move_in_production_deliverable_back_to_planning(): void
+    {
+        [$project, $deliverable, $jordan] = $this->scenario();
+        $deliverable->update([
+            'owner_profile_id' => $jordan->id,
+            'due_date' => '2026-08-12',
+            'lifecycle_status' => DeliverableStatus::InProduction->value,
+        ]);
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('projects.board.move', [$project, $deliverable]), [
+                'lifecycle_status' => DeliverableStatus::Planning->value,
+            ])
+            ->assertOk()
+            ->assertJsonFragment(['lifecycle_status' => DeliverableStatus::Planning->value]);
+
+        $this->assertSame(DeliverableStatus::Planning, $deliverable->fresh()->lifecycle_status);
+        $this->assertDatabaseHas('project_activity_events', [
+            'deliverable_id' => $deliverable->id,
+            'event_type' => 'deliverable_returned_to_planning',
+        ]);
+    }
+
+    public function test_board_can_move_planning_deliverable_back_to_proposed(): void
+    {
+        [$project, $deliverable, $jordan] = $this->scenario();
+        $deliverable->update([
+            'lifecycle_status' => DeliverableStatus::Planning->value,
+        ]);
+
+        $this->actingAs($jordan->user)
+            ->patchJson(route('projects.board.move', [$project, $deliverable]), [
+                'lifecycle_status' => DeliverableStatus::Proposed->value,
+            ])
+            ->assertOk()
+            ->assertJsonFragment(['lifecycle_status' => DeliverableStatus::Proposed->value]);
+
+        $this->assertSame(DeliverableStatus::Proposed, $deliverable->fresh()->lifecycle_status);
+        $this->assertDatabaseHas('project_activity_events', [
+            'deliverable_id' => $deliverable->id,
+            'event_type' => 'deliverable_returned_to_proposed',
         ]);
     }
 

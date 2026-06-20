@@ -118,14 +118,6 @@ class DeliverableManagementService
             throw ValidationException::withMessages(['plan' => 'Only Proposed deliverables can move to Planning.']);
         }
 
-        if (! $deliverable->owner_profile_id) {
-            throw ValidationException::withMessages(['plan' => 'Assign an owner before moving to Planning.']);
-        }
-
-        if (! $deliverable->due_date) {
-            throw ValidationException::withMessages(['plan' => 'Set a due date before moving to Planning.']);
-        }
-
         $deliverable->update(['lifecycle_status' => DeliverableStatus::Planning->value]);
 
         ProjectActivityEvent::create([
@@ -143,14 +135,46 @@ class DeliverableManagementService
         return $deliverable->refresh();
     }
 
+    public function moveBackToProposed(Deliverable $deliverable, Profile $actor): Deliverable
+    {
+        if ($deliverable->lifecycle_status !== DeliverableStatus::Planning) {
+            throw ValidationException::withMessages(['proposed' => 'Only Planning deliverables can move back to Proposed.']);
+        }
+
+        $deliverable->update(['lifecycle_status' => DeliverableStatus::Proposed->value]);
+        $this->recordActivity($deliverable, $actor, 'deliverable_returned_to_proposed', "Moved \"{$deliverable->title}\" back to Proposed.");
+
+        return $deliverable->refresh();
+    }
+
     public function startProduction(Deliverable $deliverable, Profile $actor): Deliverable
     {
         if ($deliverable->lifecycle_status !== DeliverableStatus::Planning) {
             throw ValidationException::withMessages(['production' => 'Only Planning deliverables can move to In Production.']);
         }
 
+        if (! $deliverable->owner_profile_id) {
+            throw ValidationException::withMessages(['production' => 'Assign an owner before moving this deliverable to In Production.']);
+        }
+
+        if (! $deliverable->due_date) {
+            throw ValidationException::withMessages(['production' => 'Set a due date before moving this deliverable to In Production.']);
+        }
+
         $deliverable->update(['lifecycle_status' => DeliverableStatus::InProduction->value]);
         $this->recordActivity($deliverable, $actor, 'deliverable_started_production', "Started production on \"{$deliverable->title}\".");
+
+        return $deliverable->refresh();
+    }
+
+    public function moveBackToPlanning(Deliverable $deliverable, Profile $actor): Deliverable
+    {
+        if ($deliverable->lifecycle_status !== DeliverableStatus::InProduction) {
+            throw ValidationException::withMessages(['planning' => 'Only In Production deliverables can move back to Planning.']);
+        }
+
+        $deliverable->update(['lifecycle_status' => DeliverableStatus::Planning->value]);
+        $this->recordActivity($deliverable, $actor, 'deliverable_returned_to_planning', "Moved \"{$deliverable->title}\" back to Planning.");
 
         return $deliverable->refresh();
     }
@@ -339,21 +363,27 @@ class DeliverableManagementService
             if ($deliverable->lifecycle_status !== $status) {
                 if (! in_array($status, $deliverable->lifecycle_status->boardTargets(), true)) {
                     throw ValidationException::withMessages([
-                        'lifecycle_status' => "Move this deliverable forward from {$deliverable->lifecycle_status->value} using an available board action.",
+                        'lifecycle_status' => "Move this deliverable from {$deliverable->lifecycle_status->value} using an available board action.",
                     ]);
                 }
 
-                $deliverable = match ($status) {
-                    DeliverableStatus::Planning => $this->moveToPlanningStatus($deliverable, $actor),
-                    DeliverableStatus::InProduction => $this->startProduction($deliverable, $actor),
-                    DeliverableStatus::ReadyForReview => $this->submitForReview($deliverable, $actor),
-                    DeliverableStatus::Delivery => $this->startDelivery($deliverable, $actor),
-                    DeliverableStatus::PublishedRunning => $this->markPublished($deliverable, $actor, null),
-                    DeliverableStatus::Ended => $this->endDeliverable($deliverable, $actor),
-                    default => throw ValidationException::withMessages([
-                        'lifecycle_status' => 'This lifecycle action must be completed from the deliverable workspace.',
-                    ]),
-                };
+                if ($deliverable->lifecycle_status === DeliverableStatus::Planning && $status === DeliverableStatus::Proposed) {
+                    $deliverable = $this->moveBackToProposed($deliverable, $actor);
+                } elseif ($deliverable->lifecycle_status === DeliverableStatus::InProduction && $status === DeliverableStatus::Planning) {
+                    $deliverable = $this->moveBackToPlanning($deliverable, $actor);
+                } else {
+                    $deliverable = match ($status) {
+                        DeliverableStatus::Planning => $this->moveToPlanningStatus($deliverable, $actor),
+                        DeliverableStatus::InProduction => $this->startProduction($deliverable, $actor),
+                        DeliverableStatus::ReadyForReview => $this->submitForReview($deliverable, $actor),
+                        DeliverableStatus::Delivery => $this->startDelivery($deliverable, $actor),
+                        DeliverableStatus::PublishedRunning => $this->markPublished($deliverable, $actor, null),
+                        DeliverableStatus::Ended => $this->endDeliverable($deliverable, $actor),
+                        default => throw ValidationException::withMessages([
+                            'lifecycle_status' => 'This lifecycle action must be completed from the deliverable workspace.',
+                        ]),
+                    };
+                }
             }
 
             if ($orderedIds) {

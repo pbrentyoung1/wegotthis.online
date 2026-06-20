@@ -56,8 +56,9 @@ enum DeliverableStatus: string
     {
         return match ($this) {
             self::Proposed => [self::Planning],
-            self::Planning => [self::InProduction],
-            self::InProduction, self::Revision => [self::ReadyForReview],
+            self::Planning => [self::Proposed, self::InProduction],
+            self::InProduction => [self::Planning, self::ReadyForReview],
+            self::Revision => [self::ReadyForReview],
             self::Approved => [self::Delivery],
             self::Delivery => [self::PublishedRunning],
             self::PublishedRunning => [self::Ended],

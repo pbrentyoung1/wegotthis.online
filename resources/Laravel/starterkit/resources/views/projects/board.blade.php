@@ -48,6 +48,14 @@
                                     </span>
                                 @endif
                             </div>
+                            @if ($currentProfile->hasPermission("projects.manage"))
+                                <a class="bg-primary ms-auto inline-flex size-9 items-center justify-center rounded-full text-white shrink-0"
+                                   href="{{ route('deliverables.create', $project) }}"
+                                   title="Add deliverable">
+                                    <i class="iconify tabler--plus text-white text-lg"></i>
+                                </a>
+                            @endif
+                            <div class="hidden w-full rounded-xl bg-danger/10 px-4 py-3 text-sm text-danger" data-board-alert role="alert"></div>
                         </div>
 
                         {{-- Board canvas --}}
@@ -67,13 +75,6 @@
                                                 <h5 class="truncate">{{ $status->value }}</h5>
                                                 <span class="badge bg-default-200/70 text-default-500 rounded-full shrink-0" data-count>{{ $deliverables->count() }}</span>
                                             </div>
-                                            @if ($currentProfile->hasPermission("projects.manage"))
-                                                <a class="bg-primary ms-auto inline-flex size-7.75 items-center justify-center rounded-full text-white shrink-0"
-                                                   href="{{ route('deliverables.create', $project) }}"
-                                                   title="Add deliverable">
-                                                    <i class="iconify tabler--plus text-white"></i>
-                                                </a>
-                                            @endif
                                         </div>
 
                                         {{-- Scrollable column body --}}
@@ -95,6 +96,9 @@
                                                         data-deliverable-id="{{ $deliverable->id }}"
                                                         data-current-status="{{ $status->value }}"
                                                         data-allowed-targets="{{ collect($status->boardTargets())->map->value->join("|") }}"
+                                                        data-owner-ready="{{ $deliverable->owner_profile_id ? 'true' : 'false' }}"
+                                                        data-due-ready="{{ $deliverable->due_date ? 'true' : 'false' }}"
+                                                        data-edit-url="{{ route('deliverables.edit', [$project, $deliverable]) }}"
                                                         data-update-url="{{ route('projects.board.move', [$project, $deliverable], false) }}">
                                                         <div
                                                             class="card border border-light hover:shadow-lg! focus-visible:ring-primary/30 focus-visible:ring-4 focus-visible:outline-none"
@@ -132,7 +136,7 @@
                                                                                     </button>
                                                                                     @if ($canManage)
                                                                                         @foreach ($status->boardTargets() as $targetStatus)
-                                                                                            <form action="{{ route("projects.board.move", [$project, $deliverable]) }}" method="POST">
+                                                                                            <form action="{{ route("projects.board.move", [$project, $deliverable]) }}" data-board-move-form method="POST">
                                                                                                 @csrf
                                                                                                 @method("PATCH")
                                                                                                 <input name="lifecycle_status" type="hidden" value="{{ $targetStatus->value }}" />
@@ -233,7 +237,7 @@
                                                                 @if ($canManage && $status->boardTargets() !== [])
                                                                     <div class="mt-4 border-t border-default-100 pt-3 md:hidden">
                                                                         @foreach ($status->boardTargets() as $targetStatus)
-                                                                            <form action="{{ route("projects.board.move", [$project, $deliverable]) }}" method="POST">
+                                                                            <form action="{{ route("projects.board.move", [$project, $deliverable]) }}" data-board-move-form method="POST">
                                                                                 @csrf
                                                                                 @method("PATCH")
                                                                                 <input name="lifecycle_status" type="hidden" value="{{ $targetStatus->value }}" />
@@ -271,6 +275,9 @@
                                         <button class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-primary shadow-sm" data-workspace-panel-button="overview" type="button">Overview</button>
                                         @if ($currentProfile->hasPermission("projects.manage"))
                                             <button class="rounded-full px-4 py-2 text-sm font-semibold text-default-500" data-workspace-panel-button="edit" type="button">Edit</button>
+                                        @endif
+                                        @if ($canManage)
+                                            <button class="rounded-full px-4 py-2 text-sm font-semibold text-default-500" data-workspace-panel-button="advanced" type="button">Advanced</button>
                                         @endif
                                     </div>
                                     <span class="hidden text-sm font-medium text-success" data-save-success></span>
@@ -331,14 +338,23 @@
                                         </div>
                                     @endif
 
-                                    <div>
+                                    <div data-task-form-container>
                                         <div class="mb-3 flex items-center justify-between">
                                             <h4 class="font-semibold">Tasks</h4>
-                                            @if ($detailTasks->isNotEmpty())
-                                                <span class="text-default-400 text-xs">{{ $detailTasks->count() }} total</span>
-                                            @endif
+                                            <div class="flex items-center gap-3">
+                                                @if ($detailTasks->isNotEmpty())
+                                                    <span class="text-default-400 text-xs" data-overview-task-count>{{ $detailTasks->count() }} total</span>
+                                                @else
+                                                    <span class="text-default-400 text-xs" data-overview-task-count>0 total</span>
+                                                @endif
+                                                @if ($currentProfile->hasPermission("tasks.create") || $deliverable->owner_profile_id === $currentProfile->id)
+                                                    <button class="bg-primary inline-flex size-8 items-center justify-center rounded-full text-white hover:bg-primary-hover" data-task-form-toggle type="button" aria-label="Add task">
+                                                        <i class="iconify tabler--plus text-lg"></i>
+                                                    </button>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <div class="space-y-2">
+                                        <div class="space-y-2" data-overview-task-list>
                                             @forelse ($detailTasks as $task)
                                                 <button class="border-default-200 hover:border-primary/40 hover:bg-primary/5 flex w-full items-start justify-between gap-3 rounded-xl border p-3 text-start transition" data-task-trigger="{{ $task->id }}" type="button">
                                                     <div class="min-w-0">
@@ -354,31 +370,260 @@
                                                     </span>
                                                 </button>
                                             @empty
-                                                <div class="border-default-200 rounded-xl border border-dashed py-8 text-center">
+                                                <div class="border-default-200 rounded-xl border border-dashed py-8 text-center" data-overview-task-empty>
                                                     <i class="iconify tabler--list-check text-default-300 mb-2 size-8"></i>
                                                     <p class="text-default-400 text-sm">No tasks have been added.</p>
                                                 </div>
                                             @endforelse
                                         </div>
+                                        @if ($currentProfile->hasPermission("tasks.create") || $deliverable->owner_profile_id === $currentProfile->id)
+                                            <div class="border-default-200 mt-4 rounded-2xl border p-4">
+                                                <div class="hidden" data-task-form-panel>
+                                                    <div class="mb-4 flex items-center justify-between gap-3">
+                                                        <div>
+                                                            <h4 class="font-semibold">Add task</h4>
+                                                            <p class="text-default-400 mt-1 text-sm">Create a new task without leaving the board.</p>
+                                                        </div>
+                                                        <button class="btn btn-sm bg-light text-default-700" data-task-form-cancel type="button">Cancel</button>
+                                                    </div>
+                                                    <form action="{{ route('tasks.store', [$project, $deliverable]) }}" class="space-y-4" data-task-create-form data-task-target="overview" method="POST">
+                                                        @csrf
+                                                        <div data-task-form-errors></div>
+                                                        <input name="task_type" type="hidden" value="work" />
+                                                        <input name="status" type="hidden" value="Not Started" />
+                                                        <div>
+                                                            <label class="form-label">Task title</label>
+                                                            <input class="form-input" name="title" required />
+                                                        </div>
+                                                        <div>
+                                                            <label class="form-label">Description</label>
+                                                            <textarea class="form-textarea" name="description" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="grid gap-4 sm:grid-cols-2">
+                                                            <div>
+                                                                <label class="form-label">Assignee</label>
+                                                                <select class="form-select" name="assigned_to_profile_id">
+                                                                    <option value="">Unassigned</option>
+                                                                    @foreach ($teamProfiles as $profile)
+                                                                        <option value="{{ $profile->id }}">{{ $profile->display_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div>
+                                                                <label class="form-label">Priority</label>
+                                                                <select class="form-select" name="priority">
+                                                                    @foreach (['Normal', 'High', 'Urgent'] as $priority)
+                                                                        <option value="{{ $priority }}">{{ $priority }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid gap-4 sm:grid-cols-2">
+                                                            <div>
+                                                                <label class="form-label">Due date</label>
+                                                                <input class="form-input" name="due_date" type="date" />
+                                                            </div>
+                                                            <div>
+                                                                <label class="form-label">Time budget (minutes)</label>
+                                                                <input class="form-input" min="1" name="time_budget_minutes" type="number" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex justify-end">
+                                                            <button class="btn bg-primary text-white hover:bg-primary-hover" data-save-task type="submit">
+                                                                <i class="iconify tabler--plus me-1"></i>Add task
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 
                                 @if ($currentProfile->hasPermission("projects.manage"))
-                                    <form
-                                        action="{{ route("deliverables.update", [$project, $deliverable]) }}"
-                                        class="hidden space-y-5"
-                                        data-deliverable-edit-form
-                                        data-workspace-panel="edit"
-                                        method="POST"
-                                    >
-                                        @csrf
-                                        @method("PATCH")
-                                        <div data-form-errors></div>
-                                        <div>
-                                            <label class="form-label">Title</label>
-                                            <input class="form-input" name="title" required value="{{ $deliverable->title }}" />
+                                    <div class="hidden space-y-5" data-workspace-panel="edit">
+                                        <form
+                                            action="{{ route("deliverables.update", [$project, $deliverable]) }}"
+                                            class="space-y-5"
+                                            data-deliverable-edit-form
+                                            id="board-deliverable-edit-{{ $deliverable->id }}"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method("PATCH")
+                                            <div data-form-errors></div>
+                                            <div>
+                                                <label class="form-label">Title</label>
+                                                <input class="form-input" name="title" required value="{{ $deliverable->title }}" />
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Type</label>
+                                                    <select class="form-select" name="deliverable_type_id">
+                                                        <option value="">— Select type —</option>
+                                                        @foreach ($deliverableTypes as $type)
+                                                            <option value="{{ $type->id }}" @selected($deliverable->deliverable_type_id === $type->id)>{{ $type->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Owner</label>
+                                                    <select class="form-select" name="owner_profile_id">
+                                                        <option value="">— Unassigned —</option>
+                                                        @foreach ($teamProfiles as $profile)
+                                                            <option value="{{ $profile->id }}" @selected($deliverable->owner_profile_id === $profile->id)>{{ $profile->display_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Due date</label>
+                                                    <input class="form-input" name="due_date" type="date" value="{{ $deliverable->due_date?->format("Y-m-d") }}" />
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Publish date</label>
+                                                    <input class="form-input" name="publish_date" type="date" value="{{ $deliverable->publish_date?->format("Y-m-d") }}" />
+                                                </div>
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Audience</label>
+                                                    <input class="form-input" name="audience" value="{{ $deliverable->audience }}" />
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Desired action</label>
+                                                    <input class="form-input" name="desired_action" value="{{ $deliverable->desired_action ? \App\Support\RichText::plainText($deliverable->desired_action) : "" }}" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="form-label">Attention state</label>
+                                                <select class="form-select" name="attention_state">
+                                                    @foreach (["On Track", "Needs Attention", "At Risk", "On Hold"] as $attentionState)
+                                                        <option value="{{ $attentionState }}" @selected($deliverable->attention_state === $attentionState)>{{ $attentionState }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </form>
+
+                                        @if ($currentProfile->hasPermission("tasks.create") || $deliverable->owner_profile_id === $currentProfile->id)
+                                            <div class="border-default-200 rounded-2xl border p-4" data-task-form-container>
+                                                <div class="mb-3 flex items-center justify-between gap-3">
+                                                    <div>
+                                                        <h4 class="font-semibold">Tasks</h4>
+                                                        <p class="text-default-400 mt-1 text-sm">Add a task without leaving the board.</p>
+                                                    </div>
+                                                    <div class="flex items-center gap-3">
+                                                        <span class="text-default-400 text-xs" data-edit-task-count>{{ $detailTasks->count() }} total</span>
+                                                        <button class="bg-primary inline-flex size-8 items-center justify-center rounded-full text-white hover:bg-primary-hover" data-task-form-toggle type="button" aria-label="Add task">
+                                                            <i class="iconify tabler--plus text-lg"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="space-y-2 mb-4" data-edit-task-list>
+                                                    @forelse ($detailTasks as $task)
+                                                        <div class="border-default-200 flex items-start justify-between gap-3 rounded-xl border p-3">
+                                                            <div class="min-w-0">
+                                                                <p class="truncate font-medium">{{ $task->title }}</p>
+                                                                <p class="text-default-400 mt-1 text-xs">
+                                                                    {{ $task->assigneeProfile?->display_name ?: "Unassigned" }}
+                                                                    @if ($task->due_date) · due {{ $task->due_date->format("M j") }} @endif
+                                                                    @if ($task->time_budget_minutes) · {{ $task->formattedTimeBudget() }} @endif
+                                                                </p>
+                                                            </div>
+                                                            <span class="badge {{ $task->status->badgeClasses() }} shrink-0">{{ $task->status->value }}</span>
+                                                        </div>
+                                                    @empty
+                                                        <div class="border-default-200 rounded-xl border border-dashed py-8 text-center" data-edit-task-empty>
+                                                            <i class="iconify tabler--list-check text-default-300 mb-2 size-8"></i>
+                                                            <p class="text-default-400 text-sm">No tasks have been added.</p>
+                                                        </div>
+                                                    @endforelse
+                                                </div>
+                                                <div class="mt-4 hidden" data-task-form-panel>
+                                                    <div class="mb-4 flex items-center justify-between gap-3">
+                                                        <div>
+                                                            <h4 class="font-semibold">Add task</h4>
+                                                            <p class="text-default-400 mt-1 text-sm">Create a new task without leaving the board.</p>
+                                                        </div>
+                                                        <button class="btn btn-sm bg-light text-default-700" data-task-form-cancel type="button">Cancel</button>
+                                                    </div>
+                                                    <form action="{{ route('tasks.store', [$project, $deliverable]) }}" class="space-y-4" data-task-create-form data-task-target="edit" method="POST">
+                                                        @csrf
+                                                        <div data-task-form-errors></div>
+                                                        <input name="task_type" type="hidden" value="work" />
+                                                        <input name="status" type="hidden" value="Not Started" />
+                                                        <div>
+                                                            <label class="form-label">Task title</label>
+                                                            <input class="form-input" name="title" required />
+                                                        </div>
+                                                        <div>
+                                                            <label class="form-label">Description</label>
+                                                            <textarea class="form-textarea" name="description" rows="3"></textarea>
+                                                        </div>
+                                                        <div class="grid gap-4 sm:grid-cols-2">
+                                                            <div>
+                                                                <label class="form-label">Assignee</label>
+                                                                <select class="form-select" name="assigned_to_profile_id">
+                                                                    <option value="">Unassigned</option>
+                                                                    @foreach ($teamProfiles as $profile)
+                                                                        <option value="{{ $profile->id }}">{{ $profile->display_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div>
+                                                                <label class="form-label">Priority</label>
+                                                                <select class="form-select" name="priority">
+                                                                    @foreach (['Normal', 'High', 'Urgent'] as $priority)
+                                                                        <option value="{{ $priority }}">{{ $priority }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid gap-4 sm:grid-cols-2">
+                                                            <div>
+                                                                <label class="form-label">Due date</label>
+                                                                <input class="form-input" name="due_date" type="date" />
+                                                            </div>
+                                                            <div>
+                                                                <label class="form-label">Time budget (minutes)</label>
+                                                                <input class="form-input" min="1" name="time_budget_minutes" type="number" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex justify-end">
+                                                            <button class="btn bg-primary text-white hover:bg-primary-hover" data-save-task type="submit">
+                                                                <i class="iconify tabler--plus me-1"></i>Add task
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="flex flex-wrap items-center justify-between gap-3">
+                                            <button class="btn bg-primary text-white hover:bg-primary-hover" data-save-deliverable form="board-deliverable-edit-{{ $deliverable->id }}" type="submit">
+                                                <i class="iconify tabler--device-floppy me-1"></i>Save changes
+                                            </button>
                                         </div>
-                                        <div class="grid gap-5 sm:grid-cols-2">
+                                    </div>
+                                @endif
+
+                                @if ($canManage)
+                                    <div class="hidden space-y-6" data-workspace-panel="advanced">
+                                        <form
+                                            action="{{ route("deliverables.update", [$project, $deliverable]) }}"
+                                            class="space-y-5"
+                                            data-deliverable-edit-form
+                                            data-save-panel="advanced"
+                                            method="POST"
+                                        >
+                                            @csrf
+                                            @method("PATCH")
+                                            <div data-form-errors></div>
+                                            <div>
+                                                <label class="form-label">Title</label>
+                                                <input class="form-input" name="title" required value="{{ $deliverable->title }}" />
+                                            </div>
                                             <div>
                                                 <label class="form-label">Type</label>
                                                 <select class="form-select" name="deliverable_type_id">
@@ -389,49 +634,174 @@
                                                 </select>
                                             </div>
                                             <div>
-                                                <label class="form-label">Owner</label>
-                                                <select class="form-select" name="owner_profile_id">
-                                                    <option value="">— Unassigned —</option>
-                                                    @foreach ($teamProfiles as $profile)
-                                                        <option value="{{ $profile->id }}" @selected($deliverable->owner_profile_id === $profile->id)>{{ $profile->display_name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="grid gap-5 sm:grid-cols-2">
-                                            <div>
-                                                <label class="form-label">Due date</label>
-                                                <input class="form-input" name="due_date" type="date" value="{{ $deliverable->due_date?->format("Y-m-d") }}" />
+                                                <label class="form-label">Description / Brief</label>
+                                                <textarea class="form-textarea" name="description" rows="4">{{ $deliverable->description ? \App\Support\RichText::plainText($deliverable->description) : "" }}</textarea>
                                             </div>
                                             <div>
-                                                <label class="form-label">Publish date</label>
-                                                <input class="form-input" name="publish_date" type="date" value="{{ $deliverable->publish_date?->format("Y-m-d") }}" />
+                                                <label class="form-label">Purpose</label>
+                                                <textarea class="form-textarea" name="purpose" rows="3">{{ $deliverable->purpose ? \App\Support\RichText::plainText($deliverable->purpose) : "" }}</textarea>
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Audience</label>
+                                                    <input class="form-input" name="audience" value="{{ $deliverable->audience }}" />
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Desired action</label>
+                                                    <input class="form-input" name="desired_action" value="{{ $deliverable->desired_action ? \App\Support\RichText::plainText($deliverable->desired_action) : "" }}" />
+                                                </div>
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Owner</label>
+                                                    <select class="form-select" name="owner_profile_id">
+                                                        <option value="">— Unassigned —</option>
+                                                        @foreach ($teamProfiles as $profile)
+                                                            <option value="{{ $profile->id }}" @selected($deliverable->owner_profile_id === $profile->id)>{{ $profile->display_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Internal reviewer</label>
+                                                    <select class="form-select" name="internal_reviewer_profile_id">
+                                                        <option value="">— None —</option>
+                                                        @foreach ($teamProfiles as $profile)
+                                                            <option value="{{ $profile->id }}" @selected($deliverable->internal_reviewer_profile_id === $profile->id)>{{ $profile->display_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Stakeholder reviewer</label>
+                                                    <select class="form-select" name="stakeholder_reviewer_profile_id">
+                                                        <option value="">— None —</option>
+                                                        @foreach ($teamProfiles as $profile)
+                                                            <option value="{{ $profile->id }}" @selected($deliverable->stakeholder_reviewer_profile_id === $profile->id)>{{ $profile->display_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Attention state</label>
+                                                    <select class="form-select" name="attention_state">
+                                                        @foreach (["On Track", "Needs Attention", "At Risk", "On Hold"] as $attentionState)
+                                                            <option value="{{ $attentionState }}" @selected($deliverable->attention_state === $attentionState)>{{ $attentionState }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="grid gap-5 sm:grid-cols-2">
+                                                <div>
+                                                    <label class="form-label">Due date</label>
+                                                    <input class="form-input" name="due_date" type="date" value="{{ $deliverable->due_date?->format("Y-m-d") }}" />
+                                                </div>
+                                                <div>
+                                                    <label class="form-label">Publish date</label>
+                                                    <input class="form-input" name="publish_date" type="date" value="{{ $deliverable->publish_date?->format("Y-m-d") }}" />
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-end">
+                                                <button class="btn bg-primary text-white hover:bg-primary-hover" data-save-deliverable type="submit">
+                                                    <i class="iconify tabler--device-floppy me-1"></i>Save advanced changes
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <div data-task-form-container>
+                                            <div class="mb-3 flex items-center justify-between">
+                                                <h4 class="font-semibold">Task list</h4>
+                                                <div class="flex items-center gap-3">
+                                                    <span class="text-default-400 text-xs" data-advanced-task-count>{{ $detailTasks->count() }} total</span>
+                                                    @if ($currentProfile->hasPermission("tasks.create") || $deliverable->owner_profile_id === $currentProfile->id)
+                                                        <button class="bg-primary inline-flex size-8 items-center justify-center rounded-full text-white hover:bg-primary-hover" data-task-form-toggle type="button" aria-label="Add task">
+                                                            <i class="iconify tabler--plus text-lg"></i>
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            @if ($currentProfile->hasPermission("tasks.create") || $deliverable->owner_profile_id === $currentProfile->id)
+                                                <div class="border-default-200 mb-4 hidden rounded-2xl border p-4" data-task-form-panel>
+                                                    <div class="mb-4 flex items-center justify-between gap-3">
+                                                        <div>
+                                                            <h4 class="font-semibold">Add task</h4>
+                                                            <p class="text-default-400 mt-1 text-sm">Create a new task without leaving the board.</p>
+                                                        </div>
+                                                        <button class="btn btn-sm bg-light text-default-700" data-task-form-cancel type="button">Cancel</button>
+                                                    </div>
+                                                    <form action="{{ route('tasks.store', [$project, $deliverable]) }}" class="space-y-4" data-task-create-form method="POST">
+                                                    @csrf
+                                                    <div data-task-form-errors></div>
+                                                    <input name="task_type" type="hidden" value="work" />
+                                                    <input name="status" type="hidden" value="Not Started" />
+                                                    <div>
+                                                        <label class="form-label">Task title</label>
+                                                        <input class="form-input" name="title" required />
+                                                    </div>
+                                                    <div>
+                                                        <label class="form-label">Description</label>
+                                                        <textarea class="form-textarea" name="description" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="grid gap-4 sm:grid-cols-2">
+                                                        <div>
+                                                            <label class="form-label">Assignee</label>
+                                                            <select class="form-select" name="assigned_to_profile_id">
+                                                                <option value="">Unassigned</option>
+                                                                @foreach ($teamProfiles as $profile)
+                                                                    <option value="{{ $profile->id }}">{{ $profile->display_name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label class="form-label">Priority</label>
+                                                            <select class="form-select" name="priority">
+                                                                @foreach (['Normal', 'High', 'Urgent'] as $priority)
+                                                                    <option value="{{ $priority }}">{{ $priority }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid gap-4 sm:grid-cols-2">
+                                                        <div>
+                                                            <label class="form-label">Due date</label>
+                                                            <input class="form-input" name="due_date" type="date" />
+                                                        </div>
+                                                        <div>
+                                                            <label class="form-label">Time budget (minutes)</label>
+                                                            <input class="form-input" min="1" name="time_budget_minutes" type="number" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex justify-end">
+                                                        <button class="btn bg-primary text-white hover:bg-primary-hover" data-save-task type="submit">
+                                                            <i class="iconify tabler--plus me-1"></i>Add task
+                                                        </button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            @endif
+
+                                            <div class="space-y-2" data-advanced-task-list>
+                                                @forelse ($detailTasks as $task)
+                                                    <div class="border-default-200 flex items-start justify-between gap-3 rounded-xl border p-3">
+                                                        <div class="min-w-0">
+                                                            <p class="truncate font-medium">{{ $task->title }}</p>
+                                                            <p class="text-default-400 mt-1 text-xs">
+                                                                {{ $task->assigneeProfile?->display_name ?: "Unassigned" }}
+                                                                @if ($task->due_date) · due {{ $task->due_date->format("M j") }} @endif
+                                                                @if ($task->time_budget_minutes) · {{ $task->formattedTimeBudget() }} @endif
+                                                            </p>
+                                                        </div>
+                                                        <span class="badge {{ $task->status->badgeClasses() }} shrink-0">{{ $task->status->value }}</span>
+                                                    </div>
+                                                @empty
+                                                    <div class="border-default-200 rounded-xl border border-dashed py-8 text-center" data-advanced-task-empty>
+                                                        <i class="iconify tabler--list-check text-default-300 mb-2 size-8"></i>
+                                                        <p class="text-default-400 text-sm">No tasks have been added.</p>
+                                                    </div>
+                                                @endforelse
                                             </div>
                                         </div>
-                                        <div class="grid gap-5 sm:grid-cols-2">
-                                            <div>
-                                                <label class="form-label">Audience</label>
-                                                <input class="form-input" name="audience" value="{{ $deliverable->audience }}" />
-                                            </div>
-                                            <div>
-                                                <label class="form-label">Desired action</label>
-                                                <input class="form-input" name="desired_action" value="{{ $deliverable->desired_action ? \App\Support\RichText::plainText($deliverable->desired_action) : "" }}" />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label class="form-label">Attention state</label>
-                                            <select class="form-select" name="attention_state">
-                                                @foreach (["On Track", "Needs Attention", "At Risk", "On Hold"] as $attentionState)
-                                                    <option value="{{ $attentionState }}" @selected($deliverable->attention_state === $attentionState)>{{ $attentionState }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <button class="btn bg-primary text-white hover:bg-primary-hover" data-save-deliverable type="submit">
-                                                <i class="iconify tabler--device-floppy me-1"></i>Save changes
-                                            </button>
-                                        </div>
-                                    </form>
+                                    </div>
                                 @endif
                             </div>
                         </template>
@@ -472,6 +842,21 @@
                                             <p class="text-default-400 text-sm">No task description has been added.</p>
                                         @endif
                                     </div>
+                                    <div class="mt-6">
+                                        <h4 class="mb-2 font-semibold">Files & links</h4>
+                                        <div class="space-y-2">
+                                            @forelse ($task->links as $link)
+                                                <a class="border-default-200 hover:border-primary/40 hover:bg-primary/5 flex items-center justify-between gap-3 rounded-xl border p-3 transition" href="{{ $link->url }}" rel="noopener noreferrer" target="_blank">
+                                                    <span class="min-w-0 truncate text-sm font-medium text-primary">
+                                                        <i class="iconify tabler--file-link me-1"></i>{{ $link->displayLabel() }}
+                                                    </span>
+                                                    <i class="iconify tabler--external-link text-default-400 shrink-0"></i>
+                                                </a>
+                                            @empty
+                                                <p class="text-default-400 text-sm">No files or links attached.</p>
+                                            @endforelse
+                                        </div>
+                                    </div>
                                     @if ($task->status === \App\Enums\TaskStatus::Blocked)
                                         <div class="bg-danger/10 text-danger mt-5 rounded-xl p-4">
                                             <p class="font-semibold"><i class="iconify tabler--alert-triangle me-1"></i>{{ $task->blocker_type }}</p>
@@ -499,9 +884,6 @@
                                 </button>
                             </div>
                             <div class="overflow-y-auto px-5 py-6 sm:px-7" data-dialog-content></div>
-                            <div class="border-default-200 flex justify-end border-t px-5 py-4 sm:px-7">
-                                <button class="btn bg-light text-default-700" data-dialog-close type="button">Close</button>
-                            </div>
                         </div>
                     </dialog>
                 </div>

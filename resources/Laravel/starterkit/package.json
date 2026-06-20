@@ -43,6 +43,7 @@
     "prismjs": "^1.30.0",
     "quill": "^2.0.3",
     "simplebar": "^6.3.3",
-    "sortablejs": "^1.15.7"
+    "sortablejs": "^1.15.7",
+    "sweetalert2": "^11.26.25"
   }
 }

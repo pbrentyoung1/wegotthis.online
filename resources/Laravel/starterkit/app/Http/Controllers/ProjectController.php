@@ -9,6 +9,7 @@ use App\Models\DeliverableType;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectActivityEvent;
+use App\Enums\TaskStatus;
 use App\Services\DeliverableManagementService;
 use App\Support\RichText;
 use Illuminate\Database\Eloquent\Builder;
@@ -89,6 +90,7 @@ class ProjectController extends Controller
         $project->load([
             'deliverables.deliverableType',
             'deliverables.tasks.assigneeProfile',
+            'deliverables.tasks.links',
             'deliverables.ownerProfile',
         ]);
 
@@ -117,6 +119,7 @@ class ProjectController extends Controller
                 ->where('status', 'Active')
                 ->orderBy('display_name')
                 ->get(),
+            'taskStatuses' => TaskStatus::cases(),
             'canManage' => $currentProfile->hasPermission('projects.manage')
                 || $project->owner_profile_id === $currentProfile->id,
         ]);
